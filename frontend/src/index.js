@@ -36,7 +36,13 @@ import ProductAddScreen from './screens/admin/ProductAddScreen';
 import ContactScreen from './screens/ContactScreen';
 import PostScreen from './screens/PostScreen';
 import PostDetail from './screens/PostDetail';
-
+import PostAddScreen from './screens/admin/PostAddScreen';
+import PostListScreen from './screens/admin/PostListScreen';
+import PostEditScreen from './screens/admin/PostEditScreen';
+import CustomizeVarriant from './screens/admin/CustomizeVarriant';
+import ContactListScreen from './screens/admin/ContactListScreen';
+import ContactAddScreen from './screens/admin/ContactAddScreen';
+import ContactEditScreen from './screens/admin/ContactEditScreen';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
@@ -72,6 +78,14 @@ const router = createBrowserRouter(
         />
         <Route path='/admin/userlist' element={<UserListScreen />} />
         <Route path='/admin/product/add' element={<ProductAddScreen />} />
+        <Route path='/admin/post/add' element={<PostAddScreen />} />
+        <Route path='/admin/postList' element={<PostListScreen />} />
+        <Route path='/admin/post/:id/edit' element={<PostEditScreen />} />
+        <Route path='/admin/varriant/add' element={<CustomizeVarriant />} />
+        <Route path='/admin/contactList' element={<ContactListScreen />} />
+        <Route path='/admin/contact/add' element={<ContactAddScreen />} />
+        <Route path='/admin/contact/add' element={<ContactAddScreen />} />
+        <Route path='/admin/contact/:id/edit' element={<ContactEditScreen />} />
 
         <Route path='/admin/product/:id/edit' element={<ProductEditScreen />} />
         <Route path='/admin/user/:id/edit' element={<UserEditScreen />} />

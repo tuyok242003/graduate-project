@@ -1,8 +1,8 @@
 import asyncHandler from '../middleware/asyncHandler.js';
 import Post from '../models/postModel.js';
 // import { ContactSchema } from "../schemas/Contact.js";
-// @desc  Fetch all products
-// @route GET /api/products
+// @desc  Fetch all posts
+// @route GET /api/posts
 // @acess public
 const createPost = asyncHandler(async (req, res) => {
   const { name, img, content } = req.body;
@@ -27,8 +27,8 @@ const getPosts = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc  Fetch a products
-// @route GET /api/products/:id
+// @desc  Fetch a posts
+// @route GET /api/posts/:id
 // @acess public
 
 const getPostById = asyncHandler(async (req, res) => {
@@ -70,9 +70,33 @@ const deletePost = asyncHandler(async (req, res) => {
     });
   }
 });
+const updatePost = asyncHandler(async (req, res) => {
+  const { name, img, content } = req.body;
+
+  const post = await Post.findById(req.params.id);
+
+  if (post) {
+    post.name = name;
+    post.img = img;
+    post.content = content;
+
+    const updatedPost = await post.save();
+    res.json(updatedPost);
+  } else {
+    res.status(404);
+    throw new Error('Post not found');
+  }
+});
 const getTopPosts = asyncHandler(async (req, res) => {
   const posts = await Post.find({}).sort({ rating: -1 }).limit(3);
 
   res.json(posts);
 });
-export { getPosts, getPostById, createPost, deletePost, getTopPosts };
+export {
+  getPosts,
+  getPostById,
+  createPost,
+  deletePost,
+  getTopPosts,
+  updatePost,
+};

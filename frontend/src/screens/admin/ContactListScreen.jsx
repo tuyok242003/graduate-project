@@ -1,27 +1,21 @@
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
-import Paginate from '../../components/Paginate';
-import {
-  useGetProductsQuery,
-  useDeleteProductMutation,
-  useCreateProductMutation,
-} from '../../slices/productsApiSlice';
 import { toast } from 'react-toastify';
+import {
+  useGetContactsQuery,
+  useDeleteContactMutation,
+  useAddContactMutation,
+} from '../../slices/contactSlice';
 
-const ProductListScreen = () => {
-  const { pageNumber } = useParams();
-  const navigate = useNavigate();
-
-  const { data, isLoading, error, refetch } = useGetProductsQuery({
-    pageNumber,
-  });
-
+const ContactListScreen = () => {
+  const { data: contacts, isLoading, error, refetch } = useGetContactsQuery();
   const [deleteProduct, { isLoading: loadingDelete }] =
-    useDeleteProductMutation();
+    useDeleteContactMutation();
+  const navigate = useNavigate();
 
   const deleteHandler = async (id) => {
     if (window.confirm('Are you sure')) {
@@ -33,12 +27,10 @@ const ProductListScreen = () => {
       }
     }
   };
-
-  const [{ isLoading: loadingCreate }] = useCreateProductMutation();
-
-  const createProductHandler = async () => {
+  const [{ isLoading: loadingCreate }] = useAddContactMutation();
+  const createContactHandler = async () => {
     try {
-      navigate('/admin/product/add');
+      navigate('/admin/contact/add');
       refetch();
     } catch (err) {
       toast.error(err?.data?.message || err.error);
@@ -49,17 +41,18 @@ const ProductListScreen = () => {
     <>
       <Row className='align-items-center'>
         <Col>
-          <h1>Products</h1>
+          <h1>Contacts</h1>
         </Col>
         <Col className='text-end'>
-          <Button className='my-3' onClick={createProductHandler}>
-            <FaPlus /> Create Product
+          <Button className='my-3' onClick={createContactHandler}>
+            <FaPlus /> Create Contact
           </Button>
         </Col>
       </Row>
-
       {loadingCreate && <Loader />}
+
       {loadingDelete && <Loader />}
+
       {isLoading ? (
         <Loader />
       ) : error ? (
@@ -71,22 +64,22 @@ const ProductListScreen = () => {
               <tr>
                 <th>ID</th>
                 <th>NAME</th>
-                <th>PRICE</th>
-                <th>CATEGORY</th>
-                <th>BRAND</th>
+                <th>PHONE</th>
+                <th>EMAIL</th>
+                <th>CONTENT</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {data.products.map((product) => (
-                <tr key={product._id}>
-                  <td>{product._id}</td>
-                  <td>{product.name}</td>
-                  <td>${product.price}</td>
-                  <td>{product.category}</td>
-                  <td>{product.brand}</td>
+              {contacts?.map((contact) => (
+                <tr key={contact._id}>
+                  <td>{contact._id}</td>
+                  <td>{contact.name}</td>
+                  <td>{contact.phone}</td>
+                  <td>{contact.email}</td>
+                  <td>{contact.content}</td>
                   <td>
-                    <LinkContainer to={`/admin/product/${product._id}/edit`}>
+                    <LinkContainer to={`/admin/contact/${contact._id}/edit`}>
                       <Button variant='light' className='btn-sm mx-2'>
                         <FaEdit />
                       </Button>
@@ -94,25 +87,19 @@ const ProductListScreen = () => {
                     <Button
                       variant='danger'
                       className='btn-sm'
-                      onClick={() => deleteHandler(product._id)}
+                      onClick={() => deleteHandler(contact._id)}
                     >
                       <FaTrash style={{ color: 'white' }} />
                     </Button>
-                    <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                      <Button variant='light' className='btn-sm mx-2'>
-                        <FaEdit />
-                      </Button>
-                    </LinkContainer>
                   </td>
                 </tr>
               ))}
             </tbody>
           </Table>
-          <Paginate pages={data.pages} page={data.page} isAdmin={true} />
         </>
       )}
     </>
   );
 };
 
-export default ProductListScreen;
+export default ContactListScreen;

@@ -9,6 +9,12 @@ export const contactSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
+    getContactDetails: builder.query({
+      query: (contactId) => ({
+        url: `${CONTACTS_URL}/${contactId}`,
+      }),
+      keepUnusedDataFor: 5,
+    }),
     addContact: builder.mutation({
       query: (newContact) => ({
         url: `${CONTACTS_URL}`,
@@ -19,7 +25,29 @@ export const contactSlice = apiSlice.injectEndpoints({
       // or you can adjust this based on your requirements
       invalidatesTags: ['Contact'],
     }),
+
+    deleteContact: builder.mutation({
+      query: (contactId) => ({
+        url: `${CONTACTS_URL}/${contactId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Contact'],
+    }),
+    updateContact: builder.mutation({
+      query: (data) => ({
+        url: `${CONTACTS_URL}/${data.contactId}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: ['Contacts'],
+    }),
   }),
 });
 
-export const { useGetContactsQuery, useAddContactMutation } = contactSlice;
+export const {
+  useGetContactsQuery,
+  useGetContactDetailsQuery,
+  useAddContactMutation,
+  useDeleteContactMutation,
+  useUpdateContactMutation,
+} = contactSlice;

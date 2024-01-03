@@ -64,6 +64,15 @@ const productSchema = mongoose.Schema(
       required: true,
       default: 0,
     },
+    varriants: [
+      {
+        color: String,
+        price: Number,
+        thumb: String,
+        images: Array,
+        title: String,
+      },
+    ],
   },
   {
     timestamps: true,

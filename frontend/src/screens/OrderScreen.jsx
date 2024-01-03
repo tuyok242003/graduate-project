@@ -229,6 +229,11 @@ const OrderScreen = () => {
 
                       <div>
                         <PayPalButtons
+                          style={{
+                            color: 'gold',
+                            shape: 'rect',
+                            label: 'paypal',
+                          }}
                           createOrder={createOrder}
                           onApprove={onApprove}
                           onError={onError}

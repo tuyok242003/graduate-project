@@ -50,6 +50,24 @@ const getContactById = asyncHandler(async (req, res) => {
     });
   }
 });
+const updateContact = asyncHandler(async (req, res) => {
+  const { name, email, phone, content } = req.body;
+
+  const contact = await Contact.findById(req.params.id);
+
+  if (contact) {
+    contact.name = name;
+    contact.email = email;
+    contact.phone = phone;
+    contact.content = content;
+
+    const updatedContact = await contact.save();
+    res.json(updatedContact);
+  } else {
+    res.status(404);
+    throw new Error('Contact not found');
+  }
+});
 const deleteContact = asyncHandler(async (req, res) => {
   try {
     const contactId = req.params.id;
@@ -71,4 +89,10 @@ const deleteContact = asyncHandler(async (req, res) => {
     });
   }
 });
-export { getContacts, getContactById, createContact, deleteContact };
+export {
+  getContacts,
+  getContactById,
+  createContact,
+  deleteContact,
+  updateContact,
+};

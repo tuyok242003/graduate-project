@@ -44,6 +44,12 @@ const Header = () => {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
+              <LinkContainer to='/posts' style={{ paddingRight: 60 }}>
+                <Navbar.Brand>BÀI VIẾT</Navbar.Brand>
+              </LinkContainer>
+              <LinkContainer to='/contact' style={{ paddingRight: 60 }}>
+                <Navbar.Brand>LIÊN HỆ</Navbar.Brand>
+              </LinkContainer>
               <SearchBox />
               <LinkContainer to='/cart'>
                 <Nav.Link>
@@ -80,9 +86,16 @@ const Header = () => {
                   <LinkContainer to='/admin/productlist'>
                     <NavDropdown.Item>Products</NavDropdown.Item>
                   </LinkContainer>
+                  <LinkContainer to='/admin/postList'>
+                    <NavDropdown.Item>Posts</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/admin/contactList'>
+                    <NavDropdown.Item>Contact</NavDropdown.Item>
+                  </LinkContainer>
                   <LinkContainer to='/admin/orderlist'>
                     <NavDropdown.Item>Orders</NavDropdown.Item>
                   </LinkContainer>
+
                   <LinkContainer to='/admin/userlist'>
                     <NavDropdown.Item>Users</NavDropdown.Item>
                   </LinkContainer>

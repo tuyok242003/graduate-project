@@ -27,6 +27,29 @@ export const postSlice = apiSlice.injectEndpoints({
       query: () => `${POSTS_URL}/top`,
       keepUnusedDataFor: 5,
     }),
+    createPost: builder.mutation({
+      query: (postData) => ({
+        url: `${POSTS_URL}`,
+        method: 'POST',
+        body: postData,
+      }),
+      invalidatesTags: ['Post'],
+    }),
+    uploadPostImage: builder.mutation({
+      query: (data) => ({
+        url: `/api/upload`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+    updatePost: builder.mutation({
+      query: (data) => ({
+        url: `${POSTS_URL}/${data.postId}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: ['Posts'],
+    }),
   }),
 });
 
@@ -35,4 +58,7 @@ export const {
   useGetPostDetailsQuery,
   useDeletePostMutation,
   useGetTopPostsQuery,
+  useCreatePostMutation,
+  useUploadPostImageMutation,
+  useUpdatePostMutation,
 } = postSlice;
