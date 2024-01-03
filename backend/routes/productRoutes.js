@@ -18,7 +18,7 @@ router.get('/top', getTopProducts);
 router
   .route('/:id')
   .get(checkObjectId, getProductById)
-  .put(protect, admin, checkObjectId, updateProduct)
+  .put(protect, admin, checkObjectId)
   .delete(protect, admin, checkObjectId, deleteProduct);
 
 export default router;

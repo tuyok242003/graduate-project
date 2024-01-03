@@ -47,16 +47,26 @@ const getProductById = asyncHandler(async (req, res) => {
 // @route   POST /api/products
 // @access  Private/Admin
 const createProduct = asyncHandler(async (req, res) => {
+  const {
+    name,
+    image,
+    price,
+    brand,
+    category,
+    description,
+    countInStock,
+    numReviews,
+  } = req.body;
   const product = new Product({
-    name: 'Sample name',
-    price: 0,
+    name,
+    price,
     user: req.user._id,
-    image: '/images/sample.jpg',
-    brand: 'Sample brand',
-    category: 'Sample category',
-    countInStock: 0,
-    numReviews: 0,
-    description: 'Sample description',
+    image,
+    brand,
+    category,
+    countInStock,
+    numReviews,
+    description,
   });
 
   const createdProduct = await product.save();
