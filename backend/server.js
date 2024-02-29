@@ -10,8 +10,9 @@ import orderRoutes from './routes/orderRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import contactRoutes from './routes/contactRoutes.js';
 import postRoutes from './routes/postRoutes.js';
+import categoryRoutes from './routes/categoryRoutes.js';
+import voucherRoutes from './routes/voucherRoutes.js'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
-
 const port = process.env.PORT || 5000;
 
 connectDB();
@@ -28,29 +29,45 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/contacts', contactRoutes);
 app.use('/api/posts', postRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/vouchers', voucherRoutes)
 app.get('/api/config/paypal', (req, res) =>
-  res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
+    res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
 );
 
 if (process.env.NODE_ENV === 'production') {
-  const __dirname = path.resolve();
-  app.use('/uploads', express.static('/var/data/uploads'));
-  app.use(express.static(path.join(__dirname, '/frontend/build')));
+    const __dirname = path.resolve();
+    app.use('/uploads', express.static('/var/data/uploads'));
+    app.use(express.static(path.join(__dirname, '/frontend/build')));
 
-  app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
-  );
+    app.get('*', (req, res) =>
+        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+    );
 } else {
-  const __dirname = path.resolve();
-  app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
-  app.get('/', (req, res) => {
-    res.send('API is running....');
-  });
+    const __dirname = path.resolve();
+    app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+    app.get('/', (req, res) => {
+        res.send('API is running....');
+    });
 }
+// Route để lấy danh sách đơn hàng
+// app.get('/orders', async (req, res) => {
+//   const { status } = req.query;
+
+//   let query = {};
+//   if (status === 'non-cancelled') {
+//     query = { isCancelled: false };
+//   } else if (status === 'cancelled') {
+//     query = { isCancelled: true };
+//   }
+
+//   const orders = await Order.find(query);
+//   res.json(orders);
+// });
 
 app.use(notFound);
 app.use(errorHandler);
 
 app.listen(port, () =>
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${port}`)
+    console.log(`Server running in ${process.env.NODE_ENV} mode on port ${port}`)
 );

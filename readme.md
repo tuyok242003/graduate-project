@@ -10,6 +10,73 @@ This is version 2.0 of the app, which uses Redux Toolkit. The first version can 
 
 <!-- toc -->
 
+// Trong một component React (ProductListByCategory.jsx)
+
+import React, { useEffect, useState } from 'react';
+import { useSearchProductsByCategoryQuery } from '../path-to-your-products-api-slice';
+
+const ProductListByCategory = () => {
+const [selectedCategory, setSelectedCategory] = useState(null);
+const { data, isLoading, error } = useSearchProductsByCategoryQuery({
+category: selectedCategory,
+});
+
+useEffect(() => {
+// Xử lý dữ liệu, loading, error ở đây
+if (isLoading) {
+// Hiển thị loader hoặc thực hiện các hành động khác khi đang tải
+}
+
+    if (error) {
+      // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
+      console.error('Error fetching products:', error);
+    }
+
+    if (data) {
+      // Xử lý dữ liệu khi đã có
+      console.log('Fetched products:', data.products);
+    }
+
+}, [data, isLoading, error]);
+
+const handleCategoryClick = (category) => {
+setSelectedCategory(category);
+};
+
+return (
+
+<div>
+<h2>Product List</h2>
+
+      {/* Danh sách các danh mục */}
+      <div>
+        <button onClick={() => handleCategoryClick('Electronics')}>Electronics</button>
+        <button onClick={() => handleCategoryClick('Clothing')}>Clothing</button>
+        {/* Thêm các button danh mục khác nếu cần */}
+      </div>
+
+      {isLoading && <p>Loading...</p>}
+
+      {error && <p>Error fetching products. Please try again later.</p>}
+
+      {data && (
+        <ul>
+          {data.products.map((product) => (
+            <li key={product._id}>
+              <img src={product.image} alt={product.name} />
+              <p>{product.name}</p>
+              <p>Price: {product.price}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+
+);
+};
+
+export default ProductListByCategory;
+
 - [Features](#features)
 - [Usage](#usage)
   - [Env Variables](#env-variables)
@@ -128,7 +195,28 @@ jane@email.com (Customer)
 123456
 ```
 
----
+--- Tìm kiếm sản phẩm theo tên danh mục
+const getProductsByCategory = asyncHandler(async (req, res) => {
+const pageSize = process.env.PAGINATION_LIMIT;
+const page = Number(req.query.pageNumber) || 1;
+const category = req.params.category;
+
+const keyword = req.query.keyword
+? {
+name: {
+$regex: req.query.keyword,
+$options: 'i',
+},
+}
+: {};
+
+const count = await Product.countDocuments({ category, ...keyword });
+const products = await Product.find({ category, ...keyword })
+.limit(pageSize)
+.skip(pageSize \* (page - 1));
+
+res.json({ products, page, pages: Math.ceil(count / pageSize) });
+});
 
 # Bug Fixes, corrections and code FAQ
 
@@ -478,7 +566,7 @@ start`...
 
 Vite requires you to name React component files using the `.jsx` file
 type, so you won't be able to use `.js` for your components. The entry point to
-your app will be in `main.jsx` instead of `index.js`
+your app will be in `main.jsx` instead of `index.tsx`
 
 And that's it! You should be good to go with the course using Vite.
 
