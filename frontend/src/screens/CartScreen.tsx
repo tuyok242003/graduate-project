@@ -13,19 +13,19 @@ import {
 import { FaTrash } from 'react-icons/fa';
 import Message from '../components/Message';
 import { addToCart, removeFromCart, increaseQty, decreaseQty } from '../slices/cartSlice';
-import {  OrderItem,ShippingAddress,VoucherName } from '@/interfaces/Order';
+import {  IOrderItem,IShippingAddress,IVoucherName } from '@/interfaces/Order';
 import React,{useState} from 'react';
 
 export interface RootState {
   cart: {
-    cartItems: OrderItem[];
-    shippingAddress :ShippingAddress
+    cartItems: IOrderItem[];
+    shippingAddress :IShippingAddress
     paymentMethod:string
     itemsPrice: number,
     shippingPrice: number,
     totalPrice:number
-    voucherName:VoucherName
-    isUsed:VoucherName
+    voucherName:IVoucherName
+    isUsed:IVoucherName
     voucherExpiryDate:string
 
   };}
@@ -56,7 +56,7 @@ const handleSelectAll = () => {
     dispatch(addToCart({ _id: id , qty})); 
   };
 
-  const addToCartHandler = (product: OrderItem, qty: number) => {
+  const addToCartHandler = (product: IOrderItem , qty: number) => {
     updateCart(product._id, qty); 
   };
   const removeFromCartHandler = (id: string) => {
@@ -69,12 +69,12 @@ const handleSelectAll = () => {
     // Chuyển hướng đến trang Shipping
     navigate(`/shipping?selectedItems=${selectedItems.join(',')}`);
   };
-  const increaseQuantity = (item: OrderItem) => {
+  const increaseQuantity = (item: IOrderItem) => {
     dispatch(increaseQty(item._id)); // Dispatch action to increase quantity
   };
   
   // Function to decrease quantity
-  const decreaseQuantity = (item: OrderItem) => {
+  const decreaseQuantity = (item: IOrderItem) => {
     dispatch(decreaseQty(item._id)); // Dispatch action to decrease quantity
   };
   console.log(updateCart);
@@ -98,7 +98,7 @@ const handleSelectAll = () => {
                       onChange={handleSelectAll}
                     />
                   </Col>
-            {cartItems.map((item: OrderItem) => (
+            {cartItems.map((item: IOrderItem) => (
               <ListGroup.Item key={item._id}>
                 <Row>
                 <Col md={1}>
@@ -173,7 +173,7 @@ const handleSelectAll = () => {
               <h2>
                Có (
                 {cartItems.reduce(
-                  (acc: number, item: OrderItem) => acc + item.qty,
+                  (acc: number, item: IOrderItem) => acc + item.qty,
                   0
                 )}
                 ) sản phẩm
@@ -181,7 +181,7 @@ const handleSelectAll = () => {
               $
               {cartItems
                 .reduce(
-                  (acc: number, item: OrderItem) => acc + item.qty * item.price,
+                  (acc: number, item: IOrderItem) => acc + item.qty * item.price,
                   0
                 )
                 .toFixed(2)}

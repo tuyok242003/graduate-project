@@ -98,8 +98,8 @@ const ProductScreen = () => {
   const [createReview, { isLoading: loadingProductReview }] =
     useCreateReviewMutation();
 
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitHandler = async (productHandler: React.FormEvent<HTMLFormElement>) => {
+    productHandler.preventDefault();
 
     try {
       await createReview({

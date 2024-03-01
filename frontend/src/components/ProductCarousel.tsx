@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Carousel, Image } from 'react-bootstrap';
 import Message, { MessageProps } from './Message';
 import { useGetPostsQuery } from '../slices/postSlice';
-import { Posts } from '@/interfaces/Post';
+import { IPosts } from '@/interfaces/Post';
 
 const PostCarousel = () => {
   const { data: posts, isLoading, error } = useGetPostsQuery();
@@ -12,7 +12,7 @@ const PostCarousel = () => {
   ) : (
     <Carousel pause='hover' className='bg-primary mb-4'>
       {posts &&
-        posts.map((post: Posts) => (
+        posts.map((post: IPosts) => (
           <Carousel.Item key={post._id}>
             <Link to={`/post/${post._id}`}>
               <Image

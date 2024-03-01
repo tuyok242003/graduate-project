@@ -8,7 +8,7 @@ import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
 import SearchBox from './SearchBox';
 import { resetCart } from '../slices/cartSlice';
-import { User } from '@/interfaces/User';
+import { IUser } from '@/interfaces/User';
 interface CartItem {
   length:number
 qty:number
@@ -16,7 +16,7 @@ reduce:number
 }
 const Header = () => {
   const { cartItems } = useSelector((state: {cart?:{cartItems:CartItem[]}}) => state.cart) || {};
-  const { userInfo } = useSelector((state:{auth?:{userInfo:User}}) => state.auth) || {};
+  const { userInfo } = useSelector((state:{auth?:{userInfo:IUser}}) => state.auth) || {};
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logoutApiCall] = useLogoutMutation();
@@ -56,7 +56,7 @@ const Header = () => {
                   <FaShoppingCart /> Cart
                   {cartItems && cartItems.length > 0 && (
                     <Badge pill bg='success' style={{ marginLeft: '5px' }}>
-                      {cartItems?.reduce((a: number, c: CartItem) => a + c.qty, 0)}
+                      {cartItems?.reduce((item: number, cart: CartItem) => item + cart.qty, 0)}
                     </Badge>
                   )}
                 </Nav.Link>

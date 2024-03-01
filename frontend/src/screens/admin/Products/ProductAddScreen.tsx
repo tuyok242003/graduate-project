@@ -9,7 +9,7 @@ import {
   useUploadProductImageMutation,
 } from '../../../slices/productsApiSlice';
 import { useGetCategoriesQuery } from '../../../slices/categorySlice';
-import { Categories } from '@/interfaces/Category';
+import { ICategories } from '@/interfaces/Category';
 
 const ProductAddScreen = () => {
   const [name, setName] = useState('');
@@ -37,8 +37,8 @@ const ProductAddScreen = () => {
     return true;
   };
   
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitHandler = async (product: React.FormEvent<HTMLFormElement>) => {
+    product.preventDefault();
     if (!isFormValid()) {
       return;
     }
@@ -53,15 +53,18 @@ const ProductAddScreen = () => {
         description,
       }).unwrap();
       toast.success('Product added');
-      navigate(`/admin/productlist`);
+      navigate(`/admin/varriant/${newProduct._id}/add`);
+      console.log(newProduct._id)
     } catch (err) {
       toast.error('Error');
     }
+
   };
+ 
   const formData = new FormData();
 
-  const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileInput = e.target;
+  const uploadFileHandler = async (image: React.ChangeEvent<HTMLInputElement>) => {
+    const fileInput = image.target;
     if (fileInput.files && fileInput.files.length > 0) {
       formData.append('image', fileInput.files[0]);
     }
@@ -137,7 +140,7 @@ const ProductAddScreen = () => {
                 onChange={(e) => setCategory(e.target.value)}
               >
                 <option value=''>Select Category</option>
-                {categories?.map((category: Categories) => (
+                {categories?.map((category: ICategories) => (
                   <option key={category._id} value={category._id}>
                     {category.name}
                   </option>

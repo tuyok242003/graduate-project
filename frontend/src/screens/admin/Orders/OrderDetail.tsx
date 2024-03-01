@@ -8,8 +8,8 @@ import {
   useDeliverOrderMutation,
   useGetOrderDetailsQuery,
 } from '../../../slices/ordersApiSlice';
-import { User } from '@/interfaces/User';
-import { OrderItem } from '@/interfaces/Order';
+import { IUser } from '@/interfaces/User';
+import { IOrderItem } from '@/interfaces/Order';
 const OrderDetail = () => {
   const { id: orderId } = useParams();
   const {
@@ -21,7 +21,7 @@ const OrderDetail = () => {
   const [deliverOrder, { isLoading: loadingDeliver }] =
     useDeliverOrderMutation();
   const { userInfo } =
-    useSelector((state: { auth?: { userInfo: User } }) => state.auth) || {};
+    useSelector((state: { auth?: { userInfo: IUser } }) => state.auth) || {};
   const [isOrderPaid, setIsOrderPaid] = useState(false);
   useEffect(() => {
     if (order && order.isPaid !== undefined) {
@@ -89,7 +89,7 @@ const OrderDetail = () => {
                 <Message>Order is empty</Message>
               ) : (
                 <ListGroup variant='flush'>
-                  {order.orderItems.map((item: OrderItem, index: number) => (
+                  {order.orderItems.map((item: IOrderItem, index: number) => (
                     <ListGroup.Item key={index}>
                       <Row>
                         <Col md={1}>

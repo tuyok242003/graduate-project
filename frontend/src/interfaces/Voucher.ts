@@ -1,4 +1,4 @@
-export interface Vouchers {
+export interface IVouchers {
     _id: string;
     name: string;
     discountAmount: number;

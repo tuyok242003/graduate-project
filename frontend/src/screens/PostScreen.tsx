@@ -5,7 +5,7 @@ import { useGetPostsQuery } from '../slices/postSlice';
 import Loader from '../components/Loader';
 import Message, { MessageProps } from '../components/Message';
 import '../assets/styles/PostScreen.css';
-import { Posts } from '@/interfaces/Post';
+import { IPosts } from '@/interfaces/Post';
 const PostScreen = () => {
   const navigate = useNavigate();
   const { data: posts, isLoading, error } = useGetPostsQuery();
@@ -26,7 +26,7 @@ const PostScreen = () => {
       ) : (
         <Row>
           <Col md={8}>
-            {posts?.map((post: Posts) => (
+            {posts?.map((post: IPosts) => (
               <div key={post._id} className='mb-4 d-flex post-container'>
                 <img
                   src={post.img}
@@ -58,7 +58,7 @@ const PostScreen = () => {
             <ListGroup>
               {posts
                 ?.slice(0, 5)
-                .map((post: Posts) => (
+                .map((post: IPosts) => (
                   <ListGroup.Item key={post._id}>{post.name}</ListGroup.Item>
                 ))}
             </ListGroup>

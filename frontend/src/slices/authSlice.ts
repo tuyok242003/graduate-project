@@ -1,8 +1,8 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
-import { User } from '@/interfaces/User';
+import { IUser } from '@/interfaces/User';
 
 interface AuthState {
-  userInfo: User | null;
+  userInfo: IUser | null;
 }
 const initialState: AuthState = {
   userInfo: localStorage.getItem('userInfo')

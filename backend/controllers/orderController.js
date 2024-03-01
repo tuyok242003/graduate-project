@@ -2,7 +2,7 @@ import asyncHandler from '../middleware/asyncHandler.js';
 import Order from '../models/orderModel.js';
 import Product from '../models/productModel.js';
 import { calcPrices } from '../utils/calcPrices.js';
-import { verifyPayPalPayment, checkIfNewTransaction } from '../utils/paypal.js';
+import { getVerifyPayPalPayment, getCheckIfNewTransaction } from '../utils/paypal.js';
 import Voucher from '../models/voucherModel.js';
 const updateQuantitySold = async(variantId, quantity) => {
     try {
@@ -109,9 +109,9 @@ const getOrderById = asyncHandler(async(req, res) => {
     }
 });
 const updateOrderToPaid = asyncHandler(async(req, res) => {
-    const { verified, value } = await verifyPayPalPayment(req.body.id);
+    const { verified, value } = await getVerifyPayPalPayment(req.body.id);
     if (!verified) throw new Error('Payment not verified');
-    const isNewTransaction = await checkIfNewTransaction(Order, req.body.id);
+    const isNewTransaction = await getCheckIfNewTransaction(Order, req.body.id);
     if (!isNewTransaction) throw new Error('Transaction has been used before');
     const order = await Order.findById(req.params.id);
     if (order) {
@@ -147,8 +147,9 @@ const getOrders = asyncHandler(async(req, res) => {
     res.json(orders);
 });
 const cancelOrder = asyncHandler(async(req, res) => {
+    const orderId = req.params.id;
     try {
-        const orderId = req.params.id;
+
         const order = await Order.findById(orderId);
         if (!order) {
             return res.status(400).json({

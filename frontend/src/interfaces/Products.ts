@@ -1,4 +1,4 @@
-import { Categories } from "./Category";
+import { ICategories } from "./Category";
 
 export interface Review {
   _id: string;
@@ -29,7 +29,7 @@ export interface Products {
   price:string;
   image: string;
   brand: string;
-  category: Categories | string;
+  category: ICategories | string;
   description: string;
   reviews: Review[];
   rating: number;

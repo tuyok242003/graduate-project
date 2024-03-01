@@ -12,7 +12,7 @@ import PostCarousel from '../components/ProductCarousel';
 import Meta from '../components/Meta';
 import Category from '../components/Category';
 import ProductListByCategory from '../components/ProductListByCategory';
-import { Categories } from '@/interfaces/Category';
+import { ICategories } from '@/interfaces/Category';
 import { Products } from '@/interfaces/Products';
 const HomeScreen = () => {
   const { pageNumber, keyword } = useParams();
@@ -22,7 +22,7 @@ const HomeScreen = () => {
     pageNumber,
   });
 
-  const [selectedCategory, setSelectedCategory] = useState<Categories | null>(
+  const [selectedCategory, setSelectedCategory] = useState<ICategories | null>(
     null
   );
 
@@ -30,7 +30,7 @@ const HomeScreen = () => {
     category: selectedCategory,
   });
 
-  const handleCategoryClick = (categoryId: Categories) => {
+  const handleCategoryClick = (categoryId: ICategories) => {
     setSelectedCategory(categoryId);
   };
 

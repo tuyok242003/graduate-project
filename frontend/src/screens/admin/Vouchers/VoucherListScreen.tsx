@@ -11,7 +11,7 @@ import {
 
 } from '../../../slices/voucherSlice';
 import { useState } from 'react';
-import { Vouchers } from '@/interfaces/Voucher';
+import { IVouchers } from '@/interfaces/Voucher';
 
 const VoucherListScreen = () => {
   const { data: vouchers, isLoading, error, refetch } = useGetVouchersQuery();
@@ -80,7 +80,7 @@ const VoucherListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {currentVouchers?.map((voucher: Vouchers) => (
+              {currentVouchers?.map((voucher: IVouchers) => (
                 <tr key={voucher._id}>
                   <td>{voucher._id}</td>
                   <td>{voucher.name}</td>

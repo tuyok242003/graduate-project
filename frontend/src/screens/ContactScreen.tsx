@@ -14,8 +14,8 @@ const ContactScreen = () => {
 
   const [addContact, { isLoading: loadingAdd }] = useAddContactMutation();
   const navigate = useNavigate();
-  const handleAddContact = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleAddContact = async (contact: React.FormEvent<HTMLFormElement>) => {
+    contact.preventDefault();
     try {
       // Gọi hàm mutate để thêm liên hệ mới
       const contactData = {

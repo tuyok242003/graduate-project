@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSearchProductsByCategoryQuery } from '../slices/productsApiSlice';
-import { Categories } from '@/interfaces/Category';
+import { ICategories } from '@/interfaces/Category';
 import { Products } from '@/interfaces/Products';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -9,7 +9,7 @@ import Rating from './Rating';
 const ProductListByCategory = ({
   selectedCategory,
 }: {
-  selectedCategory: Categories;
+  selectedCategory: ICategories;
 }) => {
   const {
     data: products,

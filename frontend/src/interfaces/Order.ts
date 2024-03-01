@@ -1,11 +1,11 @@
 
-export interface Order {
+export interface IOrder {
   _id: string;
   user: string;
-  orderItems: OrderItem[];
-  shippingAddress: ShippingAddress;
+  orderItems: IOrderItem[];
+  shippingAddress: IShippingAddress;
   paymentMethod: string;
-  paymentResult?: PaymentResult;
+  paymentResult?: IPaymentResult;
   itemsPrice: number;
   shippingPrice: number;
   totalPrice: number;
@@ -17,16 +17,16 @@ export interface Order {
   isConfirmed?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
-  cartItems: OrderItem[]
-  order:Order[]
-  voucherName:VoucherName
+  cartItems: IOrderItem[]
+  order:IOrder[]
+  voucherName:IVoucherName
 }
-export interface VoucherName {
+export interface IVoucherName {
   name:string;
   isUsed:boolean;
   expiryDate:Date
 }
-export interface OrderItem {
+export interface IOrderItem {
   _id: string;
   name: string;
   qty: number;
@@ -35,18 +35,18 @@ export interface OrderItem {
   productId: string;
   color: string;
   countInStock: number;
-  variant:OrderItem
+  variant:IOrderItem
 
 }
 
-export interface ShippingAddress {
+export interface IShippingAddress {
   address: string;
   city: string; 
   postalCode: string;
   country: string;
 }
 
-export interface PaymentResult {
+export interface IPaymentResult {
   id: string;
   status: string;
   update_time: string;

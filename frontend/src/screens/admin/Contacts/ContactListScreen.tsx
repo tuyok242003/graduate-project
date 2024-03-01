@@ -10,7 +10,7 @@ import {
   useAddContactMutation,
 } from '../../../slices/contactSlice';
 import { useState } from 'react';
-import { Contact } from '@/interfaces/Contact';
+import { IContact } from '@/interfaces/Contact';
 
 const ContactListScreen = () => {
   const { data: contacts, isLoading, error, refetch } = useGetContactsQuery();
@@ -82,7 +82,7 @@ const ContactListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {currentContacts?.map((contact: Contact) => (
+              {currentContacts?.map((contact: IContact) => (
                 <tr key={contact._id}>
                   <td>{contact._id}</td>
                   <td>{contact.name}</td>

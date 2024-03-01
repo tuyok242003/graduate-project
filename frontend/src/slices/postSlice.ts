@@ -1,9 +1,9 @@
 import { POSTS_URL } from '../constants';
 import { apiSlice } from './apiSlice';
-import { Posts } from '@/interfaces/Post';
+import { IPosts } from '@/interfaces/Post';
 export const postSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getPosts: builder.query<Posts[], void>({
+    getPosts: builder.query<IPosts[], void>({
       query: () => ({
         url: POSTS_URL,
       }),

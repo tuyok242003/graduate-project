@@ -1,9 +1,9 @@
 import { VOUCHERS_URL } from '../constants';
 import { apiSlice } from './apiSlice';
-import { Vouchers } from '@/interfaces/Voucher';
+import { IVouchers } from '@/interfaces/Voucher';
 export const voucherSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getVouchers: builder.query<Vouchers[], void>({
+    getVouchers: builder.query<IVouchers[], void>({
       query: () => ({
         url: VOUCHERS_URL,
       }),

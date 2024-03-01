@@ -10,8 +10,8 @@ const SearchBox = () => {
   // FIX: uncontrolled input - urlKeyword may be undefined
   const [keyword, setKeyword] = useState(urlKeyword || '');
 
-  const submitHandler = (e:React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitHandler = (search:React.FormEvent<HTMLFormElement>) => {
+    search.preventDefault();
     if (keyword) {
       navigate(`/search/${keyword.trim()}`);
       setKeyword('');

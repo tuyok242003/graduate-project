@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { updateCart } from '../utils/cartUtils';
-import { Order } from '@/interfaces/Order';
+import { IOrder } from '@/interfaces/Order';
 
 
 const cartFromLocalStorage = localStorage.getItem('cart') || '';
@@ -10,17 +10,17 @@ const initialState = cartFromLocalStorage
   : { cartItems: [], shippingAddress: {}, paymentMethod: 'PayPal',voucherName:{} };
 
 const cartSlice = createSlice({
-  name: 'cart',
+  name: 'cart',                                                                                                 
   initialState,
   reducers: {
     addToCart: (state, action) => {
       const { user, rating, numReviews, reviews, ...item } = action.payload;
 
-      const existItem = state.cartItems.find((x: Order) => x._id === item._id);
+      const existItem = state.cartItems.find((cart: IOrder) => cart._id === item._id);
 
       if (existItem) {
-        state.cartItems = state.cartItems.map((x: Order) =>
-          x._id === existItem._id ? item : x
+        state.cartItems = state.cartItems.map((cart: IOrder) =>
+          cart._id === existItem._id ? item : cart
         );
       } else {
         state.cartItems = [...state.cartItems, item];
@@ -30,7 +30,7 @@ const cartSlice = createSlice({
     },
     removeFromCart: (state, action) => {
       state.cartItems = state.cartItems.filter(
-        (x: Order) => x._id !== action.payload
+        (cart: IOrder) => cart._id !== action.payload
       );
       return updateCart(state);
     },
@@ -53,7 +53,7 @@ const cartSlice = createSlice({
     },
     increaseQty: (state, action) => {
       const itemId = action.payload;
-      const item = state.cartItems.find((item:Order) => item._id === itemId);
+      const item = state.cartItems.find((item:IOrder) => item._id === itemId);
       if (item) {
         if (item.qty < item.countInStock) { // Kiểm tra xem số lượng có nhỏ hơn số lượng trong kho không
           item.qty++; // Tăng số lượng sản phẩm
@@ -62,7 +62,7 @@ const cartSlice = createSlice({
     },
     decreaseQty: (state, action) => {
       const itemId = action.payload;
-      const item = state.cartItems.find((item:Order) => item._id === itemId);
+      const item = state.cartItems.find((item:IOrder) => item._id === itemId);
       if (item) {
         if (item.qty > 1) { // Kiểm tra xem số lượng có lớn hơn 1 không
           item.qty--; // Giảm số lượng sản phẩm

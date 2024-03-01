@@ -30,8 +30,8 @@ const ContactAddScreen = () => {
     }
     return true;
   };
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
+    category.preventDefault();
     if (!isFormValid()) {
       return;
     }

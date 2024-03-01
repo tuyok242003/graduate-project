@@ -8,7 +8,7 @@ import {
   useCreateVoucherMutation,
   useGetVouchersQuery
 } from '../../../slices/voucherSlice';
-import { Vouchers } from '@/interfaces/Voucher';
+import { IVouchers } from '@/interfaces/Voucher';
 
 const VoucherAddScreen = () => {
   const [name, setName] = useState('');
@@ -39,14 +39,14 @@ const [qty,setQty] = useState('');
       toast.error('Giảm phải là số');
       return false;
     }
-    if (allVouchers?.some((voucher:Vouchers) => voucher.name === name)) {
+    if (allVouchers?.some((voucher:IVouchers) => voucher.name === name)) {
       toast.error('Tên voucher đã tồn tại.');
       return false;
     }
     return true;
   };
-const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
+  voucher.preventDefault();
   if (!isFormValid()) {
     return;
   }

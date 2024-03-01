@@ -8,7 +8,7 @@ import FormContainer from '../components/FormContainer';
 import { useRegisterMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
 import { toast } from 'react-toastify';
-import { User } from '@/interfaces/User';
+import { IUser } from '@/interfaces/User';
 
 const RegisterScreen = () => {
   const [name, setName] = useState('');
@@ -22,7 +22,7 @@ const RegisterScreen = () => {
   const [register, { isLoading }] = useRegisterMutation();
 
   const { userInfo } =
-    useSelector((state: { auth?: { userInfo: User } }) => state.auth) || {};
+    useSelector((state: { auth?: { userInfo: IUser } }) => state.auth) || {};
 
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
@@ -34,8 +34,8 @@ const RegisterScreen = () => {
     }
   }, [navigate, redirect, userInfo]);
 
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitHandler = async (registerUser: React.FormEvent<HTMLFormElement>) => {
+    registerUser.preventDefault();
 
     if (password !== confirmPassword) {
       toast.error('Passwords do not match');

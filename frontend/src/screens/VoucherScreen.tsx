@@ -12,8 +12,8 @@ const VoucherScreen = () => {
   const navigate = useNavigate();
   const [nameVoucher, setName] = useState('');
 const dispatch = useDispatch();
-const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+const submitHandler = (voucher: React.FormEvent<HTMLFormElement>) => {
+  voucher.preventDefault();
     dispatch(saveVoucherMethod(nameVoucher));
     navigate('/payment');
   };

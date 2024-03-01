@@ -1,10 +1,10 @@
-import { Contact } from '@/interfaces/Contact';
+import { IContact } from '@/interfaces/Contact';
 import { CONTACTS_URL } from '../constants';
 import { apiSlice } from './apiSlice';
 
 export const contactSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getContacts: builder.query<Contact[], void>({
+    getContacts: builder.query<IContact[], void>({
       query: () => ({
         url: CONTACTS_URL,
       }),

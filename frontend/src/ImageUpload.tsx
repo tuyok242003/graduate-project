@@ -4,10 +4,10 @@ import React, { ChangeEvent, useState } from 'react';
 const ImageUpload = () => {
   const [image, setImage] = useState<File | string>('');
 
-  const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      console.log(e.target.files);
-      setImage(e.target.files[0]);
+  const handleImage = (img: ChangeEvent<HTMLInputElement>) => {
+    if (img.target.files) {
+      console.log(img.target.files);
+      setImage(img.target.files[0]);
     }
   };
 

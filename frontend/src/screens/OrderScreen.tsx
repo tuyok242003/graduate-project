@@ -15,17 +15,16 @@ import { toast } from 'react-toastify';
 import Message, { MessageProps } from '../components/Message';
 import Loader from '../components/Loader';
 import React from 'react';
-import { User } from '@/interfaces/User';
-import {RootState} from './CartScreen'
+import { IUser } from '@/interfaces/User';
 import {
   useDeliverOrderMutation,
   useGetOrderDetailsQuery,
   useGetPaypalClientIdQuery,
   usePayOrderMutation,
 } from '../slices/ordersApiSlice';
-import { Order, OrderItem } from '@/interfaces/Order';
+import { IOrder, IOrderItem } from '@/interfaces/Order';
 
-interface PayPalObject {
+interface IPayPalObject {
   clientId: string;
 }
 
@@ -38,7 +37,7 @@ const OrderScreen: React.FC = () => {
   const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId);
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
   const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
-  const { userInfo } = useSelector((state: { auth?: { userInfo: User } }) => state.auth) || {};
+  const { userInfo } = useSelector((state: { auth?: { userInfo: IUser } }) => state.auth) || {};
   const [paypalState, paypalDispatch] = usePayPalScriptReducer();
   const { isPending } = paypalState;
   const [isOrderPaid, setIsOrderPaid] = useState(false);
@@ -46,7 +45,7 @@ const OrderScreen: React.FC = () => {
 const orderItem = localStorage.getItem("selectedItems");
 
 
-const dataOrder = order?.orderItems.filter((item:any) => {
+const dataOrder = order?.orderItems.filter((item:IOrder) => {
  return orderItem?.includes(item._id); 
 });
 console.log(dataOrder);
@@ -80,7 +79,7 @@ console.log(dataOrder);
     }
   }, [errorPayPal, loadingPayPal, isPending, order, paypal, paypalDispatch]);
   const onApprove = async (data: Object, actions:any) => {
-    const details: Order = await actions.order.capture();
+    const details: IOrder = await actions.order.capture();
 
     try {
       await payOrder({ orderId, details });
@@ -180,7 +179,7 @@ console.log(dataOrder);
                 <Message>Order is empty</Message>
               ) : (
                 <ListGroup variant='flush'>
-                  {dataOrder.map((item: OrderItem, index: number) => (
+                  {dataOrder.map((item: IOrderItem, index: number) => (
                     <ListGroup.Item key={index}>
                       <Row>
                       <Col style={{marginRight:20}} md={2}>
@@ -223,7 +222,7 @@ console.log(dataOrder);
                 <Row>
                   <Col>Items</Col>
                   <Col>
-      ${dataOrder.reduce((acc:number, item:OrderItem) => acc + (item.qty * (item.variant ? item.variant.price : item.price)), 0).toFixed(2)}
+      ${dataOrder.reduce((acc:number, item:IOrderItem) => acc + (item.qty * (item.variant ? item.variant.price : item.price)), 0).toFixed(2)}
     </Col>
                 </Row>
               </ListGroup.Item>

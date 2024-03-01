@@ -1,9 +1,9 @@
 import { apiSlice } from './apiSlice';
 import { CATEGORIES_URL } from '../constants';
-import { Categories } from '@/interfaces/Category';
+import { ICategories } from '@/interfaces/Category';
 export const categorySlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getCategories: builder.query<Categories[], void>({
+    getCategories: builder.query<ICategories[], void>({
       query: () => ({
         url: CATEGORIES_URL,
       }),

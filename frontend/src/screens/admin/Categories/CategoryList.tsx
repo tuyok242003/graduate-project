@@ -11,7 +11,7 @@ import {
   useCreateCategoryMutation,
 } from '../../../slices/categorySlice';
 import { useState } from 'react';
-import { Categories } from '@/interfaces/Category';
+import { ICategories } from '@/interfaces/Category';
 
 const CategoryListScreen = () => {
   const { data, isLoading, error, refetch } = useGetCategoriesQuery();
@@ -76,7 +76,7 @@ console.log(data);
               </tr>
             </thead>
             <tbody>
-              {data?.map((category: Categories) => (
+              {data?.map((category: ICategories) => (
                 <tr key={category._id}>
                   <td>{category._id}</td>
                   <td>{category.name}</td>

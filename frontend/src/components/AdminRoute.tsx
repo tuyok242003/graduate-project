@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { User } from '@/interfaces/User';
+import { IUser } from '@/interfaces/User';
 const AdminRoute = () => {
-  const { userInfo } = useSelector((state:{auth?:{userInfo:User}}) => state.auth) || {};
+  const { userInfo } = useSelector((state:{auth?:{userInfo:IUser}}) => state.auth) || {};
   return userInfo && userInfo.isAdmin ? (
     <Outlet />
   ) : (

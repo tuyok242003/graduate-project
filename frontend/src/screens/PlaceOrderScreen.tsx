@@ -1,26 +1,23 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Button, Row, Col, ListGroup, Image, Card, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Message, { MessageProps } from '../components/Message';
+import Message from '../components/Message';
 import CheckoutSteps from '../components/CheckoutSteps';
 import Loader from '../components/Loader';
 import { useCreateOrderMutation } from '../slices/ordersApiSlice';
 import { clearCartItems } from '../slices/cartSlice';
 import {RootState} from './CartScreen'
-import {  OrderItem } from '@/interfaces/Order';
+import {  IOrderItem } from '@/interfaces/Order';
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();
   const cart = useSelector((state:RootState) => state.cart);
-  const [createOrder, { isLoading, error }] = useCreateOrderMutation();
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [createOrder, { isLoading }] = useCreateOrderMutation();
+  
  
 
   useEffect(() => {
-    const localSelectedItems = localStorage.getItem('selectedItems');
-    const selectedItemsArray = localSelectedItems ? localSelectedItems.split(',') : [];
-    setSelectedItems(selectedItemsArray);
     if (!cart.shippingAddress.address) {
       navigate('/shipping');
     } else if (!cart.paymentMethod) {
@@ -29,9 +26,8 @@ const PlaceOrderScreen = () => {
    
   }, [cart.paymentMethod, cart.shippingAddress.address, navigate]);
   useEffect(() => {
-    console.log('Cart Items:', cart); 
-  }, [cart.cartItems]);
 
+  }, [cart.cartItems]);
   const dispatch = useDispatch();
   const placeOrderHandler = async () => {
     try {
@@ -42,7 +38,6 @@ const PlaceOrderScreen = () => {
         paymentMethod: cart.paymentMethod,
         itemsPrice: cart.itemsPrice,
         shippingPrice: cart.shippingPrice,
-   
         totalPrice: cart.totalPrice,
       voucherName:cart.voucherName
       }).unwrap();
@@ -52,15 +47,12 @@ const PlaceOrderScreen = () => {
       toast.error('Voucher đã được sử dụng hoặc hết hạn');
     }
   };
-console.log(cart.voucherName);
-
-
   const orderItem = localStorage.getItem("selectedItems");
 
   const data = cart.cartItems.filter(item => {
    return orderItem?.includes(item._id); 
   });
-  const totalOrder = cart.shippingPrice + data.reduce((acc, item) => acc + (item.qty * (item.variant ? item.variant.price : item.price)), 0);
+  const totalOrder = cart.shippingPrice + data.reduce((totalPrice, item) => totalPrice + (item.qty * (item.variant ? item.variant.price : item.price)), 0);
   return (
     <>
       <CheckoutSteps step1 step2 step3 step4 step5/>
@@ -100,7 +92,7 @@ console.log(cart.voucherName);
     <Message>Your cart is empty</Message>
   ) : (
     <ListGroup variant="flush">
-      {data.map((item: OrderItem, index: number) => (
+      {data.map((item: IOrderItem, index: number) => (
         <ListGroup.Item key={index}>
           <Row>
             <Col style={{marginRight:20}} md={2}>
@@ -136,7 +128,7 @@ console.log(cart.voucherName);
         <Row>
           <Col md={8}></Col>
           <Col md={2}><strong>Total</strong></Col>
-          <Col md={2}><strong>${data.reduce((acc, item) => acc + (item.qty * (item.variant ? item.variant.price : item.price)), 0).toFixed(2)}</strong></Col>
+          <Col md={2}><strong>${data.reduce((totalPrice, item) => totalPrice + (item.qty * (item.variant ? item.variant.price : item.price)), 0).toFixed(2)}</strong></Col>
         </Row>
       </ListGroup.Item>
     </ListGroup>
@@ -156,7 +148,7 @@ console.log(cart.voucherName);
               <ListGroup.Item>
                 <Row>
                   <Col>Items</Col>
-                  <Col>${data.reduce((acc, item) => acc + (item.qty * (item.variant ? item.variant.price : item.price)), 0).toFixed(2)}</Col>
+                  <Col>${data.reduce((totalPrice, item) => totalPrice + (item.qty * (item.variant ? item.variant.price : item.price)), 0).toFixed(2)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>

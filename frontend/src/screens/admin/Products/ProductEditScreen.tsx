@@ -13,7 +13,7 @@ import {
 import {
   useGetCategoriesQuery
 } from '../../../slices/categorySlice'
-import { Categories } from '@/interfaces/Category';
+import { ICategories } from '@/interfaces/Category';
 const ProductEditScreen = () => {
   const { id: productId } = useParams();
   const [name, setName] = useState('');
@@ -45,8 +45,8 @@ const ProductEditScreen = () => {
   const [uploadProductImage, { isLoading: loadingUpload }] =
     useUploadProductImageMutation();
   const navigate = useNavigate();
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitHandler = async (product: React.FormEvent<HTMLFormElement>) => {
+    product.preventDefault();
     if (!isFormValid()) {
       return;
     }
@@ -79,8 +79,8 @@ const ProductEditScreen = () => {
     }
   }, [product]);
   const formData = new FormData();
-  const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileInput = e.target;
+  const uploadFileHandler = async (imageUpload: React.ChangeEvent<HTMLInputElement>) => {
+    const fileInput = imageUpload.target;
     if (fileInput.files && fileInput.files.length > 0) {
       formData.append('img', fileInput.files[0]);
     }
@@ -155,7 +155,7 @@ const ProductEditScreen = () => {
           onChange={(e) => setCategory(e.target.value)}
         >
    
-          {categories?.map((cat:Categories) => (
+          {categories?.map((cat:ICategories) => (
             <option key={cat._id} value={cat.name}>
               {cat.name}
             </option>

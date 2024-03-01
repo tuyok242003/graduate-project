@@ -38,8 +38,8 @@ const CustomizeVariant = () => {
       }
       return true;
     };
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitHandler = async (varriant: React.FormEvent<HTMLFormElement>) => {
+    varriant.preventDefault();
     if (!isFormValid()) {
       return;
     }

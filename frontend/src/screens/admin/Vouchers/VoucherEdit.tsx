@@ -40,8 +40,8 @@ const VoucherEditScreen = () => {
     }
     return true;
   };
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
+    voucher.preventDefault();
     if (!isFormValid()) {
       return;
     }

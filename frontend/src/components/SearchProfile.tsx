@@ -10,8 +10,8 @@ const SearchProfile = () => {
   // FIX: uncontrolled input - urlKeyword may be undefined
   const [keyword, setKeyword] = useState(urlKeyword || '');
 
-  const submitHandler = (e:React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitHandler = (sreach:React.FormEvent<HTMLFormElement>) => {
+    sreach.preventDefault();
     if (keyword) {
       navigate(`/searchProfile/${keyword.trim()}`);
       setKeyword('');

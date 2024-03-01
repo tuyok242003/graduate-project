@@ -28,8 +28,8 @@ const UserEditScreen = () => {
 
   const navigate = useNavigate();
 
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitHandler = async (user: React.FormEvent<HTMLFormElement>) => {
+    user.preventDefault();
     try {
       await updateUser({ userId, name, email, isAdmin });
       toast.success('user updated successfully');

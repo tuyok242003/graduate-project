@@ -8,7 +8,7 @@ import FormContainer from '../components/FormContainer';
 import { useLoginMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
 import { toast } from 'react-toastify';
-import { User } from '@/interfaces/User';
+import { IUser } from '@/interfaces/User';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -18,7 +18,7 @@ const LoginScreen = () => {
   const [login, { isLoading }] = useLoginMutation();
 
   const { userInfo } =
-    useSelector((state: { auth?: { userInfo: User } }) => state.auth) || {};
+    useSelector((state: { auth?: { userInfo: IUser } }) => state.auth) || {};
 
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
@@ -30,8 +30,8 @@ const LoginScreen = () => {
     }
   }, [navigate, redirect, userInfo]);
 
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitHandler = async (loginUser: React.FormEvent<HTMLFormElement>) => {
+    loginUser.preventDefault();
     try {
       const res = await login({ email, password }).unwrap();
       dispatch(setCredentials({ ...res }));

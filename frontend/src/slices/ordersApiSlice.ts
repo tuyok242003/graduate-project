@@ -1,6 +1,6 @@
 import { apiSlice } from './apiSlice';
 import { ORDERS_URL, PAYPAL_URL } from '../constants';
-import { Order } from '@/interfaces/Order';
+import { IOrder } from '@/interfaces/Order';
 
 export const orderApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -24,19 +24,19 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         body: details,
       }),
     }),
-    getPaypalClientId: builder.query<Order[], void>({
+    getPaypalClientId: builder.query<IOrder[], void>({
       query: () => ({
         url: PAYPAL_URL,
       }),
       keepUnusedDataFor: 5,
     }),
-    getMyOrders: builder.query<Order[], void>({
+    getMyOrders: builder.query<IOrder[], void>({
       query: () => ({
         url: `${ORDERS_URL}/mine`,
       }),
       keepUnusedDataFor: 5,
     }),
-    getOrders: builder.query<Order[], void>({
+    getOrders: builder.query<IOrder[], void>({
       query: () => ({
         url: ORDERS_URL,
       }),

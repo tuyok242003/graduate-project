@@ -13,7 +13,7 @@ import {
 } from '../../../slices/productsApiSlice';
 import { toast } from 'react-toastify';
 import { Products } from '@/interfaces/Products';
-import { Categories } from '@/interfaces/Category';
+import { ICategories } from '@/interfaces/Category';
 
 const ProductListScreen = () => {
   const navigate = useNavigate();
@@ -88,7 +88,7 @@ const ProductListScreen = () => {
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.name}</td>
-                  <td>{(product.category as Categories).name}</td>
+                  <td>{(product.category as ICategories).name}</td>
                   <td>{product.brand}</td>
            
                   <td style={{ width: 200 }}>

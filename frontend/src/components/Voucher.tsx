@@ -6,7 +6,7 @@ import Loader from './Loader';
 import { toast } from 'react-toastify';
 import { useGetVouchersQuery,useDeleteVoucherMutation } from '../slices/voucherSlice';
 import { useState } from 'react';
-import { Vouchers } from '../interfaces/Voucher';
+import { IVouchers } from '../interfaces/Voucher';
 
 const VoucherList = () => {
   const { data: vouchers, isLoading, error, refetch } = useGetVouchersQuery();
@@ -73,7 +73,7 @@ const VoucherList = () => {
               </tr>
             </thead>
             <tbody>
-              {currentVouchers?.map((voucher: Vouchers) => (
+              {currentVouchers?.map((voucher: IVouchers) => (
                 <tr key={voucher._id}>
                   <td>{voucher._id}</td>
                   <td>{voucher.name}</td>

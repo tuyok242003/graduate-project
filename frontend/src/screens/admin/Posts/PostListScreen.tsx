@@ -11,7 +11,7 @@ import {
   useCreatePostMutation,
 } from '../../../slices/postSlice';
 import { useState } from 'react';
-import { Posts } from '@/interfaces/Post';
+import { IPosts } from '@/interfaces/Post';
 
 const PostListScreen = () => {
   const { data: posts, isLoading, error, refetch } = useGetPostsQuery();
@@ -78,7 +78,7 @@ const PostListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {currentPosts?.map((post: Posts) => (
+              {currentPosts?.map((post: IPosts) => (
                 <tr key={post._id}>
                   <td>{post._id}</td>
                   <td>{post.name}</td>

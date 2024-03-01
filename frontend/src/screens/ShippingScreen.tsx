@@ -35,8 +35,8 @@ const ShippingScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitHandler = (shipping: React.FormEvent<HTMLFormElement>) => {
+    shipping.preventDefault();
     if (!isFormValid()) {
       return;
     }

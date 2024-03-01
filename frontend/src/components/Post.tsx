@@ -1,9 +1,9 @@
-import { Posts } from '@/interfaces/Post';
+import { IPosts } from '@/interfaces/Post';
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const Post = ({ post }: { post: Posts }) => {
+const Post = ({ post }: { post: IPosts }) => {
   return (
     <Card className='my-3 p-3 rounded'>
       <Link to={`/post/${post._id}`}>

@@ -42,8 +42,8 @@ const PostEditScreen = () => {
   
     return true;
   };
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitHandler = async (post: React.FormEvent<HTMLFormElement>) => {
+    post.preventDefault();
     if (!isFormValid()) {
       return;
     }
@@ -72,8 +72,8 @@ const PostEditScreen = () => {
     }
   }, [post]);
   const formData = new FormData();
-  const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileInput = e.target;
+  const uploadFileHandler = async (image: React.ChangeEvent<HTMLInputElement>) => {
+    const fileInput = image.target;
 
     if (fileInput.files && fileInput.files.length > 0) {
       formData.append('img', fileInput.files[0]);

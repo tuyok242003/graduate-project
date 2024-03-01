@@ -9,7 +9,7 @@ import Message, { MessageProps } from '../../../components/Message';
 import Meta from '../../../components/Meta';
 import '../../../assets/styles/ProductScreen.css';
 import { Review, Variant } from '@/interfaces/Products';
-import { Categories } from '@/interfaces/Category';
+import { ICategories } from '@/interfaces/Category';
 const ProductDetail = () => {
   const { id: productId } = useParams();
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
@@ -60,7 +60,7 @@ const ProductDetail = () => {
                   <Form.Label> Brand: {product.brand}</Form.Label>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <Form.Label>Category: {(product.category as Categories).name}</Form.Label>
+                  <Form.Label>Category: {(product.category as ICategories).name}</Form.Label>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <strong>Price:</strong> $

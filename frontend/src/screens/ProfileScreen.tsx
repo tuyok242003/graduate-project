@@ -17,7 +17,7 @@ import {
   useConfirmOrderMutation,
 } from '../slices/ordersApiSlice';
 import { setCredentials } from '../slices/authSlice';
-import { User } from '@/interfaces/User';
+import { IUser } from '@/interfaces/User';
 import SearchProfile from '../components/SearchProfile';
 const ProfileScreen = () => {
   const [name, setName] = useState('');
@@ -25,7 +25,7 @@ const ProfileScreen = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const { userInfo } =
-    useSelector((state: { auth?: { userInfo: User } }) => state.auth) || {};
+    useSelector((state: { auth?: { userInfo: IUser } }) => state.auth) || {};
   const navigate = useNavigate();
   const { data: orders, isLoading, error, refetch } = useGetMyOrdersQuery();
   const [confirmlOrder] = useConfirmOrderMutation();
@@ -46,9 +46,10 @@ const ProfileScreen = () => {
       try {
         await cancelOrder(id);
 
-        toast.success('Đơn hàng đã huỷ thành công');
+     
         refetch();
         navigate('/profile');
+           toast.success('Đơn hàng đã huỷ thành công');
       } catch (err) {
         const error = err as { data?: { message?: string }; error?: string };
 
@@ -76,8 +77,9 @@ const ProfileScreen = () => {
     if (window.confirm(confirmMessage)) {
       try {
         await confirmlOrder(id);
-        navigate('/');
+      
         refetch();
+          navigate('/');
         toast.success('Đơn hàng đã được nhận thành công');
       } catch (err) {
         const error = err as { data?: { message?: string }; error?: string };
@@ -92,8 +94,8 @@ const ProfileScreen = () => {
   }, [userInfo?.email, userInfo?.name]);
 
   const dispatch = useDispatch();
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitHandler = async (profile: React.FormEvent<HTMLFormElement>) => {
+    profile.preventDefault();
     if (password !== confirmPassword) {
       toast.error('Passwords do not match');
     } else {

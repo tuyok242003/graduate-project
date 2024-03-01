@@ -6,7 +6,7 @@ const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
 });
 
-async function baseQueryWithAuth(args: FetchArgs, api: BaseQueryApi, extra: object) {
+async function getBaseQueryWithAuth(args: FetchArgs, api: BaseQueryApi, extra: object) {
   const result = await baseQuery(args, api, extra);
   if (result.error && result.error.status === 401) {
     api.dispatch(logout());
@@ -15,7 +15,7 @@ async function baseQueryWithAuth(args: FetchArgs, api: BaseQueryApi, extra: obje
 }
 
 export const apiSlice = createApi({
-  baseQuery: baseQueryWithAuth,
+  baseQuery: getBaseQueryWithAuth,
   tagTypes: ['Product', 'Order', 'User', 'Contact', 'Post', 'Category','Voucher'],
   endpoints: (builder) => ({}),
 });
