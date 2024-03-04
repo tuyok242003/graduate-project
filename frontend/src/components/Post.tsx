@@ -7,7 +7,7 @@ const Post = ({ post }: { post: IPosts }) => {
   return (
     <Card className='my-3 p-3 rounded'>
       <Link to={`/post/${post._id}`}>
-        <Card.Img src={post.img} variant='top' />
+        <Card.Img src={post.img} variant='top' alt='Ảnh bài viết' />
       </Link>
 
       <Card.Body>

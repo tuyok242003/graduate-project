@@ -14,7 +14,7 @@ const ProductDetail = () => {
   const { id: productId } = useParams();
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
   const [activeVariantId, setActiveVariantId] = useState<string | null>(null);
-
+console.log(selectedVariant?.price)
   const handleVariantClick = (variant: Variant) => {
     setSelectedVariant(variant);
      setActiveVariantId(variant.id);
@@ -62,7 +62,7 @@ const ProductDetail = () => {
                 <ListGroup.Item>
                   <Form.Label>Category: {(product.category as ICategories).name}</Form.Label>
                 </ListGroup.Item>
-                <ListGroup.Item>
+                <ListGroup.Item style={{width:100}}>
                   <strong>Price:</strong> $
                   {selectedVariant ? selectedVariant.price : product.price}
                 </ListGroup.Item>

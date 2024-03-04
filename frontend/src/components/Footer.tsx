@@ -1,7 +1,7 @@
 import React from "react";
 
 const Footer = (): JSX.Element => (
-  <footer className="page-footer font-small blue pt-4 custom-footer" style={{ backgroundColor: "#AEEEEE" }}>
+  <footer className="page-footer font-small blue pt-4 custom-footer" style={{ backgroundColor: '#AEEEEE' }}>
     <div className="container-fluid text-center text-md-left">
       <div className="row">
         <div className="col-md-6 mt-md-0 mt-3">

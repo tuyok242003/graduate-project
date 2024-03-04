@@ -5,25 +5,18 @@ import Loader from '../../../components/Loader';
 import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
 import { useAddContactMutation } from '../../../slices/contactSlice';
-
 const ContactAddScreen = () => {
   const [name, setName] = useState('');
-
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [content, setContent] = useState('');
-
   const [addContact, { isLoading: loadingAdd }] = useAddContactMutation();
-
   const navigate = useNavigate();
   const isFormValid = () => {
-   
     if (!name || !phone || !email || !content) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
       return false;
     }
-  
-    
     if (isNaN(Number(phone))) {
       toast.error('Số điện thoại phải là số.');
       return false;
@@ -42,18 +35,14 @@ const ContactAddScreen = () => {
         phone,
         content,
       };
-
       const { data: newContact } = await addContact(contactData).unwrap();
-
       toast.success('Contact added');
       navigate(`/admin/contact/${newContact._id}/edit`);
     } catch (err) {
       const error = err as { data?: { message?: string }; error?: string };
-
       toast.error(error?.data?.message || error.error);
     }
   };
-
   return (
     <>
       <Link to='/admin/contactList' className='btn btn-light my-3'>
@@ -72,7 +61,6 @@ const ContactAddScreen = () => {
               onChange={(e) => setName(e.target.value)}
             ></Form.Control>
           </Form.Group>
-
           <Form.Group controlId='email'>
             <Form.Label>Email</Form.Label>
             <Form.Control
@@ -91,7 +79,6 @@ const ContactAddScreen = () => {
               onChange={(e) => setPhone(e.target.value)}
             ></Form.Control>
           </Form.Group>
-
           <Form.Group controlId='content'>
             <Form.Label>Content</Form.Label>
             <Form.Control
@@ -101,8 +88,7 @@ const ContactAddScreen = () => {
               onChange={(e) => setContent(e.target.value)}
             ></Form.Control>
           </Form.Group>
-
-          <Button type='submit' variant='primary' style={{ marginTop: '1rem' }}>
+          <Button type='submit' variant='primary' style={{marginTop: '1rem'}}>
             Add
           </Button>
         </Form>

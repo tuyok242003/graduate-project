@@ -9,8 +9,7 @@ import {
   useUploadProductImageMutation,
 } from '../../../slices/productsApiSlice';
 import { useGetCategoriesQuery } from '../../../slices/categorySlice';
-import { ICategories } from '@/interfaces/Category';
-
+import { ICategories } from '@/interfaces/Category';                         
 const ProductAddScreen = () => {
   const [name, setName] = useState('');
   const [price,setPrice] = useState('');
@@ -18,11 +17,9 @@ const ProductAddScreen = () => {
   const [brand, setBrand] = useState('');
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
-  const { data: categories, isLoading: loadingCategories } =
-    useGetCategoriesQuery();
+  const { data: categories, isLoading: loadingCategories } =    useGetCategoriesQuery();
   const [addProduct, { isLoading: loadingAdd }] = useCreateProductMutation();
-  const [uploadProductImage, { isLoading: loadingUpload }] =
-    useUploadProductImageMutation();
+  const [uploadProductImage, { isLoading: loadingUpload }] = useUploadProductImageMutation();
   const navigate = useNavigate();
   const isFormValid = () => {
    
@@ -41,6 +38,7 @@ const ProductAddScreen = () => {
     product.preventDefault();
     if (!isFormValid()) {
       return;
+      
     }
 
     try {
@@ -52,10 +50,10 @@ const ProductAddScreen = () => {
         category,
         description,
       }).unwrap();
+    
       toast.success('Product added');
-      navigate(`/admin/varriant/${newProduct._id}/add`);
       console.log(newProduct._id)
-    } catch (err) {
+    } catch (error) {
       toast.error('Error');
     }
 
@@ -66,7 +64,7 @@ const ProductAddScreen = () => {
   const uploadFileHandler = async (image: React.ChangeEvent<HTMLInputElement>) => {
     const fileInput = image.target;
     if (fileInput.files && fileInput.files.length > 0) {
-      formData.append('image', fileInput.files[0]);
+      formData.append('image', fileInput.files[0]);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
     }
     try {
       const response = await uploadProductImage(formData);

@@ -6,7 +6,7 @@ interface FormContainerProps {
 const FormContainer: React.FC<FormContainerProps> = ({ children }) => {
   return (
     <Container>
-      <Row className='justify-content-md-center'>
+      <Row varoiant className='justify-content-md-center'>
         <Col xs={12} md={6}>
           {children}
         </Col>

@@ -6,9 +6,9 @@ import { toast } from 'react-toastify';
 import {
   useAddVariantMutation,
   useUploadProductImageMutation,
+  useGetProductsQuery
 } from '../../../slices/productsApiSlice';
 import { useNavigate, useParams } from 'react-router-dom';
-
 const CustomizeVariant = () => {
   const { id } = useParams();
   const [variantColor, setVariantColor] = useState('');

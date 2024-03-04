@@ -63,9 +63,10 @@ import VoucherAddScreen from './screens/admin/Vouchers/VoucherAdd';
 import VoucherEditScreen from './screens/admin/Vouchers/VoucherEdit';
 import VoucherScreen from './screens/VoucherScreen';
 import VoucherList from './components/Voucher';
+import NotFoundScreen from './screens/NotFoundScreen';
 const router = (
   <Routes>
-    <Route index={true} path='/' element={<HomeScreen />} />
+    <Route index path='/' element={<HomeScreen />} />
     <Route path='/search/:keyword' element={<HomeScreen />} />
     <Route path='/page/:pageNumber' element={<HomeScreen />} />
     <Route path='/search/:keyword/page/:pageNumber' element={<HomeScreen />} />
@@ -126,6 +127,7 @@ const router = (
       <Route path='/admin/product/:id/edit' element={<ProductEditScreen />} />
       <Route path='/admin/user/:id/edit' element={<UserEditScreen />} />
     </Route>
+    <Route path='*' element={<NotFoundScreen />} />
   </Routes>
 );
 const paypalOptions = {

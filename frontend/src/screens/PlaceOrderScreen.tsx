@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Button, Row, Col, ListGroup, Image, Card, Form } from 'react-bootstrap';
+import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import CheckoutSteps from '../components/CheckoutSteps';
@@ -71,7 +71,7 @@ const PlaceOrderScreen = () => {
             <ListGroup.Item>
               <h2>Voucher</h2>
              
-              {cart.voucherName && cart.voucherName.name}
+              {cart.voucherName && (cart.voucherName.name)}
             </ListGroup.Item>
             <ListGroup.Item>
               <h2>Thanh toán theo:</h2>
@@ -99,7 +99,7 @@ const PlaceOrderScreen = () => {
               <Image  src={item.images} alt={item.color} fluid rounded />
             </Col>
             <Col md={3}>
-              <Link style={{ textDecoration: "none" }} to={`/product/${item.productId}`}>
+              <Link style={{ textDecoration: 'none' }} to={`/product/${item.productId}`}>
                 {item.color}
               </Link>
             </Col>
@@ -176,7 +176,7 @@ const PlaceOrderScreen = () => {
                 >
                   Place Order
                 </Button>
-                {isLoading && <Loader />}
+                {isLoading && (<Loader />)}
               </ListGroup.Item>
             </ListGroup>
           </Card>

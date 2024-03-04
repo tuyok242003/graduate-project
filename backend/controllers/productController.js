@@ -33,11 +33,11 @@ const getProductById = asyncHandler(async(req, res) => {
 });
 
 const createProduct = asyncHandler(async(req, res) => {
-    const { name, image, brand, description, numReviews, price } = req.body;
-    let existingCategory = await Category.findOne({ name: name });
+    const { name, image, brand, description, numReviews, price, category } = req.body;
+    let existingCategory = await Category.findOne({ name: category });
 
     if (!existingCategory) {
-        existingCategory = new Category({ name: name });
+        existingCategory = new Category({ name: category });
         await existingCategory.save();
     }
     const product = new Product({
@@ -46,14 +46,14 @@ const createProduct = asyncHandler(async(req, res) => {
         price,
         brand,
         image,
-        category: existingCategory.id,
+        category: existingCategory.name,
         numReviews,
         description,
 
     });
 
     const createdProduct = await product.save();
-    res.status(201).json(createdProduct);
+    res.status(200).json(createdProduct);
 });
 
 // @desc    Update a product

@@ -192,7 +192,7 @@ console.log(dataOrder);
                         </Col>
                         <Col md={3}>
                           <Link
-                            style={{ textDecoration: "none" }} to={`/product/${item.color}`}
+                            style={{ textDecoration: 'none' }} to={`/product/${item.color}`}
                           
                           >
                             {item.name}
