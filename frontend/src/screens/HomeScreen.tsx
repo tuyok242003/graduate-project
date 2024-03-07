@@ -13,7 +13,7 @@ import Meta from '../components/Meta';
 import Category from '../components/Category';
 import ProductListByCategory from '../components/ProductListByCategory';
 import { ICategories } from '@/interfaces/Category';
-import { Products } from '@/interfaces/Products';
+import { IProducts } from '@/interfaces/Products';
 const HomeScreen = () => {
   const { pageNumber, keyword } = useParams();
 
@@ -70,7 +70,7 @@ const HomeScreen = () => {
             {selectedCategory ? (
               <ProductListByCategory selectedCategory={selectedCategory} />
             ) : (
-              data.products.map((product: Products) => (
+              data.products.map((product: IProducts) => (
                 <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                   <Product product={product} />
                 </Col>

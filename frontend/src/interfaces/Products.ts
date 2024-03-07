@@ -1,6 +1,6 @@
 import { ICategories } from "./Category";
 
-export interface Review {
+export interface IReview {
   _id: string;
   name: string;
   rating: number;
@@ -10,7 +10,7 @@ export interface Review {
   updatedAt?: Date;
 }
 
-export interface Variant {
+export interface IVariant {
   id: string;
   productId: string;
   color: string;
@@ -23,7 +23,7 @@ export interface Variant {
   discount:number
 }
 
-export interface Products {
+export interface IProducts {
   _id: string;
   name: string;
   price:string;
@@ -31,13 +31,13 @@ export interface Products {
   brand: string;
   category: ICategories | string;
   description: string;
-  reviews: Review[];
+  reviews: IReview[];
   rating: number;
   numReviews: number;
-  variants: Variant[];
+  variants: IVariant[];
   createdAt?: Date;
   updatedAt?: Date;
 }
-export interface Productss {
-  products: Products[];
+export interface IProductss {
+  products: IProducts[];
 }

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSearchProductsByCategoryQuery } from '../slices/productsApiSlice';
 import { ICategories } from '@/interfaces/Category';
-import { Products } from '@/interfaces/Products';
+import { IProducts } from '@/interfaces/Products';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Rating from './Rating';
@@ -29,7 +29,7 @@ const ProductListByCategory = ({
 
       {products && (
 <ul>
-          {products.products.map((product: Products) => (
+          {products.products.map((product: IProducts) => (
             <Card className='my-3 p-3 rounded' style={{height:400,width:300}}>
              <Link to={`/product/${product._id}`}>
              <Card.Img style={{ height: 250 }} src={product.image} variant='top' />

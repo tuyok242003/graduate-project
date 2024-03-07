@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import Loader from '../../../components/Loader';
 import FormContainer from '../../../components/FormContainer';
@@ -20,7 +20,7 @@ const ProductAddScreen = () => {
   const { data: categories, isLoading: loadingCategories } =    useGetCategoriesQuery();
   const [addProduct, { isLoading: loadingAdd }] = useCreateProductMutation();
   const [uploadProductImage, { isLoading: loadingUpload }] = useUploadProductImageMutation();
-  const navigate = useNavigate();
+
   const isFormValid = () => {
    
     if (!name || !price || !image || !brand || !category || !description) {

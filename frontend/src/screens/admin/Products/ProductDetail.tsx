@@ -8,16 +8,17 @@ import Loader from '../../../components/Loader';
 import Message, { MessageProps } from '../../../components/Message';
 import Meta from '../../../components/Meta';
 import '../../../assets/styles/ProductScreen.css';
-import { Review, Variant } from '@/interfaces/Products';
+import { IReview, IVariant } from '@/interfaces/Products';
 import { ICategories } from '@/interfaces/Category';
+interface IState {
+  selectedVariant:IVariant | null,
+  activeVariantId:string | null
+}
 const ProductDetail = () => {
   const { id: productId } = useParams();
-  const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
-  const [activeVariantId, setActiveVariantId] = useState<string | null>(null);
-console.log(selectedVariant?.price)
-  const handleVariantClick = (variant: Variant) => {
-    setSelectedVariant(variant);
-     setActiveVariantId(variant.id);
+  const [state, setState] = useState<IState | null>(null)
+  const handleVariantClick = (variant: IVariant) => {
+     setState({...state,selectedVariant:variant,activeVariantId:variant.id})
   };
   const {
     data: product,
@@ -39,7 +40,7 @@ console.log(selectedVariant?.price)
           <Row>
             <Col md={6}>
               <Image
-                src={selectedVariant ? selectedVariant.thumb : product.image}
+                src={state?.selectedVariant ? state.selectedVariant.thumb : product.image}
                 alt={product.name}
                 fluid
               />
@@ -64,16 +65,16 @@ console.log(selectedVariant?.price)
                 </ListGroup.Item>
                 <ListGroup.Item style={{width:100}}>
                   <strong>Price:</strong> $
-                  {selectedVariant ? selectedVariant.price : product.price}
+                  {state?.selectedVariant ? state.selectedVariant.price : product.price}
                 </ListGroup.Item>
                 <ListGroup variant='flush'>
-                  {product.variants.map((variant: Variant, index: number) => (
+                  {product.variants.map((variant: IVariant, index: number) => (
                     <ListGroup.Item
                       key={index}
                       onClick={() => handleVariantClick(variant)}
                       style={{ cursor: 'pointer' }}
                       className={`variant-item ${
-                        activeVariantId === variant.id ? 'active-variant' : ''
+                        state?.activeVariantId === variant.id ? 'active-variant' : ''
                       }`}
                     >
                       <span className='color-name'>{variant.color}</span>
@@ -91,8 +92,8 @@ console.log(selectedVariant?.price)
                       <Col>
                         <strong>
                           $
-                          {selectedVariant
-                            ? selectedVariant.price
+                          {state?.selectedVariant
+                            ? state.selectedVariant.price
                             : product.price}
                         </strong>
                       </Col>
@@ -119,7 +120,7 @@ console.log(selectedVariant?.price)
               <h2>Reviews</h2>
               {product.reviews.length === 0 && <Message>No Reviews</Message>}
               <ListGroup variant='flush'>
-                {product.reviews.map((review: Review) => (
+                {product.reviews.map((review: IReview) => (
                   <ListGroup.Item key={review._id}>
                     <strong>{review.name}</strong>
                     <Rating

@@ -21,7 +21,7 @@ import Loader from '../components/Loader';
 import Message, { MessageProps } from '../components/Message';
 import Meta from '../components/Meta';
 import { addToCart } from '../slices/cartSlice';
-import { Review, Variant } from '@/interfaces/Products';
+import { IReview, IVariant } from '@/interfaces/Products';
 import '../assets/styles/ProductScreen.css';
 
 const ProductScreen = () => {
@@ -31,7 +31,7 @@ const ProductScreen = () => {
   const [selectedVariantQty, setSelectedVariantQty] = useState(0);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
-  const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
+  const [selectedVariant, setSelectedVariant] = useState<IVariant | null>(null);
 
   const addToCartHandler = () => {
     if (
@@ -67,7 +67,7 @@ const ProductScreen = () => {
     }
   };
 
-  const handleVariantClick = (variant: Variant) => {
+  const handleVariantClick = (variant: IVariant) => {
     setSelectedVariant(variant);
     setSelectedVariantQty(variant.countInStock > 0 ? 1 : 0);
   };
@@ -93,7 +93,7 @@ const ProductScreen = () => {
   } = useGetProductDetailsQuery(productId);
 
   const { userInfo } =
-    useSelector((state: { auth?: { userInfo: Review } }) => state.auth) || {};
+    useSelector((state: { auth?: { userInfo: IReview } }) => state.auth) || {};
 
   const [createReview, { isLoading: loadingProductReview }] =
     useCreateReviewMutation();
@@ -162,7 +162,7 @@ const ProductScreen = () => {
                     : product.quantitySold}
                 </ListGroup.Item>
                 <Row>
-  {product.variants.map((variant: Variant, index: number) => (
+  {product.variants.map((variant: IVariant, index: number) => (
     <Col md={4} key={index}>
       <ListGroup variant='flush'>
         <ListGroup.Item
@@ -294,7 +294,7 @@ const ProductScreen = () => {
               <h2>Reviews</h2>
               {product.reviews.length === 0 && <Message>No Reviews</Message>}
               <ListGroup variant='flush'>
-                {product.reviews.map((review: Review) => (
+                {product.reviews.map((review: IReview) => (
                   <ListGroup.Item key={review._id}>
                     <strong>{review.name}</strong>
                     <Rating

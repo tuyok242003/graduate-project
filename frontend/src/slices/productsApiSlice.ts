@@ -1,7 +1,6 @@
 import { PRODUCTS_URL } from '../constants';
 import { apiSlice } from './apiSlice';
 import { UPLOAD_URL } from '../constants';
-import { Products } from '@/interfaces/Products';
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
@@ -46,7 +45,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         url: `${PRODUCTS_URL}/${productId}`,
         method: 'DELETE',
       }),
-      providesTags: ['Product'],
+      invalidatesTags: ['Product'],
     }),
     createReview: builder.mutation({
       query: (data) => ({

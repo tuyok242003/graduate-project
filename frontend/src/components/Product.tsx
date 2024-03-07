@@ -1,14 +1,14 @@
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Rating from './Rating';
-import { Products, Variant } from '@/interfaces/Products';
+import { IProducts, IVariant } from '@/interfaces/Products';
 import '../assets/styles/Product.css';
 
 interface ProductProps {
-  product:Products;
+  product:IProducts;
 }
 const Product: React.FC<ProductProps> = ({product}) => {const totalQuantitySold = product.variants.reduce(
-    (total: number, variant: Variant) => total + variant.quantitySold,
+    (total: number, variant: IVariant) => total + variant.quantitySold,
     0
   );
  

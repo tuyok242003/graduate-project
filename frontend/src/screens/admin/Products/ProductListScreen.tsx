@@ -9,10 +9,10 @@ import { AiFillCaretRight, AiTwotoneFileAdd } from 'react-icons/ai';
 import {
   useGetProductsQuery,
   useDeleteProductMutation,
-  useCreateProductMutation,
+ 
 } from '../../../slices/productsApiSlice';
 import { toast } from 'react-toastify';
-import { Products } from '@/interfaces/Products';
+import { IProducts } from '@/interfaces/Products';
 import { ICategories } from '@/interfaces/Category';
 
 const ProductListScreen = () => {
@@ -36,9 +36,7 @@ const ProductListScreen = () => {
     }
   };
 
-  const [createProduct, { isLoading: loadingCreate, error: createError }] =
-    useCreateProductMutation();
-
+ 
   const createProductHandler = async () => {
     try {
       navigate('/admin/product/add');
@@ -62,8 +60,6 @@ const ProductListScreen = () => {
           </Button>
         </Col>
       </Row>
-
-      {loadingCreate && <Loader />}
       {loadingDelete && <Loader />}
       {isLoading ? (
         <Loader />
@@ -84,7 +80,7 @@ const ProductListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {data.products.map((product: Products) => (
+              {data.products.map((product: IProducts) => (
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.name}</td>
