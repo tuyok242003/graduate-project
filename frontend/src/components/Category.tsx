@@ -3,7 +3,7 @@ import { useGetCategoriesQuery } from '../slices/categorySlice';
 import { Button, Table } from 'react-bootstrap';
 import Loader from './Loader';
 import Message from './Message';
-const Category = ({ onCategoryClick }) => {
+const Category = ({ onCategoryClick }:any) => {
   const { data: categories, isLoading, error } = useGetCategoriesQuery();
 
   if (isLoading) {
@@ -23,7 +23,7 @@ const Category = ({ onCategoryClick }) => {
         <>
           <Table striped bordered hover responsive className='table-sm'>
             <tbody>
-              {categories.map((category) => (
+              {categories?.map((category) => (
                 <Button
                   onClick={() => onCategoryClick(category._id)}
                   style={{ width: 100, marginLeft: 10 }}

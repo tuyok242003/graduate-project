@@ -20,6 +20,7 @@ export interface IOrder {
   cartItems: IOrderItem[]
   order:IOrder[]
   voucherName:IVoucherName
+  
 }
 export interface IVoucherName {
   name:string;

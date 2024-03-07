@@ -23,11 +23,6 @@ import {
   usePayOrderMutation,
 } from '../slices/ordersApiSlice';
 import { IOrder, IOrderItem } from '@/interfaces/Order';
-
-interface IPayPalObject {
-  clientId: string;
-}
-
 const OrderScreen: React.FC = () => {
   const { id: orderId } = useParams<{ id: string }>();
   const [showPaymentSuccessBill, setShowPaymentSuccessBill] = useState(false);

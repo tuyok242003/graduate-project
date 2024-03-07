@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { updateCart } from '../utils/cartUtils';
 import { IOrder } from '@/interfaces/Order';
-
-
+interface ISelect{
+  selected:IOrder
+}
 const cartFromLocalStorage = localStorage.getItem('cart') || '';
 
 const initialState = cartFromLocalStorage
@@ -47,7 +48,7 @@ const cartSlice = createSlice({
       localStorage.setItem('cart',JSON.stringify(state))
     },
     clearCartItems: (state) => {
-      const itemsToKeep = state.cartItems.filter((item:any) => !item.selected);
+      const itemsToKeep = state.cartItems.filter((item:ISelect) => !item.selected);
       state.cartItems = itemsToKeep;
       localStorage.setItem('cart', JSON.stringify(state));
     },
