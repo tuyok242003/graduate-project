@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import Message, { MessageProps } from '../../../components/Message';
+import Message, { IMessageProps } from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import {
   useDeliverOrderMutation,
@@ -35,7 +35,7 @@ const OrderDetail = () => {
   return isLoading ? (
     <Loader />
   ) : error ? (
-    <Message variant='danger'>{(error as MessageProps).children}</Message>
+    <Message variant='danger'>{(error as IMessageProps).children}</Message>
   ) : (
     <>
       <Link to='/admin/orderlist' className='btn btn-light mb-4'>

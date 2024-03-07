@@ -1,7 +1,7 @@
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button } from 'react-bootstrap';
 import { FaCheck, FaTimes } from 'react-icons/fa';
-import Message, { MessageProps } from '../../../components/Message';
+import Message, { IMessageProps } from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import { toast } from 'react-toastify';
 
@@ -33,7 +33,7 @@ const IsCancelled = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as MessageProps).children}</Message>
+        <Message variant='danger'>{(error as IMessageProps).children}</Message>
       ) : (
         <Table striped bordered hover responsive className='table-sm'>
           <thead>

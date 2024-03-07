@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FaTimes, FaCheck } from 'react-icons/fa';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import Message, { MessageProps } from '../components/Message';
+import Message, { IMessageProps } from '../components/Message';
 import { MdDeleteSweep } from 'react-icons/md';
 import { BiMessageAltDetail } from 'react-icons/bi';
 import { MdCallReceived } from 'react-icons/md';
@@ -183,7 +183,7 @@ const ProfileScreen = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{(error as MessageProps).children}</Message>
+          <Message variant='danger'>{(error as IMessageProps).children}</Message>
         ) : (
           <>
             <Table striped hover responsive className='table-sm'>

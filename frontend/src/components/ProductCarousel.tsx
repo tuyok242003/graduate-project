@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Carousel, Image } from 'react-bootstrap';
-import Message, { MessageProps } from './Message';
+import Message, { IMessageProps } from './Message';
 import { useGetPostsQuery } from '../slices/postSlice';
 import { IPosts } from '@/interfaces/Post';
 
@@ -8,7 +8,7 @@ const PostCarousel = () => {
   const { data: posts, isLoading, error } = useGetPostsQuery();
 
   return isLoading ? null : error ? (
-    <Message variant='danger'>{(error as MessageProps).children}</Message>
+    <Message variant='danger'>{(error as IMessageProps).children}</Message>
   ) : (
     <Carousel pause='hover' className='bg-primary mb-4'>
       {posts &&

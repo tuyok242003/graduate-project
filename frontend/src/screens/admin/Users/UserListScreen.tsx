@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Pagination } from 'react-bootstrap';
 import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
-import Message, { MessageProps } from '../../../components/Message';
+import Message, { IMessageProps } from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import {
   useDeleteUserMutation,
@@ -37,7 +37,7 @@ const UserListScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as MessageProps).children}</Message>
+        <Message variant='danger'>{(error as IMessageProps).children}</Message>
       ) : (
         <>
           <Table striped bordered hover responsive className='table-sm'>

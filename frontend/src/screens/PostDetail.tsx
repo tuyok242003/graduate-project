@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useGetPostDetailsQuery } from '../slices/postSlice';
 import Loader from '../components/Loader';
-import Message, { MessageProps } from '../components/Message';
+import Message, { IMessageProps } from '../components/Message';
 import { useGetVoucherDetailsQuery } from '../slices/voucherSlice';
 const PostDetail = () => {
   const { postId } = useParams();
@@ -14,7 +14,7 @@ const {data:voucher}= useGetVoucherDetailsQuery(voucherId)
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as MessageProps).children}</Message>
+        <Message variant='danger'>{(error as IMessageProps).children}</Message>
       ) : (
         <div className='post-content'>
           <div className='post-header'>

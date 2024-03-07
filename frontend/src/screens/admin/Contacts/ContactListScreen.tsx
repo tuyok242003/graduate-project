@@ -1,7 +1,7 @@
  import { Table, Button, Row, Col, Pagination } from 'react-bootstrap';
 import { FaPlus, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import Message, { MessageProps } from '../../../components/Message';
+import Message, { IMessageProps } from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import { toast } from 'react-toastify';
 import {
@@ -67,7 +67,7 @@ const ContactListScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as MessageProps).children}</Message>
+        <Message variant='danger'>{(error as IMessageProps).children}</Message>
       ) : (
         <>
           <Table striped bordered hover responsive className='table-sm'>

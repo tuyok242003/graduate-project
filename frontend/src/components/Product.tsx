@@ -4,10 +4,10 @@ import Rating from './Rating';
 import { IProducts, IVariant } from '@/interfaces/Products';
 import '../assets/styles/Product.css';
 
-interface ProductProps {
+interface IProductProps {
   product:IProducts;
 }
-const Product: React.FC<ProductProps> = ({product}) => {const totalQuantitySold = product.variants.reduce(
+const Product: React.FC<IProductProps> = ({product}) => {const totalQuantitySold = product.variants.reduce(
     (total: number, variant: IVariant) => total + variant.quantitySold,
     0
   );

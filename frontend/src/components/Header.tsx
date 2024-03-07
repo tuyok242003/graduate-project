@@ -9,13 +9,13 @@ import { logout } from '../slices/authSlice';
 import SearchBox from './SearchBox';
 import { resetCart } from '../slices/cartSlice';
 import { IUser } from '@/interfaces/User';
-interface CartItem {
+interface ICartItem {
   length:number
 qty:number
 reduce:number
 }
 const Header = () => {
-  const { cartItems } = useSelector((state: {cart?:{cartItems:CartItem[]}}) => state.cart) || {};
+  const { cartItems } = useSelector((state: {cart?:{cartItems:ICartItem[]}}) => state.cart) || {};
   const { userInfo } = useSelector((state:{auth?:{userInfo:IUser}}) => state.auth) || {};
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ const Header = () => {
                   <FaShoppingCart /> Cart
                   {cartItems && cartItems.length > 0 && (
                     <Badge pill bg='success' style={{ marginLeft: '5px' }}>
-                      {cartItems?.reduce((item: number, cart: CartItem) => item + cart.qty, 0)}
+                      {cartItems?.reduce((item: number, cart: ICartItem) => item + cart.qty, 0)}
                     </Badge>
                   )}
                 </Nav.Link>

@@ -7,7 +7,7 @@ import {
 } from '../slices/productsApiSlice';
 import Product from '../components/Product';
 import Loader from '../components/Loader';
-import Message, { MessageProps } from '../components/Message';
+import Message, { IMessageProps } from '../components/Message';
 import PostCarousel from '../components/ProductCarousel';
 import Meta from '../components/Meta';
 import Category from '../components/Category';
@@ -46,7 +46,7 @@ const HomeScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as MessageProps).children}</Message>
+        <Message variant='danger'>{(error as IMessageProps).children}</Message>
       ) : (
         <>
           <Meta />

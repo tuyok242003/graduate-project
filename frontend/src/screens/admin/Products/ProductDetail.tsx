@@ -5,7 +5,7 @@ import { Row, Col, Image, ListGroup, Card, Form } from 'react-bootstrap';
 import { useGetProductDetailsQuery } from '../../../slices/productsApiSlice';
 import Rating from '../../../components/Rating';
 import Loader from '../../../components/Loader';
-import Message, { MessageProps } from '../../../components/Message';
+import Message, { IMessageProps } from '../../../components/Message';
 import Meta from '../../../components/Meta';
 import '../../../assets/styles/ProductScreen.css';
 import { IReview, IVariant } from '@/interfaces/Products';
@@ -33,7 +33,7 @@ const ProductDetail = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as MessageProps).children}</Message>
+        <Message variant='danger'>{(error as IMessageProps).children}</Message>
       ) : (
         <>
           <Meta title={product.name} description={product.description} />

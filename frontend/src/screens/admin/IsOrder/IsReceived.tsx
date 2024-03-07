@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { FaTimes, FaCheck } from 'react-icons/fa';
-import Message, { MessageProps } from '../../../components/Message';
+import Message, { IMessageProps } from '../../../components/Message';
 import Loader from '../../../components/Loader';
 
 
@@ -41,7 +41,7 @@ const IsReceived = () => {
         ) : error ? (
           <Message variant='danger'>
             <Message variant='danger'>
-              {(error as MessageProps).children}
+              {(error as IMessageProps).children}
             </Message>
           </Message>
         ) : (

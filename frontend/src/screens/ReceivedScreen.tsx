@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { FaTimes, FaCheck } from 'react-icons/fa';
-import Message, { MessageProps } from '../components/Message';
+import Message, { IMessageProps } from '../components/Message';
 import Loader from '../components/Loader';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -72,7 +72,7 @@ const ReceivedScreen = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{(error as MessageProps).children}</Message>
+          <Message variant='danger'>{(error as IMessageProps).children}</Message>
         ) : (
           <Table striped hover responsive className='table-sm'>
             <thead>

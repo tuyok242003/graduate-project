@@ -12,7 +12,7 @@ import {
 import { PayPalButtons, usePayPalScriptReducer, SCRIPT_LOADING_STATE } from '@paypal/react-paypal-js';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import Message, { MessageProps } from '../components/Message';
+import Message, { IMessageProps } from '../components/Message';
 import Loader from '../components/Loader';
 import React from 'react';
 import { IUser } from '@/interfaces/User';
@@ -23,6 +23,7 @@ import {
   usePayOrderMutation,
 } from '../slices/ordersApiSlice';
 import { IOrder, IOrderItem } from '@/interfaces/Order';
+
 const OrderScreen: React.FC = () => {
   const { id: orderId } = useParams<{ id: string }>();
   const [showPaymentSuccessBill, setShowPaymentSuccessBill] = useState(false);
@@ -116,7 +117,7 @@ console.log(dataOrder);
   return isLoading ? (
     <Loader />
   ) : error ? (
-    <Message variant='danger'>{(error as MessageProps).children}</Message>
+    <Message variant='danger'>{(error as IMessageProps).children}</Message>
   ) : (
     <>
       <h1>Order {order?._id}</h1>

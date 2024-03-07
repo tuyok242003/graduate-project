@@ -1,10 +1,10 @@
 import React from 'react';
 import { Alert, AlertProps } from 'react-bootstrap';
-export interface MessageProps {
+export interface IMessageProps {
   variant?: AlertProps['variant'];
   children: React.ReactNode;
 }
-const Message: React.FC<MessageProps> = ({ variant, children }) => {
+const Message: React.FC<IMessageProps> = ({ variant, children }) => {
   return <Alert variant={variant}>{children}</Alert>;
 };
 

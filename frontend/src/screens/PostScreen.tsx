@@ -3,7 +3,7 @@ import { Row, Col, Button, ListGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useGetPostsQuery } from '../slices/postSlice';
 import Loader from '../components/Loader';
-import Message, { MessageProps } from '../components/Message';
+import Message, { IMessageProps } from '../components/Message';
 import '../assets/styles/PostScreen.css';
 import { IPosts } from '@/interfaces/Post';
 const PostScreen = () => {
@@ -22,7 +22,7 @@ const PostScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as MessageProps).children}</Message>
+        <Message variant='danger'>{(error as IMessageProps).children}</Message>
       ) : (
         <Row>
           <Col md={8}>

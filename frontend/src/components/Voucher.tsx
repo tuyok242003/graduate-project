@@ -1,7 +1,7 @@
 import { Table, Button, Row, Col, Pagination } from 'react-bootstrap';
 import { FaPlus, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import Message, { MessageProps } from './Message';
+import Message, { IMessageProps } from './Message';
 import Loader from './Loader';
 import { toast } from 'react-toastify';
 import { useGetVouchersQuery,useDeleteVoucherMutation } from '../slices/voucherSlice';
@@ -58,7 +58,7 @@ const VoucherList = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as MessageProps).children}</Message>
+        <Message variant='danger'>{(error as IMessageProps).children}</Message>
       ) : (
         <>
           <Table striped bordered hover responsive className='table-sm'>
