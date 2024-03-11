@@ -1,22 +1,25 @@
 import { POSTS_URL } from '../../constants';
 import { apiSlice } from '../slices/apiSlice';
 import { IPosts } from '@/interfaces/Post';
+interface IUpdatePost {
+  postId:string
+}
 export const postSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getPosts: builder.query<IPosts[], void>({
+    getPosts: builder.query<IPosts, void>({
       query: () => ({
         url: POSTS_URL,
       }),
       keepUnusedDataFor: 5,
     }),
-    getPostDetails: builder.query({
+    getPostDetails: builder.query<IPosts, string>({
       query: (postId) => ({
         url: `${POSTS_URL}/${postId}`,
       }),
       keepUnusedDataFor: 5,
     }),
 
-    deletePost: builder.mutation({
+    deletePost: builder.mutation<IPosts, string>({
       query: (postId) => ({
         url: `${POSTS_URL}/${postId}`,
         method: 'DELETE',
@@ -27,7 +30,7 @@ export const postSlice = apiSlice.injectEndpoints({
     //   query: () => `${POSTS_URL}/top`,
     //   keepUnusedDataFor: 5,
     // }),
-    createPost: builder.mutation({
+    createPost: builder.mutation<IPosts, void>({
       query: (postData) => ({
         url: `${POSTS_URL}`,
         method: 'POST',
@@ -35,14 +38,14 @@ export const postSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Post'],
     }),
-    uploadPostImage: builder.mutation({
+    uploadPostImage: builder.mutation<IPosts,void>({
       query: (data) => ({
         url: `/api/upload`,
         method: 'POST',
         body: data,
       }),
     }),
-    updatePost: builder.mutation({
+    updatePost: builder.mutation<IPosts,IUpdatePost>({
       query: (data) => ({
         url: `${POSTS_URL}/${data.postId}`,
         method: 'PUT',

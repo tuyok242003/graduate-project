@@ -1,29 +1,38 @@
+<<<<<<< HEAD:frontend/src/redux/query/voucherSlice.ts
 import { VOUCHERS_URL } from '../../constants';
 import { apiSlice } from '../slices/apiSlice';
+=======
+import { IProducts } from '@/interfaces/Products';
+import { VOUCHERS_URL } from '../constants';
+import { apiSlice } from './apiSlice';
+>>>>>>> db3ead38400b9c71025e66397ccea6069d81302a:frontend/src/slices/voucherSlice.ts
 import { IVouchers } from '@/interfaces/Voucher';
+interface IUpdateVoucher{
+  voucherId:string
+}
 export const voucherSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getVouchers: builder.query<IVouchers[], void>({
+    getVouchers: builder.query<IVouchers, void>({
       query: () => ({
         url: VOUCHERS_URL,
       }),
       keepUnusedDataFor: 5,
     }),
-    getVoucherDetails: builder.query({
+    getVoucherDetails: builder.query<IVouchers,string>({
       query: (voucherId) => ({
         url: `${VOUCHERS_URL}/${voucherId}`,
       }),
       keepUnusedDataFor: 5,                              
     }),
 
-    deleteVoucher: builder.mutation({
+    deleteVoucher: builder.mutation<IVouchers,string>({
       query: (voucherId) => ({
         url: `${VOUCHERS_URL}/${voucherId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Voucher'],
     }),
-    createVoucher: builder.mutation({
+    createVoucher: builder.mutation<void,IVouchers>({
       query: (voucherData) => ({
         url: `${VOUCHERS_URL}`,
         method: 'POST',
@@ -32,7 +41,7 @@ export const voucherSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['Voucher'],
     }),
    
-    updateVoucher: builder.mutation({
+    updateVoucher: builder.mutation<IVouchers,IUpdateVoucher>({
       query: (data) => ({
         url: `${VOUCHERS_URL}/${data.voucherId}`,
         method: 'PUT',

@@ -9,9 +9,13 @@ const PostCarousel = () => {
   const { data: posts, isLoading, error } = useGetPostsQuery();
 
   return isLoading ? null : error ? (
+<<<<<<< HEAD
     <Message variant='danger'>
       {isErrorWithStatusAndData(error) ? error.data.children : 'Unknown error'}
     </Message>
+=======
+    <Message variant='danger'>{error}</Message>
+>>>>>>> db3ead38400b9c71025e66397ccea6069d81302a
   ) : (
     <Carousel pause='hover' className='bg-primary mb-4'>
       {posts &&

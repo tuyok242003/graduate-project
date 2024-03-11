@@ -1,23 +1,36 @@
+<<<<<<< HEAD:frontend/src/redux/query/productsApiSlice.ts
 import { PRODUCTS_URL } from '../../constants';
 import { apiSlice } from '../slices/apiSlice';
 import { UPLOAD_URL } from '../../constants';
+=======
+import { PRODUCTS_URL } from '../constants';
+import { apiSlice } from './apiSlice';
+import { UPLOAD_URL } from '../constants';
+import { IProducts, IVariant } from '@/interfaces/Products';
+import { ICategories } from '@/interfaces/Category';
+interface IUpdateProduct {
+  productId:string
+  variantData:IVariant
+  category:ICategories
+}
+>>>>>>> db3ead38400b9c71025e66397ccea6069d81302a:frontend/src/slices/productsApiSlice.ts
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getProducts: builder.query({
-      query: ({ keyword, pageNumber }) => ({
+    getProducts: builder.query<IProducts,void>({
+      query: () => ({
         url: PRODUCTS_URL,
-        params: { keyword, pageNumber },
+      
       }),
       keepUnusedDataFor: 5,
       providesTags: ['Product'],
     }),
-    getProductDetails: builder.query({
+    getProductDetails: builder.query<IProducts,string>({
       query: (productId) => ({
         url: `${PRODUCTS_URL}/${productId}`,
       }),
       keepUnusedDataFor: 5,
     }),
-    createProduct: builder.mutation({
+    createProduct: builder.mutation<IProducts,void>({
       query: (productData) => ({
         url: `${PRODUCTS_URL}`,
         method: 'POST',
@@ -25,7 +38,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Product'],
     }),
-    updateProduct: builder.mutation({
+    updateProduct: builder.mutation<IProducts,IUpdateProduct>({
       query: (data) => ({
         url: `${PRODUCTS_URL}/${data.productId}`,
         method: 'PUT',
@@ -33,21 +46,21 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Product'],
     }),
-    uploadProductImage: builder.mutation({
+    uploadProductImage: builder.mutation<void,IProducts>({
       query: (data) => ({
         url: `${UPLOAD_URL}`,
         method: 'POST',
         body: data,
       }),
     }),
-    deleteProduct: builder.mutation({
+    deleteProduct: builder.mutation<IProducts,string>({
       query: (productId) => ({
         url: `${PRODUCTS_URL}/${productId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Product'],
     }),
-    createReview: builder.mutation({
+    createReview: builder.mutation<IProducts,IUpdateProduct>({
       query: (data) => ({
         url: `${PRODUCTS_URL}/${data.productId}/reviews`,
         method: 'POST',
@@ -55,7 +68,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Product'],
     }),
-    addVariant: builder.mutation({
+    addVariant: builder.mutation<IProducts,IUpdateProduct>({
       query: (data) => ({
         url: `${PRODUCTS_URL}/${data.productId}/addVariants`,
         method: 'POST',
@@ -63,13 +76,13 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Product'],
     }),
-    searchProductsByCategory: builder.query({
-      query: ({ category, keyword, pageNumber }) => {
+    searchProductsByCategory: builder.query<ICategories,IProducts>({
+      query: ({ category }) => {
         const categoryUrlPart = category ? `category/${category}` : '';
 
         return {
           url: `${PRODUCTS_URL}/${categoryUrlPart}`,
-          params: { keyword, pageNumber },
+         
         };
       },
       providesTags: (result, error, { category }) =>
