@@ -1,7 +1,9 @@
+import { IProducts, IReview } from "./Products";
+import { IUser } from "./User";
 
 export interface IOrder {
   _id: string;
-  user: string;
+  user: IUser;
   orderItems: IOrderItem[];
   shippingAddress: IShippingAddress;
   paymentMethod: string;
@@ -20,7 +22,9 @@ export interface IOrder {
   cartItems: IOrderItem[]
   order:IOrder[]
   voucherName:IVoucherName
-  
+  rating:IReview;
+  numReviews:IProducts;
+  reviews:IReview[]
 }
 export interface IVoucherName {
   name:string;

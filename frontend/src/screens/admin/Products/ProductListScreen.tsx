@@ -2,15 +2,14 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import Message, { IMessageProps } from '../../../components/Message';
+import Message from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import { AiFillCaretRight, AiTwotoneFileAdd } from 'react-icons/ai';
-
+import { IMessageProps } from '@/interfaces/MessageProps';
 import {
   useGetProductsQuery,
   useDeleteProductMutation,
- 
-} from '../../../slices/productsApiSlice';
+} from '../../../redux/query/productsApiSlice';
 import { toast } from 'react-toastify';
 import { IProducts } from '@/interfaces/Products';
 import { ICategories } from '@/interfaces/Category';
@@ -36,7 +35,6 @@ const ProductListScreen = () => {
     }
   };
 
- 
   const createProductHandler = async () => {
     try {
       navigate('/admin/product/add');
@@ -72,10 +70,10 @@ const ProductListScreen = () => {
               <tr>
                 <th>ID</th>
                 <th>NAME</th>
-          
+
                 <th>CATEGORY</th>
                 <th>BRAND</th>
-                
+
                 <th></th>
               </tr>
             </thead>
@@ -83,10 +81,10 @@ const ProductListScreen = () => {
               {data.products.map((product: IProducts) => (
                 <tr key={product._id}>
                   <td>{product._id}</td>
-                  <td>{product.name}</td>
+                  <td>{product.productName}</td>
                   <td>{(product.category as ICategories)?.name}</td>
                   <td>{product.brand}</td>
-           
+
                   <td style={{ width: 200 }}>
                     <LinkContainer to={`/admin/product/${product._id}/edit`}>
                       <Button variant='light' className='btn-sm mx-2'>

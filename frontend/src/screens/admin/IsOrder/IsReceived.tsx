@@ -2,11 +2,10 @@ import React from 'react';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { FaTimes, FaCheck } from 'react-icons/fa';
-import Message, { IMessageProps } from '../../../components/Message';
+import Message from '../../../components/Message';
 import Loader from '../../../components/Loader';
-
-
-import { useGetOrdersQuery } from '../../../slices/ordersApiSlice';
+import { IMessageProps } from '@/interfaces/MessageProps';
+import { useGetOrdersQuery } from '../../../redux/query/ordersApiSlice';
 
 const IsReceived = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();

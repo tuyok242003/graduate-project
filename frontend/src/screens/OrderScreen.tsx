@@ -9,10 +9,14 @@ import {
   Button,
   Modal,
 } from 'react-bootstrap';
-import { PayPalButtons, usePayPalScriptReducer, SCRIPT_LOADING_STATE } from '@paypal/react-paypal-js';
+import {
+  PayPalButtons,
+  usePayPalScriptReducer,
+  SCRIPT_LOADING_STATE,
+} from '@paypal/react-paypal-js';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import Message, { IMessageProps } from '../components/Message';
+import Message from '../components/Message';
 import Loader from '../components/Loader';
 import React from 'react';
 import { IUser } from '@/interfaces/User';
@@ -21,7 +25,8 @@ import {
   useGetOrderDetailsQuery,
   useGetPaypalClientIdQuery,
   usePayOrderMutation,
-} from '../slices/ordersApiSlice';
+} from '../redux/query/ordersApiSlice';
+import { IMessageProps } from '@/interfaces/MessageProps';
 import { IOrder, IOrderItem } from '@/interfaces/Order';
 
 const OrderScreen: React.FC = () => {
@@ -30,21 +35,27 @@ const OrderScreen: React.FC = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId);
+  const {
+    data: order,
+    refetch,
+    isLoading,
+    error,
+  } = useGetOrderDetailsQuery(orderId);
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
-  const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
-  const { userInfo } = useSelector((state: { auth?: { userInfo: IUser } }) => state.auth) || {};
+  const [deliverOrder, { isLoading: loadingDeliver }] =
+    useDeliverOrderMutation();
+  const { userInfo } =
+    useSelector((state: { auth?: { userInfo: IUser } }) => state.auth) || {};
   const [paypalState, paypalDispatch] = usePayPalScriptReducer();
   const { isPending } = paypalState;
   const [isOrderPaid, setIsOrderPaid] = useState(false);
 
-const orderItem = localStorage.getItem("selectedItems");
+  const orderItem = localStorage.getItem('selectedItems');
 
-
-const dataOrder = order?.orderItems.filter((item:IOrder) => {
- return orderItem?.includes(item._id); 
-});
-console.log(dataOrder);
+  const dataOrder = order?.orderItems.filter((item: IOrder) => {
+    return orderItem?.includes(item._id);
+  });
+  console.log(dataOrder);
 
   const {
     data: paypal,
@@ -57,11 +68,15 @@ console.log(dataOrder);
         paypalDispatch({
           type: 'resetOptions',
           value: {
-            'client-id': "AU8KNgaaUycpakPgyu__MDmoATKRmt--dr5sjfrLCR5nKdNdasPqN91_aB4lSygUNtY1qnjfz8T_go_r",
+            'client-id':
+              'AU8KNgaaUycpakPgyu__MDmoATKRmt--dr5sjfrLCR5nKdNdasPqN91_aB4lSygUNtY1qnjfz8T_go_r',
             currency: 'USD',
           },
         });
-        paypalDispatch({ type: 'setLoadingStatus', value: SCRIPT_LOADING_STATE.PENDING });
+        paypalDispatch({
+          type: 'setLoadingStatus',
+          value: SCRIPT_LOADING_STATE.PENDING,
+        });
       };
       if (order && order.isPaid !== undefined) {
         setIsOrderPaid(order.isPaid);
@@ -74,7 +89,10 @@ console.log(dataOrder);
       }
     }
   }, [errorPayPal, loadingPayPal, isPending, order, paypal, paypalDispatch]);
-  const onApprove = async (data: Object, actions:any) => {
+  const onApprove = async (
+    data: Object,
+    actions: { order: { capture: () => IOrder | PromiseLike<IOrder> } }
+  ) => {
     const details: IOrder = await actions.order.capture();
 
     try {
@@ -107,8 +125,6 @@ console.log(dataOrder);
       });
   };
 
-
-
   const deliverHandler = async () => {
     await deliverOrder(orderId);
     refetch();
@@ -121,7 +137,7 @@ console.log(dataOrder);
   ) : (
     <>
       <h1>Order {order?._id}</h1>
-     
+
       <Row>
         <Col md={8}>
           <ListGroup variant='flush'>
@@ -143,7 +159,7 @@ console.log(dataOrder);
 
               {order?.isDelivered ? (
                 <Message variant='success'>
-                 Đã giao hàng {order?.deliveredAt}
+                  Đã giao hàng {order?.deliveredAt}
                 </Message>
               ) : (
                 <Message variant='danger'>Chưa giao hàng</Message>
@@ -156,7 +172,9 @@ console.log(dataOrder);
                 {order?.paymentMethod}
               </p>
               {order?.isPaid ? (
-                <Message variant='success'>Đã thanh toán {order?.paidAt}</Message>
+                <Message variant='success'>
+                  Đã thanh toán {order?.paidAt}
+                </Message>
               ) : (
                 <Message variant='danger'>Chưa thanh toán</Message>
               )}
@@ -164,13 +182,20 @@ console.log(dataOrder);
             <ListGroup.Item>
               <h2>Order Items</h2>
               <Row>
-    <Col md={2}><strong>Ảnh</strong></Col>
-    <Col md={3}><strong>Sản phẩm</strong></Col>
+                <Col md={2}>
+                  <strong>Ảnh</strong>
+                </Col>
+                <Col md={3}>
+                  <strong>Sản phẩm</strong>
+                </Col>
 
-    <Col md={1} style={{width:100}}><strong>Số lượng</strong></Col>
-    <Col md={2}><strong>Giá</strong></Col>
-  
-  </Row>
+                <Col md={1} style={{ width: 100 }}>
+                  <strong>Số lượng</strong>
+                </Col>
+                <Col md={2}>
+                  <strong>Giá</strong>
+                </Col>
+              </Row>
               {order?.orderItems.length === 0 ? (
                 <Message>Order is empty</Message>
               ) : (
@@ -178,7 +203,7 @@ console.log(dataOrder);
                   {dataOrder.map((item: IOrderItem, index: number) => (
                     <ListGroup.Item key={index}>
                       <Row>
-                      <Col style={{marginRight:20}} md={2}>
+                        <Col style={{ marginRight: 20 }} md={2}>
                           <Image
                             src={item.images}
                             alt={item.name}
@@ -188,17 +213,21 @@ console.log(dataOrder);
                         </Col>
                         <Col md={3}>
                           <Link
-                            style={{ textDecoration: 'none' }} to={`/product/${item.color}`}
-                          
+                            style={{ textDecoration: 'none' }}
+                            to={`/product/${item.color}`}
                           >
                             {item.name}
                           </Link>
                         </Col>
                         <Col md={1}>
-              <p >{item.qty}</p>
-            </Col>
+                          <p>{item.qty}</p>
+                        </Col>
                         <Col md={4}>
-                        ${(item.qty * (item.variant ? item.variant.price : item.price)).toFixed(2)} 
+                          $
+                          {(
+                            item.qty *
+                            (item.variant ? item.variant.price : item.price)
+                          ).toFixed(2)}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -218,8 +247,17 @@ console.log(dataOrder);
                 <Row>
                   <Col>Items</Col>
                   <Col>
-      ${dataOrder.reduce((acc:number, item:IOrderItem) => acc + (item.qty * (item.variant ? item.variant.price : item.price)), 0).toFixed(2)}
-    </Col>
+                    $
+                    {dataOrder
+                      .reduce(
+                        (acc: number, item: IOrderItem) =>
+                          acc +
+                          item.qty *
+                            (item.variant ? item.variant.price : item.price),
+                        0
+                      )
+                      .toFixed(2)}
+                  </Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
@@ -235,24 +273,24 @@ console.log(dataOrder);
                 </Row>
               </ListGroup.Item>
               {!order?.isPaid && order?.paymentMethod === 'PayPal' && (
-  <ListGroup.Item>
-    {loadingPay && <Loader />}
-    {isPending ? (
-      <Loader />
-    ) : (
-      <div>
-        <div>
-          <PayPalButtons
-            createOrder={createOrder}
-            onApprove={onApprove}
-            onError={onError}
-            onClick={handleShow}
-          ></PayPalButtons>
-        </div>
-      </div>
-    )}
-  </ListGroup.Item>
-)}
+                <ListGroup.Item>
+                  {loadingPay && <Loader />}
+                  {isPending ? (
+                    <Loader />
+                  ) : (
+                    <div>
+                      <div>
+                        <PayPalButtons
+                          createOrder={createOrder}
+                          onApprove={onApprove}
+                          onError={onError}
+                          onClick={handleShow}
+                        ></PayPalButtons>
+                      </div>
+                    </div>
+                  )}
+                </ListGroup.Item>
+              )}
 
               <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>

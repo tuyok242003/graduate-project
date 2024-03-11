@@ -2,17 +2,17 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Row, Col, Pagination } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Message, { IMessageProps } from '../../../components/Message';
+import Message from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import { toast } from 'react-toastify';
 import {
   useGetPostsQuery,
   useDeletePostMutation,
   useCreatePostMutation,
-} from '../../../slices/postSlice';
+} from '../../../redux/query/postSlice';
 import { useState } from 'react';
 import { IPosts } from '@/interfaces/Post';
-
+import { IMessageProps } from '@/interfaces/MessageProps';
 const PostListScreen = () => {
   const { data: posts, isLoading, error, refetch } = useGetPostsQuery();
   const [deleteProduct, { isLoading: loadingDelete }] = useDeletePostMutation();
@@ -81,12 +81,12 @@ const PostListScreen = () => {
               {currentPosts?.map((post: IPosts) => (
                 <tr key={post._id}>
                   <td>{post._id}</td>
-                  <td>{post.name}</td>
+                  <td>{post.postName}</td>
                   <td>
                     {post.img && (
                       <img
                         src={post.img}
-                        alt={post.name}
+                        alt={post.postName}
                         style={{ maxWidth: '100px' }}
                       />
                     )}

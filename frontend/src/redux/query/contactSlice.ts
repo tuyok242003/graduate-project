@@ -1,6 +1,6 @@
 import { IContact } from '@/interfaces/Contact';
-import { CONTACTS_URL } from '../constants';
-import { apiSlice } from './apiSlice';
+import { CONTACTS_URL } from '../../constants';
+import { apiSlice } from '../slices/apiSlice';
 
 export const contactSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

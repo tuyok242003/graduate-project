@@ -1,6 +1,6 @@
-import { PRODUCTS_URL } from '../constants';
-import { apiSlice } from './apiSlice';
-import { UPLOAD_URL } from '../constants';
+import { PRODUCTS_URL } from '../../constants';
+import { apiSlice } from '../slices/apiSlice';
+import { UPLOAD_URL } from '../../constants';
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({

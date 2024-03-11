@@ -1,11 +1,13 @@
 import React from 'react';
 import { Row, Col, Button, ListGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { useGetPostsQuery } from '../slices/postSlice';
+import { useGetPostsQuery } from '../redux/query/postSlice';
 import Loader from '../components/Loader';
-import Message, { IMessageProps } from '../components/Message';
+import Message from '../components/Message';
 import '../assets/styles/PostScreen.css';
 import { IPosts } from '@/interfaces/Post';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
+import { IMessageProps } from '@/interfaces/MessageProps';
 const PostScreen = () => {
   const navigate = useNavigate();
   const { data: posts, isLoading, error } = useGetPostsQuery();
@@ -22,7 +24,7 @@ const PostScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as IMessageProps).children}</Message>
+        <Message variant='danger'>{error}</Message>
       ) : (
         <Row>
           <Col md={8}>
@@ -34,7 +36,7 @@ const PostScreen = () => {
                   className='mr-4 post-image'
                 />
                 <div className='post-content'>
-                  <h5 style={{ marginLeft: 20 }}>{post.name}</h5>
+                  <h5 style={{ marginLeft: 20 }}>{post.postName}</h5>
                   <Button
                     variant='primary'
                     onClick={() => handleReadMore(post._id)}
@@ -56,11 +58,9 @@ const PostScreen = () => {
               </span>
             </h3>
             <ListGroup>
-              {posts
-                ?.slice(0, 5)
-                .map((post: IPosts) => (
-                  <ListGroup.Item key={post._id}>{post.name}</ListGroup.Item>
-                ))}
+              {posts?.slice(0, 5).map((post: IPosts) => (
+                <ListGroup.Item key={post._id}>{post.postName}</ListGroup.Item>
+              ))}
             </ListGroup>
           </Col>
         </Row>

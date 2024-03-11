@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Pagination } from 'react-bootstrap';
 import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
-import Message, { IMessageProps } from '../../../components/Message';
+import Message from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import {
   useDeleteUserMutation,
   useGetUsersQuery,
-} from '../../../slices/usersApiSlice';
+} from '../../../redux/query/usersApiSlice';
 import { toast } from 'react-toastify';
-
+import { IMessageProps } from '@/interfaces/MessageProps';
 const UserListScreen = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
 
@@ -54,7 +54,7 @@ const UserListScreen = () => {
               {currentUsers?.map((user) => (
                 <tr key={user._id}>
                   <td>{user._id}</td>
-                  <td>{user.name}</td>
+                  <td>{user.userName}</td>
                   <td>
                     <a href={`mailto:${user.email}`}>{user.email}</a>
                   </td>

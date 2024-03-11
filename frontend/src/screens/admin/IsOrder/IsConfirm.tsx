@@ -1,15 +1,15 @@
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button } from 'react-bootstrap';
 import { FaCheck, FaTimes } from 'react-icons/fa';
-import Message, { IMessageProps } from '../../../components/Message';
+import Message from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import { toast } from 'react-toastify';
 
 import {
   useGetOrdersQuery,
   useDeleteOrderMutation,
-} from '../../../slices/ordersApiSlice';
-
+} from '../../../redux/query/ordersApiSlice';
+import { IMessageProps } from '@/interfaces/MessageProps';
 const IsConfirm = () => {
   const { data: orders, isLoading, error, refetch } = useGetOrdersQuery();
   console.log(orders);

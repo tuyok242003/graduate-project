@@ -6,25 +6,25 @@ import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
 import {
   useCreateVoucherMutation,
-  useGetVouchersQuery
-} from '../../../slices/voucherSlice';
+  useGetVouchersQuery,
+} from '../../../redux/query/voucherSlice';
 import { IVouchers } from '@/interfaces/Voucher';
 
 const VoucherAddScreen = () => {
   const [name, setName] = useState('');
   const [discountAmount, setDiscountAmount] = useState('');
-  const { data: allVouchers, isLoading: loadingVouchers } = useGetVouchersQuery();
+  const { data: allVouchers, isLoading: loadingVouchers } =
+    useGetVouchersQuery();
   const [expiryDate, setExpiryDate] = useState('');
   const [isUsed, setIsUsed] = useState(false);
-const [qty,setQty] = useState('');
+  const [qty, setQty] = useState('');
   const [addVoucher, { isLoading: loadingAdd }] = useCreateVoucherMutation();
- const [quantitySold,setQuantitySold] = useState('')
+  const [quantitySold, setQuantitySold] = useState('');
 
   const navigate = useNavigate();
 
   const isFormValid = () => {
-   
-    if (!name || !expiryDate || !discountAmount || !qty || !quantitySold ) {
+    if (!name || !expiryDate || !discountAmount || !qty || !quantitySold) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
       return false;
     }
@@ -34,22 +34,22 @@ const [qty,setQty] = useState('');
       toast.error('Vui lòng chọn ngày hết hạn trong tương lai.');
       return false;
     }
-    
+
     if (isNaN(Number(discountAmount || qty))) {
       toast.error('Giảm phải là số');
       return false;
     }
-    if (allVouchers?.some((voucher:IVouchers) => voucher.name === name)) {
+    if (allVouchers?.some((voucher: IVouchers) => voucher.name === name)) {
       toast.error('Tên voucher đã tồn tại.');
       return false;
     }
     return true;
   };
-const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
-  voucher.preventDefault();
-  if (!isFormValid()) {
-    return;
-  }
+  const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
+    voucher.preventDefault();
+    if (!isFormValid()) {
+      return;
+    }
     try {
       const voucherData = {
         name,
@@ -57,7 +57,7 @@ const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
         expiryDate,
         isUsed,
         qty,
-        quantitySold
+        quantitySold,
       };
       const { data: newVoucher } = await addVoucher(voucherData).unwrap();
       toast.success('Voucher added');
@@ -68,7 +68,6 @@ const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
       toast.error(error?.data?.message || error.error);
     }
   };
- 
 
   return (
     <>
@@ -97,7 +96,7 @@ const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
               onChange={(e) => setExpiryDate(e.target.value)}
             ></Form.Control>
           </Form.Group>
-          <Form.Group controlId='isUsed' >
+          <Form.Group controlId='isUsed'>
             <Form.Label>isUsed</Form.Label>
             <Form.Control
               type='text'
@@ -106,8 +105,6 @@ const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
               onChange={(e) => setIsUsed(e.target.value === 'true')}
             ></Form.Control>
           </Form.Group>
-
-         
 
           <Form.Group controlId='discountAmount'>
             <Form.Label>Giảm (%)</Form.Label>
@@ -118,7 +115,7 @@ const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
               onChange={(e) => setDiscountAmount(e.target.value)}
             ></Form.Control>
           </Form.Group>
-          <Form.Group controlId='qty' >
+          <Form.Group controlId='qty'>
             <Form.Label>Số lượng</Form.Label>
             <Form.Control
               type='text'
@@ -127,7 +124,7 @@ const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
               onChange={(e) => setQty(e.target.value)}
             ></Form.Control>
           </Form.Group>
-          <Form.Group controlId='quantitySold' >
+          <Form.Group controlId='quantitySold'>
             <Form.Label>Đã sử dụng</Form.Label>
             <Form.Control
               type='text'

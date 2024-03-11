@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import Message, { IMessageProps } from '../../../components/Message';
+import Message from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
 import {
   useGetVoucherDetailsQuery,
   useUpdateVoucherMutation,
-
-} from '../../../slices/voucherSlice';
-
+} from '../../../redux/query/voucherSlice';
+import { IMessageProps } from '@/interfaces/MessageProps';
 const VoucherEditScreen = () => {
   const { id: voucherId } = useParams();
 
   const [name, setName] = useState('');
   const [discountAmount, setDiscountAmount] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
-  const [qty,setQty] = useState('')
+  const [qty, setQty] = useState('');
   const [isUsed, setIsUsed] = useState(false);
   const {
     data: voucher,
@@ -26,15 +25,15 @@ const VoucherEditScreen = () => {
     error,
   } = useGetVoucherDetailsQuery(voucherId);
 
-  const [updateVoucher, { isLoading: loadingUpdate }] = useUpdateVoucherMutation();
+  const [updateVoucher, { isLoading: loadingUpdate }] =
+    useUpdateVoucherMutation();
 
- console.log(voucher);
- 
+  console.log(voucher);
+
   const navigate = useNavigate();
 
   const isFormValid = () => {
-   
-    if (!name || !discountAmount || !expiryDate ) {
+    if (!name || !discountAmount || !expiryDate) {
       toast.error('Vui lòng điền đầy đủ thông tin Voucher');
       return false;
     }
@@ -51,7 +50,7 @@ const VoucherEditScreen = () => {
         name,
         discountAmount,
         expiryDate,
-        isUsed 
+        isUsed,
       }).unwrap();
       toast.success('Voucher updated');
       refetch();
@@ -68,11 +67,11 @@ const VoucherEditScreen = () => {
       setName(voucher.name);
       setDiscountAmount(voucher.discountAmount);
       setExpiryDate(voucher.expiryDate);
-      setIsUsed(voucher.isUsed)
-      setQty(voucher.qty)
+      setIsUsed(voucher.isUsed);
+      setQty(voucher.qty);
     }
   }, [voucher]);
-  
+
   return (
     <>
       <Link to='/admin/voucherlist' className='btn btn-light my-3'>
@@ -84,7 +83,9 @@ const VoucherEditScreen = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{(error as IMessageProps).children}</Message>
+          <Message variant='danger'>
+            {(error as IMessageProps).children}
+          </Message>
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group controlId='name'>
@@ -124,25 +125,24 @@ const VoucherEditScreen = () => {
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId='isUsed'>
-  <Form.Label>Is Used</Form.Label>
-  <div>
-    <Form.Check
-      type='radio'
-      label='True'
-      id='true'
-      checked={isUsed === true}
-      onChange={() => setIsUsed(true)}
-    />
-    <Form.Check
-      type='radio'
-      label='False'
-      id='false'
-      checked={isUsed === false}
-      onChange={() => setIsUsed(false)}
-    />
-  </div>
-</Form.Group>
-
+              <Form.Label>Is Used</Form.Label>
+              <div>
+                <Form.Check
+                  type='radio'
+                  label='True'
+                  id='true'
+                  checked={isUsed === true}
+                  onChange={() => setIsUsed(true)}
+                />
+                <Form.Check
+                  type='radio'
+                  label='False'
+                  id='false'
+                  checked={isUsed === false}
+                  onChange={() => setIsUsed(false)}
+                />
+              </div>
+            </Form.Group>
 
             <Button
               type='submit'

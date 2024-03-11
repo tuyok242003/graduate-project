@@ -1,5 +1,5 @@
-import { apiSlice } from './apiSlice';
-import { ORDERS_URL, PAYPAL_URL } from '../constants';
+import { apiSlice } from '../slices/apiSlice';
+import { ORDERS_URL, PAYPAL_URL } from '../../constants';
 import { IOrder } from '@/interfaces/Order';
 
 export const orderApiSlice = apiSlice.injectEndpoints({

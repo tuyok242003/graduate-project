@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import Message, { IMessageProps } from '../../../components/Message';
+import Message from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
@@ -9,8 +9,9 @@ import { useParams } from 'react-router-dom';
 import {
   useGetUserDetailsQuery,
   useUpdateUserMutation,
-} from '../../../slices/usersApiSlice';
-
+} from '../../../redux/query/usersApiSlice';
+import { POSTLIST, PRODUCTADD } from '../../../constants';
+import { IMessageProps } from '@/interfaces/MessageProps';
 const UserEditScreen = () => {
   const { id: userId } = useParams();
   const [name, setName] = useState('');
@@ -34,7 +35,7 @@ const UserEditScreen = () => {
       await updateUser({ userId, name, email, isAdmin });
       toast.success('user updated successfully');
       refetch();
-      navigate('/admin/userlist');
+      navigate(PRODUCTADD);
     } catch (err) {
       const error = err as { data?: { message?: string }; error?: string };
 
@@ -52,7 +53,7 @@ const UserEditScreen = () => {
 
   return (
     <>
-      <Link to='/admin/userlist' className='btn btn-light my-3'>
+      <Link to={POSTLIST} className='btn btn-light my-3'>
         Go Back
       </Link>
       <FormContainer>
@@ -61,7 +62,9 @@ const UserEditScreen = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{(error as IMessageProps).children}</Message>
+          <Message variant='danger'>
+            {(error as IMessageProps).children}
+          </Message>
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group className='my-2' controlId='name'>

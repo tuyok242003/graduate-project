@@ -4,16 +4,17 @@ import { useParams, Link } from 'react-router-dom';
 import {
   useGetProductsQuery,
   useSearchProductsByCategoryQuery,
-} from '../slices/productsApiSlice';
+} from '../redux/query/productsApiSlice';
 import Product from '../components/Product';
 import Loader from '../components/Loader';
-import Message, { IMessageProps } from '../components/Message';
+import Message from '../components/Message';
 import PostCarousel from '../components/ProductCarousel';
 import Meta from '../components/Meta';
 import Category from '../components/Category';
 import ProductListByCategory from '../components/ProductListByCategory';
 import { ICategories } from '@/interfaces/Category';
 import { IProducts } from '@/interfaces/Products';
+import { IMessageProps } from '@/interfaces/MessageProps';
 const HomeScreen = () => {
   const { pageNumber, keyword } = useParams();
 
@@ -49,7 +50,7 @@ const HomeScreen = () => {
         <Message variant='danger'>{(error as IMessageProps).children}</Message>
       ) : (
         <>
-          <Meta />
+          <Meta title={''} description={''} keywords={''} />
           <h1 hidden>
             {selectedCategory
               ? `Products in ${selectedCategory}`

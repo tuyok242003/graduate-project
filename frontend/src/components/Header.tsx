@@ -4,19 +4,31 @@ import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useLogoutMutation } from '../slices/usersApiSlice';
-import { logout } from '../slices/authSlice';
+import { useLogoutMutation } from '../redux/query/usersApiSlice';
+import { logout } from '../redux/slices/authSlice';
 import SearchBox from './SearchBox';
-import { resetCart } from '../slices/cartSlice';
+import { resetCart } from '../redux/slices/cartSlice';
 import { IUser } from '@/interfaces/User';
+import {
+  CART,
+  CONTACT,
+  LOGIN,
+  POST,
+  PRODUCTLIST,
+  PROFILE,
+  VOUCHERLIST,
+} from '../constants';
 interface ICartItem {
-  length:number
-qty:number
-reduce:number
+  length: number;
+  qty: number;
+  reduce: number;
 }
 const Header = () => {
-  const { cartItems } = useSelector((state: {cart?:{cartItems:ICartItem[]}}) => state.cart) || {};
-  const { userInfo } = useSelector((state:{auth?:{userInfo:IUser}}) => state.auth) || {};
+  const { cartItems } =
+    useSelector((state: { cart?: { cartItems: ICartItem[] } }) => state.cart) ||
+    {};
+  const { userInfo } =
+    useSelector((state: { auth?: { userInfo: IUser } }) => state.auth) || {};
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logoutApiCall] = useLogoutMutation();
@@ -27,7 +39,7 @@ const Header = () => {
       localStorage.removeItem('cart');
       // Đặt lại giỏ hàng trong Redux state
       dispatch(resetCart());
-      navigate('/login');
+      navigate(LOGIN);
     } catch (err) {
       console.error(err);
     }
@@ -43,31 +55,35 @@ const Header = () => {
               <LinkContainer to='/' style={{ paddingRight: 60 }}>
                 <Navbar.Brand>TRANG CHỦ</Navbar.Brand>
               </LinkContainer>
-              <LinkContainer to='/posts' style={{ paddingRight: 60 }}>
+              <LinkContainer to={POST} style={{ paddingRight: 60 }}>
                 <Navbar.Brand>BÀI VIẾT</Navbar.Brand>
               </LinkContainer>
-              <LinkContainer to='/contact' style={{ paddingRight: 60 }}>
+              <LinkContainer to={CONTACT} style={{ paddingRight: 60 }}>
                 <Navbar.Brand>LIÊN HỆ</Navbar.Brand>
               </LinkContainer>
               <SearchBox />
-              { userInfo && (
-              <LinkContainer to='/cart'>
-                <Nav.Link>
-                  <FaShoppingCart /> Cart
-                  {cartItems && cartItems.length > 0 && (
-                    <Badge pill bg='success' style={{ marginLeft: '5px' }}>
-                      {cartItems?.reduce((item: number, cart: ICartItem) => item + cart.qty, 0)}
-                    </Badge>
-                  )}
-                </Nav.Link>
-              </LinkContainer>)}
+              {userInfo && (
+                <LinkContainer to={CART}>
+                  <Nav.Link>
+                    <FaShoppingCart /> Cart
+                    {cartItems && cartItems.length > 0 && (
+                      <Badge pill bg='success' style={{ marginLeft: '5px' }}>
+                        {cartItems?.reduce(
+                          (item: number, cart: ICartItem) => item + cart.qty,
+                          0
+                        )}
+                      </Badge>
+                    )}
+                  </Nav.Link>
+                </LinkContainer>
+              )}
               {userInfo ? (
                 <>
-                  <NavDropdown title={userInfo.name} id='username'>
-                    <LinkContainer to='/profile'>
+                  <NavDropdown title={userInfo.userName} id='username'>
+                    <LinkContainer to={PROFILE}>
                       <NavDropdown.Item>Profile</NavDropdown.Item>
                     </LinkContainer>
-                    <LinkContainer to='/voucherList'>
+                    <LinkContainer to={VOUCHERLIST}>
                       <NavDropdown.Item>Voucher</NavDropdown.Item>
                     </LinkContainer>
                     <NavDropdown.Item onClick={logoutHandler}>
@@ -84,7 +100,7 @@ const Header = () => {
               )}
 
               {userInfo && userInfo.isAdmin && (
-                <LinkContainer to='/admin/productlist'>
+                <LinkContainer to={PRODUCTLIST}>
                   <Nav.Link> Admin</Nav.Link>
                 </LinkContainer>
               )}

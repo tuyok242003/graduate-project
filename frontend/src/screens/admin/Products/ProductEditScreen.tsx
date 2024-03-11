@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import Message, { IMessageProps } from '../../../components/Message';
+import Message from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
@@ -9,11 +9,12 @@ import {
   useGetProductDetailsQuery,
   useUpdateProductMutation,
   useUploadProductImageMutation,
-} from '../../../slices/productsApiSlice';
-import {
-  useGetCategoriesQuery
-} from '../../../slices/categorySlice'
+} from '../../../redux/query/productsApiSlice';
+import { useGetCategoriesQuery } from '../../../redux/query/categorySlice';
 import { ICategories } from '@/interfaces/Category';
+import { PRODUCTLIST } from '../../../constants';
+import { IMessageProps } from '@/interfaces/MessageProps';
+
 const ProductEditScreen = () => {
   const { id: productId } = useParams();
   const [name, setName] = useState('');
@@ -23,7 +24,6 @@ const ProductEditScreen = () => {
   const [description, setDescription] = useState('');
   const { data: categories } = useGetCategoriesQuery();
   const isFormValid = () => {
-   
     if (!name || !image || !brand || !category || !description) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
       return false;
@@ -54,7 +54,7 @@ const ProductEditScreen = () => {
       await updateProduct({
         productId,
         name,
-    
+
         image,
         brand,
         category,
@@ -62,7 +62,7 @@ const ProductEditScreen = () => {
       }).unwrap();
       toast.success('Product updated');
       refetch();
-      navigate('/admin/productlist');
+      navigate(PRODUCTLIST);
     } catch (err) {
       toast.error('Error');
     }
@@ -71,7 +71,7 @@ const ProductEditScreen = () => {
   useEffect(() => {
     if (product) {
       setName(product.name);
-  
+
       setImage(product.image);
       setBrand(product.brand);
       setCategory(product.category);
@@ -79,7 +79,9 @@ const ProductEditScreen = () => {
     }
   }, [product]);
   const formData = new FormData();
-  const uploadFileHandler = async (imageUpload: React.ChangeEvent<HTMLInputElement>) => {
+  const uploadFileHandler = async (
+    imageUpload: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const fileInput = imageUpload.target;
     if (fileInput.files && fileInput.files.length > 0) {
       formData.append('img', fileInput.files[0]);
@@ -99,7 +101,7 @@ const ProductEditScreen = () => {
 
   return (
     <>
-      <Link to='/admin/productlist' className='btn btn-light my-3'>
+      <Link to={PRODUCTLIST} className='btn btn-light my-3'>
         Go Back
       </Link>
       <FormContainer>
@@ -108,7 +110,9 @@ const ProductEditScreen = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{(error as IMessageProps).children}</Message>
+          <Message variant='danger'>
+            {(error as IMessageProps).children}
+          </Message>
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group controlId='name'>
@@ -120,7 +124,7 @@ const ProductEditScreen = () => {
                 onChange={(e) => setName(e.target.value)}
               ></Form.Control>
             </Form.Group>
-         
+
             <Form.Group controlId='image'>
               <Form.Label>Image</Form.Label>
               <Form.Control
@@ -145,23 +149,22 @@ const ProductEditScreen = () => {
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
               ></Form.Control>
-</Form.Group>
+            </Form.Group>
 
             <Form.Group controlId='category'>
-        <Form.Label>Category</Form.Label>
-        <Form.Control
-          as='select'
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        >
-   
-          {categories?.map((cat:ICategories) => (
-            <option key={cat._id} value={cat.name}>
-              {cat.name}
-            </option>
-          ))}
-        </Form.Control>
-      </Form.Group>
+              <Form.Label>Category</Form.Label>
+              <Form.Control
+                as='select'
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                {categories?.map((cat: ICategories) => (
+                  <option key={cat._id} value={cat.name}>
+                    {cat.name}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
             <Form.Group controlId='description'>
               <Form.Label>Description</Form.Label>
               <Form.Control

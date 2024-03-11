@@ -1,16 +1,11 @@
 import React, { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import {
-  Outlet,
-  Route,
-  useLocation,
-  Routes
-} from 'react-router-dom';
+import { Outlet, Route, useLocation, Routes } from 'react-router-dom';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ImageUpload from './ImageUpload';
+import ImageUpload from './components/ImageUpload';
 import './assets/styles/bootstrap.custom.css';
 import './assets/styles/index.css';
 import Footer from './components/Footer';
@@ -56,76 +51,114 @@ import ProductListScreen from './screens/admin/Products/ProductListScreen';
 import UserEditScreen from './screens/admin/Users/UserEditScreen';
 import UserListScreen from './screens/admin/Users/UserListScreen';
 import IsNotReceived from './screens/admin/IsOrder/isNotReceived';
-import { logout } from './slices/authSlice';
+import { logout } from './redux/slices/authSlice';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import VoucherListScreen from './screens/admin/Vouchers/VoucherListScreen';
 import VoucherAddScreen from './screens/admin/Vouchers/VoucherAdd';
 import VoucherEditScreen from './screens/admin/Vouchers/VoucherEdit';
 import VoucherScreen from './screens/VoucherScreen';
-import VoucherList from './components/Voucher';
 import NotFoundScreen from './screens/NotFoundScreen';
+import {
+  CANCEL,
+  CART,
+  CATEGORYADD,
+  CATEGORYEDIT,
+  CATEGORYLIST,
+  CONFIRM,
+  CONTACT,
+  CONTACTADD,
+  CONTACTLIST,
+  FORGOTPASSWORD,
+  ISCANCELLED,
+  ISCONFIRM,
+  ISNOTRECEIVED,
+  ISRECEIVED,
+  NOTRECEIVED,
+  ORDERDETAIL,
+  ORDERLIST,
+  ORDERSCREEN,
+  PAYMENT,
+  PLACEORDER,
+  POST,
+  POSTADD,
+  POSTDETAIL,
+  POSTEDIT,
+  POSTLIST,
+  PRODUCTADD,
+  PRODUCTLIST,
+  PRODUCTSCREEN,
+  PROFILE,
+  PROFILESCREEN,
+  RECEIVED,
+  REGISTER,
+  SEARCH,
+  SHIPPING,
+  UPLOAD,
+  USEREDIT,
+  USERLIST,
+  VARRIANTADD,
+  VOUCHER,
+  VOUCHERADD,
+  VOUCHEREDIT,
+  VOUCHERLIST,
+} from './constants';
 const router = (
   <Routes>
     <Route index path='/' element={<HomeScreen />} />
-    <Route path='/search/:keyword' element={<HomeScreen />} />
-    <Route path='/page/:pageNumber' element={<HomeScreen />} />
-    <Route path='/search/:keyword/page/:pageNumber' element={<HomeScreen />} />
-    <Route path='/product/:id' element={<ProductScreen />} />
-    <Route path='/cart' element={<CartScreen />} />
-   
+    <Route path={SEARCH} element={<HomeScreen />} />
+    <Route path={PRODUCTSCREEN} element={<ProductScreen />} />
+    <Route path={CART} element={<CartScreen />} />
+
     <Route path='/login' element={<LoginScreen />} />
-    <Route path='/register' element={<RegisterScreen />} />
-    <Route path='/forgotPassword' element={<ForgotPassword />} />
+    <Route path={REGISTER} element={<RegisterScreen />} />
+    <Route path={FORGOTPASSWORD} element={<ForgotPassword />} />
     {/* Registered users */}
     <Route path='' element={<PrivateRoute />}>
-    <Route path='/voucherList' element={<VoucherList />} />
-      <Route path='/shipping' element={<ShippingScreen />} />
-      <Route path='/voucher' element={<VoucherScreen />} />
-      <Route path='/payment' element={<PaymentScreen />} />
-      <Route path='/placeorder' element={<PlaceOrderScreen />} />
-      <Route path='/order/:id' element={<OrderScreen />} />
-      <Route path='/profile' element={<ProfileScreen />} />
-      <Route path='/searchProfile/:keyword' element={<ProfileScreen />} />
-      <Route path='/contact' element={<ContactScreen />} />
-      <Route path='/posts' element={<PostScreen />} />
-      <Route path='/post/:postId' element={<PostDetail />} />
-      <Route path='/upload' element={<ImageUpload />} />
-      <Route path='/cancel' element={<CancelScreen />} />
-      <Route path='/confirm' element={<ConfirmScreen />} />
-      <Route path='/received' element={<ReceivedScreen />} />
-      <Route path='/notReceived' element={<NotReceivedScreen />} />
+      <Route path={SHIPPING} element={<ShippingScreen />} />
+      <Route path={VOUCHER} element={<VoucherScreen />} />
+      <Route path={PAYMENT} element={<PaymentScreen />} />
+      <Route path={PLACEORDER} element={<PlaceOrderScreen />} />
+      <Route path={ORDERSCREEN} element={<OrderScreen />} />
+      <Route path={PROFILE} element={<ProfileScreen />} />
+      <Route path={PROFILESCREEN} element={<ProfileScreen />} />
+      <Route path={CONTACT} element={<ContactScreen />} />
+      <Route path={POST} element={<PostScreen />} />
+      <Route path={POSTDETAIL} element={<PostDetail />} />
+      <Route path={UPLOAD} element={<ImageUpload />} />
+      <Route path={CANCEL} element={<CancelScreen />} />
+      <Route path={CONFIRM} element={<ConfirmScreen />} />
+      <Route path={RECEIVED} element={<ReceivedScreen />} />
+      <Route path={NOTRECEIVED} element={<NotReceivedScreen />} />
     </Route>
     {/* Admin users */}
     <Route path=''>
-      <Route path='/admin/orderlist' element={<OrderListScreen />} />
-      <Route path='/admin/isCancelled' element={<IsCancelled />} />
-      <Route path='/admin/voucher/:id' element={<VoucherEditScreen />} />
-      <Route path='/admin/productlist' element={<ProductListScreen />} />
+      <Route path={ORDERLIST} element={<OrderListScreen />} />
+      <Route path={ISCANCELLED} element={<IsCancelled />} />
+      <Route path={VOUCHEREDIT} element={<VoucherEditScreen />} />
+      <Route path={PRODUCTLIST} element={<ProductListScreen />} />
+      <Route path={VARRIANTADD} element={<CustomizeVarriant />} />
+      <Route path={USERLIST} element={<UserListScreen />} />
+      <Route path={PRODUCTADD} element={<ProductAddScreen />} />
+      <Route path={POSTADD} element={<PostAddScreen />} />
+      <Route path={POSTLIST} element={<PostListScreen />} />
+      <Route path={POSTEDIT} element={<PostEditScreen />} />
+      <Route path={ISCONFIRM} element={<IsConfirm />} />
+      <Route path={ISRECEIVED} element={<IsReceived />} />
+      <Route path={ISNOTRECEIVED} element={<IsNotReceived />} />
+      <Route path={CONTACTLIST} element={<ContactListScreen />} />
+      <Route path={CONTACTADD} element={<ContactAddScreen />} />
+      <Route path={`/admin${PRODUCTSCREEN}`} element={<ProductDetail />} />
+      <Route path={ORDERDETAIL} element={<OrderDetail />} />
+      <Route path={CATEGORYLIST} element={<CategoryListScreen />} />
+      <Route path={CATEGORYADD} element={<CategoryAdd />} />
+      <Route path={CATEGORYEDIT} element={<CategoryEditScreen />} />
+      <Route path={VOUCHERLIST} element={<VoucherListScreen />} />
+      <Route path={VOUCHERADD} element={<VoucherAddScreen />} />
       <Route
-        path='/admin/productlist/:pageNumber'
-        element={<ProductListScreen />}
+        path={`/admin${PRODUCTSCREEN}/edit`}
+        element={<ProductEditScreen />}
       />
-      <Route path='/admin/varriant/:id/add' element={<CustomizeVarriant />} />
-      <Route path='/admin/userlist' element={<UserListScreen />} />
-      <Route path='/admin/product/add' element={<ProductAddScreen />} />
-      <Route path='/admin/post/add' element={<PostAddScreen />} />
-      <Route path='/admin/postList' element={<PostListScreen />} />
-      <Route path='/admin/post/:id/edit' element={<PostEditScreen />} />
-      <Route path='/admin/isConfirm' element={<IsConfirm />} />
-      <Route path='/admin/isReceived' element={<IsReceived />} />
-      <Route path='/admin/isNotReceived' element={<IsNotReceived />} />
-      <Route path='/admin/contactList' element={<ContactListScreen />} />
-      <Route path='/admin/contact/add' element={<ContactAddScreen />} />
-      <Route path='/admin/contact/add' element={<ContactAddScreen />} />
-      <Route path='/admin/product/:id' element={<ProductDetail />} />
-      <Route path='/admin/order/:id' element={<OrderDetail />} />
-      <Route path='/admin/categoryList' element={<CategoryListScreen />} />
-      <Route path='/admin/category/add' element={<CategoryAdd />} />
-      <Route path='/admin/category/:id/edit' element={<CategoryEditScreen />} />
-      <Route path='/admin/voucherList' element={<VoucherListScreen />} />
-      <Route path='/admin/voucher/add' element={<VoucherAddScreen />} />
-      <Route path='/admin/product/:id/edit' element={<ProductEditScreen />} />
-      <Route path='/admin/user/:id/edit' element={<UserEditScreen />} />
+      <Route path={USEREDIT} element={<UserEditScreen />} />
     </Route>
     <Route path='*' element={<NotFoundScreen />} />
   </Routes>
@@ -155,18 +188,18 @@ const App = () => {
 
   return (
     <PayPalScriptProvider options={paypalOptions}>
-    <>
-      <ToastContainer />
-      {showHeader && <Header />}
-      {showAdmin && <MenuAdmin />}
-      <main className='py-3'>
-        <Container>
-          {router}
-          <Outlet />
-        </Container>
-      </main>
-      <Footer />
-    </>
+      <>
+        <ToastContainer />
+        {showHeader && <Header />}
+        {showAdmin && <MenuAdmin />}
+        <main className='py-3'>
+          <Container>
+            {router}
+            <Outlet />
+          </Container>
+        </main>
+        <Footer />
+      </>
     </PayPalScriptProvider>
   );
 };

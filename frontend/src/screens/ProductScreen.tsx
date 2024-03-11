@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,15 +15,15 @@ import { toast } from 'react-toastify';
 import {
   useGetProductDetailsQuery,
   useCreateReviewMutation,
-} from '../slices/productsApiSlice';
+} from '../redux/query/productsApiSlice';
 import Rating from '../components/Rating';
 import Loader from '../components/Loader';
-import Message, { IMessageProps } from '../components/Message';
+import Message from '../components/Message';
 import Meta from '../components/Meta';
-import { addToCart } from '../slices/cartSlice';
+import { addToCart } from '../redux/slices/cartSlice';
 import { IReview, IVariant } from '@/interfaces/Products';
-import '../assets/styles/ProductScreen.css';
-
+import { CART, LOGIN } from '../constants';
+import { IMessageProps } from '@/interfaces/MessageProps';
 const ProductScreen = () => {
   const { id: productId } = useParams();
   const dispatch = useDispatch();
@@ -34,16 +34,12 @@ const ProductScreen = () => {
   const [selectedVariant, setSelectedVariant] = useState<IVariant | null>(null);
 
   const addToCartHandler = () => {
-    if (
-      selectedVariantQty > 0 &&
-      selectedVariant &&
-      typeof selectedVariant === 'object' &&
-      selectedVariant !== null
-    ) {
+    if (selectedVariantQty > 0 && selectedVariant !== null) {
       const variantToAdd = {
         ...selectedVariant,
         qty: selectedVariantQty,
       };
+
       dispatch(addToCart(variantToAdd));
       toast.success('Product added to cart successfully');
     } else {
@@ -61,7 +57,7 @@ const ProductScreen = () => {
     ) {
       dispatch(addToCart({ ...selectedVariant, qty: selectedVariantQty }));
       toast.success('Product added to cart successfully');
-      navigate('/cart');
+      navigate(CART);
     } else {
       toast.error('Please select a variant');
     }
@@ -98,7 +94,9 @@ const ProductScreen = () => {
   const [createReview, { isLoading: loadingProductReview }] =
     useCreateReviewMutation();
 
-  const submitHandler = async (productHandler: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (
+    productHandler: React.FormEvent<HTMLFormElement>
+  ) => {
     productHandler.preventDefault();
 
     try {
@@ -126,7 +124,11 @@ const ProductScreen = () => {
         <Message variant='danger'>{(error as IMessageProps).children}</Message>
       ) : (
         <>
-          <Meta title={product.name} description={product.description} />
+          <Meta
+            title={product.name}
+            description={product.description}
+            keywords={''}
+          />
           <Row>
             <Col md={6}>
               <Image
@@ -145,16 +147,15 @@ const ProductScreen = () => {
                   <Rating
                     value={product.rating}
                     text={`${product.numReviews} reviews`}
-                    color = '#f8e825'
-
+                    color='#f8e825'
                   />
                 </ListGroup.Item>
                 {selectedVariant && selectedVariant?.discount > 0 && (
-  <ListGroup.Item className="sale-highlight">
-    <strong>Sale: </strong>
-    {selectedVariant?.discount}%
-  </ListGroup.Item>
-)}
+                  <ListGroup.Item className='sale-highlight'>
+                    <strong>Sale: </strong>
+                    {selectedVariant?.discount}%
+                  </ListGroup.Item>
+                )}
                 <ListGroup.Item>
                   <strong>Đã bán: </strong>
                   {selectedVariant
@@ -162,27 +163,26 @@ const ProductScreen = () => {
                     : product.quantitySold}
                 </ListGroup.Item>
                 <Row>
-  {product.variants.map((variant: IVariant, index: number) => (
-    <Col md={4} key={index}>
-      <ListGroup variant='flush'>
-        <ListGroup.Item
-          onClick={() => handleVariantClick(variant)}
-          style={{ cursor: 'pointer' }}
-          className={`variant-item ${
-            selectedVariant &&
-            'id' in variant &&
-            selectedVariant.id === variant.id
-              ? 'active-variant'
-              : ''
-          }`}
-        >
-          {variant.color}
-        </ListGroup.Item>
-      </ListGroup>
-    </Col>
-  ))}
-</Row>
-
+                  {product.variants.map((variant: IVariant, index: number) => (
+                    <Col md={4} key={index}>
+                      <ListGroup variant='flush'>
+                        <ListGroup.Item
+                          onClick={() => handleVariantClick(variant)}
+                          style={{ cursor: 'pointer' }}
+                          className={`variant-item ${
+                            selectedVariant &&
+                            'id' in variant &&
+                            selectedVariant.id === variant.id
+                              ? 'active-variant'
+                              : ''
+                          }`}
+                        >
+                          {variant.color}
+                        </ListGroup.Item>
+                      </ListGroup>
+                    </Col>
+                  ))}
+                </Row>
               </ListGroup>
             </Col>
             <Col md={3}>
@@ -300,8 +300,7 @@ const ProductScreen = () => {
                     <Rating
                       value={review.rating}
                       text={`(${review.rating} stars)`}
-                                          color = '#f8e825'
-
+                      color='#f8e825'
                     />
                     <p>{review.createdAt?.toString().substring(0, 10)}</p>
                     <p>{review.comment}</p>
@@ -352,7 +351,7 @@ const ProductScreen = () => {
                     </Form>
                   ) : (
                     <Message>
-                      Please <Link to='/login'>sign in</Link> to write a review
+                      Please <Link to={LOGIN}>sign in</Link> to write a review
                     </Message>
                   )}
                 </ListGroup.Item>

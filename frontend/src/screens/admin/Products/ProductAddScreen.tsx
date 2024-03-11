@@ -7,71 +7,90 @@ import { toast } from 'react-toastify';
 import {
   useCreateProductMutation,
   useUploadProductImageMutation,
-} from '../../../slices/productsApiSlice';
-import { useGetCategoriesQuery } from '../../../slices/categorySlice';
-import { ICategories } from '@/interfaces/Category';                         
+} from '../../../redux/query/productsApiSlice';
+import { useGetCategoriesQuery } from '../../../redux/query/categorySlice';
+import { ICategories } from '@/interfaces/Category';
+import { PRODUCTLIST } from '../../../constants';
+interface ProductState {
+  productName: string;
+  price: string;
+  image: string;
+  brand: string;
+  category: string;
+  description: string;
+}
 const ProductAddScreen = () => {
-  const [name, setName] = useState('');
-  const [price,setPrice] = useState('');
-  const [image, setImage] = useState('');
-  const [brand, setBrand] = useState('');
-  const [category, setCategory] = useState('');
-  const [description, setDescription] = useState('');
-  const { data: categories, isLoading: loadingCategories } =    useGetCategoriesQuery();
+  const [state, setState] = useState<ProductState>({
+    productName: '',
+    price: '',
+    image: '',
+    brand: '',
+    category: '',
+    description: '',
+  });
+  const { data: categories, isLoading: loadingCategories } =
+    useGetCategoriesQuery();
   const [addProduct, { isLoading: loadingAdd }] = useCreateProductMutation();
-  const [uploadProductImage, { isLoading: loadingUpload }] = useUploadProductImageMutation();
+  const [uploadProductImage, { isLoading: loadingUpload }] =
+    useUploadProductImageMutation();
 
-  const isFormValid = () => {
-   
-    if (!name || !price || !image || !brand || !category || !description) {
-      toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
-      return false;
-    } 
-    if (!category.trim()) {
-      toast.error('Vui lòng chọn danh mục sản phẩm.');
-      return false;
-    }
-    return true;
-  };
-  
+  // const isFormValid = () => {
+  //   if (
+  //     !state.productName ||
+  //     !state.price ||
+  //     !state.image ||
+  //     !state.brand ||
+  //     !state.category ||
+  //     !state.description
+  //   ) {
+  //     toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
+  //     return false;
+  //   }
+  //   if (!state.category.trim()) {
+  //     toast.error('Vui lòng chọn danh mục sản phẩm.');
+  //     return false;
+  //   }
+  //   return true;
+  // };
+
   const submitHandler = async (product: React.FormEvent<HTMLFormElement>) => {
     product.preventDefault();
-    if (!isFormValid()) {
-      return;
-      
-    }
+    // if (!isFormValid()) {
+    //   return;
+    // }
 
     try {
       const { data: newProduct } = await addProduct({
-        name,
-        image,
-        price,
-        brand,
-        category,
-        description,
+        productName: state.productName,
+        image: state.image,
+        price: state.price,
+        brand: state.brand,
+        category: state.category,
+        description: state.description,
       }).unwrap();
-    
+
       toast.success('Product added');
-      console.log(newProduct._id)
+      console.log(newProduct._id);
     } catch (error) {
       toast.error('Error');
     }
-
   };
- 
+
   const formData = new FormData();
 
-  const uploadFileHandler = async (image: React.ChangeEvent<HTMLInputElement>) => {
+  const uploadFileHandler = async (
+    image: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const fileInput = image.target;
     if (fileInput.files && fileInput.files.length > 0) {
-      formData.append('image', fileInput.files[0]);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+      formData.append('image', fileInput.files[0]);
     }
     try {
       const response = await uploadProductImage(formData);
       if ('data' in response) {
         const { message, image: uploadedImg } = response.data;
         toast.success(message);
-        setImage(uploadedImg);
+        setState(uploadedImg);
       } else {
       }
     } catch (err) {
@@ -81,7 +100,7 @@ const ProductAddScreen = () => {
 
   return (
     <>
-      <Link to='/admin/productlist' className='btn btn-light my-3'>
+      <Link to={PRODUCTLIST} className='btn btn-light my-3'>
         Go Back
       </Link>
       <FormContainer>
@@ -93,8 +112,10 @@ const ProductAddScreen = () => {
             <Form.Control
               type='text'
               placeholder='Enter name'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={state.productName}
+              onChange={(e) =>
+                setState({ ...state, productName: e.target.value })
+              }
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId='price'>
@@ -102,8 +123,8 @@ const ProductAddScreen = () => {
             <Form.Control
               type='text'
               placeholder='Enter price'
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              value={state.price}
+              onChange={(e) => setState({ ...state, price: e.target.value })}
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId='image'>
@@ -122,11 +143,11 @@ const ProductAddScreen = () => {
             <Form.Control
               type='text'
               placeholder='Enter brand'
-              value={brand}
-              onChange={(e) => setBrand(e.target.value)}
+              value={state.brand}
+              onChange={(e) => setState({ ...state, brand: e.target.value })}
             ></Form.Control>
           </Form.Group>
-          
+
           <Form.Group controlId='category'>
             <Form.Label>Category</Form.Label>
             {loadingCategories ? (
@@ -134,8 +155,10 @@ const ProductAddScreen = () => {
             ) : (
               <Form.Control
                 as='select'
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                value={state.category}
+                onChange={(e) =>
+                  setState({ ...state, category: e.target.value })
+                }
               >
                 <option value=''>Select Category</option>
                 {categories?.map((category: ICategories) => (
@@ -152,8 +175,10 @@ const ProductAddScreen = () => {
             <Form.Control
               type='text'
               placeholder='Enter description'
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              value={state.description}
+              onChange={(e) =>
+                setState({ ...state, description: e.target.value })
+              }
             ></Form.Control>
           </Form.Group>
 

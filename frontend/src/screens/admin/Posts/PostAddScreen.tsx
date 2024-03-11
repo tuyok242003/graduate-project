@@ -7,39 +7,42 @@ import { toast } from 'react-toastify';
 import {
   useCreatePostMutation,
   useUploadPostImageMutation,
-} from '../../../slices/postSlice';
-
+} from '../../../redux/query/postSlice';
+import { POST } from '../../../constants';
+interface IStatePost {
+  postName: string;
+  img: string;
+  content: string;
+}
 const PostAddScreen = () => {
-  const [name, setName] = useState('');
-  const [img, setImg] = useState('');
-  const [content, setContent] = useState('');
-
+  const [state, setState] = useState<IStatePost>({
+    postName: '',
+    img: '',
+    content: '',
+  });
   const [addPost, { isLoading: loadingAdd }] = useCreatePostMutation();
   const [uploadPostImg, { isLoading: loadingUpload }] =
     useUploadPostImageMutation();
 
   const navigate = useNavigate();
-  const isFormValid = () => {
-   
-    if (!name || !img || !content ) {
-      toast.error('Vui lòng điền đầy đủ thông tin bài viết');
-      return false;
-    }
-  
-    
-  
-    return true;
-  };
+  // const isFormValid = () => {
+  //   if (!state.postName || !state.img || !state.content) {
+  //     toast.error('Vui lòng điền đầy đủ thông tin bài viết');
+  //     return false;
+  //   }
+
+  //   return true;
+  // };
   const submitHandler = async (post: React.FormEvent<HTMLFormElement>) => {
     post.preventDefault();
-    if (!isFormValid()) {
-      return;
-    }
+    // if (!isFormValid()) {
+    //   return;
+    // }
     try {
       const postData = {
-        name,
-        img,
-        content,
+        postName: state.postName,
+        img: state.img,
+        content: state.content,
       };
 
       const { data: newPost } = await addPost(postData).unwrap();
@@ -53,7 +56,9 @@ const PostAddScreen = () => {
     }
   };
   const formData = new FormData();
-  const uploadFileHandler = async (post: React.ChangeEvent<HTMLInputElement>) => {
+  const uploadFileHandler = async (
+    post: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const fileInput = post.target;
 
     if (fileInput.files && fileInput.files.length > 0) {
@@ -65,7 +70,7 @@ const PostAddScreen = () => {
       if ('data' in response) {
         const { message, image: uploadedImg } = response.data;
         toast.success(message);
-        setImg(uploadedImg);
+        setState(uploadedImg);
       } else {
       }
     } catch (err) {
@@ -77,7 +82,7 @@ const PostAddScreen = () => {
 
   return (
     <>
-      <Link to='/posts' className='btn btn-light my-3'>
+      <Link to={POST} className='btn btn-light my-3'>
         Go Back
       </Link>
       <FormContainer>
@@ -89,8 +94,8 @@ const PostAddScreen = () => {
             <Form.Control
               type='text'
               placeholder='Enter name'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={state.postName}
+              onChange={(e) => setState({ ...state, postName: e.target.value })}
             ></Form.Control>
           </Form.Group>
 
@@ -110,8 +115,8 @@ const PostAddScreen = () => {
             <Form.Control
               type='text'
               placeholder='Enter description'
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
+              value={state.content}
+              onChange={(e) => setState({ ...state, content: e.target.value })}
             ></Form.Control>
           </Form.Group>
 

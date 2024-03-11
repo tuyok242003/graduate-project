@@ -25,7 +25,7 @@ export interface IVariant {
 
 export interface IProducts {
   _id: string;
-  name: string;
+  productName: string;
   price:string;
   image: string;
   brand: string;

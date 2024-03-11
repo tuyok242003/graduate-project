@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import Message, { IMessageProps } from '../../../components/Message';
+import Message from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
@@ -9,8 +9,8 @@ import {
   useGetPostDetailsQuery,
   useUpdatePostMutation,
   useUploadPostImageMutation,
-} from '../../../slices/postSlice';
-
+} from '../../../redux/query/postSlice';
+import { IMessageProps } from '@/interfaces/MessageProps';
 const PostEditScreen = () => {
   const { id: postId } = useParams();
 
@@ -32,14 +32,11 @@ const PostEditScreen = () => {
   const navigate = useNavigate();
 
   const isFormValid = () => {
-   
-    if (!name || !img || !content ) {
+    if (!name || !img || !content) {
       toast.error('Vui lòng điền đầy đủ thông tin bài viết');
       return false;
     }
-  
-    
-  
+
     return true;
   };
   const submitHandler = async (post: React.FormEvent<HTMLFormElement>) => {
@@ -72,7 +69,9 @@ const PostEditScreen = () => {
     }
   }, [post]);
   const formData = new FormData();
-  const uploadFileHandler = async (image: React.ChangeEvent<HTMLInputElement>) => {
+  const uploadFileHandler = async (
+    image: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const fileInput = image.target;
 
     if (fileInput.files && fileInput.files.length > 0) {
@@ -104,7 +103,9 @@ const PostEditScreen = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{(error as IMessageProps).children}</Message>
+          <Message variant='danger'>
+            {(error as IMessageProps).children}
+          </Message>
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group controlId='name'>

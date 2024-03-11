@@ -1,9 +1,9 @@
 import React from 'react';
-import { useGetCategoriesQuery } from '../slices/categorySlice';
+import { useGetCategoriesQuery } from '../redux/query/categorySlice';
 import { Button, Table } from 'react-bootstrap';
 import Loader from './Loader';
 import Message from './Message';
-const Category = ({ onCategoryClick }:any) => {
+const Category = (onCategoryClick: (arg0: string) => void) => {
   const { data: categories, isLoading, error } = useGetCategoriesQuery();
 
   if (isLoading) {

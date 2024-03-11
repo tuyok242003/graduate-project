@@ -1,21 +1,19 @@
 import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
-import { saveVoucherMethod } from '../slices/cartSlice';
-import { RootState } from './CartScreen';
+import { saveVoucherMethod } from '../redux/slices/cartSlice';
+import { PAYMENT } from '../constants';
 const VoucherScreen = () => {
-  const cart = useSelector((state: RootState) => state.cart); 
-  const { voucherName } = cart;
   const navigate = useNavigate();
   const [nameVoucher, setName] = useState('');
-const dispatch = useDispatch();
-const submitHandler = (voucher: React.FormEvent<HTMLFormElement>) => {
-  voucher.preventDefault();
+  const dispatch = useDispatch();
+  const submitHandler = (voucher: React.FormEvent<HTMLFormElement>) => {
+    voucher.preventDefault();
     dispatch(saveVoucherMethod(nameVoucher));
-    navigate('/payment');
+    navigate(PAYMENT);
   };
 
   return (
@@ -27,8 +25,7 @@ const submitHandler = (voucher: React.FormEvent<HTMLFormElement>) => {
           <Form.Control
             type='text'
             placeholder='Enter voucher'
-            value={nameVoucher}    
-      
+            value={nameVoucher}
             onChange={(e) => setName(e.target.value)}
           ></Form.Control>
         </Form.Group>

@@ -4,20 +4,31 @@ import { Form, Button } from 'react-bootstrap';
 import Loader from '../../../components/Loader';
 import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
-import { useAddContactMutation } from '../../../slices/contactSlice';
+import { useAddContactMutation } from '../../../redux/query/contactSlice';
+import { CONTACTLIST } from '../../../constants';
+import { IContact } from '@/interfaces/Contact';
+interface IContactState {
+  contactName: string;
+  email: string;
+  phone: string;
+  content: string;
+}
 const ContactAddScreen = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [content, setContent] = useState('');
+  const [state, setState] = useState<IContactState>({
+    contactName: '',
+    email: '',
+    phone: '',
+    content: '',
+  });
+
   const [addContact, { isLoading: loadingAdd }] = useAddContactMutation();
   const navigate = useNavigate();
   const isFormValid = () => {
-    if (!name || !phone || !email || !content) {
+    if (!state.contactName || !state.phone || !state.email || !state.content) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
       return false;
     }
-    if (isNaN(Number(phone))) {
+    if (isNaN(Number(state.phone))) {
       toast.error('Số điện thoại phải là số.');
       return false;
     }
@@ -30,10 +41,10 @@ const ContactAddScreen = () => {
     }
     try {
       const contactData = {
-        name,
-        email,
-        phone,
-        content,
+        contactName: state.contactName,
+        email: state.email,
+        phone: state.phone,
+        content: state.content,
       };
       const { data: newContact } = await addContact(contactData).unwrap();
       toast.success('Contact added');
@@ -45,7 +56,7 @@ const ContactAddScreen = () => {
   };
   return (
     <>
-      <Link to='/admin/contactList' className='btn btn-light my-3'>
+      <Link to={CONTACTLIST} className='btn btn-light my-3'>
         Go Back
       </Link>
       <FormContainer>
@@ -57,8 +68,10 @@ const ContactAddScreen = () => {
             <Form.Control
               type='text'
               placeholder='Enter name'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={state.contactName}
+              onChange={(e) =>
+                setState({ ...state, contactName: e.target.value })
+              }
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId='email'>
@@ -66,8 +79,8 @@ const ContactAddScreen = () => {
             <Form.Control
               type='text'
               placeholder='Enter email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={state.email}
+              onChange={(e) => setState({ ...state, email: e.target.value })}
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId='phone'>
@@ -75,8 +88,8 @@ const ContactAddScreen = () => {
             <Form.Control
               type='text'
               placeholder='Enter phone'
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              value={state.phone}
+              onChange={(e) => setState({ ...state, phone: e.target.value })}
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId='content'>
@@ -84,11 +97,11 @@ const ContactAddScreen = () => {
             <Form.Control
               type='text'
               placeholder='Enter description'
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
+              value={state.content}
+              onChange={(e) => setState({ ...state, content: e.target.value })}
             ></Form.Control>
           </Form.Group>
-          <Button type='submit' variant='primary' style={{marginTop: '1rem'}}>
+          <Button type='submit' variant='primary' style={{ marginTop: '1rem' }}>
             Add
           </Button>
         </Form>

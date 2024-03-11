@@ -5,16 +5,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
 
-import { useRegisterMutation } from '../slices/usersApiSlice';
-import { setCredentials } from '../slices/authSlice';
+import { useRegisterMutation } from '../redux/query/usersApiSlice';
+import { setCredentials } from '../redux/slices/authSlice';
 import { toast } from 'react-toastify';
 import { IUser } from '@/interfaces/User';
 
 const RegisterScreen = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [state, setState] = useState<IUser>({
+    userName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ const RegisterScreen = () => {
   const [register, { isLoading }] = useRegisterMutation();
 
   const { userInfo } =
-    useSelector((state: { auth?: { userInfo: IUser } }) => state.auth) || {};
+    useSelector((stat: { auth?: { userInfo: IUser } }) => stat.auth) || {};
 
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
@@ -34,14 +36,20 @@ const RegisterScreen = () => {
     }
   }, [navigate, redirect, userInfo]);
 
-  const submitHandler = async (registerUser: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (
+    registerUser: React.FormEvent<HTMLFormElement>
+  ) => {
     registerUser.preventDefault();
 
-    if (password !== confirmPassword) {
+    if (state.password !== state.confirmPassword) {
       toast.error('Passwords do not match');
     } else {
       try {
-        const res = await register({ name, email, password }).unwrap();
+        const res = await register({
+          userName: state.userName,
+          email: state.email,
+          password: state.password,
+        }).unwrap();
         dispatch(setCredentials({ ...res }));
         navigate(redirect);
       } catch (err) {
@@ -60,8 +68,8 @@ const RegisterScreen = () => {
           <Form.Control
             type='name'
             placeholder='Enter name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={state.userName}
+            onChange={(e) => setState({ ...state, userName: e.target.value })}
           ></Form.Control>
         </Form.Group>
 
@@ -70,8 +78,8 @@ const RegisterScreen = () => {
           <Form.Control
             type='email'
             placeholder='Enter email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={state.email}
+            onChange={(e) => setState({ ...state, email: e.target.value })}
           ></Form.Control>
         </Form.Group>
 
@@ -80,8 +88,8 @@ const RegisterScreen = () => {
           <Form.Control
             type='password'
             placeholder='Enter password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={state.password}
+            onChange={(e) => setState({ ...state, password: e.target.value })}
           ></Form.Control>
         </Form.Group>
         <Form.Group className='my-2' controlId='confirmPassword'>
@@ -89,8 +97,10 @@ const RegisterScreen = () => {
           <Form.Control
             type='password'
             placeholder='Confirm password'
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={state.confirmPassword}
+            onChange={(e) =>
+              setState({ ...state, confirmPassword: e.target.value })
+            }
           ></Form.Control>
         </Form.Group>
 

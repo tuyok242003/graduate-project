@@ -6,8 +6,8 @@ import { toast } from 'react-toastify';
 import {
   useAddVariantMutation,
   useUploadProductImageMutation,
-  useGetProductsQuery
-} from '../../../slices/productsApiSlice';
+  useGetProductsQuery,
+} from '../../../redux/query/productsApiSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 const CustomizeVariant = () => {
   const { id } = useParams();
@@ -18,26 +18,32 @@ const CustomizeVariant = () => {
   const [variantThumb, setVariantThumb] = useState('');
   const [variantImages, setVariantImages] = useState('');
   const [variantTitle, setVariantTitle] = useState('');
-  const [variantDiscount, setVariantDiscount] = useState('')
+  const [variantDiscount, setVariantDiscount] = useState('');
   const navigate = useNavigate();
   const [addVariant, { isLoading: loadingAddVariant }] =
     useAddVariantMutation();
   const [uploadVariantImages, { isLoading: loadingUploadVariantImages }] =
     useUploadProductImageMutation();
-    const isFormValid = () => {
-   
-      if (!variantColor || !variantPrice || !variantQuantitySold || !variantImages || !variantCountInStock || !variantDiscount || !variantTitle) {
-        toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
-        return false;
-      }
-    
-      
-      if (isNaN(Number(variantPrice))) {
-        toast.error('Giá sản phẩm phải là số.');
-        return false;
-      }
-      return true;
-    };
+  const isFormValid = () => {
+    if (
+      !variantColor ||
+      !variantPrice ||
+      !variantQuantitySold ||
+      !variantImages ||
+      !variantCountInStock ||
+      !variantDiscount ||
+      !variantTitle
+    ) {
+      toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
+      return false;
+    }
+
+    if (isNaN(Number(variantPrice))) {
+      toast.error('Giá sản phẩm phải là số.');
+      return false;
+    }
+    return true;
+  };
   const submitHandler = async (varriant: React.FormEvent<HTMLFormElement>) => {
     varriant.preventDefault();
     if (!isFormValid()) {
@@ -54,7 +60,7 @@ const CustomizeVariant = () => {
           title: variantTitle,
           countInStock: variantCountInStock,
           quantitySold: variantQuantitySold,
-          discount:variantDiscount
+          discount: variantDiscount,
         },
       }).unwrap();
 
@@ -115,7 +121,7 @@ const CustomizeVariant = () => {
             onChange={(e) => setVariantPrice(e.target.value)}
           ></Form.Control>
         </Form.Group>
-           <Form.Group controlId='variantDiscount'>
+        <Form.Group controlId='variantDiscount'>
           <Form.Label>Discount</Form.Label>
           <Form.Control
             type='number'

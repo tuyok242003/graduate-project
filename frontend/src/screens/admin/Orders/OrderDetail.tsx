@@ -2,14 +2,16 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import Message, { IMessageProps } from '../../../components/Message';
+import Message from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import {
   useDeliverOrderMutation,
   useGetOrderDetailsQuery,
-} from '../../../slices/ordersApiSlice';
+} from '../../../redux/query/ordersApiSlice';
+import { IMessageProps } from '@/interfaces/MessageProps';
 import { IUser } from '@/interfaces/User';
 import { IOrderItem } from '@/interfaces/Order';
+import { ORDERLIST } from '../../../constants';
 const OrderDetail = () => {
   const { id: orderId } = useParams();
   const {
@@ -38,7 +40,7 @@ const OrderDetail = () => {
     <Message variant='danger'>{(error as IMessageProps).children}</Message>
   ) : (
     <>
-      <Link to='/admin/orderlist' className='btn btn-light mb-4'>
+      <Link to={ORDERLIST} className='btn btn-light mb-4'>
         Go Back
       </Link>
       <h1>Order {order._id}</h1>
@@ -60,7 +62,7 @@ const OrderDetail = () => {
                 {order.shippingAddress.postalCode},{' '}
                 {order.shippingAddress.country}
               </p>
-<p>{order.voucher}</p>
+              <p>{order.voucher}</p>
               {order.isDelivered ? (
                 <Message variant='success'>
                   Delivered on {order.deliveredAt}
@@ -129,7 +131,7 @@ const OrderDetail = () => {
                   <Col>${order.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
-              
+
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>

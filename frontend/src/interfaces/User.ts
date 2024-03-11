@@ -1,8 +1,10 @@
 export interface IUser {
-  _id: string;
-  name: string;
+  _id?: string;
+  userName: string;
   email: string;
-  isAdmin: boolean;
+  password:string;
+  confirmPassword:string;
+  isAdmin?: boolean;
   passwordResetToken?: string;
   passwordResetExpires?: Date;
 }

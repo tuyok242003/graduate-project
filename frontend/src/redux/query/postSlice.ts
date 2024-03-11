@@ -1,5 +1,5 @@
-import { POSTS_URL } from '../constants';
-import { apiSlice } from './apiSlice';
+import { POSTS_URL } from '../../constants';
+import { apiSlice } from '../slices/apiSlice';
 import { IPosts } from '@/interfaces/Post';
 export const postSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

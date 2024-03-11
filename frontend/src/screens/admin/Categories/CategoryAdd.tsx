@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
-import { useCreateCategoryMutation, useGetCategoriesQuery } from '../../../slices/categorySlice';
+import {
+  useCreateCategoryMutation,
+  useGetCategoriesQuery,
+} from '../../../redux/query/categorySlice';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import FormContainer from '../../../components/FormContainer';
 import Loader from '../../../components/Loader';
+import { CATEGORYLIST } from '../../../constants';
 
 const CategoryAdd = () => {
   const [name, setName] = useState('');
   const navigate = useNavigate();
-  const { data: categories, isLoading: loadingCategories } = useGetCategoriesQuery();
+  const { data: categories, isLoading: loadingCategories } =
+    useGetCategoriesQuery();
   const [addCategory, { isLoading: loadingAdd }] = useCreateCategoryMutation();
 
   const isFormValid = () => {
@@ -17,7 +22,7 @@ const CategoryAdd = () => {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
       return false;
     }
-    if (categories?.some(category => category.name === name)) {
+    if (categories?.some((category) => category.name === name)) {
       toast.error('Tên danh mục đã tồn tại. Vui lòng chọn tên khác.');
       return false;
     }
@@ -41,7 +46,7 @@ const CategoryAdd = () => {
 
   return (
     <>
-      <Link to='/admin/categoryList' className='btn btn-light my-3'>
+      <Link to={CATEGORYLIST} className='btn btn-light my-3'>
         Quay lại
       </Link>
       <FormContainer>

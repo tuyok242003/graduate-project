@@ -2,20 +2,21 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Row, Col, Pagination } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import Message, { IMessageProps } from '../../../components/Message';
+import Message from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import { toast } from 'react-toastify';
 import {
   useGetVouchersQuery,
   useDeleteVoucherMutation,
-
-} from '../../../slices/voucherSlice';
+} from '../../../redux/query/voucherSlice';
 import { useState } from 'react';
 import { IVouchers } from '@/interfaces/Voucher';
-
+import { VOUCHERADD } from '../../../constants';
+import { IMessageProps } from '@/interfaces/MessageProps';
 const VoucherListScreen = () => {
   const { data: vouchers, isLoading, error, refetch } = useGetVouchersQuery();
-  const [deleteVoucher, { isLoading: loadingDelete }] = useDeleteVoucherMutation();
+  const [deleteVoucher, { isLoading: loadingDelete }] =
+    useDeleteVoucherMutation();
   const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,10 +31,10 @@ const VoucherListScreen = () => {
       }
     }
   };
- 
+
   const createVoucherHandler = async () => {
     try {
-      navigate('/admin/voucher/add');
+      navigate(VOUCHERADD);
       refetch();
     } catch (err) {
       const error = err as { data?: { message?: string }; error?: string };
@@ -43,7 +44,10 @@ const VoucherListScreen = () => {
   };
   const indexOfLastVoucher = currentPage * ordersPerPage;
   const indexOfFirstVoucher = indexOfLastVoucher - ordersPerPage;
-  const currentVouchers = vouchers?.slice(indexOfFirstVoucher, indexOfLastVoucher);
+  const currentVouchers = vouchers?.slice(
+    indexOfFirstVoucher,
+    indexOfLastVoucher
+  );
   return (
     <>
       <Row className='align-items-center'>
@@ -56,7 +60,6 @@ const VoucherListScreen = () => {
           </Button>
         </Col>
       </Row>
-    
 
       {loadingDelete && <Loader />}
 
@@ -75,7 +78,7 @@ const VoucherListScreen = () => {
                 <th>SỐ LƯỢNG</th>
                 <th>HẠN SỬ DỤNG</th>
                 <th>TRUE/FALSE</th>
-             <th>Đã sử dụng</th>
+                <th>Đã sử dụng</th>
                 <th></th>
               </tr>
             </thead>
@@ -84,9 +87,7 @@ const VoucherListScreen = () => {
                 <tr key={voucher._id}>
                   <td>{voucher._id}</td>
                   <td>{voucher.name}</td>
-                  <td>
-                  {voucher.discountAmount}
-                  </td>
+                  <td>{voucher.discountAmount}</td>
                   <td>{voucher.qty}</td>
                   <td>{voucher.expiryDate.toString()}</td>
                   <td>{voucher.isUsed.toString()}</td>

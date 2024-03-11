@@ -2,20 +2,21 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Row, Col, Pagination } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import Message, { IMessageProps } from '../../../components/Message';
+import Message from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import { toast } from 'react-toastify';
 import {
   useGetCategoriesQuery,
   useDeleteCategoryMutation,
   useCreateCategoryMutation,
-} from '../../../slices/categorySlice';
+} from '../../../redux/query/categorySlice';
 import { useState } from 'react';
 import { ICategories } from '@/interfaces/Category';
-
+import { CATEGORYADD } from '../../../constants';
+import { IMessageProps } from '@/interfaces/MessageProps';
 const CategoryListScreen = () => {
   const { data, isLoading, error, refetch } = useGetCategoriesQuery();
-console.log(data);
+  console.log(data);
 
   const [deleteProduct, { isLoading: loadingDelete }] =
     useDeleteCategoryMutation();
@@ -36,7 +37,7 @@ console.log(data);
     useCreateCategoryMutation();
   const createCategoryHandler = async () => {
     try {
-      navigate('/admin/category/add');
+      navigate(CATEGORYADD);
       refetch();
     } catch (err) {
       toast.error('Error');

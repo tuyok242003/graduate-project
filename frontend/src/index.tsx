@@ -6,7 +6,7 @@ import App from './App';
 import './assets/styles/bootstrap.custom.css';
 import './assets/styles/index.css';
 import reportWebVitals from './reportWebVitals';
-import store from './store';
+import store from './redux/store';
 import { BrowserRouter } from 'react-router-dom';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

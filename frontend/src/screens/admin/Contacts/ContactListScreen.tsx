@@ -1,17 +1,18 @@
- import { Table, Button, Row, Col, Pagination } from 'react-bootstrap';
+import { Table, Button, Row, Col, Pagination } from 'react-bootstrap';
 import { FaPlus, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import Message, { IMessageProps } from '../../../components/Message';
+import Message from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import { toast } from 'react-toastify';
 import {
   useGetContactsQuery,
   useDeleteContactMutation,
   useAddContactMutation,
-} from '../../../slices/contactSlice';
+} from '../../../redux/query/contactSlice';
 import { useState } from 'react';
 import { IContact } from '@/interfaces/Contact';
-
+import { CONTACTADD } from '../../../constants';
+import { IMessageProps } from '@/interfaces/MessageProps';
 const ContactListScreen = () => {
   const { data: contacts, isLoading, error, refetch } = useGetContactsQuery();
   const [deleteProduct, { isLoading: loadingDelete }] =
@@ -34,7 +35,7 @@ const ContactListScreen = () => {
     useAddContactMutation();
   const createContactHandler = async () => {
     try {
-      navigate('/admin/contact/add');
+      navigate(CONTACTADD);
       refetch();
     } catch (err) {
       const error = err as { data?: { message?: string }; error?: string };
@@ -85,7 +86,7 @@ const ContactListScreen = () => {
               {currentContacts?.map((contact: IContact) => (
                 <tr key={contact._id}>
                   <td>{contact._id}</td>
-                  <td>{contact.name}</td>
+                  <td>{contact.contactName}</td>
                   <td>{contact.phone}</td>
                   <td>{contact.email}</td>
                   <td>{contact.content}</td>

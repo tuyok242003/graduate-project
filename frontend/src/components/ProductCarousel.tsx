@@ -1,14 +1,17 @@
 import { Link } from 'react-router-dom';
 import { Carousel, Image } from 'react-bootstrap';
-import Message, { IMessageProps } from './Message';
-import { useGetPostsQuery } from '../slices/postSlice';
+import Message from './Message';
+import { useGetPostsQuery } from '../redux/query/postSlice';
 import { IPosts } from '@/interfaces/Post';
-
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
+import { IMessageProps } from '@/interfaces/MessageProps';
 const PostCarousel = () => {
   const { data: posts, isLoading, error } = useGetPostsQuery();
 
   return isLoading ? null : error ? (
-    <Message variant='danger'>{(error as IMessageProps).children}</Message>
+    <Message variant='danger'>
+      {isErrorWithStatusAndData(error) ? error.data.children : 'Unknown error'}
+    </Message>
   ) : (
     <Carousel pause='hover' className='bg-primary mb-4'>
       {posts &&
@@ -18,11 +21,11 @@ const PostCarousel = () => {
               <Image
                 style={{ width: 1300, height: 600 }}
                 src={post.img}
-                alt={post.name}
+                alt={post.postName}
                 fluid
               />
               <Carousel.Caption className='carousel-caption'>
-                <h2 className='text-white text-right'>{post.name}</h2>
+                <h2 className='text-white text-right'>{post.postName}</h2>
               </Carousel.Caption>
             </Link>
           </Carousel.Item>

@@ -1,11 +1,6 @@
-
 import React from 'react';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
-interface IRatingProps {
-  value: number;
-  text: string;
-  color: string;
-}
+import { IRatingProps } from '@/interfaces/RatingProps';
 
 const Rating: React.FC<IRatingProps> = ({ value, text }) => {
   return (

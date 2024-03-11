@@ -19,10 +19,10 @@ const LayoutAdmin = () => {
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className='logo' />
         <Menu theme='dark' mode='inline' defaultSelectedKeys={['1']}>
-          <Menu.Item key='1' icon={<AiOutlineUser />}>
+          <Menu.Item key='Dashboard' icon={<AiOutlineUser />}>
             <Link to='/admin/dashboard'>Dashboard</Link>
           </Menu.Item>
-          <Menu.Item key='2' icon={<AiOutlineVideoCamera />}>
+          <Menu.Item key='Product' icon={<AiOutlineVideoCamera />}>
             <Link to='/admin/product'>Product</Link>
           </Menu.Item>
         </Menu>

@@ -5,20 +5,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FaTimes, FaCheck } from 'react-icons/fa';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import Message, { IMessageProps } from '../components/Message';
+import Message from '../components/Message';
 import { MdDeleteSweep } from 'react-icons/md';
 import { BiMessageAltDetail } from 'react-icons/bi';
 import { MdCallReceived } from 'react-icons/md';
 import Loader from '../components/Loader';
-import { useProfileMutation } from '../slices/usersApiSlice';
+import { useProfileMutation } from '../redux/query/usersApiSlice';
 import {
   useGetMyOrdersQuery,
   useCancelOrderMutation,
   useConfirmOrderMutation,
-} from '../slices/ordersApiSlice';
-import { setCredentials } from '../slices/authSlice';
+} from '../redux/query/ordersApiSlice';
+import { IMessageProps } from '@/interfaces/MessageProps';
+import { setCredentials } from '../redux/slices/authSlice';
 import { IUser } from '@/interfaces/User';
 import SearchProfile from '../components/SearchProfile';
+import { PROFILE } from '../constants';
 const ProfileScreen = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -46,10 +48,9 @@ const ProfileScreen = () => {
       try {
         await cancelOrder(id);
 
-     
         refetch();
-        navigate('/profile');
-           toast.success('Đơn hàng đã huỷ thành công');
+        navigate(PROFILE);
+        toast.success('Đơn hàng đã huỷ thành công');
       } catch (err) {
         const error = err as { data?: { message?: string }; error?: string };
 
@@ -77,9 +78,9 @@ const ProfileScreen = () => {
     if (window.confirm(confirmMessage)) {
       try {
         await confirmlOrder(id);
-      
+
         refetch();
-          navigate('/');
+        navigate('/');
         toast.success('Đơn hàng đã được nhận thành công');
       } catch (err) {
         const error = err as { data?: { message?: string }; error?: string };
@@ -89,9 +90,9 @@ const ProfileScreen = () => {
   };
 
   useEffect(() => {
-    setName(userInfo?.name ?? '');
+    setName(userInfo?.userName ?? '');
     setEmail(userInfo?.email ?? '');
-  }, [userInfo?.email, userInfo?.name]);
+  }, [userInfo?.email, userInfo?.userName]);
 
   const dispatch = useDispatch();
   const submitHandler = async (profile: React.FormEvent<HTMLFormElement>) => {
@@ -118,7 +119,7 @@ const ProfileScreen = () => {
     <Row>
       <Col md={3}>
         <h2>User Profile</h2>
-<SearchProfile/>
+        <SearchProfile />
         <Form onSubmit={submitHandler}>
           <Form.Group className='my-2' controlId='name'>
             <Form.Label>Name</Form.Label>
@@ -183,7 +184,9 @@ const ProfileScreen = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{(error as IMessageProps).children}</Message>
+          <Message variant='danger'>
+            {(error as IMessageProps).children}
+          </Message>
         ) : (
           <>
             <Table striped hover responsive className='table-sm'>

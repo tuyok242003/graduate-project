@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAddContactMutation } from '../slices/contactSlice';
+import { useAddContactMutation } from '../redux/query/contactSlice';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import FormContainer from '../components/FormContainer';
@@ -14,7 +14,9 @@ const ContactScreen = () => {
 
   const [addContact, { isLoading: loadingAdd }] = useAddContactMutation();
   const navigate = useNavigate();
-  const handleAddContact = async (contact: React.FormEvent<HTMLFormElement>) => {
+  const handleAddContact = async (
+    contact: React.FormEvent<HTMLFormElement>
+  ) => {
     contact.preventDefault();
     try {
       // Gọi hàm mutate để thêm liên hệ mới

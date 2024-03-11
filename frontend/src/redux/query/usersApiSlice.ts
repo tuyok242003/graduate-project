@@ -1,5 +1,5 @@
-import { apiSlice } from './apiSlice';
-import { USERS_URL } from '../constants';
+import { apiSlice } from '../slices/apiSlice';
+import { USERS_URL } from '../../constants';
 import { IUser } from '@/interfaces/User';
 
 export const userApiSlice = apiSlice.injectEndpoints({

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import Message, { IMessageProps } from '../../../components/Message';
+import Message from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
 import {
   useGetCategoryDetailsQuery,
   useUpdateCategoryMutation,
-} from '../../../slices/categorySlice';
-
+} from '../../../redux/query/categorySlice';
+import { IMessageProps } from '@/interfaces/MessageProps';
 const CategoryEditScreen = () => {
   const { id: categoryId } = useParams();
 
@@ -27,17 +27,17 @@ const CategoryEditScreen = () => {
   const navigate = useNavigate();
 
   const isFormValid = () => {
-   
-    if (!name ) {
+    if (!name) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
-      return false}
+      return false;
+    }
     return true;
-  ;}
-const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
-  category.preventDefault()
-  if (!isFormValid()) {
-    return;
-  }
+  };
+  const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
+    category.preventDefault();
+    if (!isFormValid()) {
+      return;
+    }
     try {
       await updateCategory({
         categoryId,
@@ -70,7 +70,9 @@ const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{(error as IMessageProps).children}</Message>
+          <Message variant='danger'>
+            {(error as IMessageProps).children}
+          </Message>
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group controlId='name'>

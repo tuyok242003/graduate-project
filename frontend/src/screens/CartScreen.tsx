@@ -12,33 +12,25 @@ import {
 } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
 import Message from '../components/Message';
-import { addToCart, removeFromCart, increaseQty, decreaseQty } from '../slices/cartSlice';
-import {  IOrderItem,IShippingAddress,IVoucherName } from '@/interfaces/Order';
-import React,{useState} from 'react';
-
-export interface RootState {
-  cart: {
-    cartItems: IOrderItem[];
-    shippingAddress :IShippingAddress
-    paymentMethod:string
-    itemsPrice: number,
-    shippingPrice: number,
-    totalPrice:number
-    voucherName:IVoucherName
-    isUsed:IVoucherName
-    voucherExpiryDate:string
-
-  };}
+import {
+  addToCart,
+  removeFromCart,
+  increaseQty,
+  decreaseQty,
+} from '../redux/slices/cartSlice';
+import { IOrderItem } from '@/interfaces/Order';
+import React, { useState } from 'react';
+import { RootState } from '@/interfaces/RootState';
 const CartScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectAll, setSelectAll] = useState(false);
-const handleSelectAll = () => {
-  const allItemIds = cart.cartItems.map((item) => item._id);
-  setSelectAll(!selectAll);
-  setSelectedItems(selectAll ? [] : allItemIds);
-};
-  const cart = useSelector((state:RootState) => state.cart);
+  const handleSelectAll = () => {
+    const allItemIds = cart.cartItems.map((item) => item._id);
+    setSelectAll(!selectAll);
+    setSelectedItems(selectAll ? [] : allItemIds);
+  };
+  const cart = useSelector((state: RootState) => state.cart);
   const { cartItems } = cart;
   const [selectedItems, setSelectedItems] = React.useState<string[]>([]);
   console.log(selectedItems);
@@ -53,11 +45,11 @@ const handleSelectAll = () => {
     }
   };
   const updateCart = (id: string, qty: number) => {
-    dispatch(addToCart({ _id: id , qty})); 
+    dispatch(addToCart({ _id: id, qty }));
   };
 
-  const addToCartHandler = (product: IOrderItem , qty: number) => {
-    updateCart(product._id, qty); 
+  const addToCartHandler = (product: IOrderItem, qty: number) => {
+    updateCart(product._id, qty);
   };
   const removeFromCartHandler = (id: string) => {
     dispatch(removeFromCart(id));
@@ -72,13 +64,13 @@ const handleSelectAll = () => {
   const increaseQuantity = (item: IOrderItem) => {
     dispatch(increaseQty(item._id)); // Dispatch action to increase quantity
   };
-  
+
   // Function to decrease quantity
   const decreaseQuantity = (item: IOrderItem) => {
     dispatch(decreaseQty(item._id)); // Dispatch action to decrease quantity
   };
   console.log(updateCart);
-  
+
   return (
     <Row>
       <Col md={8}>
@@ -89,19 +81,19 @@ const handleSelectAll = () => {
           </Message>
         ) : (
           <ListGroup variant='flush'>
-             <Col md={1}>
-                    {/* Add a checkbox for each item */}
-                    <Form.Check
-                     style={{marginLeft:18}}
-                      type="checkbox"
-                      checked={selectAll}
-                      onChange={handleSelectAll}
-                    />
-                  </Col>
+            <Col md={1}>
+              {/* Add a checkbox for each item */}
+              <Form.Check
+                style={{ marginLeft: 18 }}
+                type='checkbox'
+                checked={selectAll}
+                onChange={handleSelectAll}
+              />
+            </Col>
             {cartItems.map((item: IOrderItem) => (
               <ListGroup.Item key={item._id}>
                 <Row>
-                <Col md={1}>
+                  <Col md={1}>
                     {/* Add a checkbox for each item */}
                     <Form.Check
                       type='checkbox'
@@ -112,7 +104,7 @@ const handleSelectAll = () => {
                   <Col md={2}>
                     <Image src={item.images} alt={item.name} fluid rounded />
                   </Col>
-                  <Col md={3} >
+                  <Col md={3}>
                     Phân loại:
                     <Link
                       style={{
@@ -131,7 +123,6 @@ const handleSelectAll = () => {
                   </Col>
                   <Col md={3}>
                     <Button
-                     
                       type='button'
                       variant='light'
                       onClick={() => decreaseQuantity(item)} // Decrease quantity
@@ -139,9 +130,10 @@ const handleSelectAll = () => {
                     >
                       -
                     </Button>
-                    <span style={{ margin: '10px 10px ', marginTop:20 }}>{item.qty}</span>
+                    <span style={{ margin: '10px 10px ', marginTop: 20 }}>
+                      {item.qty}
+                    </span>
                     <Button
-                     
                       type='button'
                       variant='light'
                       onClick={() => increaseQuantity(item)} // Increase quantity
@@ -152,7 +144,6 @@ const handleSelectAll = () => {
                   </Col>
                   <Col md={2}>
                     <Button
-              
                       type='button'
                       variant='light'
                       onClick={() => removeFromCartHandler(item._id)}
@@ -171,7 +162,7 @@ const handleSelectAll = () => {
           <ListGroup variant='flush'>
             <ListGroup.Item>
               <h2>
-               Có (
+                Có (
                 {cartItems.reduce(
                   (acc: number, item: IOrderItem) => acc + item.qty,
                   0
@@ -181,12 +172,13 @@ const handleSelectAll = () => {
               $
               {cartItems
                 .reduce(
-                  (acc: number, item: IOrderItem) => acc + item.qty * item.price,
+                  (acc: number, item: IOrderItem) =>
+                    acc + item.qty * item.price,
                   0
                 )
                 .toFixed(2)}
             </ListGroup.Item>
-        
+
             <ListGroup.Item>
               <Button
                 type='button'

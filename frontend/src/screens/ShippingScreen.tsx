@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
-import { saveShippingAddress } from '../slices/cartSlice';
-import { RootState } from './CartScreen';
+import { saveShippingAddress } from '../redux/slices/cartSlice';
+import { RootState } from '@/interfaces/RootState';
 import { toast } from 'react-toastify';
+import { VOUCHER } from '../constants';
 const ShippingScreen = () => {
-  const cart = useSelector((state: RootState) => state.cart); 
+  const cart = useSelector((state: RootState) => state.cart);
   const { shippingAddress } = cart;
 
   const [address, setAddress] = useState(shippingAddress.address || '');
@@ -18,18 +19,16 @@ const ShippingScreen = () => {
   );
   const [country, setCountry] = useState(shippingAddress.country || '');
   const isFormValid = () => {
-   
     if (!address || !city || !postalCode || !country) {
       toast.error('Vui lòng điền đầy đủ thông tin địa chỉ.');
       return false;
     }
-  
-    
+
     if (isNaN(Number(postalCode))) {
       toast.error('Giá sản phẩm phải là số.');
       return false;
     }
-    
+
     return true;
   };
   const dispatch = useDispatch();
@@ -41,7 +40,7 @@ const ShippingScreen = () => {
       return;
     }
     dispatch(saveShippingAddress({ address, city, postalCode, country }));
-    navigate('/voucher');
+    navigate(VOUCHER);
   };
 
   return (
@@ -55,7 +54,6 @@ const ShippingScreen = () => {
             type='text'
             placeholder='Enter address'
             value={address}
-      
             onChange={(e) => setAddress(e.target.value)}
           ></Form.Control>
         </Form.Group>
@@ -66,7 +64,6 @@ const ShippingScreen = () => {
             type='text'
             placeholder='Enter city'
             value={city}
-       
             onChange={(e) => setCity(e.target.value)}
           ></Form.Control>
         </Form.Group>
@@ -77,7 +74,6 @@ const ShippingScreen = () => {
             type='text'
             placeholder='Enter postal code'
             value={postalCode}
-      
             onChange={(e) => setPostalCode(e.target.value)}
           ></Form.Control>
         </Form.Group>
@@ -88,7 +84,6 @@ const ShippingScreen = () => {
             type='text'
             placeholder='Enter country'
             value={country}
-           
             onChange={(e) => setCountry(e.target.value)}
           ></Form.Control>
         </Form.Group>

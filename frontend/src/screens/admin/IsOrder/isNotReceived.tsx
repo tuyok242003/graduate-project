@@ -2,15 +2,15 @@ import React from 'react';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { FaTimes, FaCheck } from 'react-icons/fa';
-import Message, { IMessageProps } from '../../../components/Message';
+import Message from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-
+import { IMessageProps } from '@/interfaces/MessageProps';
 import {
   useGetOrdersQuery,
   useCancelOrderMutation,
-} from '../../../slices/ordersApiSlice';
+} from '../../../redux/query/ordersApiSlice';
 
 const IsNotReceived = () => {
   const { data: orders, isLoading, error, refetch } = useGetOrdersQuery();
@@ -40,7 +40,6 @@ const IsNotReceived = () => {
     }
   };
   return (
-  
     <Row>
       <Col md={9}>
         <h2>Đơn hàng chưa giao</h2>
@@ -68,12 +67,12 @@ const IsNotReceived = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{(error as IMessageProps).children}</Message>
+          <Message variant='danger'>
+            {(error as IMessageProps).children}
+          </Message>
         ) : (
           <Table striped hover responsive className='table-sm'>
-            <thead>
-            
-            </thead>
+            <thead></thead>
             {/* <tbody>
               {orders
                 ?.filter((order) => !order.isDelivered)
@@ -134,7 +133,7 @@ const IsNotReceived = () => {
         )}
       </Col>
     </Row>
-  )
+  );
 };
 
 export default IsNotReceived;

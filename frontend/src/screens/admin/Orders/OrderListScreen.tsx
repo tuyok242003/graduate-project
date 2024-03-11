@@ -1,20 +1,25 @@
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Form } from 'react-bootstrap';
 import { FaCheck, FaTimes } from 'react-icons/fa';
-import Message, { IMessageProps } from '../../../components/Message';
+import Message from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import { toast } from 'react-toastify';
 import { Pagination } from 'react-bootstrap';
 import {
   useGetOrdersQuery,
   useDeleteOrderMutation,
- 
-} from '../../../slices/ordersApiSlice';
+} from '../../../redux/query/ordersApiSlice';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { BiMessageAltDetail } from 'react-icons/bi';
 import { MdDeleteSweep } from 'react-icons/md';
-
+import {
+  ISCANCELLED,
+  ISCONFIRM,
+  ISNOTRECEIVED,
+  ISRECEIVED,
+} from '../../../constants';
+import { IMessageProps } from '@/interfaces/MessageProps';
 const OrderListScreen = () => {
   const { data: orders, isLoading, error, refetch } = useGetOrdersQuery();
   const [deleteOrder, { isLoading: loadingDelete }] = useDeleteOrderMutation();
@@ -50,10 +55,10 @@ const OrderListScreen = () => {
         style={{ marginBottom: 20 }}
       >
         <option value='all'>Tất cả đơn hàng</option>
-        <option value='/admin/isNotReceived'>Đơn hàng chưa giao</option>
-        <option value='/admin/isReceived'>Đơn hàng đã giao</option>
-        <option value='/admin/isCancelled'>Đơn hàng đã huỷ</option>
-        <option value='/admin/isConfirm'>Đơn hàng đã nhận</option>
+        <option value={ISNOTRECEIVED}>Đơn hàng chưa giao</option>
+        <option value={ISRECEIVED}>Đơn hàng đã giao</option>
+        <option value={ISCANCELLED}>Đơn hàng đã huỷ</option>
+        <option value={ISCONFIRM}>Đơn hàng đã nhận</option>
       </Form.Control>
       {loadingDelete && <Loader />}
 
@@ -66,27 +71,26 @@ const OrderListScreen = () => {
           <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
-             
-              <th>Nguời dùng</th>
-                  <th>Ngày</th>
-                  <th>Tổng tiền</th>
-                  <th>Trả tiền</th>
-                  <th>Giao hàng</th>
-                  <th>Nhận hàng</th>
-                  <th>Huỷ hàng</th>
+                <th>Nguời dùng</th>
+                <th>Ngày</th>
+                <th>Tổng tiền</th>
+                <th>Trả tiền</th>
+                <th>Giao hàng</th>
+                <th>Nhận hàng</th>
+                <th>Huỷ hàng</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               {currentOrders
                 ?.filter((order) => {
-                  if (statusFromUrl === '/admin/isNotReceived') {
+                  if (statusFromUrl === ISNOTRECEIVED) {
                     return !order.isDelivered && !order.isCancelled;
-                  } else if (statusFromUrl === '/admin/isReceived') {
+                  } else if (statusFromUrl === ISRECEIVED) {
                     return order.isDelivered;
-                  } else if (statusFromUrl === '/admin/isCancelled') {
+                  } else if (statusFromUrl === ISCANCELLED) {
                     return order.isCancelled;
-                  } else if (statusFromUrl === '/admin/isConfirm') {
+                  } else if (statusFromUrl === ISCONFIRM) {
                     return order.isConfirmed;
                   }
                   return true;
@@ -120,37 +124,35 @@ const OrderListScreen = () => {
                       )}
                     </td>
                     <td>
-                        {order.isDelivered ? (
-                          order.deliveredAt instanceof Date ? (
-                            order.deliveredAt.toISOString().substring(0, 10)
-                          ) : (
-                            <FaCheck style={{ color: 'green' }} />
-                          )
+                      {order.isDelivered ? (
+                        order.deliveredAt instanceof Date ? (
+                          order.deliveredAt.toISOString().substring(0, 10)
                         ) : (
-                          <FaTimes style={{ color: 'red' }} />
-                        )}
-                      </td>
-                      <td>
-                        {order.isConfirmed ? (
                           <FaCheck style={{ color: 'green' }} />
-                        ) : (
-                          <FaTimes style={{ color: 'red' }} />
-                        )}
-                      </td>
-                      <td>
-                        {order.isCancelled ? (
-                          <FaCheck style={{ color: 'green' }} />
-                        ) : (
-                          <FaTimes style={{ color: 'red' }} />
-                        )}
-                      </td>
+                        )
+                      ) : (
+                        <FaTimes style={{ color: 'red' }} />
+                      )}
+                    </td>
+                    <td>
+                      {order.isConfirmed ? (
+                        <FaCheck style={{ color: 'green' }} />
+                      ) : (
+                        <FaTimes style={{ color: 'red' }} />
+                      )}
+                    </td>
+                    <td>
+                      {order.isCancelled ? (
+                        <FaCheck style={{ color: 'green' }} />
+                      ) : (
+                        <FaTimes style={{ color: 'red' }} />
+                      )}
+                    </td>
 
                     <td>
-                      <LinkContainer to={`/admin/order/${order._id}`}   
-                     >
+                      <LinkContainer to={`/admin/order/${order._id}`}>
                         <Button variant='light' className='btn-sm'>
-                        <BiMessageAltDetail />
-
+                          <BiMessageAltDetail />
                         </Button>
                       </LinkContainer>
                     </td>
@@ -160,7 +162,8 @@ const OrderListScreen = () => {
                         className='btn-sm'
                         variant='danger'
                       >
- <MdDeleteSweep />                      </Button>
+                        <MdDeleteSweep />{' '}
+                      </Button>
                     </td>
                   </tr>
                 ))}

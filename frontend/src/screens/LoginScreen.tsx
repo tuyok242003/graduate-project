@@ -5,10 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
 
-import { useLoginMutation } from '../slices/usersApiSlice';
-import { setCredentials } from '../slices/authSlice';
+import { useLoginMutation } from '../redux/query/usersApiSlice';
+import { setCredentials } from '../redux/slices/authSlice';
 import { toast } from 'react-toastify';
 import { IUser } from '@/interfaces/User';
+import { FORGOTPASSWORD, REGISTER } from '../constants';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -76,9 +77,7 @@ const LoginScreen = () => {
       <Row className='py-3'>
         <Link
           to={
-            redirect
-              ? `/forgotPassword?redirect=${redirect}`
-              : '/forgotPassword'
+            redirect ? `/forgotPassword?redirect=${redirect}` : FORGOTPASSWORD
           }
         >
           ForgotPassword
@@ -87,7 +86,7 @@ const LoginScreen = () => {
       <Row className='py-3'>
         <Col>
           New Customer?{' '}
-          <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
+          <Link to={redirect ? `/register?redirect=${redirect}` : REGISTER}>
             Register
           </Link>
         </Col>
