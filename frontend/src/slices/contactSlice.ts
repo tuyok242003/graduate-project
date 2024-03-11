@@ -1,7 +1,9 @@
 import { IContact } from '@/interfaces/Contact';
 import { CONTACTS_URL } from '../constants';
 import { apiSlice } from './apiSlice';
-
+interface IUpdateContact{
+  contactId:string
+}
 export const contactSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getContacts: builder.query<IContact[], void>({
@@ -10,13 +12,13 @@ export const contactSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
-    getContactDetails: builder.query({
+    getContactDetails: builder.query<IContact[], string>({
       query: (contactId) => ({
         url: `${CONTACTS_URL}/${contactId}`,
       }),
       keepUnusedDataFor: 5,
     }),
-    addContact: builder.mutation({
+    addContact: builder.mutation<IContact[], string>({
       query: (newContact) => ({
         url: `${CONTACTS_URL}`,
         method: 'POST',
@@ -27,14 +29,14 @@ export const contactSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['Contact'],
     }),
 
-    deleteContact: builder.mutation({
+    deleteContact: builder.mutation<IContact[], string>({
       query: (contactId) => ({
         url: `${CONTACTS_URL}/${contactId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Contact'],
     }),
-    updateContact: builder.mutation({
+    updateContact: builder.mutation<IContact[], IUpdateContact>({
       query: (data) => ({
         url: `${CONTACTS_URL}/${data.contactId}`,
         method: 'PUT',

@@ -1,24 +1,27 @@
 import { apiSlice } from './apiSlice';
 import { USERS_URL } from '../constants';
 import { IUser } from '@/interfaces/User';
-
+import { IProducts } from '@/interfaces/Products';
+interface IUpdateUser {
+  userId:string
+}
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation({
+    login: builder.mutation<IUser,void>({
       query: (data) => ({
         url: `${USERS_URL}/auth`,
         method: 'POST',
         body: data,
       }),
     }),
-    register: builder.mutation({
+    register: builder.mutation<void,IUser>({
       query: (data) => ({
         url: `${USERS_URL}`,
         method: 'POST',
         body: data,
       }),
     }),
-    logout: builder.mutation<IUser[], void>({
+    logout: builder.mutation<IUser, void>({
       query: () => ({
         url: `${USERS_URL}/logout`,
         method: 'POST',
@@ -31,26 +34,26 @@ export const userApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-    getUsers: builder.query<IUser[], void>({
+    getUsers: builder.query<IUser, void>({
       query: () => ({
         url: USERS_URL,
       }),
       providesTags: ['User'],
       keepUnusedDataFor: 5,
     }),
-    deleteUser: builder.mutation({
+    deleteUser: builder.mutation<IUser,string>({
       query: (userId) => ({
         url: `${USERS_URL}/${userId}`,
         method: 'DELETE',
       }),
     }),
-    getUserDetails: builder.query({
+    getUserDetails: builder.query<IUser,string>({
       query: (id) => ({
         url: `${USERS_URL}/${id}`,
       }),
       keepUnusedDataFor: 5,
     }),
-    updateUser: builder.mutation({
+    updateUser: builder.mutation<IProducts,IUpdateUser>({
       query: (data) => ({
         url: `${USERS_URL}/${data.userId}`,
         method: 'PUT',

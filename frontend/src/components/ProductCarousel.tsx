@@ -8,7 +8,7 @@ const PostCarousel = () => {
   const { data: posts, isLoading, error } = useGetPostsQuery();
 
   return isLoading ? null : error ? (
-    <Message variant='danger'>{(error as IMessageProps).children}</Message>
+    <Message variant='danger'>{error}</Message>
   ) : (
     <Carousel pause='hover' className='bg-primary mb-4'>
       {posts &&

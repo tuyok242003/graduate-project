@@ -1,10 +1,11 @@
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import React from 'react';
 import { Alert, AlertProps } from 'react-bootstrap';
 export interface IMessageProps {
   variant?: AlertProps['variant'];
-  children: React.ReactNode;
+  children?:FetchBaseQueryError
 }
-const Message: React.FC<IMessageProps> = ({ variant, children }) => {
+const Message = ({ variant, children }:IMessageProps) => {
   return <Alert variant={variant}>{children}</Alert>;
 };
 
