@@ -4,7 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import {
   useGetProductsQuery,
   useSearchProductsByCategoryQuery,
-} from '../slices/productsApiSlice';
+} from '../redux/query/productsApiSlice';
 import Product from '../components/Product';
 import Loader from '../components/Loader';
 import Message, { IMessageProps } from '../components/Message';
@@ -17,10 +17,7 @@ import { IProducts } from '@/interfaces/Products';
 const HomeScreen = () => {
   const { pageNumber, keyword } = useParams();
 
-  const { data, isLoading, error } = useGetProductsQuery({
-    keyword,
-    pageNumber,
-  });
+  const { data, isLoading, error } = useGetProductsQuery();
 
   const [selectedCategory, setSelectedCategory] = useState<ICategories | null>(
     null
@@ -46,7 +43,7 @@ const HomeScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as IMessageProps).children}</Message>
+        <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
       ) : (
         <>
           <Meta />
@@ -70,7 +67,7 @@ const HomeScreen = () => {
             {selectedCategory ? (
               <ProductListByCategory selectedCategory={selectedCategory} />
             ) : (
-              data.products.map((product: IProducts) => (
+              data?.products.map((product:IProducts) => (
                 <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                   <Product product={product} />
                 </Col>

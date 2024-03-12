@@ -8,7 +8,9 @@ import { toast } from 'react-toastify';
 import {
   useGetOrdersQuery,
   useDeleteOrderMutation,
-} from '../../../slices/ordersApiSlice';
+} from '../../../redux/query/ordersApiSlice';
+import { IOrder } from '@/interfaces/Order';
+import { displayErrorMessage } from '../../../components/Error';
 
 const IsConfirm = () => {
   const { data: orders, isLoading, error, refetch } = useGetOrdersQuery();
@@ -21,8 +23,7 @@ const IsConfirm = () => {
         await deleteOrder(id);
         refetch();
       } catch (err) {
-        const error = err as { data?: { message?: string }; error?: string };
-        toast.error(error?.data?.message || error.error);
+        displayErrorMessage(err);
       }
     }
   };
@@ -33,7 +34,7 @@ const IsConfirm = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as IMessageProps).children}</Message>
+        <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
       ) : (
         <Table striped bordered hover responsive className='table-sm'>
           <thead>
@@ -49,8 +50,8 @@ const IsConfirm = () => {
           </thead>
           <tbody>
             {orders
-              ?.filter((order) => order.isConfirmed)
-              .map((order) => (
+              ?.filter((order:IOrder) => order.isConfirmed)
+              .map((order:IOrder) => (
                 <tr key={order._id}>
                   <td>{order._id}</td>
                   <td>

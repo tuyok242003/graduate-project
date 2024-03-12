@@ -8,9 +8,11 @@ import {
   useGetContactsQuery,
   useDeleteContactMutation,
   useAddContactMutation,
-} from '../../../slices/contactSlice';
+} from '../../../redux/query/contactSlice';
 import { useState } from 'react';
 import { IContact } from '@/interfaces/Contact';
+import { displayErrorMessage } from '../../../components/Error';
+import { CONTACTADD } from '../../../constants';
 
 const ContactListScreen = () => {
   const { data: contacts, isLoading, error, refetch } = useGetContactsQuery();
@@ -34,20 +36,17 @@ const ContactListScreen = () => {
     useAddContactMutation();
   const createContactHandler = async () => {
     try {
-      navigate('/admin/contact/add');
+      navigate(CONTACTADD);
       refetch();
     } catch (err) {
-      const error = err as { data?: { message?: string }; error?: string };
-
-      toast.error(error?.data?.message || error.error);
+      displayErrorMessage(err);
     }
   };
   const indexOfLastContact = currentPage * contactsPerPage;
   const indexOfFirstContact = indexOfLastContact - contactsPerPage;
-  const currentContacts = contacts?.slice(
-    indexOfFirstContact,
-    indexOfLastContact
-  );
+  const currentContacts = contacts && Array.isArray(contacts)
+    ? contacts.slice(indexOfFirstContact, indexOfLastContact)
+    : [];
   return (
     <>
       <Row className='align-items-center'>
@@ -67,7 +66,7 @@ const ContactListScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as IMessageProps).children}</Message>
+        <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
       ) : (
         <>
           <Table striped bordered hover responsive className='table-sm'>
@@ -93,7 +92,7 @@ const ContactListScreen = () => {
                     <Button
                       variant='danger'
                       className='btn-sm'
-                      onClick={() => deleteHandler(contact._id)}
+                      onClick={() => contact._id && deleteHandler(contact._id)}
                     >
                       <FaTrash style={{ color: 'white' }} />
                     </Button>

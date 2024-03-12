@@ -2,54 +2,54 @@
 import React from 'react';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 interface IRatingProps {
-  value: number;
+  valueRating: number
   text: string;
   color: string;
 }
 
-const Rating: React.FC<IRatingProps> = ({ value, text }) => {
+const Rating: React.FC<IRatingProps> = ({ valueRating, text }) => {
   return (
     <div className='rating'>
       <span>
-        {value >= 1 ? (
+        {valueRating >= 1 ? (
           <FaStar />
-        ) : value >= 0.5 ? (
+        ) : valueRating >= 0.5 ? (
           <FaStarHalfAlt />
         ) : (
           <FaRegStar />
         )}
       </span>
       <span>
-        {value >= 2 ? (
+        {valueRating >= 2 ? (
           <FaStar />
-        ) : value >= 1.5 ? (
+        ) : valueRating >= 1.5 ? (
           <FaStarHalfAlt />
         ) : (
           <FaRegStar />
         )}
       </span>
       <span>
-        {value >= 3 ? (
+        {valueRating >= 3 ? (
           <FaStar />
-        ) : value >= 2.5 ? (
+        ) : valueRating >= 2.5 ? (
           <FaStarHalfAlt />
         ) : (
           <FaRegStar />
         )}
       </span>
       <span>
-        {value >= 4 ? (
+        {valueRating >= 4 ? (
           <FaStar />
-        ) : value >= 3.5 ? (
+        ) : valueRating >= 3.5 ? (
           <FaStarHalfAlt />
         ) : (
           <FaRegStar />
         )}
       </span>
       <span>
-        {value >= 5 ? (
+        {valueRating >= 5 ? (
           <FaStar />
-        ) : value >= 4.5 ? (
+        ) : valueRating >= 4.5 ? (
           <FaStarHalfAlt />
         ) : (
           <FaRegStar />

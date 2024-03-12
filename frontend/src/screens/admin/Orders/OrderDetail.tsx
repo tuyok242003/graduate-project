@@ -7,9 +7,10 @@ import Loader from '../../../components/Loader';
 import {
   useDeliverOrderMutation,
   useGetOrderDetailsQuery,
-} from '../../../slices/ordersApiSlice';
+} from '../../../redux/query/ordersApiSlice';
 import { IUser } from '@/interfaces/User';
 import { IOrderItem } from '@/interfaces/Order';
+import { ORDERLIST } from '../../../constants';
 const OrderDetail = () => {
   const { id: orderId } = useParams();
   const {
@@ -17,7 +18,7 @@ const OrderDetail = () => {
     refetch,
     isLoading,
     error,
-  } = useGetOrderDetailsQuery(orderId);
+  } = useGetOrderDetailsQuery(orderId as string);
   const [deliverOrder, { isLoading: loadingDeliver }] =
     useDeliverOrderMutation();
   const { userInfo } =
@@ -29,41 +30,35 @@ const OrderDetail = () => {
     }
   }, [order]);
   const deliverHandler = async () => {
-    await deliverOrder(orderId);
+    await deliverOrder(orderId as string);
     refetch();
   };
   return isLoading ? (
     <Loader />
   ) : error ? (
-    <Message variant='danger'>{(error as IMessageProps).children}</Message>
+    <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
   ) : (
     <>
-      <Link to='/admin/orderlist' className='btn btn-light mb-4'>
+      <Link to={ORDERLIST} className='btn btn-light mb-4'>
         Go Back
       </Link>
-      <h1>Order {order._id}</h1>
+      <h1>Order {order?._id}</h1>
       <Row>
         <Col md={8}>
           <ListGroup variant='flush'>
             <ListGroup.Item>
               <h2>Shipping</h2>
-              <p>
-                <strong>Name: </strong> {order.user.name}
-              </p>
-              <p>
-                <strong>Email: </strong>{' '}
-                <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
-              </p>
+              
               <p>
                 <strong>Address:</strong>
-                {order.shippingAddress.address}, {order.shippingAddress.city}{' '}
-                {order.shippingAddress.postalCode},{' '}
-                {order.shippingAddress.country}
+                {order?.shippingAddress.address}, {order?.shippingAddress.city}{' '}
+                {order?.shippingAddress.postalCode},{' '}
+                {order?.shippingAddress.country}
               </p>
-<p>{order.voucher}</p>
-              {order.isDelivered ? (
+<p>{order?.voucher}</p>
+              {order?.isDelivered ? (
                 <Message variant='success'>
-                  Delivered on {order.deliveredAt}
+                Đã vận chuyển
                 </Message>
               ) : (
                 <Message variant='danger'>Not Delivered</Message>
@@ -74,10 +69,10 @@ const OrderDetail = () => {
               <h2>Payment Method</h2>
               <p>
                 <strong>Method: </strong>
-                {order.paymentMethod}
+                {order?.paymentMethod}
               </p>
               {isOrderPaid ? (
-                <Message variant='success'>Paid on {order.paidAt}</Message>
+                <Message variant='success'>Đã thanh toán</Message>
               ) : (
                 <Message variant='danger'>Not Paid</Message>
               )}
@@ -85,11 +80,11 @@ const OrderDetail = () => {
 
             <ListGroup.Item>
               <h2>Order Items</h2>
-              {order.orderItems.length === 0 ? (
+              {order?.orderItems.length === 0 ? (
                 <Message>Order is empty</Message>
               ) : (
                 <ListGroup variant='flush'>
-                  {order.orderItems.map((item: IOrderItem, index: number) => (
+                  {order?.orderItems.map((item: IOrderItem, index: number) => (
                     <ListGroup.Item key={index}>
                       <Row>
                         <Col md={1}>
@@ -120,20 +115,20 @@ const OrderDetail = () => {
               <ListGroup.Item>
                 <Row>
                   <Col>Items</Col>
-                  <Col>${order.itemsPrice}</Col>
+                  <Col>${order?.itemsPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Shipping</Col>
-                  <Col>${order.shippingPrice}</Col>
+                  <Col>${order?.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
               
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>
-                  <Col>${order.totalPrice}</Col>
+                  <Col>${order?.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
@@ -141,8 +136,8 @@ const OrderDetail = () => {
 
               {userInfo &&
                 userInfo.isAdmin &&
-                order.isPaid &&
-                !order.isDelivered && (
+                order?.isPaid &&
+                !order?.isDelivered && (
                   <ListGroup.Item>
                     <Button
                       type='button'

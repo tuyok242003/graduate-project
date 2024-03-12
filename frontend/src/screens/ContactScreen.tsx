@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useAddContactMutation } from '../slices/contactSlice';
+import { useAddContactMutation } from '../redux/query/contactSlice';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import FormContainer from '../components/FormContainer';
 import { Button, Form } from 'react-bootstrap';
 import Loader from '../components/Loader';
+import { displayErrorMessage } from '../components/Error';
 
 const ContactScreen = () => {
   const [name, setName] = useState('');
@@ -29,8 +30,7 @@ const ContactScreen = () => {
       toast.success('Contact added');
       navigate(`/admin/contact/${newContact._id}/edit`);
     } catch (err) {
-      const error = err as { data?: { message?: string }; error?: string };
-      toast.error(error?.data?.message || error.error);
+      displayErrorMessage(err);
     }
   };
 

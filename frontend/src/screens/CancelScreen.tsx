@@ -8,7 +8,9 @@ import { toast } from 'react-toastify';
 import {
   useGetMyOrdersQuery,
   useDeleteOrderMutation,
-} from '../slices/ordersApiSlice';
+} from '../redux/query/ordersApiSlice';
+import { displayErrorMessage } from '../components/Error';
+
 
 const CancelScreen = () => {
   const { data: orders, isLoading, error, refetch } = useGetMyOrdersQuery();
@@ -21,8 +23,7 @@ const CancelScreen = () => {
         await deleteOrder(id);
         refetch();
       } catch (err) {
-        const error = err as { data?: { message?: string }; error?: string };
-        toast.error(error?.data?.message || error.error);
+        displayErrorMessage(err);
       }
     }
   };
@@ -55,7 +56,7 @@ const CancelScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as IMessageProps).children}</Message>
+        <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
       ) : (
         <Table striped bordered hover responsive className='table-sm'>
           <thead>

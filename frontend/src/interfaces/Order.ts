@@ -10,9 +10,9 @@ export interface IOrder {
   shippingPrice: number;
   totalPrice: number;
   isPaid: boolean;
-  paidAt?: Date;
+  paidAt: Date;
   isDelivered: boolean;
-  deliveredAt?: Date;
+  deliveredAt: Date;
   isCancelled?: boolean;
   isConfirmed?: boolean;
   createdAt?: Date;
@@ -20,7 +20,20 @@ export interface IOrder {
   cartItems: IOrderItem[]
   order:IOrder[]
   voucherName:IVoucherName
-  
+ length:number
+ voucher:string
+ name:string
+ email:string
+}
+export interface ICreateOrder {
+  orderItems: IOrderItem[];
+  shippingAddress: IShippingAddress;
+  paymentMethod: string;
+  paymentResult?: IPaymentResult;
+  itemsPrice: number;
+  shippingPrice: number;
+  totalPrice: number;
+  voucherName:IVoucherName
 }
 export interface IVoucherName {
   name:string;

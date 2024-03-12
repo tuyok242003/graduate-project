@@ -9,9 +9,10 @@ import {
   useGetCategoriesQuery,
   useDeleteCategoryMutation,
   useCreateCategoryMutation,
-} from '../../../slices/categorySlice';
+} from '../../../redux/query/categorySlice';
 import { useState } from 'react';
 import { ICategories } from '@/interfaces/Category';
+import { CATEGORYADD } from '../../../constants';
 
 const CategoryListScreen = () => {
   const { data, isLoading, error, refetch } = useGetCategoriesQuery();
@@ -36,7 +37,7 @@ console.log(data);
     useCreateCategoryMutation();
   const createCategoryHandler = async () => {
     try {
-      navigate('/admin/category/add');
+      navigate(CATEGORYADD);
       refetch();
     } catch (err) {
       toast.error('Error');
@@ -64,7 +65,7 @@ console.log(data);
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as IMessageProps).children}</Message>
+        <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
       ) : (
         <>
           <Table striped bordered hover responsive className='table-sm'>
@@ -76,7 +77,7 @@ console.log(data);
               </tr>
             </thead>
             <tbody>
-              {data?.map((category: ICategories) => (
+              {data?.map((category:ICategories) => (
                 <tr key={category._id}>
                   <td>{category._id}</td>
                   <td>{category.name}</td>

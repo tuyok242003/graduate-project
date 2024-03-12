@@ -4,10 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import Message, { IMessageProps } from './Message';
 import Loader from './Loader';
 import { toast } from 'react-toastify';
-import { useGetVouchersQuery,useDeleteVoucherMutation } from '../slices/voucherSlice';
+import { useGetVouchersQuery,useDeleteVoucherMutation } from '../redux/query/voucherSlice';
 import { useState } from 'react';
-import { IVouchers } from '../interfaces/Voucher';
-
+import { IDeleteVoucher, IVouchers } from '../interfaces/Voucher';
+import { displayErrorMessage } from './Error';
+import { VOUCHERADD } from '../constants';
 const VoucherList = () => {
   const { data: vouchers, isLoading, error, refetch } = useGetVouchersQuery();
   const [deleteProduct, { isLoading: loadingDelete }] =
@@ -29,20 +30,17 @@ const VoucherList = () => {
   
   const createVoucherHandler = async () => {
     try {
-      navigate('/admin/voucher/add');
+      navigate(VOUCHERADD);
       refetch();
     } catch (err) {
-      const error = err as { data?: { message?: string }; error?: string };
-
-      toast.error(error?.data?.message || error.error);
+      displayErrorMessage(err);
     }
   };
   const indexOfLastVoucher = currentPage * vouchersPerPage;
   const indexOfFirstVoucher = indexOfLastVoucher - vouchersPerPage;
-  const currentVouchers = vouchers?.slice(
-    indexOfFirstVoucher,
-    indexOfLastVoucher
-  );
+  const currentVouchers = vouchers && Array.isArray(vouchers)
+    ? vouchers.slice(indexOfFirstVoucher, indexOfLastVoucher)
+    : [];
   return (
     <>
       <Row className='align-items-center'>
@@ -58,7 +56,7 @@ const VoucherList = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as IMessageProps).children}</Message>
+        <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
       ) : (
         <>
           <Table striped bordered hover responsive className='table-sm'>
@@ -73,7 +71,7 @@ const VoucherList = () => {
               </tr>
             </thead>
             <tbody>
-              {currentVouchers?.map((voucher: IVouchers) => (
+              {currentVouchers?.map((voucher:IVouchers) => (
                 <tr key={voucher._id}>
                   <td>{voucher._id}</td>
                   <td>{voucher.name}</td>
@@ -85,7 +83,7 @@ const VoucherList = () => {
                     <Button
                       variant='danger'
                       className='btn-sm'
-                      onClick={() => deleteHandler(voucher._id)}
+                      // onClick={() => deleteHandler(voucher._id)}
                     >
                       <FaTrash style={{ color: 'white' }} />
                     </Button>

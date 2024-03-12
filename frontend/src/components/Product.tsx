@@ -33,7 +33,7 @@ const Product: React.FC<IProductProps> = ({product}) => {const totalQuantitySold
         <Card.Text as='div' >
  
           <Rating
-            value={product.rating}
+            valueRating={product.rating}
             text={`${product.numReviews} reviews`}
             color = '#f8e825'
           /> <strong style={{color: 'red'}}>Đã bán:</strong> {totalQuantitySold}

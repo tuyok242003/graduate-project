@@ -9,11 +9,13 @@ import {
   useGetOrdersQuery,
   useDeleteOrderMutation,
  
-} from '../../../slices/ordersApiSlice';
+} from '../../../redux/query/ordersApiSlice';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { BiMessageAltDetail } from 'react-icons/bi';
 import { MdDeleteSweep } from 'react-icons/md';
+import { displayErrorMessage } from '../../../components/Error';
+import { ISCANCELLED, ISCONFIRM, ISRECEIVED } from '../../../constants';
 
 const OrderListScreen = () => {
   const { data: orders, isLoading, error, refetch } = useGetOrdersQuery();
@@ -29,15 +31,15 @@ const OrderListScreen = () => {
         await deleteOrder(id);
         refetch();
       } catch (err) {
-        const error = err as { data?: { message?: string }; error?: string };
-
-        toast.error(error?.data?.message || error.error);
+        displayErrorMessage(err);
       }
     }
   };
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-  const currentOrders = orders?.slice(indexOfFirstOrder, indexOfLastOrder);
+  const currentOrders = orders && Array.isArray(orders)
+    ? orders.slice(indexOfFirstOrder, indexOfLastOrder)
+    : [];
   const navigate = useNavigate();
   console.log(currentOrders);
   return (
@@ -50,17 +52,17 @@ const OrderListScreen = () => {
         style={{ marginBottom: 20 }}
       >
         <option value='all'>Tất cả đơn hàng</option>
-        <option value='/admin/isNotReceived'>Đơn hàng chưa giao</option>
-        <option value='/admin/isReceived'>Đơn hàng đã giao</option>
-        <option value='/admin/isCancelled'>Đơn hàng đã huỷ</option>
-        <option value='/admin/isConfirm'>Đơn hàng đã nhận</option>
+        <option value={ISRECEIVED}>Đơn hàng chưa giao</option>
+        <option value={ISRECEIVED}>Đơn hàng đã giao</option>
+        <option value={ISCANCELLED}>Đơn hàng đã huỷ</option>
+        <option value={ISCONFIRM}>Đơn hàng đã nhận</option>
       </Form.Control>
       {loadingDelete && <Loader />}
 
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as IMessageProps).children}</Message>
+        <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
       ) : (
         <>
           <Table striped bordered hover responsive className='table-sm'>
@@ -80,13 +82,13 @@ const OrderListScreen = () => {
             <tbody>
               {currentOrders
                 ?.filter((order) => {
-                  if (statusFromUrl === '/admin/isNotReceived') {
+                  if (statusFromUrl === ISRECEIVED) {
                     return !order.isDelivered && !order.isCancelled;
                   } else if (statusFromUrl === '/admin/isReceived') {
                     return order.isDelivered;
-                  } else if (statusFromUrl === '/admin/isCancelled') {
+                  } else if (statusFromUrl === ISCANCELLED) {
                     return order.isCancelled;
-                  } else if (statusFromUrl === '/admin/isConfirm') {
+                  } else if (statusFromUrl === ISCONFIRM) {
                     return order.isConfirmed;
                   }
                   return true;

@@ -3,11 +3,11 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const Post = ({ post }: { post: IPosts }) => {
+const Post = ( post :IPosts ) => {
   return (
     <Card className='my-3 p-3 rounded'>
       <Link to={`/post/${post._id}`}>
-        <Card.Img src={post.img} variant='top' alt='Ảnh bài viết' />
+        <Card.Img src={post.image} variant='top' alt='Ảnh bài viết' />
       </Link>
 
       <Card.Body>

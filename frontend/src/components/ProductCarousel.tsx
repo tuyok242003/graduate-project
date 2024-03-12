@@ -1,23 +1,23 @@
 import { Link } from 'react-router-dom';
 import { Carousel, Image } from 'react-bootstrap';
 import Message, { IMessageProps } from './Message';
-import { useGetPostsQuery } from '../slices/postSlice';
+import { useGetPostsQuery } from '../redux/query/postSlice';
 import { IPosts } from '@/interfaces/Post';
 
 const PostCarousel = () => {
   const { data: posts, isLoading, error } = useGetPostsQuery();
 
   return isLoading ? null : error ? (
-    <Message variant='danger'>{error}</Message>
+    <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
   ) : (
     <Carousel pause='hover' className='bg-primary mb-4'>
       {posts &&
-        posts.map((post: IPosts) => (
+        Array.isArray(posts) && posts.map((post) => (
           <Carousel.Item key={post._id}>
             <Link to={`/post/${post._id}`}>
               <Image
                 style={{ width: 1300, height: 600 }}
-                src={post.img}
+                src={post.image}
                 alt={post.name}
                 fluid
               />

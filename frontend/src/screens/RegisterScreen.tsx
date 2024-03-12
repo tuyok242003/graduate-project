@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
 
-import { useRegisterMutation } from '../slices/usersApiSlice';
-import { setCredentials } from '../slices/authSlice';
+import { useRegisterMutation } from '../redux/query/usersApiSlice';
+import { setCredentials } from '../redux/slices/authSlice';
 import { toast } from 'react-toastify';
 import { IUser } from '@/interfaces/User';
+import { displayErrorMessage } from '../components/Error';
+import { LOGIN } from '../constants';
 
 const RegisterScreen = () => {
   const [name, setName] = useState('');
@@ -45,8 +47,7 @@ const RegisterScreen = () => {
         dispatch(setCredentials({ ...res }));
         navigate(redirect);
       } catch (err) {
-        const error = err as { data?: { message?: string }; error?: string };
-        toast.error(error?.data?.message || error.error);
+        displayErrorMessage(err);
       }
     }
   };
@@ -104,7 +105,7 @@ const RegisterScreen = () => {
       <Row className='py-3'>
         <Col>
           Already have an account?{' '}
-          <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
+          <Link to={redirect ? `/login?redirect=${redirect}` : LOGIN}>
             Login
           </Link>
         </Col>

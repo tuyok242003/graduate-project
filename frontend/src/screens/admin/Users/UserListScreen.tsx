@@ -7,8 +7,9 @@ import Loader from '../../../components/Loader';
 import {
   useDeleteUserMutation,
   useGetUsersQuery,
-} from '../../../slices/usersApiSlice';
-import { toast } from 'react-toastify';
+} from '../../../redux/query/usersApiSlice';
+import { displayErrorMessage } from '../../../components/Error';
+import { IUser } from '@/interfaces/User';
 
 const UserListScreen = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
@@ -22,9 +23,7 @@ const UserListScreen = () => {
         await deleteUser(id);
         refetch();
       } catch (err) {
-        const error = err as { data?: { message?: string }; error?: string };
-
-        toast.error(error?.data?.message || error.error);
+        displayErrorMessage(err);
       }
     }
   };
@@ -37,7 +36,7 @@ const UserListScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as IMessageProps).children}</Message>
+        <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
       ) : (
         <>
           <Table striped bordered hover responsive className='table-sm'>
@@ -51,7 +50,7 @@ const UserListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {currentUsers?.map((user) => (
+              {currentUsers?.map((user:IUser) => (
                 <tr key={user._id}>
                   <td>{user._id}</td>
                   <td>{user.name}</td>

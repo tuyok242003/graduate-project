@@ -9,11 +9,12 @@ import {
   useGetProductDetailsQuery,
   useUpdateProductMutation,
   useUploadProductImageMutation,
-} from '../../../slices/productsApiSlice';
+} from '../../../redux/query/productsApiSlice';
 import {
   useGetCategoriesQuery
-} from '../../../slices/categorySlice'
+} from '../../../redux/query/categorySlice'
 import { ICategories } from '@/interfaces/Category';
+import { PRODUCTLIST } from '../../../constants';
 const ProductEditScreen = () => {
   const { id: productId } = useParams();
   const [name, setName] = useState('');
@@ -39,7 +40,7 @@ const ProductEditScreen = () => {
     isLoading,
     refetch,
     error,
-  } = useGetProductDetailsQuery(productId);
+  } = useGetProductDetailsQuery(productId as string);
   const [updateProduct, { isLoading: loadingUpdate }] =
     useUpdateProductMutation();
   const [uploadProductImage, { isLoading: loadingUpload }] =
@@ -54,7 +55,6 @@ const ProductEditScreen = () => {
       await updateProduct({
         productId,
         name,
-    
         image,
         brand,
         category,
@@ -62,7 +62,7 @@ const ProductEditScreen = () => {
       }).unwrap();
       toast.success('Product updated');
       refetch();
-      navigate('/admin/productlist');
+      navigate(PRODUCTLIST);
     } catch (err) {
       toast.error('Error');
     }
@@ -74,7 +74,7 @@ const ProductEditScreen = () => {
   
       setImage(product.image);
       setBrand(product.brand);
-      setCategory(product.category);
+      setCategory(product.category.name);
       setDescription(product.description);
     }
   }, [product]);
@@ -82,12 +82,12 @@ const ProductEditScreen = () => {
   const uploadFileHandler = async (imageUpload: React.ChangeEvent<HTMLInputElement>) => {
     const fileInput = imageUpload.target;
     if (fileInput.files && fileInput.files.length > 0) {
-      formData.append('img', fileInput.files[0]);
+      formData.append('image', fileInput.files[0]);
     }
     try {
       const response = await uploadProductImage(formData);
       if ('data' in response) {
-        const { message, img: uploadedImg } = response.data;
+        const { message, image: uploadedImg } = response.data;
         toast.success(message);
         setImage(uploadedImg);
       } else {
@@ -99,7 +99,7 @@ const ProductEditScreen = () => {
 
   return (
     <>
-      <Link to='/admin/productlist' className='btn btn-light my-3'>
+    <Link to={PRODUCTLIST} className='btn btn-light my-3'>
         Go Back
       </Link>
       <FormContainer>
@@ -108,7 +108,7 @@ const ProductEditScreen = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{(error as IMessageProps).children}</Message>
+          <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group controlId='name'>

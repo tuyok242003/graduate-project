@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSearchProductsByCategoryQuery } from '../slices/productsApiSlice';
+import { useSearchProductsByCategoryQuery } from '../redux/query/productsApiSlice';
 import { ICategories } from '@/interfaces/Category';
 import { IProducts } from '@/interfaces/Products';
 import { Card } from 'react-bootstrap';
@@ -16,9 +16,8 @@ const ProductListByCategory = ({
     isLoading,
     error,
   } = useSearchProductsByCategoryQuery({
-    category: selectedCategory,
-    keyword: '',
-    pageNumber: 1,
+    category: selectedCategory
+   
   });
  
   useEffect(() => {}, [products, isLoading, error]);
@@ -29,7 +28,7 @@ const ProductListByCategory = ({
 
       {products && (
 <ul>
-          {products.products.map((product: IProducts) => (
+          {products.map((product: IProducts) => (
             <Card className='my-3 p-3 rounded' style={{height:400,width:300}}>
              <Link to={`/product/${product._id}`}>
              <Card.Img style={{ height: 250 }} src={product.image} variant='top' />
@@ -45,7 +44,7 @@ const ProductListByCategory = ({
     <Card.Text as='div' >
    
           <Rating
-            value={product.rating}
+            valueRating={product.rating}
             text={`${product.numReviews} reviews`}
             color = '#f8e825'
           />

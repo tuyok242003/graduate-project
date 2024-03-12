@@ -10,15 +10,17 @@ import {
   useGetProductsQuery,
   useDeleteProductMutation,
  
-} from '../../../slices/productsApiSlice';
+} from '../../../redux/query/productsApiSlice';
 import { toast } from 'react-toastify';
 import { IProducts } from '@/interfaces/Products';
 import { ICategories } from '@/interfaces/Category';
+import { displayErrorMessage } from '../../../components/Error';
+import { USERLIST } from '../../../constants';
 
 const ProductListScreen = () => {
   const navigate = useNavigate();
 
-  const { data, isLoading, error, refetch } = useGetProductsQuery({});
+  const { data, isLoading, error, refetch } = useGetProductsQuery();
 
   const [deleteProduct, { isLoading: loadingDelete }] =
     useDeleteProductMutation();
@@ -29,9 +31,7 @@ const ProductListScreen = () => {
         await deleteProduct(id);
         refetch();
       } catch (err) {
-        const error = err as { data?: { message?: string }; error?: string };
-
-        toast.error(error?.data?.message || error.error);
+        displayErrorMessage(err);
       }
     }
   };
@@ -39,12 +39,10 @@ const ProductListScreen = () => {
  
   const createProductHandler = async () => {
     try {
-      navigate('/admin/product/add');
+      navigate(USERLIST);
       refetch();
     } catch (err) {
-      const error = err as { data?: { message?: string }; error?: string };
-
-      toast.error(error?.data?.message || error.error);
+      displayErrorMessage(err);
     }
   };
 
@@ -64,7 +62,7 @@ const ProductListScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as IMessageProps).children}</Message>
+        <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
       ) : (
         <>
           <Table striped bordered hover responsive className='table-sm'>
@@ -80,7 +78,7 @@ const ProductListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {data.products.map((product: IProducts) => (
+              {data?.products.map((product:IProducts) => (
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.name}</td>

@@ -4,7 +4,9 @@ import { Form, Button } from 'react-bootstrap';
 import Loader from '../../../components/Loader';
 import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
-import { useAddContactMutation } from '../../../slices/contactSlice';
+import { useAddContactMutation } from '../../../redux/query/contactSlice';
+import { displayErrorMessage } from '../../../components/Error';
+import { CONTACTLIST } from '../../../constants';
 const ContactAddScreen = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -39,13 +41,12 @@ const ContactAddScreen = () => {
       toast.success('Contact added');
       navigate(`/admin/contact/${newContact._id}/edit`);
     } catch (err) {
-      const error = err as { data?: { message?: string }; error?: string };
-      toast.error(error?.data?.message || error.error);
+      displayErrorMessage(err);
     }
   };
   return (
     <>
-      <Link to='/admin/contactList' className='btn btn-light my-3'>
+      <Link to={CONTACTLIST} className='btn btn-light my-3'>
         Go Back
       </Link>
       <FormContainer>

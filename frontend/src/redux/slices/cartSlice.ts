@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { updateCart } from '../utils/cartUtils';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { updateCart } from '../../utils/cartUtils';
 import { IOrder } from '@/interfaces/Order';
 interface ISelect{
   selected:IOrder
@@ -29,21 +29,21 @@ const cartSlice = createSlice({
 
       return updateCart(state, item);
     },
-    removeFromCart: (state, action) => {
+    removeFromCart: (state, action:PayloadAction<string>) => {
       state.cartItems = state.cartItems.filter(
         (cart: IOrder) => cart._id !== action.payload
       );
       return updateCart(state);
     },
-    saveShippingAddress: (state, action) => {
-      state.shippingAddress = action.payload;
+    saveShippingAddress: (state, action:PayloadAction<{address:string,city:string,postalCode:string,country:string}>) => {
+      state.shippingAddress = action.payload
       localStorage.setItem('cart', JSON.stringify(state));
     },
-    savePaymentMethod: (state, action) => {
+    savePaymentMethod: (state, action:PayloadAction<string>) => {
       state.paymentMethod = action.payload;
       localStorage.setItem('cart', JSON.stringify(state));
     },
-    saveVoucherMethod:(state,action)=>{
+    saveVoucherMethod:(state,action:PayloadAction<string>)=>{
       state.voucherName = action.payload;
       localStorage.setItem('cart',JSON.stringify(state))
     },
@@ -52,8 +52,8 @@ const cartSlice = createSlice({
       state.cartItems = itemsToKeep;
       localStorage.setItem('cart', JSON.stringify(state));
     },
-    increaseQty: (state, action) => {
-      const itemId = action.payload;
+    increaseQty: (state, action:PayloadAction<string>) => {
+      const itemId = action.payload
       const item = state.cartItems.find((item:IOrder) => item._id === itemId);
       if (item) {
         if (item.qty < item.countInStock) { // Kiểm tra xem số lượng có nhỏ hơn số lượng trong kho không
@@ -61,7 +61,7 @@ const cartSlice = createSlice({
         }
       }
     },
-    decreaseQty: (state, action) => {
+    decreaseQty: (state, action:PayloadAction<string>) => {
       const itemId = action.payload;
       const item = state.cartItems.find((item:IOrder) => item._id === itemId);
       if (item) {

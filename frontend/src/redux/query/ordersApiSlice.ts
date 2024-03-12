@@ -1,34 +1,34 @@
-import { apiSlice } from './apiSlice';
-import { ORDERS_URL, PAYPAL_URL } from '../constants';
-import { IOrder } from '@/interfaces/Order';
-interface PayOrderInput {
-  orderId: string;
+import { apiSlice } from '../slices/apiSlice';
+import { ORDERS_URL, PAYPAL_URL } from '../../constants';
+import { ICreateOrder, IOrder } from '@/interfaces/Order';
+
+interface IPayOrder{
+  orderId: string | undefined
   details: IOrder;
- 
 }
 export const orderApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    createOrder: builder.mutation<void,IOrder>({
+    createOrder: builder.mutation<IOrder,ICreateOrder>({
       query: (order) => ({
         url: ORDERS_URL,
         method: 'POST',
         body: order,
       }),
     }),
-    getOrderDetails: builder.query<IOrder[], string>({
+    getOrderDetails: builder.query<IOrder, string>({
       query: (id) => ({
         url: `${ORDERS_URL}/${id}`,
       }),
       keepUnusedDataFor: 5,
     }),
-    payOrder: builder.mutation<void,PayOrderInput>({
+    payOrder: builder.mutation<void,IPayOrder>({
       query: ({ orderId, details }) => ({
         url: `${ORDERS_URL}/${orderId}/pay`,
         method: 'PUT',
         body: details,
       }),
     }),
-    getPaypalClientId: builder.query<IOrder[], void>({
+    getPaypalClientId: builder.query<IOrder, void>({
       query: () => ({
         url: PAYPAL_URL,
       }),

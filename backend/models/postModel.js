@@ -5,7 +5,7 @@ const postSchema = mongoose.Schema(
       type: String,
       require: true,
     },
-    img: {
+    image: {
       type: String,
       require: true,
     },

@@ -1,8 +1,9 @@
 import React from 'react';
-import { useGetCategoriesQuery } from '../slices/categorySlice';
+import { useGetCategoriesQuery } from '../redux/query/categorySlice';
 import { Button, Table } from 'react-bootstrap';
 import Loader from './Loader';
 import Message from './Message';
+import { ICategories } from '@/interfaces/Category';
 const Category = ({ onCategoryClick }:any) => {
   const { data: categories, isLoading, error } = useGetCategoriesQuery();
 
@@ -23,7 +24,7 @@ const Category = ({ onCategoryClick }:any) => {
         <>
           <Table striped bordered hover responsive className='table-sm'>
             <tbody>
-              {categories?.map((category) => (
+              {categories?.map((category:ICategories) => (
                 <Button
                   onClick={() => onCategoryClick(category._id)}
                   style={{ width: 100, marginLeft: 10 }}

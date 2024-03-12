@@ -7,23 +7,25 @@ import {
   useAddVariantMutation,
   useUploadProductImageMutation,
   useGetProductsQuery
-} from '../../../slices/productsApiSlice';
+} from '../../../redux/query/productsApiSlice';
 import { useNavigate, useParams } from 'react-router-dom';
+import { displayErrorMessage } from '../../../components/Error';
 const CustomizeVariant = () => {
   const { id } = useParams();
   const [variantColor, setVariantColor] = useState('');
   const [variantPrice, setVariantPrice] = useState('');
-  const [variantCountInStock, setVariantCountInStock] = useState('');
-  const [variantQuantitySold, setVariantQuantitySold] = useState('');
+  const [variantCountInStock, setVariantCountInStock] = useState(0);
+  const [variantQuantitySold, setVariantQuantitySold] = useState(0);
   const [variantThumb, setVariantThumb] = useState('');
   const [variantImages, setVariantImages] = useState('');
   const [variantTitle, setVariantTitle] = useState('');
-  const [variantDiscount, setVariantDiscount] = useState('')
+  const [variantDiscount, setVariantDiscount] = useState(0)
   const navigate = useNavigate();
   const [addVariant, { isLoading: loadingAddVariant }] =
     useAddVariantMutation();
   const [uploadVariantImages, { isLoading: loadingUploadVariantImages }] =
     useUploadProductImageMutation();
+    
     const isFormValid = () => {
    
       if (!variantColor || !variantPrice || !variantQuantitySold || !variantImages || !variantCountInStock || !variantDiscount || !variantTitle) {
@@ -44,7 +46,7 @@ const CustomizeVariant = () => {
       return;
     }
     try {
-      const { data: newVariant } = await addVariant({
+      const {} = await addVariant({
         productId: id,
         variantData: {
           color: variantColor,
@@ -54,16 +56,16 @@ const CustomizeVariant = () => {
           title: variantTitle,
           countInStock: variantCountInStock,
           quantitySold: variantQuantitySold,
-          discount:variantDiscount
+          discount: variantDiscount,
+          id: '',
+          productId: ''
         },
       }).unwrap();
 
       toast.success('Variant added');
       navigate(`/admin/productlist`);
     } catch (err) {
-      const error = err as { data?: { message?: string }; error?: string };
-
-      toast.error(error?.data?.message || error.error);
+      displayErrorMessage(err);
     }
   };
   const formData = new FormData();
@@ -84,9 +86,7 @@ const CustomizeVariant = () => {
       } else {
       }
     } catch (err) {
-      const error = err as { data?: { message?: string }; error?: string };
-
-      toast.error(error?.data?.message || error.error);
+      displayErrorMessage(err);
     }
   };
 
@@ -121,7 +121,7 @@ const CustomizeVariant = () => {
             type='number'
             placeholder='Enter discount'
             value={variantDiscount}
-            onChange={(e) => setVariantDiscount(e.target.value)}
+            onChange={(e) => setVariantDiscount(parseInt(e.target.value))}
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId='variantPrice'>
@@ -130,7 +130,7 @@ const CustomizeVariant = () => {
             type='countInStock'
             placeholder='Enter countInStock'
             value={variantCountInStock}
-            onChange={(e) => setVariantCountInStock(e.target.value)}
+            onChange={(e) => setVariantCountInStock(parseInt(e.target.value))}
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId='variantThumb'>
@@ -148,7 +148,7 @@ const CustomizeVariant = () => {
             type='1'
             placeholder='Enter thumbnail url'
             value={variantQuantitySold}
-            onChange={(e) => setVariantQuantitySold(e.target.value)}
+            onChange={(e) => setVariantQuantitySold(parseInt(e.target.value))}
           ></Form.Control>
         </Form.Group>
 

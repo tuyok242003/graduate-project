@@ -7,9 +7,10 @@ import { toast } from 'react-toastify';
 import {
   useCreateProductMutation,
   useUploadProductImageMutation,
-} from '../../../slices/productsApiSlice';
-import { useGetCategoriesQuery } from '../../../slices/categorySlice';
+} from '../../../redux/query/productsApiSlice';
+import { useGetCategoriesQuery } from '../../../redux/query/categorySlice';
 import { ICategories } from '@/interfaces/Category';                         
+import { PRODUCTLIST } from '../../../constants';
 const ProductAddScreen = () => {
   const [name, setName] = useState('');
   const [price,setPrice] = useState('');
@@ -42,7 +43,7 @@ const ProductAddScreen = () => {
     }
 
     try {
-      const { data: newProduct } = await addProduct({
+      const response = await addProduct({
         name,
         image,
         price,
@@ -52,7 +53,7 @@ const ProductAddScreen = () => {
       }).unwrap();
     
       toast.success('Product added');
-      console.log(newProduct._id)
+     
     } catch (error) {
       toast.error('Error');
     }
@@ -81,7 +82,7 @@ const ProductAddScreen = () => {
 
   return (
     <>
-      <Link to='/admin/productlist' className='btn btn-light my-3'>
+      <Link to={PRODUCTLIST} className='btn btn-light my-3'>
         Go Back
       </Link>
       <FormContainer>

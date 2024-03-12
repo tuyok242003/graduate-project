@@ -15,15 +15,16 @@ import { toast } from 'react-toastify';
 import {
   useGetProductDetailsQuery,
   useCreateReviewMutation,
-} from '../slices/productsApiSlice';
+} from '../redux/query/productsApiSlice';
 import Rating from '../components/Rating';
 import Loader from '../components/Loader';
 import Message, { IMessageProps } from '../components/Message';
 import Meta from '../components/Meta';
-import { addToCart } from '../slices/cartSlice';
+import { addToCart } from '../redux/slices/cartSlice';
 import { IReview, IVariant } from '@/interfaces/Products';
-import '../assets/styles/ProductScreen.css';
-
+import { displayErrorMessage } from '../components/Error';
+import { ActiveVariantItem } from '@/assets/styles/ProductScreen';
+import { CART } from '../constants';
 const ProductScreen = () => {
   const { id: productId } = useParams();
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const ProductScreen = () => {
     if (
       selectedVariantQty > 0 &&
       selectedVariant &&
-      typeof selectedVariant === 'object' &&
+    
       selectedVariant !== null
     ) {
       const variantToAdd = {
@@ -61,7 +62,7 @@ const ProductScreen = () => {
     ) {
       dispatch(addToCart({ ...selectedVariant, qty: selectedVariantQty }));
       toast.success('Product added to cart successfully');
-      navigate('/cart');
+      navigate(CART);
     } else {
       toast.error('Please select a variant');
     }
@@ -90,7 +91,7 @@ const ProductScreen = () => {
     isLoading,
     refetch,
     error,
-  } = useGetProductDetailsQuery(productId);
+  } = useGetProductDetailsQuery(productId as string);
 
   const { userInfo } =
     useSelector((state: { auth?: { userInfo: IReview } }) => state.auth) || {};
@@ -105,13 +106,12 @@ const ProductScreen = () => {
       await createReview({
         productId,
         rating,
-        comment,
+        comment
       }).unwrap();
       refetch();
       toast.success('Review created successfully');
     } catch (err) {
-      const error = err as { data?: { message?: string }; error?: string };
-      toast.error(error?.data?.message || error.error);
+      displayErrorMessage(err);
     }
   };
 
@@ -123,30 +123,29 @@ const ProductScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as IMessageProps).children}</Message>
+        <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
       ) : (
         <>
-          <Meta title={product.name} description={product.description} />
+          <Meta title={product?.name} description={product?.description} />
           <Row>
             <Col md={6}>
               <Image
                 style={{ width: 400, height: 450 }}
-                src={selectedVariant ? selectedVariant.thumb : product.image}
-                alt={product.name}
+                src={selectedVariant ? selectedVariant.thumb : product?.image}
+                alt={product?.name}
                 fluid
               />
             </Col>
             <Col md={3}>
               <ListGroup variant='flush'>
                 <ListGroup.Item>
-                  <h3>{product.name}</h3>
+                  <h3>{product?.name}</h3>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Rating
-                    value={product.rating}
-                    text={`${product.numReviews} reviews`}
-                    color = '#f8e825'
-
+                  
+                        text={`${product?.numReviews} reviews`}
+                        color='#f8e825' valueRating={0}
                   />
                 </ListGroup.Item>
                 {selectedVariant && selectedVariant?.discount > 0 && (
@@ -159,10 +158,10 @@ const ProductScreen = () => {
                   <strong>Đã bán: </strong>
                   {selectedVariant
                     ? selectedVariant.quantitySold
-                    : product.quantitySold}
+                    : product?.quantitySold}
                 </ListGroup.Item>
                 <Row>
-  {product.variants.map((variant: IVariant, index: number) => (
+  {product?.variants.map((variant: IVariant, index: number) => (
     <Col md={4} key={index}>
       <ListGroup variant='flush'>
         <ListGroup.Item
@@ -196,7 +195,7 @@ const ProductScreen = () => {
                           $
                           {selectedVariant
                             ? selectedVariant.price
-                            : product.price}
+                            : product?.price}
                         </strong>
                       </Col>
                     </Row>
@@ -218,7 +217,7 @@ const ProductScreen = () => {
                     </strong>
                     {selectedVariant
                       ? selectedVariant.countInStock
-                      : product.countInStock}
+                      : product?.countInStock}
                     <Col>
                       <Button
                         style={{ marginRight: 10 }}
@@ -235,12 +234,7 @@ const ProductScreen = () => {
                         variant='outline-secondary'
                         className='qty-btn'
                         onClick={increaseQty}
-                        disabled={
-                          selectedVariantQty >=
-                          (selectedVariant
-                            ? selectedVariant.countInStock
-                            : product.countInStock)
-                        }
+                       
                       >
                         +
                       </Button>
@@ -255,7 +249,7 @@ const ProductScreen = () => {
                       type='button'
                       disabled={
                         !selectedVariant ||
-                        product.countInStock === 0 ||
+                    
                         selectedVariant.countInStock === 0
                       }
                       onClick={addToCartHandler}
@@ -272,7 +266,7 @@ const ProductScreen = () => {
                       type='button'
                       disabled={
                         !selectedVariant ||
-                        product.countInStock === 0 ||
+                        product?.countInStock === 0 ||
                         selectedVariant.countInStock === 0
                       }
                       onClick={buyNowHandler}
@@ -286,19 +280,19 @@ const ProductScreen = () => {
           </Row>
           <Col md={6}>
             <h4>Mô tả:</h4>
-            <p>{product.description}</p>
+            <p>{product?.description}</p>
           </Col>
 
           <Row className='review'>
             <Col md={6}>
               <h2>Reviews</h2>
-              {product.reviews.length === 0 && <Message>No Reviews</Message>}
+              {product?.reviews.length === 0 && <Message>No Reviews</Message>}
               <ListGroup variant='flush'>
-                {product.reviews.map((review: IReview) => (
+                {product?.reviews.map((review: IReview) => (
                   <ListGroup.Item key={review._id}>
                     <strong>{review.name}</strong>
                     <Rating
-                      value={review.rating}
+                      valueRating={review.rating}
                       text={`(${review.rating} stars)`}
                                           color = '#f8e825'
 
@@ -352,7 +346,7 @@ const ProductScreen = () => {
                     </Form>
                   ) : (
                     <Message>
-                      Please <Link to='/login'>sign in</Link> to write a review
+                     Vui lòng đăng nhập
                     </Message>
                   )}
                 </ListGroup.Item>

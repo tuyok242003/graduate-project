@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
-import { savePaymentMethod } from '../slices/cartSlice';
+import { savePaymentMethod } from '../redux/slices/cartSlice';
 import {RootState} from './CartScreen'
+import { PLACEORDER, SHIPPING } from '../constants';
 const PaymentScreen = () => {
   const navigate = useNavigate();
   const cart = useSelector((state: RootState) => state.cart);
@@ -13,7 +14,7 @@ const PaymentScreen = () => {
 
   useEffect(() => {
     if (!shippingAddress.address) {
-      navigate('/shipping');        
+      navigate(SHIPPING);        
     }
   }, [navigate, shippingAddress]);
 
@@ -24,7 +25,7 @@ const PaymentScreen = () => {
   const submitHandler = (payment: React.FormEvent<HTMLFormElement>) => {
     payment.preventDefault();
     dispatch(savePaymentMethod(paymentMethod));
-    navigate('/placeorder');
+    navigate(PLACEORDER);
   };
 
   return (

@@ -9,7 +9,9 @@ import { useParams } from 'react-router-dom';
 import {
   useGetUserDetailsQuery,
   useUpdateUserMutation,
-} from '../../../slices/usersApiSlice';
+} from '../../../redux/query/usersApiSlice';
+import { displayErrorMessage } from '../../../components/Error';
+import { USERLIST } from '../../../constants';
 
 const UserEditScreen = () => {
   const { id: userId } = useParams();
@@ -22,7 +24,7 @@ const UserEditScreen = () => {
     isLoading,
     error,
     refetch,
-  } = useGetUserDetailsQuery(userId);
+  } = useGetUserDetailsQuery(userId as string);
 
   const [updateUser, { isLoading: loadingUpdate }] = useUpdateUserMutation();
 
@@ -34,11 +36,9 @@ const UserEditScreen = () => {
       await updateUser({ userId, name, email, isAdmin });
       toast.success('user updated successfully');
       refetch();
-      navigate('/admin/userlist');
+      navigate(USERLIST);
     } catch (err) {
-      const error = err as { data?: { message?: string }; error?: string };
-
-      toast.error(error?.data?.message || error.error);
+      displayErrorMessage(err);
     }
   };
 
@@ -52,7 +52,7 @@ const UserEditScreen = () => {
 
   return (
     <>
-      <Link to='/admin/userlist' className='btn btn-light my-3'>
+      <Link to={USERLIST} className='btn btn-light my-3'>
         Go Back
       </Link>
       <FormContainer>
@@ -61,7 +61,7 @@ const UserEditScreen = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{(error as IMessageProps).children}</Message>
+          <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group className='my-2' controlId='name'>

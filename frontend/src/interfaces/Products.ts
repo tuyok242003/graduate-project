@@ -14,7 +14,7 @@ export interface IVariant {
   id: string;
   productId: string;
   color: string;
-  price: number;
+  price: string;
   thumb: string;
   images: string;
   title: string;
@@ -22,14 +22,21 @@ export interface IVariant {
   quantitySold: number;
   discount:number
 }
-
+export interface IAddProduct{
+  name: string;
+  price:string;
+  image: string;
+  brand: string;
+  category: string 
+  description: string;
+}
 export interface IProducts {
   _id: string;
   name: string;
   price:string;
   image: string;
   brand: string;
-  category: ICategories | string;
+  category: ICategories 
   description: string;
   reviews: IReview[];
   rating: number;
@@ -37,6 +44,9 @@ export interface IProducts {
   variants: IVariant[];
   createdAt?: Date;
   updatedAt?: Date;
+  quantitySold:number
+  countInStock:number
+  
 }
 export interface IProductss {
   products: IProducts[];

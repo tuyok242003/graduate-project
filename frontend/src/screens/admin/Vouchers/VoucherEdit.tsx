@@ -9,8 +9,9 @@ import {
   useGetVoucherDetailsQuery,
   useUpdateVoucherMutation,
 
-} from '../../../slices/voucherSlice';
-
+} from '../../../redux/query/voucherSlice';
+import { displayErrorMessage } from '../../../components/Error';
+import { VOUCHERLIST } from '../../../constants';
 const VoucherEditScreen = () => {
   const { id: voucherId } = useParams();
 
@@ -24,7 +25,7 @@ const VoucherEditScreen = () => {
     isLoading,
     refetch,
     error,
-  } = useGetVoucherDetailsQuery(voucherId);
+  } = useGetVoucherDetailsQuery(voucherId as string);
 
   const [updateVoucher, { isLoading: loadingUpdate }] = useUpdateVoucherMutation();
 
@@ -55,11 +56,9 @@ const VoucherEditScreen = () => {
       }).unwrap();
       toast.success('Voucher updated');
       refetch();
-      navigate('/admin/voucherlist');
+      navigate(VOUCHERLIST);
     } catch (err) {
-      const error = err as { data?: { message?: string }; error?: string };
-
-      toast.error(error?.data?.message || error.error);
+      displayErrorMessage(err);
     }
   };
 
@@ -75,7 +74,7 @@ const VoucherEditScreen = () => {
   
   return (
     <>
-      <Link to='/admin/voucherlist' className='btn btn-light my-3'>
+      <Link to={VOUCHERLIST} className='btn btn-light my-3'>
         Go Back
       </Link>
       <FormContainer>
@@ -84,7 +83,7 @@ const VoucherEditScreen = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{(error as IMessageProps).children}</Message>
+          <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group controlId='name'>
@@ -102,7 +101,7 @@ const VoucherEditScreen = () => {
                 type='number'
                 placeholder='Số lượng'
                 value={qty}
-                onChange={(e) => setQty(e.target.value)}
+               
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId='discountAmount'>

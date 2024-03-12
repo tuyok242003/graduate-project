@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
-import { saveVoucherMethod } from '../slices/cartSlice';
+import { saveVoucherMethod } from '../redux/slices/cartSlice';
 import { RootState } from './CartScreen';
+import { PAYMENT } from '../constants';
 const VoucherScreen = () => {
   const cart = useSelector((state: RootState) => state.cart); 
   const { voucherName } = cart;
@@ -15,7 +16,7 @@ const dispatch = useDispatch();
 const submitHandler = (voucher: React.FormEvent<HTMLFormElement>) => {
   voucher.preventDefault();
     dispatch(saveVoucherMethod(nameVoucher));
-    navigate('/payment');
+    navigate(PAYMENT);
   };
 
   return (

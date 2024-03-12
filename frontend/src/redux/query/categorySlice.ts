@@ -1,8 +1,10 @@
-import { apiSlice } from './apiSlice';
-import { CATEGORIES_URL } from '../constants';
+import { apiSlice } from '../slices/apiSlice';
+import { CATEGORIES_URL } from '../../constants';
 import { ICategories } from '@/interfaces/Category';
 interface IUpdateCategoryInput {
-  categoryId: string;
+  categoryId: string | undefined
+  name:string
+ 
 }
 export const categorySlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -12,21 +14,21 @@ export const categorySlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
-    getCategoryDetails: builder.query<ICategories[], string>({
+    getCategoryDetails: builder.query<ICategories, string>({
       query: (categoryId) => ({
         url: `${CATEGORIES_URL}/${categoryId}`,
       }),
       keepUnusedDataFor: 5,
     }),
 
-    deleteCategory: builder.mutation<ICategories[], string>({
+    deleteCategory: builder.mutation<ICategories, string>({
       query: (categoryId) => ({
         url: `${CATEGORIES_URL}/${categoryId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Category'],
     }),
-    createCategory: builder.mutation<ICategories[], string>({
+    createCategory: builder.mutation<ICategories, string>({
       query: (categoryData) => ({
         url: `${CATEGORIES_URL}`,
         method: 'POST',

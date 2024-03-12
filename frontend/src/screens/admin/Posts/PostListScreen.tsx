@@ -1,7 +1,7 @@
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Row, Col, Pagination } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Message, { IMessageProps } from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import { toast } from 'react-toastify';
@@ -9,9 +9,9 @@ import {
   useGetPostsQuery,
   useDeletePostMutation,
   useCreatePostMutation,
-} from '../../../slices/postSlice';
+} from '../../../redux/query/postSlice';
 import { useState } from 'react';
-import { IPosts } from '@/interfaces/Post';
+import { displayErrorMessage } from '../../../components/Error';
 
 const PostListScreen = () => {
   const { data: posts, isLoading, error, refetch } = useGetPostsQuery();
@@ -20,10 +20,10 @@ const PostListScreen = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const ordersPerPage = 5;
-  const deleteHandler = async (id: string) => {
+  const deleteHandler = async (_id: string) => {
     if (window.confirm('Are you sure')) {
       try {
-        await deleteProduct(id);
+        await deleteProduct(_id);
         refetch();
       } catch (err) {
         toast.error('Error');
@@ -37,9 +37,7 @@ const PostListScreen = () => {
       navigate('/admin/post/add');
       refetch();
     } catch (err) {
-      const error = err as { data?: { message?: string }; error?: string };
-
-      toast.error(error?.data?.message || error.error);
+      displayErrorMessage(err);
     }
   };
   const indexOfLastPost = currentPage * ordersPerPage;
@@ -64,7 +62,7 @@ const PostListScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as IMessageProps).children}</Message>
+        <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
       ) : (
         <>
           <Table striped bordered hover responsive className='table-sm'>
@@ -78,14 +76,14 @@ const PostListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {currentPosts?.map((post: IPosts) => (
+              {currentPosts?.map((post) => (
                 <tr key={post._id}>
                   <td>{post._id}</td>
                   <td>{post.name}</td>
                   <td>
-                    {post.img && (
+                    {post.image && (
                       <img
-                        src={post.img}
+                        src={post.image}
                         alt={post.name}
                         style={{ maxWidth: '100px' }}
                       />
@@ -101,7 +99,7 @@ const PostListScreen = () => {
                     <Button
                       variant='danger'
                       className='btn-sm'
-                      onClick={() => deleteHandler(post._id)}
+                      onClick={() =>deleteHandler(post._id)}
                     >
                       <FaTrash style={{ color: 'white' }} />
                     </Button>

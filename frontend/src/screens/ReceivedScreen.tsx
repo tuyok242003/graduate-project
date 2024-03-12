@@ -10,7 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import {
   useGetMyOrdersQuery,
   useConfirmOrderMutation,
-} from '../slices/ordersApiSlice';
+} from '../redux/query/ordersApiSlice';
+import { displayErrorMessage } from '../components/Error';
 
 const ReceivedScreen = () => {
   const { data: orders, isLoading, error, refetch } = useGetMyOrdersQuery();
@@ -39,8 +40,7 @@ const ReceivedScreen = () => {
         refetch();
         toast.success('Đơn hàng đã được nhận thành công');
       } catch (err) {
-        const error = err as { data?: { message?: string }; error?: string };
-        toast.error(error?.data?.message || error.error);
+        displayErrorMessage(err);
       }
     }
   };
@@ -72,7 +72,7 @@ const ReceivedScreen = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{(error as IMessageProps).children}</Message>
+          <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
         ) : (
           <Table striped hover responsive className='table-sm'>
             <thead>

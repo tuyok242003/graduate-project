@@ -21,8 +21,9 @@ import {
   useGetOrderDetailsQuery,
   useGetPaypalClientIdQuery,
   usePayOrderMutation,
-} from '../slices/ordersApiSlice';
+} from '../redux/query/ordersApiSlice';
 import { IOrder, IOrderItem } from '@/interfaces/Order';
+import { displayErrorMessage } from '../components/Error';
 
 const OrderScreen: React.FC = () => {
   const { id: orderId } = useParams<{ id: string }>();
@@ -30,7 +31,7 @@ const OrderScreen: React.FC = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId);
+  const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId as string);
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
   const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
   const { userInfo } = useSelector((state: { auth?: { userInfo: IUser } }) => state.auth) || {};
@@ -41,10 +42,10 @@ const OrderScreen: React.FC = () => {
 const orderItem = localStorage.getItem("selectedItems");
 
 
-const dataOrder = order?.orderItems.filter((item:IOrder) => {
+const dataOrder = order?.orderItems.filter(item => {
  return orderItem?.includes(item._id); 
-});
-console.log(dataOrder);
+})
+
 
   const {
     data: paypal,
@@ -80,12 +81,14 @@ console.log(dataOrder);
     try {
       await payOrder({ orderId, details });
       const updatedOrder = await refetch();
-      setIsOrderPaid(updatedOrder.data.isPaid);
+      if (updatedOrder.data) {
+        setIsOrderPaid(updatedOrder.data.isPaid);
+      }
+      
       setShowPaymentSuccessBill(true);
       toast.success('Đơn hàng đã thanh toán');
     } catch (err) {
-      const error = err as { data?: { message?: string }; error?: string };
-      toast.error(error?.data?.message || error.error);
+      displayErrorMessage(err);
     }
   };
 
@@ -98,7 +101,7 @@ console.log(dataOrder);
       .create({
         purchase_units: [
           {
-            amount: { value: order.totalPrice },
+            amount: { value: order?.totalPrice },
           },
         ],
       })
@@ -110,14 +113,14 @@ console.log(dataOrder);
 
 
   const deliverHandler = async () => {
-    await deliverOrder(orderId);
+    await deliverOrder(orderId as string);
     refetch();
   };
 
   return isLoading ? (
     <Loader />
   ) : error ? (
-    <Message variant='danger'>{(error as IMessageProps).children}</Message>
+    <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
   ) : (
     <>
       <h1>Order {order?._id}</h1>
@@ -125,30 +128,7 @@ console.log(dataOrder);
       <Row>
         <Col md={8}>
           <ListGroup variant='flush'>
-            <ListGroup.Item>
-              <h2>Shipping</h2>
-              <p>
-                <strong>Name: </strong> {order?.user.name}
-              </p>
-              <p>
-                <strong>Email: </strong>{' '}
-                <a href={`mailto:${order?.user.email}`}>{order?.user.email}</a>
-              </p>
-              <p>
-                <strong>Address:</strong>
-                {order?.shippingAddress.address}, {order?.shippingAddress.city}{' '}
-                {order?.shippingAddress.postalCode},{' '}
-                {order?.shippingAddress.country}
-              </p>
-
-              {order?.isDelivered ? (
-                <Message variant='success'>
-                 Đã giao hàng {order?.deliveredAt}
-                </Message>
-              ) : (
-                <Message variant='danger'>Chưa giao hàng</Message>
-              )}
-            </ListGroup.Item>
+            
             <ListGroup.Item>
               <h2>Payment Method</h2>
               <p>
@@ -156,7 +136,7 @@ console.log(dataOrder);
                 {order?.paymentMethod}
               </p>
               {order?.isPaid ? (
-                <Message variant='success'>Đã thanh toán {order?.paidAt}</Message>
+                <Message variant='success'>Đã thanh toán</Message>
               ) : (
                 <Message variant='danger'>Chưa thanh toán</Message>
               )}
@@ -175,7 +155,7 @@ console.log(dataOrder);
                 <Message>Order is empty</Message>
               ) : (
                 <ListGroup variant='flush'>
-                  {dataOrder.map((item: IOrderItem, index: number) => (
+                  {dataOrder?.map((item: IOrderItem, index: number) => (
                     <ListGroup.Item key={index}>
                       <Row>
                       <Col style={{marginRight:20}} md={2}>
@@ -218,7 +198,7 @@ console.log(dataOrder);
                 <Row>
                   <Col>Items</Col>
                   <Col>
-      ${dataOrder.reduce((acc:number, item:IOrderItem) => acc + (item.qty * (item.variant ? item.variant.price : item.price)), 0).toFixed(2)}
+      ${dataOrder?.reduce((acc:number, item:IOrderItem) => acc + (item.qty * (item.variant ? item.variant.price : item.price)), 0).toFixed(2)}
     </Col>
                 </Row>
               </ListGroup.Item>
@@ -254,38 +234,6 @@ console.log(dataOrder);
   </ListGroup.Item>
 )}
 
-              <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Cảm ơn bạn đã mua hàng</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <p>
-                    <strong>Order ID:</strong> {order?._id}
-                  </p>
-                  <p>
-                    <strong>Total Amount:</strong> ${order?.totalPrice}
-                  </p>
-                  <h3>Shipping Information:</h3>
-                  <p>
-                    <strong>Name:</strong> {order?.user.name}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {order?.user.email}
-                  </p>
-                  <p>
-                    <strong>Shipping Address:</strong>{' '}
-                    {order?.shippingAddress.address},{' '}
-                    {order?.shippingAddress.city}{' '}
-                    {order?.shippingAddress.postalCode},{' '}
-                    {order?.shippingAddress.country}
-                  </p>
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button variant='secondary' onClick={handleClose}>
-                    Đóng
-                  </Button>
-                </Modal.Footer>
-              </Modal>
 
               {loadingDeliver && <Loader />}
               {userInfo?.isAdmin && order?.isPaid && !order?.isDelivered && (

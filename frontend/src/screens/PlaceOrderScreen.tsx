@@ -6,10 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import CheckoutSteps from '../components/CheckoutSteps';
 import Loader from '../components/Loader';
-import { useCreateOrderMutation } from '../slices/ordersApiSlice';
-import { clearCartItems } from '../slices/cartSlice';
+import { useCreateOrderMutation } from '../redux/query/ordersApiSlice';
+import { clearCartItems } from '../redux/slices/cartSlice';
 import {RootState} from './CartScreen'
 import {  IOrderItem } from '@/interfaces/Order';
+import { PAYMENT, SHIPPING } from '../constants';
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();
   const cart = useSelector((state:RootState) => state.cart);
@@ -19,9 +20,9 @@ const PlaceOrderScreen = () => {
 
   useEffect(() => {
     if (!cart.shippingAddress.address) {
-      navigate('/shipping');
+      navigate(SHIPPING);
     } else if (!cart.paymentMethod) {
-      navigate('/payment');
+      navigate(PAYMENT);
     }
    
   }, [cart.paymentMethod, cart.shippingAddress.address, navigate]);

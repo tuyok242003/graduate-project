@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Button, ListGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { useGetPostsQuery } from '../slices/postSlice';
+import { useGetPostsQuery } from '../redux/query/postSlice';
 import Loader from '../components/Loader';
 import Message, { IMessageProps } from '../components/Message';
 import '../assets/styles/PostScreen.css';
@@ -22,14 +22,14 @@ const PostScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as IMessageProps).children}</Message>
+        <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
       ) : (
         <Row>
           <Col md={8}>
-            {posts?.map((post: IPosts) => (
+            {posts?.map((post) => (
               <div key={post._id} className='mb-4 d-flex post-container'>
                 <img
-                  src={post.img}
+                  src={post.image}
                   alt={post.content}
                   className='mr-4 post-image'
                 />
@@ -58,7 +58,7 @@ const PostScreen = () => {
             <ListGroup>
               {posts
                 ?.slice(0, 5)
-                .map((post: IPosts) => (
+                .map((post) => (
                   <ListGroup.Item key={post._id}>{post.name}</ListGroup.Item>
                 ))}
             </ListGroup>

@@ -2,14 +2,20 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Card, Form } from 'react-bootstrap';
-import { useGetProductDetailsQuery } from '../../../slices/productsApiSlice';
+import { useGetProductDetailsQuery } from '../../../redux/query/productsApiSlice';
 import Rating from '../../../components/Rating';
 import Loader from '../../../components/Loader';
 import Message, { IMessageProps } from '../../../components/Message';
 import Meta from '../../../components/Meta';
-import '../../../assets/styles/ProductScreen.css';
+
 import { IReview, IVariant } from '@/interfaces/Products';
 import { ICategories } from '@/interfaces/Category';
+import {
+  ActiveVariantItem,
+  ColorWrapper,
+  SaleHighlight,
+  VerticalLine
+} from '../../../assets/styles/ProductScreen'; 
 interface IState {
   selectedVariant:IVariant | null,
   activeVariantId:string | null
@@ -24,7 +30,7 @@ const ProductDetail = () => {
     data: product,
     isLoading,
     error,
-  } = useGetProductDetailsQuery(productId);
+  } = useGetProductDetailsQuery(productId as string);
   return (
     <>
       <Link className='btn btn-light my-3' to='/'>
@@ -33,43 +39,43 @@ const ProductDetail = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as IMessageProps).children}</Message>
+        <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
       ) : (
         <>
-          <Meta title={product.name} description={product.description} />
+          <Meta title={product?.name} description={product?.description} />
           <Row>
             <Col md={6}>
               <Image
-                src={state?.selectedVariant ? state.selectedVariant.thumb : product.image}
-                alt={product.name}
+                src={state?.selectedVariant ? state.selectedVariant.thumb : product?.image}
+                alt={product?.name}
                 fluid
               />
             </Col>
             <Col md={3}>
               <ListGroup variant='flush'>
                 <ListGroup.Item>
-                  <h3>{product.name}</h3>
+                  <h3>{product?.name}</h3>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Rating
-                    value={product.rating}
-                    text={`${product.numReviews} reviews`}
-                    color = '#f8e825'
+                    text={`${product?.numReviews} reviews`}
+                    color='#f8e825' 
+                    valueRating={0}
                   />
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <Form.Label> Brand: {product.brand}</Form.Label>
+                  <Form.Label> Brand: {product?.brand}</Form.Label>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <Form.Label>Category: {(product.category as ICategories).name}</Form.Label>
+                  <Form.Label>Category: {(product?.category as ICategories).name}</Form.Label>
                 </ListGroup.Item>
                 <ListGroup.Item style={{width:100}}>
                   <strong>Price:</strong> $
-                  {state?.selectedVariant ? state.selectedVariant.price : product.price}
+                  {state?.selectedVariant ? state.selectedVariant.price : product?.price}
                 </ListGroup.Item>
                 <ListGroup variant='flush'>
-                  {product.variants.map((variant: IVariant, index: number) => (
-                    <ListGroup.Item
+                  {product?.variants.map((variant: IVariant, index: number) => (
+                    <ColorWrapper
                       key={index}
                       onClick={() => handleVariantClick(variant)}
                       style={{ cursor: 'pointer' }}
@@ -78,7 +84,8 @@ const ProductDetail = () => {
                       }`}
                     >
                       <span className='color-name'>{variant.color}</span>
-                    </ListGroup.Item>
+                      <VerticalLine />
+                    </ColorWrapper>
                   ))}
                 </ListGroup>
               </ListGroup>
@@ -94,7 +101,7 @@ const ProductDetail = () => {
                           $
                           {state?.selectedVariant
                             ? state.selectedVariant.price
-                            : product.price}
+                            : product?.price}
                         </strong>
                       </Col>
                     </Row>
@@ -102,9 +109,7 @@ const ProductDetail = () => {
                   <ListGroup.Item>
                     <Row>
                       <Col>Status:</Col>
-                      <Col>
-                        {product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}
-                      </Col>
+                      
                     </Row>
                   </ListGroup.Item>
                 </ListGroup>
@@ -112,19 +117,18 @@ const ProductDetail = () => {
             </Col>
           </Row>
           <Col md={6}>
-            <h4>Description:{product.description}</h4>
+            <h4>Description:{product?.description}</h4>
           </Col>
-
           <Row className='review'>
             <Col md={6}>
               <h2>Reviews</h2>
-              {product.reviews.length === 0 && <Message>No Reviews</Message>}
+              {product?.reviews.length === 0 && <Message>No Reviews</Message>}
               <ListGroup variant='flush'>
-                {product.reviews.map((review: IReview) => (
+                {product?.reviews.map((review: IReview) => (
                   <ListGroup.Item key={review._id}>
                     <strong>{review.name}</strong>
                     <Rating
-                      value={review.rating}
+                      valueRating={review.rating}
                       text={`(${review.rating} stars)`}
                       color = '#f8e825'
 

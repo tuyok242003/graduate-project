@@ -1,3 +1,4 @@
+import { LOGIN, PAYMENT, PLACEORDER, SHIPPING, VOUCHER } from '../constants';
 import React from 'react';
 import { Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -19,7 +20,7 @@ const CheckoutSteps = ({
     <Nav className='justify-content-center mb-4'>
       <Nav.Item>
         {step1 ? (
-          <LinkContainer to='/login'>
+          <LinkContainer to={LOGIN}>
             <Nav.Link>Sign In</Nav.Link>
           </LinkContainer>
         ) : (
@@ -29,7 +30,7 @@ const CheckoutSteps = ({
 
       <Nav.Item>
         {step2 ? (
-          <LinkContainer to='/shipping'>
+          <LinkContainer to={SHIPPING}>
             <Nav.Link>Shipping</Nav.Link>
       
           </LinkContainer>
@@ -39,7 +40,7 @@ const CheckoutSteps = ({
       </Nav.Item>
       <Nav.Item>
         {step3 ? (
-          <LinkContainer to='/voucher'>
+          <LinkContainer to={VOUCHER}>
             <Nav.Link>Add Voucher</Nav.Link>
           </LinkContainer>
         ) : (
@@ -48,7 +49,7 @@ const CheckoutSteps = ({
       </Nav.Item>
       <Nav.Item>
         {step4 ? (
-          <LinkContainer to='/payment'>
+          <LinkContainer to={PAYMENT}>
             <Nav.Link>Payment</Nav.Link>
           </LinkContainer>
         ) : (
@@ -58,7 +59,7 @@ const CheckoutSteps = ({
 
       <Nav.Item>
         {step5 ? (
-          <LinkContainer to='/placeorder'>
+          <LinkContainer to={PLACEORDER}>
             <Nav.Link>Place Order</Nav.Link>
           </LinkContainer>
         ) : (

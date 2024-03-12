@@ -7,11 +7,12 @@ import { toast } from 'react-toastify';
 import {
   useCreatePostMutation,
   useUploadPostImageMutation,
-} from '../../../slices/postSlice';
+} from '../../../redux/query/postSlice';
+import { displayErrorMessage } from '../../../components/Error';
 
 const PostAddScreen = () => {
   const [name, setName] = useState('');
-  const [img, setImg] = useState('');
+  const [image, setImg] = useState('');
   const [content, setContent] = useState('');
 
   const [addPost, { isLoading: loadingAdd }] = useCreatePostMutation();
@@ -21,7 +22,7 @@ const PostAddScreen = () => {
   const navigate = useNavigate();
   const isFormValid = () => {
    
-    if (!name || !img || !content ) {
+    if (!name || !image || !content ) {
       toast.error('Vui lòng điền đầy đủ thông tin bài viết');
       return false;
     }
@@ -38,18 +39,16 @@ const PostAddScreen = () => {
     try {
       const postData = {
         name,
-        img,
+        image,
         content,
       };
 
-      const { data: newPost } = await addPost(postData).unwrap();
+      const {} = await addPost(postData).unwrap();
 
       toast.success('Post added');
-      navigate(`/admin/post/${newPost._id}/edit`);
-    } catch (err) {
-      const error = err as { data?: { message?: string }; error?: string };
-
-      toast.error(error?.data?.message || error.error);
+     
+    } catch (err) { 
+      displayErrorMessage(err);
     }
   };
   const formData = new FormData();
@@ -69,9 +68,7 @@ const PostAddScreen = () => {
       } else {
       }
     } catch (err) {
-      const error = err as { data?: { message?: string }; error?: string };
-
-      toast.error(error?.data?.message || error.error);
+      displayErrorMessage(err);
     }
   };
 

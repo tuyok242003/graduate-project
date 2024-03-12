@@ -1,13 +1,18 @@
 import { IProducts } from '@/interfaces/Products';
-import { VOUCHERS_URL } from '../constants';
-import { apiSlice } from './apiSlice';
-import { IVouchers } from '@/interfaces/Voucher';
+import { VOUCHERS_URL } from '../../constants';
+import { apiSlice } from '../slices/apiSlice';
+import { IDeleteVoucher, IVouchers } from '@/interfaces/Voucher';
 interface IUpdateVoucher{
-  voucherId:string
+  voucherId:string | undefined
+  name:string
+  discountAmount:string
+  expiryDate:string
+  isUsed:boolean
 }
+
 export const voucherSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getVouchers: builder.query<IVouchers, void>({
+    getVouchers: builder.query<IVouchers[], void>({
       query: () => ({
         url: VOUCHERS_URL,
       }),
@@ -20,7 +25,7 @@ export const voucherSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,                              
     }),
 
-    deleteVoucher: builder.mutation<IVouchers,string>({
+    deleteVoucher: builder.mutation<IDeleteVoucher,string>({
       query: (voucherId) => ({
         url: `${VOUCHERS_URL}/${voucherId}`,
         method: 'DELETE',

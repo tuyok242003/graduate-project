@@ -6,7 +6,8 @@ import Message, { IMessageProps } from '../../../components/Message';
 import Loader from '../../../components/Loader';
 
 
-import { useGetOrdersQuery } from '../../../slices/ordersApiSlice';
+import { useGetOrdersQuery } from '../../../redux/query/ordersApiSlice';
+import { IOrder } from '@/interfaces/Order';
 
 const IsReceived = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
@@ -39,11 +40,7 @@ const IsReceived = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>
-            <Message variant='danger'>
-              {(error as IMessageProps).children}
-            </Message>
-          </Message>
+          <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
         ) : (
           <Table striped hover responsive className='table-sm'>
             <thead>
@@ -59,8 +56,8 @@ const IsReceived = () => {
             </thead>
             <tbody>
               {orders
-                ?.filter((order) => order.isDelivered)
-                .map((order) => (
+                ?.filter((order:IOrder) => order.isDelivered)
+                .map((order:IOrder) => (
                   <tr key={order._id}>
                     <td>{order._id}</td>
                     <td>

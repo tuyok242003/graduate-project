@@ -9,9 +9,11 @@ import {
   useGetVouchersQuery,
   useDeleteVoucherMutation,
 
-} from '../../../slices/voucherSlice';
+} from '../../../redux/query/voucherSlice';
 import { useState } from 'react';
 import { IVouchers } from '@/interfaces/Voucher';
+import { displayErrorMessage } from '../../../components/Error';
+import { VOUCHERADD } from '../../../constants';
 
 const VoucherListScreen = () => {
   const { data: vouchers, isLoading, error, refetch } = useGetVouchersQuery();
@@ -33,12 +35,10 @@ const VoucherListScreen = () => {
  
   const createVoucherHandler = async () => {
     try {
-      navigate('/admin/voucher/add');
+      navigate(VOUCHERADD);
       refetch();
     } catch (err) {
-      const error = err as { data?: { message?: string }; error?: string };
-
-      toast.error(error?.data?.message || error.error);
+      displayErrorMessage(err);
     }
   };
   const indexOfLastVoucher = currentPage * ordersPerPage;
@@ -63,7 +63,7 @@ const VoucherListScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{(error as IMessageProps).children}</Message>
+        <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
       ) : (
         <>
           <Table striped bordered hover responsive className='table-sm'>
@@ -100,7 +100,7 @@ const VoucherListScreen = () => {
                     <Button
                       variant='danger'
                       className='btn-sm'
-                      onClick={() => deleteHandler(voucher._id)}
+                      // onClick={() => deleteHandler(voucher._id)}
                     >
                       <FaTrash style={{ color: 'white' }} />
                     </Button>

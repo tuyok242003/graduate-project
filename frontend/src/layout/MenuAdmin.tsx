@@ -1,3 +1,4 @@
+import { CONTACTADD, CONTACTLIST, ORDERLIST, POSTLIST, PRODUCTLIST, USERLIST, VOUCHERLIST } from '../constants';
 import React from 'react';
 import { Container, Navbar } from 'react-bootstrap';
 
@@ -30,13 +31,13 @@ const MenuAdmin = () => {
     <Navbar variant='dark' bg='primary' expand='lg'>
       <Container fluid style={{ paddingRight: 150 }}>
         <Navbar.Brand href='/'>Trang chủ</Navbar.Brand>
-        <Navbar.Brand href='/admin/productlist'>Sản phẩm</Navbar.Brand>
-        <Navbar.Brand href='/admin/postList'>Bài viết</Navbar.Brand>
-        <Navbar.Brand href='/admin/orderlist'>Đơn hàng</Navbar.Brand>
-        <Navbar.Brand href='/admin/contactList'>Liên hệ</Navbar.Brand>
-        <Navbar.Brand href='/admin/categoryList'>Danh mục</Navbar.Brand>
-        <Navbar.Brand href='/admin/voucherList'>Voucher</Navbar.Brand>
-        <Navbar.Brand href='/admin/userlist'>Người dùng</Navbar.Brand>
+        <Navbar.Brand href={PRODUCTLIST}>Sản phẩm</Navbar.Brand>
+        <Navbar.Brand href={POSTLIST}>Bài viết</Navbar.Brand>
+        <Navbar.Brand href={ORDERLIST}>Đơn hàng</Navbar.Brand>
+        <Navbar.Brand href={CONTACTLIST}>Liên hệ</Navbar.Brand>
+        <Navbar.Brand href={CONTACTADD}>Danh mục</Navbar.Brand>
+        <Navbar.Brand href={VOUCHERLIST}>Voucher</Navbar.Brand>
+        <Navbar.Brand href={USERLIST}>Người dùng</Navbar.Brand>
       </Container>
     </Navbar>
   );

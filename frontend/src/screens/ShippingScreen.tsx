@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
-import { saveShippingAddress } from '../slices/cartSlice';
+import { saveShippingAddress } from '../redux/slices/cartSlice';
 import { RootState } from './CartScreen';
 import { toast } from 'react-toastify';
+import { VOUCHER } from '../constants';
 const ShippingScreen = () => {
   const cart = useSelector((state: RootState) => state.cart); 
   const { shippingAddress } = cart;
@@ -41,7 +42,7 @@ const ShippingScreen = () => {
       return;
     }
     dispatch(saveShippingAddress({ address, city, postalCode, country }));
-    navigate('/voucher');
+    navigate(VOUCHER);
   };
 
   return (

@@ -7,8 +7,9 @@ import { toast } from 'react-toastify';
 import {
   useCreateVoucherMutation,
   useGetVouchersQuery
-} from '../../../slices/voucherSlice';
+} from '../../../redux/query/voucherSlice';
 import { IVouchers } from '@/interfaces/Voucher';
+import { displayErrorMessage } from '../../../components/Error';
 
 const VoucherAddScreen = () => {
   const [name, setName] = useState('');
@@ -59,13 +60,11 @@ const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
         qty,
         quantitySold
       };
-      const { data: newVoucher } = await addVoucher(voucherData).unwrap();
+      const reponse = await addVoucher(voucherData).unwrap();
       toast.success('Voucher added');
       navigate(`/admin/voucherList`);
     } catch (err) {
-      const error = err as { data?: { message?: string }; error?: string };
-
-      toast.error(error?.data?.message || error.error);
+      displayErrorMessage(err);
     }
   };
  

@@ -10,7 +10,9 @@ import { useNavigate } from 'react-router-dom';
 import {
   useGetMyOrdersQuery,
   useCancelOrderMutation,
-} from '../slices/ordersApiSlice';
+} from '../redux/query/ordersApiSlice';
+import { displayErrorMessage } from '../components/Error';
+import { IOrder } from '@/interfaces/Order';
 
 const NotReceivedScreen = () => {
   const { data: orders, isLoading, error, refetch } = useGetMyOrdersQuery();
@@ -32,8 +34,7 @@ const NotReceivedScreen = () => {
 
         toast.success('Đơn hàng đã huỷ thành công');
       } catch (err) {
-        const error = err as { data?: { message?: string }; error?: string };
-        toast.error(error?.data?.message || error.error);
+        displayErrorMessage(err);
       }
     }
   };
@@ -65,7 +66,7 @@ const NotReceivedScreen = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{(error as IMessageProps).children}</Message>
+          <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
         ) : (
           <Table striped hover responsive className='table-sm'>
             <thead>
@@ -81,7 +82,7 @@ const NotReceivedScreen = () => {
             </thead>
             <tbody>
               {orders
-                ?.filter((order) => !order.isDelivered)
+                ?.filter((order:IOrder) => !order.isDelivered)
                 .map((order) => (
                   <tr key={order._id}>
                     <td>{order._id}</td>

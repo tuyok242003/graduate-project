@@ -12,7 +12,7 @@ import {
 } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
 import Message from '../components/Message';
-import { addToCart, removeFromCart, increaseQty, decreaseQty } from '../slices/cartSlice';
+import { addToCart, removeFromCart, increaseQty, decreaseQty } from '../redux/slices/cartSlice';
 import {  IOrderItem,IShippingAddress,IVoucherName } from '@/interfaces/Order';
 import React,{useState} from 'react';
 
@@ -85,7 +85,7 @@ const handleSelectAll = () => {
         <h1 style={{ marginBottom: '20px' }}>Shopping Cart</h1>
         {cartItems.length === 0 ? (
           <Message>
-            Your cart is empty <Link to='/'>Go Back</Link>
+            Your cart is empty 
           </Message>
         ) : (
           <ListGroup variant='flush'>

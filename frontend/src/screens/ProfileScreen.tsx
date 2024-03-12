@@ -10,15 +10,17 @@ import { MdDeleteSweep } from 'react-icons/md';
 import { BiMessageAltDetail } from 'react-icons/bi';
 import { MdCallReceived } from 'react-icons/md';
 import Loader from '../components/Loader';
-import { useProfileMutation } from '../slices/usersApiSlice';
+import { useProfileMutation } from '../redux/query/usersApiSlice';
 import {
   useGetMyOrdersQuery,
   useCancelOrderMutation,
   useConfirmOrderMutation,
-} from '../slices/ordersApiSlice';
-import { setCredentials } from '../slices/authSlice';
+} from '../redux/query/ordersApiSlice';
+import { setCredentials } from '../redux/slices/authSlice';
 import { IUser } from '@/interfaces/User';
 import SearchProfile from '../components/SearchProfile';
+import { displayErrorMessage } from '../components/Error';
+import { PROFILE } from '../constants';
 const ProfileScreen = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -48,12 +50,10 @@ const ProfileScreen = () => {
 
      
         refetch();
-        navigate('/profile');
+        navigate(PROFILE);
            toast.success('Đơn hàng đã huỷ thành công');
       } catch (err) {
-        const error = err as { data?: { message?: string }; error?: string };
-
-        toast.error(error?.data?.message || error.error);
+        displayErrorMessage(err);
       }
     }
   };
@@ -82,8 +82,7 @@ const ProfileScreen = () => {
           navigate('/');
         toast.success('Đơn hàng đã được nhận thành công');
       } catch (err) {
-        const error = err as { data?: { message?: string }; error?: string };
-        toast.error(error?.data?.message || error.error);
+        displayErrorMessage(err);
       }
     }
   };
@@ -108,8 +107,7 @@ const ProfileScreen = () => {
         dispatch(setCredentials({ ...res }));
         toast.success('Profile updated successfully');
       } catch (err) {
-        const error = err as { data?: { message?: string }; error?: string };
-        toast.error(error?.data?.message || error.error);
+        displayErrorMessage(err);
       }
     }
   };
@@ -183,7 +181,7 @@ const ProfileScreen = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{(error as IMessageProps).children}</Message>
+          <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
         ) : (
           <>
             <Table striped hover responsive className='table-sm'>

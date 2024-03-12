@@ -8,7 +8,9 @@ import { toast } from 'react-toastify';
 import {
   useGetCategoryDetailsQuery,
   useUpdateCategoryMutation,
-} from '../../../slices/categorySlice';
+} from '../../../redux/query/categorySlice';
+import { displayErrorMessage } from '../../../components/Error';
+import { CONTACTADD } from '../../../constants';
 
 const CategoryEditScreen = () => {
   const { id: categoryId } = useParams();
@@ -20,7 +22,7 @@ const CategoryEditScreen = () => {
     isLoading,
     refetch,
     error,
-  } = useGetCategoryDetailsQuery(categoryId);
+  } = useGetCategoryDetailsQuery(categoryId as string);
   const [updateCategory, { isLoading: loadingUpdate }] =
     useUpdateCategoryMutation();
 
@@ -45,11 +47,9 @@ const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
       }).unwrap();
       toast.success('Category updated');
       refetch();
-      navigate('/admin/categorylist');
+    navigate(CONTACTADD);
     } catch (err) {
-      const error = err as { data?: { message?: string }; error?: string };
-
-      toast.error(error?.data?.message || error.error);
+      displayErrorMessage(err);
     }
   };
 
@@ -61,7 +61,7 @@ const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
 
   return (
     <>
-      <Link to='/admin/categorylist' className='btn btn-light my-3'>
+<Link to={CONTACTADD} className='btn btn-light my-3'>
         Go Back
       </Link>
       <FormContainer>
@@ -70,7 +70,7 @@ const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{(error as IMessageProps).children}</Message>
+          <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group controlId='name'>

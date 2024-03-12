@@ -9,20 +9,22 @@ import {
   useGetPostDetailsQuery,
   useUpdatePostMutation,
   useUploadPostImageMutation,
-} from '../../../slices/postSlice';
+} from '../../../redux/query/postSlice';
+import { displayErrorMessage } from '../../../components/Error';
+import { POSTLIST } from '../../../constants';
 
 const PostEditScreen = () => {
   const { id: postId } = useParams();
 
   const [name, setName] = useState('');
-  const [img, setImg] = useState('');
+  const [image, setImg] = useState('');
   const [content, setContent] = useState('');
   const {
     data: post,
     isLoading,
     refetch,
     error,
-  } = useGetPostDetailsQuery(postId);
+  } = useGetPostDetailsQuery(postId as string);
 
   const [updatePost, { isLoading: loadingUpdate }] = useUpdatePostMutation();
 
@@ -33,7 +35,7 @@ const PostEditScreen = () => {
 
   const isFormValid = () => {
    
-    if (!name || !img || !content ) {
+    if (!name || !image || !content ) {
       toast.error('Vui lòng điền đầy đủ thông tin bài viết');
       return false;
     }
@@ -51,23 +53,21 @@ const PostEditScreen = () => {
       await updatePost({
         postId,
         name,
-        img,
-        content,
+        image,
+        content
       }).unwrap();
       toast.success('Post updated');
       refetch();
-      navigate('/admin/postlist');
+      navigate(POSTLIST);
     } catch (err) {
-      const error = err as { data?: { message?: string }; error?: string };
-
-      toast.error(error?.data?.message || error.error);
+      displayErrorMessage(err);
     }
   };
 
   useEffect(() => {
     if (post) {
       setName(post.name);
-      setImg(post.img);
+      setImg(post.image);
       setContent(post.content);
     }
   }, [post]);
@@ -76,26 +76,24 @@ const PostEditScreen = () => {
     const fileInput = image.target;
 
     if (fileInput.files && fileInput.files.length > 0) {
-      formData.append('img', fileInput.files[0]);
+      formData.append('image', fileInput.files[0]);
     }
     try {
       const response = await uploadPostImg(formData);
       if ('data' in response) {
-        const { message, img: uploadedImg } = response.data;
+        const { message, image: uploadedImg } = response.data;
         toast.success(message);
         setImg(uploadedImg);
       } else {
       }
     } catch (err) {
-      const error = err as { data?: { message?: string }; error?: string };
-
-      toast.error(error?.data?.message || error.error);
+      displayErrorMessage(err);
     }
   };
 
   return (
     <>
-      <Link to='/admin/postlist' className='btn btn-light my-3'>
+      <Link to={POSTLIST} className='btn btn-light my-3'>
         Go Back
       </Link>
       <FormContainer>
@@ -104,7 +102,7 @@ const PostEditScreen = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant='danger'>{(error as IMessageProps).children}</Message>
+          <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group controlId='name'>
@@ -117,7 +115,7 @@ const PostEditScreen = () => {
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId='img'>
+            <Form.Group controlId='image'>
               <Form.Label>Img</Form.Label>
               <Form.Control
                 type='text'
@@ -125,7 +123,7 @@ const PostEditScreen = () => {
                 onChange={(e) => setImg(e.target.value)}
               ></Form.Control>
               <Form.Control
-                value={img}
+                value={image}
                 aria-label='Choose File'
                 onChange={uploadFileHandler}
                 type='file'
