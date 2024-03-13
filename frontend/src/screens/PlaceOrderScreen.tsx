@@ -15,16 +15,12 @@ const PlaceOrderScreen = () => {
   const navigate = useNavigate();
   const cart = useSelector((state:RootState) => state.cart);
   const [createOrder, { isLoading }] = useCreateOrderMutation();
-  
- 
-
   useEffect(() => {
     if (!cart.shippingAddress.address) {
       navigate(SHIPPING);
     } else if (!cart.paymentMethod) {
       navigate(PAYMENT);
     }
-   
   }, [cart.paymentMethod, cart.shippingAddress.address, navigate]);
   useEffect(() => {
 

@@ -8,25 +8,28 @@ import { saveShippingAddress } from '../redux/slices/cartSlice';
 import { RootState } from './CartScreen';
 import { toast } from 'react-toastify';
 import { VOUCHER } from '../constants';
+interface IShippingState {
+  address:string;
+  city:string
+  postalCode:string;
+  country:string
+}
 const ShippingScreen = () => {
-  const cart = useSelector((state: RootState) => state.cart); 
-  const { shippingAddress } = cart;
-
-  const [address, setAddress] = useState(shippingAddress.address || '');
-  const [city, setCity] = useState(shippingAddress.city || '');
-  const [postalCode, setPostalCode] = useState(
-    shippingAddress.postalCode || ''
-  );
-  const [country, setCountry] = useState(shippingAddress.country || '');
+  const [state,setState] = useState<IShippingState>({
+    address: '',
+    city: '',
+    postalCode:  '',
+    country: ''
+  })
   const isFormValid = () => {
    
-    if (!address || !city || !postalCode || !country) {
+    if (!state.address || !state.city || !state.postalCode || !state.country) {
       toast.error('Vui lòng điền đầy đủ thông tin địa chỉ.');
       return false;
     }
   
     
-    if (isNaN(Number(postalCode))) {
+    if (isNaN(Number(state.postalCode))) {
       toast.error('Giá sản phẩm phải là số.');
       return false;
     }
@@ -41,7 +44,7 @@ const ShippingScreen = () => {
     if (!isFormValid()) {
       return;
     }
-    dispatch(saveShippingAddress({ address, city, postalCode, country }));
+    dispatch(saveShippingAddress({ address:state.address,city: state.city, postalCode:state.postalCode, country:state.country }));
     navigate(VOUCHER);
   };
 
@@ -55,9 +58,9 @@ const ShippingScreen = () => {
           <Form.Control
             type='text'
             placeholder='Enter address'
-            value={address}
+            value={state.address}
       
-            onChange={(e) => setAddress(e.target.value)}
+            onChange={(e) => setState({...state,address:e.target.value})}
           ></Form.Control>
         </Form.Group>
 
@@ -66,9 +69,9 @@ const ShippingScreen = () => {
           <Form.Control
             type='text'
             placeholder='Enter city'
-            value={city}
+            value={state.city}
        
-            onChange={(e) => setCity(e.target.value)}
+            onChange={(e) => setState({...state,city:e.target.value})}
           ></Form.Control>
         </Form.Group>
 
@@ -77,9 +80,8 @@ const ShippingScreen = () => {
           <Form.Control
             type='text'
             placeholder='Enter postal code'
-            value={postalCode}
-      
-            onChange={(e) => setPostalCode(e.target.value)}
+            value={state.postalCode}
+            onChange={(e) => setState({...state,postalCode:e.target.value})}
           ></Form.Control>
         </Form.Group>
 
@@ -88,9 +90,10 @@ const ShippingScreen = () => {
           <Form.Control
             type='text'
             placeholder='Enter country'
-            value={country}
+            value={state.country}
            
-            onChange={(e) => setCountry(e.target.value)}
+           
+            onChange={(e) => setState({...state,country:e.target.value})}
           ></Form.Control>
         </Form.Group>
 

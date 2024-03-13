@@ -21,11 +21,14 @@ import { IUser } from '@/interfaces/User';
 import SearchProfile from '../components/SearchProfile';
 import { displayErrorMessage } from '../components/Error';
 import { PROFILE } from '../constants';
+import { IRegisterState } from './RegisterScreen';
 const ProfileScreen = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [state,setState]= useState<IRegisterState>({
+    userName:'',
+    email:'',
+    password:'',
+    confirmPassword:''
+    })
   const { userInfo } =
     useSelector((state: { auth?: { userInfo: IUser } }) => state.auth) || {};
   const navigate = useNavigate();
@@ -88,21 +91,21 @@ const ProfileScreen = () => {
   };
 
   useEffect(() => {
-    setName(userInfo?.userName ?? '');
-    setEmail(userInfo?.email ?? '');
+    setState({...state,userName:userInfo?.userName ?? '',email:userInfo?.email ?? ''});
+   
   }, [userInfo?.email, userInfo?.userName]);
 
   const dispatch = useDispatch();
   const submitHandler = async (profile: React.FormEvent<HTMLFormElement>) => {
     profile.preventDefault();
-    if (password !== confirmPassword) {
+    if (state.password !== state.confirmPassword) {
       toast.error('Passwords do not match');
     } else {
       try {
         const res = await updateProfile({
-          name,
-          email,
-          password,
+         userName: state.userName,
+         email: state.email,
+         password:state.password,
         }).unwrap();
         dispatch(setCredentials({ ...res }));
         toast.success('Profile updated successfully');
@@ -123,8 +126,8 @@ const ProfileScreen = () => {
             <Form.Control
               type='text'
               placeholder='Enter name'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={state.userName}
+              onChange={(e) => setState({...state,userName:e.target.value})}
             ></Form.Control>
           </Form.Group>
 
@@ -133,8 +136,8 @@ const ProfileScreen = () => {
             <Form.Control
               type='email'
               placeholder='Enter email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={state.email}
+              onChange={(e) => setState({...state,email:e.target.value})}
             ></Form.Control>
           </Form.Group>
 
@@ -143,8 +146,8 @@ const ProfileScreen = () => {
             <Form.Control
               type='password'
               placeholder='Enter password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={state.password}
+              onChange={(e) => setState({...state,password:e.target.value})}
             ></Form.Control>
           </Form.Group>
 
@@ -153,8 +156,8 @@ const ProfileScreen = () => {
             <Form.Control
               type='password'
               placeholder='Confirm password'
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={state.confirmPassword}
+              onChange={(e) => setState({...state,confirmPassword:e.target.value})}
             ></Form.Control>
           </Form.Group>
 

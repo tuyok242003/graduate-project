@@ -10,23 +10,17 @@ import Loader from '../components/Loader';
 import Message, { IMessageProps } from '../components/Message';
 import PostCarousel from '../components/ProductCarousel';
 import Meta from '../components/Meta';
-import Category from '../components/Category';
-import ProductListByCategory from '../components/ProductListByCategory';
 import { ICategories } from '@/interfaces/Category';
 import { IProducts } from '@/interfaces/Products';
 const HomeScreen = () => {
   const { pageNumber, keyword } = useParams();
-
   const { data, isLoading, error } = useGetProductsQuery();
-
   const [selectedCategory, setSelectedCategory] = useState<ICategories | null>(
     null
   );
-
   const { data: categoryData } = useSearchProductsByCategoryQuery({
     category: selectedCategory,
   });
-
   const handleCategoryClick = (categoryId: ICategories) => {
     setSelectedCategory(categoryId);
   };

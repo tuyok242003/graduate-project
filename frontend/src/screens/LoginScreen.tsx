@@ -11,10 +11,16 @@ import { toast } from 'react-toastify';
 import { IUser } from '@/interfaces/User';
 import { displayErrorMessage } from '../components/Error';
 import { FORGOTPASSWORD, REGISTER } from '../constants';
-
+interface ILoginState{
+  email:string
+  password:string
+}
 const LoginScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+
+  const [state,setState] = useState<ILoginState>({
+    email:'',
+    password:''
+  })
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
@@ -35,7 +41,7 @@ const LoginScreen = () => {
   const submitHandler = async (loginUser: React.FormEvent<HTMLFormElement>) => {
     loginUser.preventDefault();
     try {
-      const res = await login({ email, password }).unwrap();
+      const res = await login({ email:state.email, password:state.password }).unwrap();
       dispatch(setCredentials({ ...res }));
       navigate(redirect);
     } catch (err) {
@@ -52,8 +58,8 @@ const LoginScreen = () => {
           <Form.Control
             type='email'
             placeholder='Enter email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={state.email}
+            onChange={(e) => setState({...state,email:e.target.value})}
           ></Form.Control>
         </Form.Group>
 
@@ -62,8 +68,8 @@ const LoginScreen = () => {
           <Form.Control
             type='password'
             placeholder='Enter password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={state.password}
+            onChange={(e) => setState({...state,password:e.target.value})}
           ></Form.Control>
         </Form.Group>
 

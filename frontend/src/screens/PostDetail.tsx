@@ -3,12 +3,10 @@ import { useParams, Link } from 'react-router-dom';
 import { useGetPostDetailsQuery } from '../redux/query/postSlice';
 import Loader from '../components/Loader';
 import Message, { IMessageProps } from '../components/Message';
-import { useGetVoucherDetailsQuery } from '../redux/query/voucherSlice';
+
 const PostDetail = () => {
   const { postId } = useParams();
-  const {voucherId} = useParams()
   const { data: post, isLoading, error } = useGetPostDetailsQuery(postId as string);
-const {data:voucher}= useGetVoucherDetailsQuery(voucherId as string)
   return (
     <div className='container mt-4'>
       {isLoading ? (

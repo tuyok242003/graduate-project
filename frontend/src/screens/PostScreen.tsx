@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useGetPostsQuery } from '../redux/query/postSlice';
 import Loader from '../components/Loader';
 import Message, { IMessageProps } from '../components/Message';
-import '../assets/styles/PostScreen.css';
 import { IPosts } from '@/interfaces/Post';
 const PostScreen = () => {
   const navigate = useNavigate();
@@ -29,11 +28,13 @@ const PostScreen = () => {
             {posts?.map((post) => (
               <div key={post._id} className='mb-4 d-flex post-container'>
                 <img
+                style={{width:100,height:"auto"}}
                   src={post.image}
                   alt={post.content}
                   className='mr-4 post-image'
                 />
-                <div className='post-content'>
+                <div className='post-content' style={{padding:20,border:"1 solid #ccc",
+                borderRadius:8,marginBottom:20}}>
                   <h5 style={{ marginLeft: 20 }}>{post.postName}</h5>
                   <Button
                     variant='primary'

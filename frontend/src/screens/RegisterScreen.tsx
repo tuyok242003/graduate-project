@@ -11,13 +11,20 @@ import { toast } from 'react-toastify';
 import { IUser } from '@/interfaces/User';
 import { displayErrorMessage } from '../components/Error';
 import { LOGIN } from '../constants';
-
+export interface IRegisterState{
+  userName:string;
+  email:string
+  password:string
+  confirmPassword:string
+}
 const RegisterScreen = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-
+ 
+const [state,setState]= useState<IRegisterState>({
+userName:'',
+email:'',
+password:'',
+confirmPassword:''
+})
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -39,11 +46,11 @@ const RegisterScreen = () => {
   const submitHandler = async (registerUser: React.FormEvent<HTMLFormElement>) => {
     registerUser.preventDefault();
 
-    if (password !== confirmPassword) {
+    if (state.password !== state.confirmPassword) {
       toast.error('Passwords do not match');
     } else {
       try {
-        const res = await register({ name, email, password }).unwrap();
+        const res = await register({ userName:state.userName, email:state.email, password:state.password }).unwrap();
         dispatch(setCredentials({ ...res }));
         navigate(redirect);
       } catch (err) {
@@ -56,13 +63,13 @@ const RegisterScreen = () => {
     <FormContainer>
       <h1>Register</h1>
       <Form onSubmit={submitHandler}>
-        <Form.Group className='my-2' controlId='name'>
+        <Form.Group className='my-2' controlId='userName'>
           <Form.Label>Name</Form.Label>
           <Form.Control
-            type='name'
-            placeholder='Enter name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            type='text'
+            placeholder='Enter userName'
+            value={state.userName}
+            onChange={(e) => setState({...state,userName:e.target.value})}
           ></Form.Control>
         </Form.Group>
 
@@ -71,8 +78,8 @@ const RegisterScreen = () => {
           <Form.Control
             type='email'
             placeholder='Enter email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={state.email}
+            onChange={(e) => setState({...state,email:e.target.value})}
           ></Form.Control>
         </Form.Group>
 
@@ -81,8 +88,8 @@ const RegisterScreen = () => {
           <Form.Control
             type='password'
             placeholder='Enter password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={state.password}
+            onChange={(e) => setState({...state,password:e.target.value})}
           ></Form.Control>
         </Form.Group>
         <Form.Group className='my-2' controlId='confirmPassword'>
@@ -90,8 +97,8 @@ const RegisterScreen = () => {
           <Form.Control
             type='password'
             placeholder='Confirm password'
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={state.confirmPassword}
+            onChange={(e) => setState({...state,confirmPassword:e.target.value})}
           ></Form.Control>
         </Form.Group>
 
