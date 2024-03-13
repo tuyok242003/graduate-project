@@ -73,9 +73,9 @@ const VoucherListScreen = () => {
                 <th>TÊN</th>
                 <th>GIẢM</th>
                 <th>SỐ LƯỢNG</th>
-                <th>HẠN SỬ DỤNG</th>
+              
                 <th>TRUE/FALSE</th>
-             <th>Đã sử dụng</th>
+             <th>ACTION</th>
                 <th></th>
               </tr>
             </thead>

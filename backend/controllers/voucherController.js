@@ -1,15 +1,13 @@
 import asyncHandler from '../middleware/asyncHandler.js';
 import Voucher from "../models/voucherModel.js";
 const createVoucher = asyncHandler(async(req, res) => {
-    const { voucherName, discountAmount, isUsed, qty, quantitySold } = req.body;
+    const { voucherName, discountAmount, isUsed, qty } = req.body;
 
     const voucher = await Voucher.create({
         voucherName,
         discountAmount,
-       
         isUsed,
         qty,
-      
     });
     return res.json({
         message: 'Thêm voucher thành công',

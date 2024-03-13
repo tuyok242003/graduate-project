@@ -57,7 +57,8 @@ const [state,setState] = useState<IVoucherState>({
         voucherId,
         voucherName:state.voucherName,
         discountAmount:state.discountAmount,
-        isUsed:state.isUsed
+        isUsed:state.isUsed,
+        qty:state.qty
       }).unwrap();
       toast.success('Voucher updated');
       refetch();
@@ -91,10 +92,10 @@ const [state,setState] = useState<IVoucherState>({
           <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
         ) : (
           <Form onSubmit={submitHandler}>
-            <Form.Group controlId='name'>
+            <Form.Group controlId='voucherName'>
               <Form.Label>Name</Form.Label>
               <Form.Control
-                type='name'
+                type='text'
                 placeholder='Enter name'
                 value={state.voucherName}
                 onChange={(e) => setState({...state,voucherName:e.target.value})}

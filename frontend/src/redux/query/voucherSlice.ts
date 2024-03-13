@@ -6,7 +6,7 @@ interface IUpdateVoucher{
   voucherId:string | undefined
   voucherName:string
   discountAmount:string
-
+qty:string
   isUsed:boolean
 }
 
