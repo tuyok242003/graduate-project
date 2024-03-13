@@ -11,6 +11,7 @@ import {
 import { IVouchers } from '@/interfaces/Voucher';
 import { displayErrorMessage } from '../../../components/Error';
 import { IVoucherState } from './VoucherEdit';
+import { VOUCHERLIST } from '../../../constants';
 const VoucherAddScreen = () => {
   const [state,setState] = useState<IVoucherState>({
     voucherName:'',
@@ -61,14 +62,14 @@ const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
 
   return (
     <>
-      <Link to='/vouchers' className='btn btn-light my-3'>
+      <Link to={VOUCHERLIST} className='btn btn-light my-3'>
         Go Back
       </Link>
       <FormContainer>
         <h1>Add Voucher</h1>
         {loadingAdd && <Loader />}
         <Form onSubmit={submitHandler}>
-          <Form.Group controlId='name'>
+          <Form.Group controlId='categoryName'>
             <Form.Label>Name</Form.Label>
             <Form.Control
               type='text'

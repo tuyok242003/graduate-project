@@ -5,18 +5,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import FormContainer from '../../../components/FormContainer';
 import Loader from '../../../components/Loader';
-import { ICategories } from '@/interfaces/Category';
 import { displayErrorMessage } from '../../../components/Error';
-import { CONTACTADD } from '../../../constants';
+import { CATEGORYLIST, CONTACTADD } from '../../../constants';
 
 const CategoryAdd = () => {
-  const [name, setName] = useState('');
+  const [categoryName, setName] = useState('');
   const navigate = useNavigate();
-  const { data: categories, isLoading: loadingCategories } = useGetCategoriesQuery();
   const [addCategory, { isLoading: loadingAdd }] = useCreateCategoryMutation();
 
   const isFormValid = () => {
-    if (!name) {
+    if (!categoryName) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
       return false;
     }
@@ -30,7 +28,7 @@ const CategoryAdd = () => {
       return;
     }
     try {
-      const {} = await addCategory( name as string);
+      const {} = await addCategory( categoryName as string);
       toast.success('Danh mục đã được thêm.');
       navigate('/admin/categoryList/');
     } catch (err) {
@@ -40,19 +38,19 @@ const CategoryAdd = () => {
 
   return (
     <>
-      <Link to={CONTACTADD} className='btn btn-light my-3'>
+      <Link to={CATEGORYLIST} className='btn btn-light my-3'>
         Quay lại
       </Link>
       <FormContainer>
         <h1>Thêm Danh mục</h1>
         {loadingAdd && <Loader />}
         <Form onSubmit={submitHandler}>
-          <Form.Group controlId='name'>
+          <Form.Group controlId='categoryName'>
             <Form.Label>Tên</Form.Label>
             <Form.Control
               type='text'
               placeholder='Nhập tên'
-              value={name}
+              value={categoryName}
               onChange={(e) => setName(e.target.value)}
             />
           </Form.Group>

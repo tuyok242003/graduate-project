@@ -1,4 +1,4 @@
-import { CONTACTADD, CONTACTLIST, ORDERLIST, POSTLIST, PRODUCTLIST, USERLIST, VOUCHERLIST } from '../constants';
+import { CATEGORYLIST, CONTACTADD, CONTACTLIST, ORDERLIST, POSTLIST, PRODUCTLIST, USERLIST, VOUCHERLIST } from '../constants';
 import React from 'react';
 import { Container, Navbar } from 'react-bootstrap';
 
@@ -35,7 +35,7 @@ const MenuAdmin = () => {
         <Navbar.Brand href={POSTLIST}>Bài viết</Navbar.Brand>
         <Navbar.Brand href={ORDERLIST}>Đơn hàng</Navbar.Brand>
         <Navbar.Brand href={CONTACTLIST}>Liên hệ</Navbar.Brand>
-        <Navbar.Brand href={CONTACTADD}>Danh mục</Navbar.Brand>
+        <Navbar.Brand href={CATEGORYLIST}>Danh mục</Navbar.Brand>
         <Navbar.Brand href={VOUCHERLIST}>Voucher</Navbar.Brand>
         <Navbar.Brand href={USERLIST}>Người dùng</Navbar.Brand>
       </Container>

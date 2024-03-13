@@ -3,7 +3,7 @@ import { CATEGORIES_URL } from '../../constants';
 import { ICategories } from '@/interfaces/Category';
 interface IUpdateCategoryInput {
   categoryId: string | undefined
-  name:string
+  categoryName:string
  
 }
 export const categorySlice = apiSlice.injectEndpoints({

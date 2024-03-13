@@ -82,7 +82,7 @@ const ProductListScreen = () => {
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.productName}</td>
-                  <td>{(product.category as ICategories)?.name}</td>
+                  <td>{(product.category as ICategories)?.categoryName}</td>
                   <td>{product.brand}</td>
            
                   <td style={{ width: 200 }}>

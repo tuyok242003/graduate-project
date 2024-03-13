@@ -15,7 +15,7 @@ import { CONTACTADD } from '../../../constants';
 const CategoryEditScreen = () => {
   const { id: categoryId } = useParams();
 
-  const [name, setName] = useState('');
+  const [categoryName, setName] = useState('');
 
   const {
     data: category,
@@ -30,7 +30,7 @@ const CategoryEditScreen = () => {
 
   const isFormValid = () => {
    
-    if (!name ) {
+    if (!categoryName ) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
       return false}
     return true;
@@ -43,7 +43,7 @@ const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
     try {
       await updateCategory({
         categoryId,
-        name,
+        categoryName,
       }).unwrap();
       toast.success('Category updated');
       refetch();
@@ -55,7 +55,7 @@ const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
 
   useEffect(() => {
     if (category) {
-      setName(category.name);
+      setName(category.categoryName);
     }
   }, [category]);
 
@@ -73,12 +73,12 @@ const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
           <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
         ) : (
           <Form onSubmit={submitHandler}>
-            <Form.Group controlId='name'>
+            <Form.Group controlId='categoryName'>
               <Form.Label>Name</Form.Label>
               <Form.Control
-                type='name'
+                type='text'
                 placeholder='Enter name'
-                value={name}
+                value={categoryName}
                 onChange={(e) => setName(e.target.value)}
               ></Form.Control>
             </Form.Group>

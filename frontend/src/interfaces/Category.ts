@@ -2,7 +2,7 @@ import { IProducts } from "./Products";
 
 export interface ICategories {
   _id: string;
-  name: string;
+  categoryName: string;
   products: IProducts[];
   length:number
 }

@@ -54,7 +54,7 @@ const addOrderItems = asyncHandler(async(req, res) => {
         const { itemsPrice, shippingPrice, totalPrice } = calcPrices(dbOrderItems);
         let discountedTotalPrice = totalPrice;
         if (voucherName) {
-            const voucher = await Voucher.findOne({ name: voucherName });
+            const voucher = await Voucher.findOne({ voucherName: voucherName });
             if (!voucher) {
                 res.status(400).json({ message: 'Voucher not found.' });
                 return;

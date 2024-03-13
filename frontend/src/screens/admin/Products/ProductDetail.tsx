@@ -67,7 +67,7 @@ const ProductDetail = () => {
                   <Form.Label> Brand: {product?.brand}</Form.Label>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <Form.Label>Category: {(product?.category as ICategories).name}</Form.Label>
+                  <Form.Label>Category: {(product?.category as ICategories).categoryName}</Form.Label>
                 </ListGroup.Item>
                 <ListGroup.Item style={{width:100}}>
                   <strong>Price:</strong> $

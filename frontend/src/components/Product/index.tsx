@@ -23,11 +23,11 @@ const Product: React.FC<IProductProps> = ({ product }) => {
       </Link>
 
       <Card.Body>
-        <Link to={`/product/${product._id}`}>
-          
+      <Card.Title as='div' className='product-title'>
+        <Link to={`/product/${product._id}`}>  
             <strong className='product-title'>{product.productName}</strong>
-
         </Link>
+        </Card.Title>
         <strong style={{ fontFamily: 'serif' }}>Giá: {product.price}</strong>
         {product.variants.some((variant) => variant.discount > 0) && <div style={{position:"absolute",top:0,right:0,backgroundColor:"red",
         color:"white",padding:5,

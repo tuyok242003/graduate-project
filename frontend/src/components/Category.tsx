@@ -29,7 +29,7 @@ const Category = ({ onCategoryClick }:any) => {
                   onClick={() => onCategoryClick(category._id)}
                   style={{ width: 100, marginLeft: 10 }}
                 >
-                  {category.name}
+                  {category.categoryName}
                 </Button>
               ))}
             </tbody>
