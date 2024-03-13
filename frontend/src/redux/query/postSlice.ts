@@ -4,11 +4,11 @@ import { IPosts } from '@/interfaces/Post';
 interface IUpdatePost {
   postId:string | undefined
   image:string
-  name:string
+  postName:string
   content:string
 }
 interface IUploadPost {
-  name:string;
+  postName:string;
   image:string;
   content:string
 }

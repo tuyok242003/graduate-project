@@ -12,13 +12,15 @@ import {
 } from '../../../redux/query/postSlice';
 import { displayErrorMessage } from '../../../components/Error';
 import { POSTLIST } from '../../../constants';
-
+import { IPostState } from './PostAddScreen';
 const PostEditScreen = () => {
   const { id: postId } = useParams();
 
-  const [name, setName] = useState('');
+  const [state,setState] = useState<IPostState>({
+    postName:'',
+    content:''
+  })
   const [image, setImg] = useState('');
-  const [content, setContent] = useState('');
   const {
     data: post,
     isLoading,
@@ -35,11 +37,10 @@ const PostEditScreen = () => {
 
   const isFormValid = () => {
    
-    if (!name || !image || !content ) {
+    if (!state.postName || !image || !state.content ) {
       toast.error('Vui lòng điền đầy đủ thông tin bài viết');
       return false;
     }
-  
     
   
     return true;
@@ -52,9 +53,9 @@ const PostEditScreen = () => {
     try {
       await updatePost({
         postId,
-        name,
+        postName:state.postName,
         image,
-        content
+        content:state.content,
       }).unwrap();
       toast.success('Post updated');
       refetch();
@@ -66,9 +67,9 @@ const PostEditScreen = () => {
 
   useEffect(() => {
     if (post) {
-      setName(post.name);
+      setState({...state,postName:post.postName,content:post.content});
       setImg(post.image);
-      setContent(post.content);
+
     }
   }, [post]);
   const formData = new FormData();
@@ -110,8 +111,8 @@ const PostEditScreen = () => {
               <Form.Control
                 type='name'
                 placeholder='Enter name'
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={state.postName}
+                onChange={(e) => setState({...state,postName:e.target.value})}
               ></Form.Control>
             </Form.Group>
 
@@ -136,8 +137,8 @@ const PostEditScreen = () => {
               <Form.Control
                 type='text'
                 placeholder='Enter content'
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
+                value={state.content}
+                onChange={(e) => setState({...state,content:e.target.value})}
               ></Form.Control>
             </Form.Group>
 

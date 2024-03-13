@@ -11,24 +11,34 @@ import {
 import { useGetCategoriesQuery } from '../../../redux/query/categorySlice';
 import { ICategories } from '@/interfaces/Category';                         
 import { PRODUCTLIST } from '../../../constants';
+export interface IProductState {
+  productName: string;
+  price: string;
+  
+  brand: string;
+  category: string;
+  description: string;
+}
 const ProductAddScreen = () => {
-  const [name, setName] = useState('');
-  const [price,setPrice] = useState('');
+  const [state, setState] = useState<IProductState>({
+    productName: '',
+    price: '',
+    brand: '',
+    category: '',
+    description: '',
+  });
   const [image, setImage] = useState('');
-  const [brand, setBrand] = useState('');
-  const [category, setCategory] = useState('');
-  const [description, setDescription] = useState('');
   const { data: categories, isLoading: loadingCategories } =    useGetCategoriesQuery();
   const [addProduct, { isLoading: loadingAdd }] = useCreateProductMutation();
   const [uploadProductImage, { isLoading: loadingUpload }] = useUploadProductImageMutation();
 
   const isFormValid = () => {
    
-    if (!name || !price || !image || !brand || !category || !description) {
+    if (!state.productName || !state.price || !image || !state.brand || !state.category || !state.description) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
       return false;
     } 
-    if (!category.trim()) {
+    if (!state.category.trim()) {
       toast.error('Vui lòng chọn danh mục sản phẩm.');
       return false;
     }
@@ -44,12 +54,12 @@ const ProductAddScreen = () => {
 
     try {
       const response = await addProduct({
-        name,
-        image,
-        price,
-        brand,
-        category,
-        description,
+        productName: state.productName,
+      image,
+        price: state.price,
+        brand: state.brand,
+        category: state.category,
+        description: state.description,
       }).unwrap();
     
       toast.success('Product added');
@@ -94,8 +104,10 @@ const ProductAddScreen = () => {
             <Form.Control
               type='text'
               placeholder='Enter name'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={state.productName}
+              onChange={(e) =>
+                setState({ ...state, productName: e.target.value })
+              }
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId='price'>
@@ -103,8 +115,8 @@ const ProductAddScreen = () => {
             <Form.Control
               type='text'
               placeholder='Enter price'
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              value={state.price}
+              onChange={(e) => setState({ ...state, price: e.target.value })}
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId='image'>
@@ -123,8 +135,8 @@ const ProductAddScreen = () => {
             <Form.Control
               type='text'
               placeholder='Enter brand'
-              value={brand}
-              onChange={(e) => setBrand(e.target.value)}
+             value={state.brand}
+              onChange={(e) => setState({ ...state, brand: e.target.value })}
             ></Form.Control>
           </Form.Group>
           
@@ -135,8 +147,9 @@ const ProductAddScreen = () => {
             ) : (
               <Form.Control
                 as='select'
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                onChange={(e) =>
+                  setState({ ...state, category: e.target.value })
+                }
               >
                 <option value=''>Select Category</option>
                 {categories?.map((category: ICategories) => (
@@ -153,8 +166,10 @@ const ProductAddScreen = () => {
             <Form.Control
               type='text'
               placeholder='Enter description'
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              value={state.description}
+              onChange={(e) =>
+                setState({ ...state, description: e.target.value })
+              }
             ></Form.Control>
           </Form.Group>
 

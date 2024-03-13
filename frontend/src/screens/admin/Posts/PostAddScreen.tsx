@@ -9,12 +9,16 @@ import {
   useUploadPostImageMutation,
 } from '../../../redux/query/postSlice';
 import { displayErrorMessage } from '../../../components/Error';
-
+export interface IPostState{
+  postName:string
+  content:string
+}
 const PostAddScreen = () => {
-  const [name, setName] = useState('');
+  const [state,setState] = useState<IPostState>({
+    postName:'',
+    content:''
+  })
   const [image, setImg] = useState('');
-  const [content, setContent] = useState('');
-
   const [addPost, { isLoading: loadingAdd }] = useCreatePostMutation();
   const [uploadPostImg, { isLoading: loadingUpload }] =
     useUploadPostImageMutation();
@@ -22,7 +26,7 @@ const PostAddScreen = () => {
   const navigate = useNavigate();
   const isFormValid = () => {
    
-    if (!name || !image || !content ) {
+    if (!state.postName || !image || !state.content ) {
       toast.error('Vui lòng điền đầy đủ thông tin bài viết');
       return false;
     }
@@ -38,9 +42,9 @@ const PostAddScreen = () => {
     }
     try {
       const postData = {
-        name,
+        postName:state.postName,
         image,
-        content,
+        content:state.content,
       };
 
       const {} = await addPost(postData).unwrap();
@@ -86,8 +90,8 @@ const PostAddScreen = () => {
             <Form.Control
               type='text'
               placeholder='Enter name'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={state.postName}
+              onChange={(e) => setState({...state,postName:e.target.value})}
             ></Form.Control>
           </Form.Group>
 
@@ -107,8 +111,8 @@ const PostAddScreen = () => {
             <Form.Control
               type='text'
               placeholder='Enter description'
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
+              value={state.content}
+              onChange={(e) => setState({...state,content:e.target.value})}
             ></Form.Control>
           </Form.Group>
 

@@ -126,20 +126,20 @@ const ProductScreen = () => {
         <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
       ) : (
         <>
-          <Meta title={product?.name} description={product?.description} />
+          <Meta title={product?.productName} description={product?.description} />
           <Row>
             <Col md={6}>
               <Image
                 style={{ width: 400, height: 450 }}
                 src={selectedVariant ? selectedVariant.thumb : product?.image}
-                alt={product?.name}
+                alt={product?.productName}
                 fluid
               />
             </Col>
             <Col md={3}>
               <ListGroup variant='flush'>
                 <ListGroup.Item>
-                  <h3>{product?.name}</h3>
+                  <h3>{product?.productName}</h3>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Rating

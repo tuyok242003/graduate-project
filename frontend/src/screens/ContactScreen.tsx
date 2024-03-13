@@ -6,13 +6,14 @@ import FormContainer from '../components/FormContainer';
 import { Button, Form } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import { displayErrorMessage } from '../components/Error';
-
+import { IContactState } from './admin/Contacts/ContactAddScreen';
 const ContactScreen = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [content, setContent] = useState('');
-
+  const [state,setState] = useState<IContactState>({
+    contactName:'',
+    email:'',
+    phone:'' ,
+  content:''
+  })
   const [addContact, { isLoading: loadingAdd }] = useAddContactMutation();
   const navigate = useNavigate();
   const handleAddContact = async (contact: React.FormEvent<HTMLFormElement>) => {
@@ -20,10 +21,10 @@ const ContactScreen = () => {
     try {
       // Gọi hàm mutate để thêm liên hệ mới
       const contactData = {
-        name,
-        email,
-        phone,
-        content,
+        contactName: state.contactName,
+        email:  state.email,
+         phone: state.phone,
+         content: state.content,
       };
 
       const { data: newContact } = await addContact(contactData).unwrap();
@@ -46,44 +47,42 @@ const ContactScreen = () => {
               style={{ width: 400, paddingRight: 50 }}
               onSubmit={handleAddContact}
             >
-              <Form.Group controlId='name'>
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type='text'
-                  placeholder='Name'
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
-
-              <Form.Group controlId='email'>
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type='text'
-                  placeholder='Email'
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group controlId='phone'>
-                <Form.Label>Phone</Form.Label>
-                <Form.Control
-                  type='text'
-                  placeholder='Phone'
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group controlId='content'>
-                <Form.Label>Content</Form.Label>
-                <Form.Control
-                  style={{ height: 100 }}
-                  type='text'
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
-
+             <Form.Group controlId='name'>
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Enter name'
+              value={state.contactName}
+              onChange={(e) => setState({...state,contactName:e.target.value})}
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group controlId='email'>
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Enter email'
+              value={state.email}
+              onChange={(e) => setState({...state,email:e.target.value})}
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group controlId='phone'>
+            <Form.Label>Phone</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Enter phone'
+              value={state.phone}
+              onChange={(e) => setState({...state,phone:e.target.value})}
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group controlId='content'>
+            <Form.Label>Content</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Enter description'
+              value={state.content}
+              onChange={(e) => setState({...state,content:e.target.value})}
+            ></Form.Control>
+          </Form.Group>
               <Button
                 type='submit'
                 variant='primary'

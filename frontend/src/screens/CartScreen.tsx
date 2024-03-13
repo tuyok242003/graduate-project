@@ -26,8 +26,7 @@ export interface RootState {
     totalPrice:number
     voucherName:IVoucherName
     isUsed:IVoucherName
-    voucherExpiryDate:string
-
+   
   };}
 const CartScreen = () => {
   const navigate = useNavigate();

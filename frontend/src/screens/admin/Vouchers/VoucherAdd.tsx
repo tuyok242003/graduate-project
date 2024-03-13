@@ -10,37 +10,28 @@ import {
 } from '../../../redux/query/voucherSlice';
 import { IVouchers } from '@/interfaces/Voucher';
 import { displayErrorMessage } from '../../../components/Error';
-
+import { IVoucherState } from './VoucherEdit';
 const VoucherAddScreen = () => {
-  const [name, setName] = useState('');
-  const [discountAmount, setDiscountAmount] = useState('');
+  const [state,setState] = useState<IVoucherState>({
+    voucherName:'',
+    discountAmount:'',
+    qty:'',
+    isUsed:false,
+  })
   const { data: allVouchers, isLoading: loadingVouchers } = useGetVouchersQuery();
-  const [expiryDate, setExpiryDate] = useState('');
-  const [isUsed, setIsUsed] = useState(false);
-const [qty,setQty] = useState('');
   const [addVoucher, { isLoading: loadingAdd }] = useCreateVoucherMutation();
- const [quantitySold,setQuantitySold] = useState('')
-
+ 
   const navigate = useNavigate();
-
-  const isFormValid = () => {
-   
-    if (!name || !expiryDate || !discountAmount || !qty || !quantitySold ) {
+  const isFormValid = () => { 
+    if (!state.voucherName  || !state.discountAmount || !state.qty  ) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
       return false;
     }
-    const selectedDate = new Date(expiryDate);
-    const currentDate = new Date();
-    if (selectedDate <= currentDate) {
-      toast.error('Vui lòng chọn ngày hết hạn trong tương lai.');
-      return false;
-    }
-    
-    if (isNaN(Number(discountAmount || qty))) {
+    if (isNaN(Number(state.discountAmount || state.qty))) {
       toast.error('Giảm phải là số');
       return false;
     }
-    if (allVouchers?.some((voucher:IVouchers) => voucher.name === name)) {
+    if (allVouchers?.some((voucher:IVouchers) => voucher.voucherName === state.voucherName)) {
       toast.error('Tên voucher đã tồn tại.');
       return false;
     }
@@ -53,12 +44,11 @@ const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
   }
     try {
       const voucherData = {
-        name,
-        discountAmount,
-        expiryDate,
-        isUsed,
-        qty,
-        quantitySold
+        voucherName:state.voucherName,
+        discountAmount:state.discountAmount,    
+        isUsed:state.isUsed,
+        qty:state.qty,
+       
       };
       const reponse = await addVoucher(voucherData).unwrap();
       toast.success('Voucher added');
@@ -83,26 +73,19 @@ const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
             <Form.Control
               type='text'
               placeholder='Enter name'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={state.voucherName}
+                onChange={(e) => setState({...state,voucherName:e.target.value})}
+                          
             ></Form.Control>
           </Form.Group>
-          <Form.Group controlId='expiryDate'>
-            <Form.Label>expiryDate</Form.Label>
-            <Form.Control
-              type='date'
-              placeholder='Enter description'
-              value={expiryDate}
-              onChange={(e) => setExpiryDate(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
+         
           <Form.Group controlId='isUsed' >
             <Form.Label>isUsed</Form.Label>
             <Form.Control
               type='text'
               placeholder='Enter description'
-              value={isUsed.toString()}
-              onChange={(e) => setIsUsed(e.target.value === 'true')}
+              value={state.isUsed.toString()}
+              onChange={(e) => setState({...state,isUsed:e.target.value === 'true'})}
             ></Form.Control>
           </Form.Group>
 
@@ -113,8 +96,8 @@ const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
             <Form.Control
               type='text'
               placeholder='Enter description'
-              value={discountAmount}
-              onChange={(e) => setDiscountAmount(e.target.value)}
+              value={state.discountAmount}
+              onChange={(e) => setState({...state,discountAmount:e.target.value})}
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId='qty' >
@@ -122,19 +105,11 @@ const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
             <Form.Control
               type='text'
               placeholder='Số lượng'
-              value={qty.toString()}
-              onChange={(e) => setQty(e.target.value)}
+              value={state.qty.toString()}
+              onChange={(e) => setState({...state,qty:e.target.value})}
             ></Form.Control>
           </Form.Group>
-          <Form.Group controlId='quantitySold' >
-            <Form.Label>Đã sử dụng</Form.Label>
-            <Form.Control
-              type='text'
-              placeholder='Đã sử dụng'
-              value={quantitySold.toString()}
-              onChange={(e) => setQuantitySold(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
+         
           <Button type='submit' variant='primary' style={{ marginTop: '1rem' }}>
             Add
           </Button>

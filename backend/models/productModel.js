@@ -13,7 +13,7 @@ const reviewSchema = mongoose.Schema({
 });
 
 const productSchema = mongoose.Schema({
-    name: {
+    productName: {
         type: String,
         required: true,
     },

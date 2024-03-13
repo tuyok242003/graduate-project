@@ -74,9 +74,9 @@ const VoucherList = () => {
               {currentVouchers?.map((voucher:IVouchers) => (
                 <tr key={voucher._id}>
                   <td>{voucher._id}</td>
-                  <td>{voucher.name}</td>
+                  <td>{voucher.voucherName}</td>
                   <td>{voucher.discountAmount}</td>
-                  <td>{voucher.expiryDate.toString()}</td>
+                 
                   <td>{voucher.isUsed.toString()}</td>
                  
                   <td>

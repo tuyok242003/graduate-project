@@ -79,12 +79,12 @@ const PostListScreen = () => {
               {currentPosts?.map((post) => (
                 <tr key={post._id}>
                   <td>{post._id}</td>
-                  <td>{post.name}</td>
+                  <td>{post.postName}</td>
                   <td>
                     {post.image && (
                       <img
                         src={post.image}
-                        alt={post.name}
+                        alt={post.postName}
                         style={{ maxWidth: '100px' }}
                       />
                     )}

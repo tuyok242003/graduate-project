@@ -5,10 +5,10 @@ import Contact from '../models/contactModel.js';
 // @route GET /api/products
 // @acess public
 const createContact = asyncHandler(async (req, res) => {
-  const { name, phone, email, content } = req.body;
+  const { contactName, phone, email, content } = req.body;
 
   const contact = await Contact.create({
-    name,
+    contactName,
     phone,
     email,
     content,
@@ -51,12 +51,12 @@ const getContactById = asyncHandler(async (req, res) => {
   }
 });
 const updateContact = asyncHandler(async (req, res) => {
-  const { name, email, phone, content } = req.body;
+  const { contactName, email, phone, content } = req.body;
 
   const contact = await Contact.findById(req.params.id);
 
   if (contact) {
-    contact.name = name;
+    contact.contactName = contactName;
     contact.email = email;
     contact.phone = phone;
     contact.content = content;

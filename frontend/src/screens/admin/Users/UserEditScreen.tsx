@@ -12,13 +12,20 @@ import {
 } from '../../../redux/query/usersApiSlice';
 import { displayErrorMessage } from '../../../components/Error';
 import { USERLIST } from '../../../constants';
-
+interface IUserState {
+  userName:string
+  email:string;
+  isAdmin:boolean
+}
 const UserEditScreen = () => {
   const { id: userId } = useParams();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [isAdmin, setIsAdmin] = useState(false);
-
+ 
+const [state,setState] = useState<IUserState>({
+  userName:'',
+  email:'',
+  isAdmin:false
+}
+)
   const {
     data: user,
     isLoading,
@@ -33,7 +40,7 @@ const UserEditScreen = () => {
   const submitHandler = async (user: React.FormEvent<HTMLFormElement>) => {
     user.preventDefault();
     try {
-      await updateUser({ userId, name, email, isAdmin });
+      await updateUser({ userId,userName: state.userName,email: state.email,isAdmin: state.isAdmin });
       toast.success('user updated successfully');
       refetch();
       navigate(USERLIST);
@@ -44,9 +51,8 @@ const UserEditScreen = () => {
 
   useEffect(() => {
     if (user) {
-      setName(user.name);
-      setEmail(user.email);
-      setIsAdmin(user.isAdmin);
+      setState({...state,userName:user.userName,email:user.email,isAdmin:user.isAdmin});
+     
     }
   }, [user]);
 
@@ -69,8 +75,8 @@ const UserEditScreen = () => {
               <Form.Control
                 type='name'
                 placeholder='Enter name'
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={state.userName}
+                onChange={(e) => setState({...state,userName:e.target.value})}
               ></Form.Control>
             </Form.Group>
 
@@ -79,8 +85,8 @@ const UserEditScreen = () => {
               <Form.Control
                 type='email'
                 placeholder='Enter email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={state.email}
+                onChange={(e) => setState({...state,email:e.target.value})}
               ></Form.Control>
             </Form.Group>
 
@@ -88,8 +94,8 @@ const UserEditScreen = () => {
               <Form.Check
                 type='checkbox'
                 label='Is Admin'
-                checked={isAdmin}
-                onChange={(e) => setIsAdmin(e.target.checked)}
+                checked={state.isAdmin}
+                onChange={(e) => setState({...state,isAdmin:e.target.checked})}
               ></Form.Check>
             </Form.Group>
 

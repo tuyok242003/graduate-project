@@ -5,7 +5,7 @@ const voucherSchema = mongoose.Schema({
         required: true,
         ref: 'User',
     },
-    name: {
+    voucherName: {
         type: String,
         require: true,
     },
@@ -13,10 +13,7 @@ const voucherSchema = mongoose.Schema({
         type: Number,
         required: true,
     },
-    expiryDate: {
-        type: Date,
-        required: true,
-    },
+   
     qty: {
         type: Number,
         require: true
@@ -25,10 +22,7 @@ const voucherSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    quantitySold: {
-        type: Number,
-        required: true
-    }
+   
 }, {
     timestamps: true,
 });

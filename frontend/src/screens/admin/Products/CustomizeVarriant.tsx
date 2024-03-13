@@ -10,16 +10,27 @@ import {
 } from '../../../redux/query/productsApiSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 import { displayErrorMessage } from '../../../components/Error';
+interface IVarriantState{
+  variantColor:string;
+  variantPrice:string;
+  variantCountInStock:number;
+  variantQuantitySold:number;
+  variantThumb:string;
+  variantTitle:string;
+  variantDiscount:number
+}
 const CustomizeVariant = () => {
   const { id } = useParams();
-  const [variantColor, setVariantColor] = useState('');
-  const [variantPrice, setVariantPrice] = useState('');
-  const [variantCountInStock, setVariantCountInStock] = useState(0);
-  const [variantQuantitySold, setVariantQuantitySold] = useState(0);
-  const [variantThumb, setVariantThumb] = useState('');
-  const [variantImages, setVariantImages] = useState('');
-  const [variantTitle, setVariantTitle] = useState('');
-  const [variantDiscount, setVariantDiscount] = useState(0)
+  const [state,setState] = useState<IVarriantState>({
+    variantColor:'',
+    variantPrice:'',
+    variantCountInStock:0,
+    variantQuantitySold:0,
+    variantThumb:'',
+    variantTitle:'',
+    variantDiscount:0
+  })
+  const [variantImages,setVariantImages] = useState('')
   const navigate = useNavigate();
   const [addVariant, { isLoading: loadingAddVariant }] =
     useAddVariantMutation();
@@ -28,13 +39,13 @@ const CustomizeVariant = () => {
     
     const isFormValid = () => {
    
-      if (!variantColor || !variantPrice || !variantQuantitySold || !variantImages || !variantCountInStock || !variantDiscount || !variantTitle) {
+      if (!state.variantColor || !state.variantPrice || !state.variantQuantitySold || variantImages || !state.variantCountInStock || !state.variantDiscount || !state.variantTitle) {
         toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
         return false;
       }
     
       
-      if (isNaN(Number(variantPrice))) {
+      if (isNaN(Number(state.variantPrice))) {
         toast.error('Giá sản phẩm phải là số.');
         return false;
       }
@@ -49,14 +60,14 @@ const CustomizeVariant = () => {
       const {} = await addVariant({
         productId: id,
         variantData: {
-          color: variantColor,
-          price: variantPrice,
-          thumb: variantThumb,
+          color: state.variantColor,
+          price: state.variantPrice,
+          thumb: state.variantThumb,
           images: variantImages,
-          title: variantTitle,
-          countInStock: variantCountInStock,
-          quantitySold: variantQuantitySold,
-          discount: variantDiscount,
+          title: state.variantTitle,
+          countInStock: state.variantCountInStock,
+          quantitySold: state.variantQuantitySold,
+          discount: state.variantDiscount,
           id: '',
           productId: ''
         },
@@ -101,8 +112,8 @@ const CustomizeVariant = () => {
           <Form.Control
             type='text'
             placeholder='Enter color'
-            value={variantColor}
-            onChange={(e) => setVariantColor(e.target.value)}
+            value={state.variantColor}
+            onChange={(e) => setState({...state,variantColor:e.target.value})}
           ></Form.Control>
         </Form.Group>
 
@@ -111,8 +122,8 @@ const CustomizeVariant = () => {
           <Form.Control
             type='number'
             placeholder='Enter price'
-            value={variantPrice}
-            onChange={(e) => setVariantPrice(e.target.value)}
+            value={state.variantPrice}
+            onChange={(e) => setState({...state,variantPrice:e.target.value})}
           ></Form.Control>
         </Form.Group>
            <Form.Group controlId='variantDiscount'>
@@ -120,8 +131,8 @@ const CustomizeVariant = () => {
           <Form.Control
             type='number'
             placeholder='Enter discount'
-            value={variantDiscount}
-            onChange={(e) => setVariantDiscount(parseInt(e.target.value))}
+            value={state.variantDiscount}
+            onChange={(e) => setState({...state,variantDiscount:parseInt(e.target.value)})}
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId='variantPrice'>
@@ -129,8 +140,8 @@ const CustomizeVariant = () => {
           <Form.Control
             type='countInStock'
             placeholder='Enter countInStock'
-            value={variantCountInStock}
-            onChange={(e) => setVariantCountInStock(parseInt(e.target.value))}
+            value={state.variantCountInStock}
+            onChange={(e) => setState({...state,variantCountInStock:parseInt(e.target.value)})}
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId='variantThumb'>
@@ -138,8 +149,8 @@ const CustomizeVariant = () => {
           <Form.Control
             type='text'
             placeholder='Enter thumbnail url'
-            value={variantThumb}
-            onChange={(e) => setVariantThumb(e.target.value)}
+            value={state.variantThumb}
+            onChange={(e) => setState({...state,variantThumb:e.target.value})}
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId='variantThumb'>
@@ -147,8 +158,8 @@ const CustomizeVariant = () => {
           <Form.Control
             type='1'
             placeholder='Enter thumbnail url'
-            value={variantQuantitySold}
-            onChange={(e) => setVariantQuantitySold(parseInt(e.target.value))}
+            value={state.variantQuantitySold}
+            onChange={(e) => setState({...state,variantQuantitySold:parseInt(e.target.value)})}
           ></Form.Control>
         </Form.Group>
 
@@ -168,8 +179,8 @@ const CustomizeVariant = () => {
           <Form.Control
             type='text'
             placeholder='Enter title'
-            value={variantTitle}
-            onChange={(e) => setVariantTitle(e.target.value)}
+            value={state.variantTitle}
+            onChange={(e) => setState({...state,variantTitle:e.target.value})}
           ></Form.Control>
         </Form.Group>
 

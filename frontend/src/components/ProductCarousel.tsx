@@ -18,11 +18,11 @@ const PostCarousel = () => {
               <Image
                 style={{ width: 1300, height: 600 }}
                 src={post.image}
-                alt={post.name}
+                alt={post.postName}
                 fluid
               />
               <Carousel.Caption className='carousel-caption'>
-                <h2 className='text-white text-right'>{post.name}</h2>
+                <h2 className='text-white text-right'>{post.postName}</h2>
               </Carousel.Caption>
             </Link>
           </Carousel.Item>

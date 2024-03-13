@@ -1,15 +1,15 @@
 import asyncHandler from '../middleware/asyncHandler.js';
 import Voucher from "../models/voucherModel.js";
 const createVoucher = asyncHandler(async(req, res) => {
-    const { name, discountAmount, expiryDate, isUsed, qty, quantitySold } = req.body;
+    const { voucherName, discountAmount, isUsed, qty, quantitySold } = req.body;
 
     const voucher = await Voucher.create({
-        name,
+        voucherName,
         discountAmount,
-        expiryDate,
+       
         isUsed,
         qty,
-        quantitySold
+      
     });
     return res.json({
         message: 'Thêm voucher thành công',
@@ -56,17 +56,17 @@ const deleteVoucher = asyncHandler(async(req, res) => {
     }
 });
 const updateVoucher = asyncHandler(async(req, res) => {
-    const { name, discountAmount, expiryDate, isUsed, qty, quantitySold } = req.body;
+    const { voucherName, discountAmount, isUsed, qty } = req.body;
 
     const voucher = await Voucher.findById(req.params.id);
 
     if (voucher) {
-        voucher.name = name;
+        voucher.voucherName = voucherName;
         voucher.discountAmount = discountAmount;
-        voucher.expiryDate = expiryDate;
+    
         voucher.isUsed = isUsed
         voucher.qty = qty
-        voucher.quantitySold = quantitySold
+     
         const updatedVoucher = await voucher.save();
         res.json(updatedVoucher);
     } else {

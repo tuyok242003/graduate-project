@@ -52,7 +52,7 @@ const HomeScreen = () => {
               ? `Products in ${selectedCategory}`
               : 'Latest Products'}
           </h1>
-          <div>
+          {/* <div>
             <Category onCategoryClick={handleCategoryClick} />
             {selectedCategory && (
               <button
@@ -62,17 +62,15 @@ const HomeScreen = () => {
                 Show All
               </button>
             )}
-          </div>
+          </div> */}
           <Row>
-            {selectedCategory ? (
-              <ProductListByCategory selectedCategory={selectedCategory} />
-            ) : (
+            {
               data?.products.map((product:IProducts) => (
                 <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                   <Product product={product} />
                 </Col>
               ))
-            )}
+            }
           </Row>
           <Row></Row>
         </>

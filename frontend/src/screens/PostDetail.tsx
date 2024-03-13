@@ -18,7 +18,7 @@ const {data:voucher}= useGetVoucherDetailsQuery(voucherId as string)
       ) : (
         <div className='post-content'>
           <div className='post-header'>
-            <h1>{post?.name}</h1>
+            <h1>{post?.postName}</h1>
             <img
               src={post?.image}
               alt={post?.content}

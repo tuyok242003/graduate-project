@@ -1,11 +1,12 @@
 import { PRODUCTS_URL } from '../../constants';
 import { apiSlice } from '../slices/apiSlice';
 import { UPLOAD_URL } from '../../constants';
-import { IAddProduct, IProducts, IProductss, IVariant } from '@/interfaces/Products';
+import { IAddProduct, IProducts, IVariant } from '@/interfaces/Products';
 import { ICategories } from '@/interfaces/Category';
 interface IUpdateProduct {
   productId?:string
-name:string
+  productName:string
+  price:string
 image:string
 brand:string
 category:string

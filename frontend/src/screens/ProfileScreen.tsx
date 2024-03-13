@@ -88,9 +88,9 @@ const ProfileScreen = () => {
   };
 
   useEffect(() => {
-    setName(userInfo?.name ?? '');
+    setName(userInfo?.userName ?? '');
     setEmail(userInfo?.email ?? '');
-  }, [userInfo?.email, userInfo?.name]);
+  }, [userInfo?.email, userInfo?.userName]);
 
   const dispatch = useDispatch();
   const submitHandler = async (profile: React.FormEvent<HTMLFormElement>) => {

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const postSchema = mongoose.Schema(
   {
-    name: {
+    postName: {
       type: String,
       require: true,
     },

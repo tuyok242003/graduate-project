@@ -15,7 +15,7 @@ import { toast } from 'react-toastify';
 import { IProducts } from '@/interfaces/Products';
 import { ICategories } from '@/interfaces/Category';
 import { displayErrorMessage } from '../../../components/Error';
-import { USERLIST } from '../../../constants';
+import { PRODUCTADD, USERLIST } from '../../../constants';
 
 const ProductListScreen = () => {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ const ProductListScreen = () => {
  
   const createProductHandler = async () => {
     try {
-      navigate(USERLIST);
+      navigate(PRODUCTADD);
       refetch();
     } catch (err) {
       displayErrorMessage(err);
@@ -81,7 +81,7 @@ const ProductListScreen = () => {
               {data?.products.map((product:IProducts) => (
                 <tr key={product._id}>
                   <td>{product._id}</td>
-                  <td>{product.name}</td>
+                  <td>{product.productName}</td>
                   <td>{(product.category as ICategories)?.name}</td>
                   <td>{product.brand}</td>
            

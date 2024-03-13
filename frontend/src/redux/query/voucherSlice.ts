@@ -4,9 +4,9 @@ import { apiSlice } from '../slices/apiSlice';
 import { IDeleteVoucher, IVouchers } from '@/interfaces/Voucher';
 interface IUpdateVoucher{
   voucherId:string | undefined
-  name:string
+  voucherName:string
   discountAmount:string
-  expiryDate:string
+
   isUsed:boolean
 }
 

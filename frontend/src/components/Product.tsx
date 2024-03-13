@@ -21,7 +21,7 @@ const Product: React.FC<IProductProps> = ({product}) => {const totalQuantitySold
       <Card.Body >
         <Link to={`/product/${product._id}`} style={{textDecoration: 'none'}}>
           <Card.Title as='div' className='product-title'>
-            <strong style={{fontFamily:'display'}}>{product.name}</strong>
+            <strong style={{fontFamily:'display'}}>{product.productName}</strong>
           
           </Card.Title>
         </Link>

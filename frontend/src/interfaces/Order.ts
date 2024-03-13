@@ -38,7 +38,7 @@ export interface ICreateOrder {
 export interface IVoucherName {
   name:string;
   isUsed:boolean;
-  expiryDate:Date
+
 }
 export interface IOrderItem {
   _id: string;

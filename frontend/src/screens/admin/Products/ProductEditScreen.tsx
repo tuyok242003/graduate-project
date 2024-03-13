@@ -15,21 +15,28 @@ import {
 } from '../../../redux/query/categorySlice'
 import { ICategories } from '@/interfaces/Category';
 import { PRODUCTLIST } from '../../../constants';
+import { IProductState } from './ProductAddScreen';
+
 const ProductEditScreen = () => {
   const { id: productId } = useParams();
-  const [name, setName] = useState('');
+  const [state, setState] = useState<IProductState>({
+    productName: '',
+    price: '',
+    brand: '',
+    category: '',
+    description: '',
+  });
+  console.log(state);
+  
   const [image, setImage] = useState('');
-  const [brand, setBrand] = useState('');
-  const [category, setCategory] = useState('');
-  const [description, setDescription] = useState('');
   const { data: categories } = useGetCategoriesQuery();
   const isFormValid = () => {
    
-    if (!name || !image || !brand || !category || !description) {
+    if (!state.productName || !state.price || !image || !state.brand || !state.category || !state.description) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
       return false;
-    }
-    if (!category.trim()) {
+    } 
+    if (!state.category.trim()) {
       toast.error('Vui lòng chọn danh mục sản phẩm.');
       return false;
     }
@@ -54,11 +61,12 @@ const ProductEditScreen = () => {
     try {
       await updateProduct({
         productId,
-        name,
+        productName: state.productName,
         image,
-        brand,
-        category,
-        description,
+          price: state.price,
+          brand: state.brand,
+          category: state.category,
+          description: state.description,
       }).unwrap();
       toast.success('Product updated');
       refetch();
@@ -70,12 +78,13 @@ const ProductEditScreen = () => {
 
   useEffect(() => {
     if (product) {
-      setName(product.name);
-  
-      setImage(product.image);
-      setBrand(product.brand);
-      setCategory(product.category.name);
-      setDescription(product.description);
+      setState({...state,
+        productName: product.productName,
+        price:product.price,
+        brand:product.brand,
+        category:product.category.name,
+        description:product.description
+      });
     }
   }, [product]);
   const formData = new FormData();
@@ -116,11 +125,21 @@ const ProductEditScreen = () => {
               <Form.Control
                 type='name'
                 placeholder='Enter name'
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={state.productName}
+              onChange={(e) =>
+                setState({ ...state, productName: e.target.value })
+              }
               ></Form.Control>
             </Form.Group>
-         
+            <Form.Group controlId='price'>
+            <Form.Label>Price</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Enter price'
+              value={state.price}
+              onChange={(e) => setState({ ...state, price: e.target.value })}
+            ></Form.Control>
+            </Form.Group>
             <Form.Group controlId='image'>
               <Form.Label>Image</Form.Label>
               <Form.Control
@@ -142,8 +161,8 @@ const ProductEditScreen = () => {
               <Form.Control
                 type='text'
                 placeholder='Enter brand'
-                value={brand}
-                onChange={(e) => setBrand(e.target.value)}
+                value={state.brand}
+                onChange={(e) => setState({ ...state, brand: e.target.value })}
               ></Form.Control>
 </Form.Group>
 
@@ -151,8 +170,9 @@ const ProductEditScreen = () => {
         <Form.Label>Category</Form.Label>
         <Form.Control
           as='select'
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          onChange={(e) =>
+            setState({ ...state, category: e.target.value })
+          }
         >
    
           {categories?.map((cat:ICategories) => (
@@ -167,8 +187,9 @@ const ProductEditScreen = () => {
               <Form.Control
                 type='text'
                 placeholder='Enter description'
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={(e) =>
+                  setState({ ...state, description: e.target.value })
+                }
               ></Form.Control>
             </Form.Group>
 

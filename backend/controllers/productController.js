@@ -33,7 +33,7 @@ const getProductById = asyncHandler(async(req, res) => {
 });
 
 const createProduct = asyncHandler(async(req, res) => {
-    const { name, image, brand, description, numReviews, price, category } = req.body;
+    const { productName, image, brand, description, numReviews, price, category } = req.body;
     let existingCategory = await Category.findOne({ name: category });
 
     if (!existingCategory) {
@@ -41,7 +41,7 @@ const createProduct = asyncHandler(async(req, res) => {
         await existingCategory.save();
     }
     const product = new Product({
-        name,
+        productName,
         user: req.user._id,
         price,
         brand,
@@ -60,7 +60,7 @@ const createProduct = asyncHandler(async(req, res) => {
 // @route   PUT /api/products/:id
 // @access  Private/Admin
 const updateProduct = asyncHandler(async(req, res) => {
-    const { name, description, image, brand, category, price } = req.body;
+    const { productName, description, image, brand, category, price } = req.body;
 
     const product = await Product.findById(req.params.id);
     let existingCategory = await Category.findOne({ name: category });
@@ -71,7 +71,7 @@ const updateProduct = asyncHandler(async(req, res) => {
     }
 
     if (product) {
-        product.name = name;
+        product.productName = productName;
         product.description = description;
         product.image = image;
         product.brand = brand;

@@ -83,14 +83,14 @@ const VoucherListScreen = () => {
               {currentVouchers?.map((voucher: IVouchers) => (
                 <tr key={voucher._id}>
                   <td>{voucher._id}</td>
-                  <td>{voucher.name}</td>
+                  <td>{voucher.voucherName}</td>
                   <td>
                   {voucher.discountAmount}
                   </td>
                   <td>{voucher.qty}</td>
-                  <td>{voucher.expiryDate.toString()}</td>
+                 
                   <td>{voucher.isUsed.toString()}</td>
-                  <td>{voucher.quantitySold}</td>
+                 
                   <td>
                     <LinkContainer to={`/admin/voucher/${voucher._id}`}>
                       <Button variant='light' className='btn-sm mx-2'>

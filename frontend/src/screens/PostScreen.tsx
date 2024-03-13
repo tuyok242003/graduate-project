@@ -34,7 +34,7 @@ const PostScreen = () => {
                   className='mr-4 post-image'
                 />
                 <div className='post-content'>
-                  <h5 style={{ marginLeft: 20 }}>{post.name}</h5>
+                  <h5 style={{ marginLeft: 20 }}>{post.postName}</h5>
                   <Button
                     variant='primary'
                     onClick={() => handleReadMore(post._id)}
@@ -59,7 +59,7 @@ const PostScreen = () => {
               {posts
                 ?.slice(0, 5)
                 .map((post) => (
-                  <ListGroup.Item key={post._id}>{post.name}</ListGroup.Item>
+                  <ListGroup.Item key={post._id}>{post.postName}</ListGroup.Item>
                 ))}
             </ListGroup>
           </Col>

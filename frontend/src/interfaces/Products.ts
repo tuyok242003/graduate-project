@@ -23,7 +23,7 @@ export interface IVariant {
   discount:number
 }
 export interface IAddProduct{
-  name: string;
+  productName: string;
   price:string;
   image: string;
   brand: string;
@@ -32,7 +32,7 @@ export interface IAddProduct{
 }
 export interface IProducts {
   _id: string;
-  name: string;
+  productName: string;
   price:string;
   image: string;
   brand: string;

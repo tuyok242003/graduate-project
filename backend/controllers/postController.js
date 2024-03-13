@@ -5,10 +5,10 @@ import Post from '../models/postModel.js';
 // @route GET /api/posts
 // @acess public
 const createPost = asyncHandler(async (req, res) => {
-  const { name, image, content } = req.body;
+  const { postName, image, content } = req.body;
 
   const post = await Post.create({
-    name,
+    postName,
     image,
     content,
   });
@@ -71,12 +71,12 @@ const deletePost = asyncHandler(async (req, res) => {
   }
 });
 const updatePost = asyncHandler(async (req, res) => {
-  const { name, image, content } = req.body;
+  const { postName, image, content } = req.body;
 
   const post = await Post.findById(req.params.id);
 
   if (post) {
-    post.name = name;
+    post.postName = postName;
     post.image = image;
     post.content = content;
 

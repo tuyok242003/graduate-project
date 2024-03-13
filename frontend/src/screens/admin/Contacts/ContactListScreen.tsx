@@ -84,7 +84,7 @@ const ContactListScreen = () => {
               {currentContacts?.map((contact: IContact) => (
                 <tr key={contact._id}>
                   <td>{contact._id}</td>
-                  <td>{contact.name}</td>
+                  <td>{contact.contactName}</td>
                   <td>{contact.phone}</td>
                   <td>{contact.email}</td>
                   <td>{contact.content}</td>

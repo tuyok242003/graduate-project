@@ -63,10 +63,7 @@ const addOrderItems = asyncHandler(async(req, res) => {
                 res.status(400).json({ message: 'Voucher has already been used.' });
                 return;
             }
-            if (voucher.expiryDate && new Date(voucher.expiryDate) < new Date()) {
-                res.status(400).json({ message: 'Voucher has expired.' });
-                return;
-            }
+          
             discountedTotalPrice = totalPrice - (voucher.discountAmount / 100) * totalPrice;
             await Voucher.findByIdAndUpdate(voucher._id, { isUsed: true });
         }

@@ -36,7 +36,7 @@ const ProductListByCategory = ({
            <Card.Body>
             <Link to={`/product/${product._id}`} style={{ textDecoration: 'none' }}>
             <Card.Title style={{marginTop:10}} as='div' className='product-title'>
-              <strong >{product.name}</strong>
+              <strong >{product.productName}</strong>
              {/* <strong>    Giá: {product.price}</strong> */}
             </Card.Title>
           </Link>

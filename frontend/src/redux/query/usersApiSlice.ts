@@ -4,7 +4,7 @@ import { IUser } from '@/interfaces/User';
 import { IProducts } from '@/interfaces/Products';
 interface IUpdateUser {
   userId:string |undefined
-  name:string;
+  userName:string;
   email:string;
  
   isAdmin:boolean

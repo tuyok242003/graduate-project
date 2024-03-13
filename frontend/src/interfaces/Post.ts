@@ -1,6 +1,6 @@
 export interface IPosts {
 _id:string
-  name: string;
+  postName: string;
   image: string;
   content: string;
 }
