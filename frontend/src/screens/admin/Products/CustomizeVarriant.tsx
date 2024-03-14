@@ -39,10 +39,10 @@ const CustomizeVariant = () => {
     
     const isFormValid = () => {
    
-      if (!state.variantColor || !state.variantPrice || !state.variantQuantitySold || variantImages || !state.variantCountInStock || !state.variantDiscount || !state.variantTitle) {
-        toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
-        return false;
-      }
+      // if (!state.variantColor || !state.variantPrice || !state.variantQuantitySold || variantImages || !state.variantCountInStock || !state.variantDiscount || !state.variantTitle) {
+      //   toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
+      //   return false;
+      // }
     
       
       if (isNaN(Number(state.variantPrice))) {

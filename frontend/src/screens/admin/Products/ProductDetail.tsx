@@ -10,12 +10,8 @@ import Meta from '../../../components/Meta';
 
 import { IReview, IVariant } from '@/interfaces/Products';
 import { ICategories } from '@/interfaces/Category';
-import {
-  
-  ColorWrapper,
+import { ProductScreenStyled } from '../../../assets/styles/ProductScreen';
 
-  VerticalLine
-} from '../../../assets/styles/ProductScreen'; 
 interface IState {
   selectedVariant:IVariant | null,
   activeVariantId:string | null
@@ -32,7 +28,8 @@ const ProductDetail = () => {
     error,
   } = useGetProductDetailsQuery(productId as string);
   return (
-    <>
+    <ProductScreenStyled>
+      <>
       <Link className='btn btn-light my-3' to='/'>
         Go Back
       </Link>
@@ -69,13 +66,13 @@ const ProductDetail = () => {
                 <ListGroup.Item>
                   <Form.Label>Category: {(product?.category as ICategories).name}</Form.Label>
                 </ListGroup.Item>
-                <ListGroup.Item style={{width:100}}>
+                <ListGroup.Item >
                   <strong>Price:</strong> $
                   {state?.selectedVariant ? state.selectedVariant.price : product?.price}
                 </ListGroup.Item>
                 <ListGroup variant='flush'>
                   {product?.variants.map((variant: IVariant, index: number) => (
-                    <ColorWrapper
+                    <ListGroup.Item
                       key={index}
                       onClick={() => handleVariantClick(variant)}
                       style={{ cursor: 'pointer' }}
@@ -84,8 +81,8 @@ const ProductDetail = () => {
                       }`}
                     >
                       <span className='color-name'>{variant.color}</span>
-                      <VerticalLine />
-                    </ColorWrapper>
+                     
+                    </ListGroup.Item>
                   ))}
                 </ListGroup>
               </ListGroup>
@@ -143,6 +140,7 @@ const ProductDetail = () => {
         </>
       )}
     </>
+    </ProductScreenStyled>
   );
 };
 

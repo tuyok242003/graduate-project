@@ -8,12 +8,12 @@ import CheckoutSteps from '../components/CheckoutSteps';
 import Loader from '../components/Loader';
 import { useCreateOrderMutation } from '../redux/query/ordersApiSlice';
 import { clearCartItems } from '../redux/slices/cartSlice';
-import {RootState} from './CartScreen'
+import {IRootState} from './CartScreen'
 import {  IOrderItem } from '@/interfaces/Order';
 import { PAYMENT, SHIPPING } from '../constants';
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();
-  const cart = useSelector((state:RootState) => state.cart);
+  const cart = useSelector((state:IRootState) => state.cart);
   const [createOrder, { isLoading }] = useCreateOrderMutation();
   useEffect(() => {
     if (!cart.shippingAddress.address) {

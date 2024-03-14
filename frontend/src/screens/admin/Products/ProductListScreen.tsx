@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Message, { IMessageProps } from '../../../components/Message';
 import Loader from '../../../components/Loader';
 import { AiFillCaretRight, AiTwotoneFileAdd } from 'react-icons/ai';
+import { IoIosAdd } from "react-icons/io";
 
 import {
   useGetProductsQuery,
@@ -105,7 +106,9 @@ const ProductListScreen = () => {
                     </Button>
                     <LinkContainer to={`/admin/varriant/${product._id}/add`}>
                       <Button variant='light' className='btn-sm mx-2'>
-                        <AiTwotoneFileAdd />
+                      <IoIosAdd />
+
+
                       </Button>
                     </LinkContainer>
                   </td>

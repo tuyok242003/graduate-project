@@ -14,7 +14,7 @@ import Message from '../components/Message';
 import { addToCart, removeFromCart, increaseQty, decreaseQty } from '../redux/slices/cartSlice';
 import {  IOrderItem,IShippingAddress,IVoucherName } from '@/interfaces/Order';
 import React,{useState} from 'react';
-export interface RootState {
+export interface IRootState {
   cart: {
     cartItems: IOrderItem[];
     shippingAddress :IShippingAddress
@@ -35,7 +35,7 @@ const handleSelectAll = () => {
   setSelectAll(!selectAll);
   setSelectedItems(selectAll ? [] : allItemIds);
 };
-  const cart = useSelector((state:RootState) => state.cart);
+  const cart = useSelector((state:IRootState) => state.cart);
   const { cartItems } = cart;
   const [selectedItems, setSelectedItems] = React.useState<string[]>([]);
   console.log(selectedItems);

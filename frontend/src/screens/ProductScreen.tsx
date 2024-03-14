@@ -23,8 +23,8 @@ import Meta from '../components/Meta';
 import { addToCart } from '../redux/slices/cartSlice';
 import { IReview, IVariant } from '@/interfaces/Products';
 import { displayErrorMessage } from '../components/Error';
-import { ActiveVariantItem } from '@/assets/styles/ProductScreen';
 import { CART } from '../constants';
+import { ProductScreenStyled } from '../assets/styles/ProductScreen';
 const ProductScreen = () => {
   const { id: productId } = useParams();
   const dispatch = useDispatch();
@@ -116,7 +116,8 @@ const ProductScreen = () => {
   };
 
   return (
-    <>
+    <ProductScreenStyled>
+      <>
       <Link className='btn btn-light my-3' to='/'>
         Go Back
       </Link>
@@ -163,7 +164,8 @@ const ProductScreen = () => {
   {product?.variants.map((variant: IVariant, index: number) => (
     <Col md={4} key={index}>
       <ListGroup variant='flush'>
-        <ListGroup.Item
+        <ListGroup.Item 
+        key={index}
           onClick={() => handleVariantClick(variant)}
           style={{ cursor: 'pointer' }}
           className={`variant-item ${
@@ -355,6 +357,7 @@ const ProductScreen = () => {
         </>
       )}
     </>
+    </ProductScreenStyled>
   );
 };
 
