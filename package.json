@@ -21,6 +21,7 @@
   "author": "Brad Traversy",
   "license": "MIT",
   "dependencies": {
+    "@paypal/paypal-js": "^8.0.2",
     "@reduxjs/toolkit": "^2.0.1",
     "@types/jest": "^29.5.11",
     "@types/node": "^20.11.5",

@@ -9,7 +9,7 @@ import {
   Button,
  
 } from 'react-bootstrap';
-import { PayPalButtons, usePayPalScriptReducer, SCRIPT_LOADING_STATE } from '@paypal/react-paypal-js';
+import { PayPalButtons, usePayPalScriptReducer, SCRIPT_LOADING_STATE, PayPalButtonsComponentProps } from '@paypal/react-paypal-js';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import Message, { IMessageProps } from '../components/Message';
@@ -24,6 +24,7 @@ import {
 } from '../redux/query/ordersApiSlice';
 import { IOrder, IOrderItem } from '@/interfaces/Order';
 import { displayErrorMessage } from '../components/Error';
+import { CreateOrderActions, CreateOrderData, OnApproveActions, OnApproveData } from '@paypal/paypal-js';
 
 const OrderScreen: React.FC = () => {
   const { id: orderId } = useParams<{ id: string }>();
@@ -75,8 +76,8 @@ const dataOrder = order?.orderItems.filter(item => {
       }
     }
   }, [errorPayPal, loadingPayPal, isPending, order, paypal, paypalDispatch]);
-  const onApprove = async (data: Object, actions:any) => {
-    const details: IOrder = await actions.order.capture();
+  const onApprove = async (data: OnApproveData, actions:OnApproveActions) => {
+    const details = await actions.order?.capture();
 
     try {
       await payOrder({ orderId, details });
@@ -96,7 +97,7 @@ const dataOrder = order?.orderItems.filter(item => {
     toast.error(err.message as string);
   };
 
-  const createOrder = (data: Object, actions: any) => {
+  const createOrder = (data: CreateOrderData, actions: CreateOrderActions) => {
     return actions.order
       .create({
         purchase_units: [
