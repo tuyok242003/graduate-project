@@ -46,7 +46,7 @@ const ProductListByCategory = ({
           <Rating
             valueRating={product.rating}
             text={`${product.numReviews} reviews`}
-            color = '#f8e825'
+         
           />
         </Card.Text>
           </Card.Body>

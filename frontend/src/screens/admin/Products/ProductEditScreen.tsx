@@ -82,7 +82,7 @@ const ProductEditScreen = () => {
         productName: product.productName,
         price:product.price,
         brand:product.brand,
-        category:product.category.categoryName,
+        category:product.category.name,
         description:product.description
       });
     }
@@ -176,8 +176,8 @@ const ProductEditScreen = () => {
         >
    
           {categories?.map((cat:ICategories) => (
-            <option key={cat._id} value={cat.categoryName}>
-              {cat.categoryName}
+            <option key={cat._id} value={cat.name}>
+              {cat.name}
             </option>
           ))}
         </Form.Control>

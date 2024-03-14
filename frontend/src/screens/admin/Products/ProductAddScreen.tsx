@@ -154,7 +154,7 @@ const ProductAddScreen = () => {
                 <option value=''>Select Category</option>
                 {categories?.map((category: ICategories) => (
                   <option key={category._id} value={category._id}>
-                    {category.categoryName}
+                    {category.name}
                   </option>
                 ))}
               </Form.Control>

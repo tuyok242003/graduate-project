@@ -69,7 +69,7 @@ const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
         <h1>Add Voucher</h1>
         {loadingAdd && <Loader />}
         <Form onSubmit={submitHandler}>
-          <Form.Group controlId='categoryName'>
+          <Form.Group controlId='name'>
             <Form.Label>Name</Form.Label>
             <Form.Control
               type='text'

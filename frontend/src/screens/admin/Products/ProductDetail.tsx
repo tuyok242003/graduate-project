@@ -11,9 +11,9 @@ import Meta from '../../../components/Meta';
 import { IReview, IVariant } from '@/interfaces/Products';
 import { ICategories } from '@/interfaces/Category';
 import {
-  ActiveVariantItem,
+  
   ColorWrapper,
-  SaleHighlight,
+
   VerticalLine
 } from '../../../assets/styles/ProductScreen'; 
 interface IState {
@@ -59,7 +59,7 @@ const ProductDetail = () => {
                 <ListGroup.Item>
                   <Rating
                     text={`${product?.numReviews} reviews`}
-                    color='#f8e825' 
+                  
                     valueRating={0}
                   />
                 </ListGroup.Item>
@@ -67,7 +67,7 @@ const ProductDetail = () => {
                   <Form.Label> Brand: {product?.brand}</Form.Label>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <Form.Label>Category: {(product?.category as ICategories).categoryName}</Form.Label>
+                  <Form.Label>Category: {(product?.category as ICategories).name}</Form.Label>
                 </ListGroup.Item>
                 <ListGroup.Item style={{width:100}}>
                   <strong>Price:</strong> $
@@ -130,7 +130,7 @@ const ProductDetail = () => {
                     <Rating
                       valueRating={review.rating}
                       text={`(${review.rating} stars)`}
-                      color = '#f8e825'
+                  
 
                     />
                     <p>{review.createdAt?.toString().substring(0, 10)}</p>

@@ -1,6 +1,6 @@
 const categories = [
   {
-    categoryName: 'Phone',
+    name: 'Phone',
   },
 ];
 export default categories;

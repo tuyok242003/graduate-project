@@ -4,7 +4,10 @@ import { Button, Table } from 'react-bootstrap';
 import Loader from './Loader';
 import Message from './Message';
 import { ICategories } from '@/interfaces/Category';
-const Category = ({ onCategoryClick }:any) => {
+interface IOnCategory{
+  onCategoryClick:ICategories
+}
+const Category = ({ onCategoryClick }:IOnCategory) => {
   const { data: categories, isLoading, error } = useGetCategoriesQuery();
 
   if (isLoading) {
@@ -26,10 +29,10 @@ const Category = ({ onCategoryClick }:any) => {
             <tbody>
               {categories?.map((category:ICategories) => (
                 <Button
-                  onClick={() => onCategoryClick(category._id)}
+               
                   style={{ width: 100, marginLeft: 10 }}
                 >
-                  {category.categoryName}
+                  {category.name}
                 </Button>
               ))}
             </tbody>

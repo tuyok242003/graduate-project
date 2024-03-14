@@ -1,12 +1,12 @@
 import { Table, Button, Row, Col, Pagination } from 'react-bootstrap';
-import { FaPlus, FaTrash } from 'react-icons/fa';
+import {  FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Message, { IMessageProps } from './Message';
 import Loader from './Loader';
 import { toast } from 'react-toastify';
 import { useGetVouchersQuery,useDeleteVoucherMutation } from '../redux/query/voucherSlice';
 import { useState } from 'react';
-import { IDeleteVoucher, IVouchers } from '../interfaces/Voucher';
+import {  IVouchers } from '../interfaces/Voucher';
 import { displayErrorMessage } from './Error';
 import { VOUCHERADD } from '../constants';
 const VoucherList = () => {

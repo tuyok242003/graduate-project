@@ -18,21 +18,23 @@ const getCategoryById = asyncHandler(async(req, res) => {
     }
 });
 const createCategory = asyncHandler(async(req, res) => {
-    const { categoryName } = req.body;
-    const category = new Category({
-        categoryName,
+    const { name } = req.body;
+    const category = await Category.create({
+        name,
     });
 
-    const createdCategory = await category.save();
-    res.status(201).json(createdCategory);
+    return res.json({
+        message: 'Thêm bài Danh mục thành công',
+        category,
+      });
 });
 const updateCategory = asyncHandler(async(req, res) => {
-    const { categoryName } = req.body;
+    const { name } = req.body;
 
     const category = await Category.findById(req.params.id);
 
     if (category) {
-        category.categoryName = categoryName;
+        category.name = name;
 
         const updatedCategory = await category.save();
         res.json(updatedCategory);

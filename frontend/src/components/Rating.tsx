@@ -4,7 +4,7 @@ import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 interface IRatingProps {
   valueRating: number
   text: string;
-  color: string;
+ 
 }
 
 const Rating: React.FC<IRatingProps> = ({ valueRating, text }) => {
@@ -60,8 +60,5 @@ const Rating: React.FC<IRatingProps> = ({ valueRating, text }) => {
   );
 };
 
-Rating.defaultProps = {
-  color: '#f8e825',
-};
 
 export default Rating;

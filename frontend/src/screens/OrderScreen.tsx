@@ -7,7 +7,7 @@ import {
   Image,
   Card,
   Button,
-  Modal,
+ 
 } from 'react-bootstrap';
 import { PayPalButtons, usePayPalScriptReducer, SCRIPT_LOADING_STATE } from '@paypal/react-paypal-js';
 import { useSelector } from 'react-redux';
@@ -109,14 +109,10 @@ const dataOrder = order?.orderItems.filter(item => {
         return orderID;
       });
   };
-
-
-
   const deliverHandler = async () => {
     await deliverOrder(orderId as string);
     refetch();
   };
-
   return isLoading ? (
     <Loader />
   ) : error ? (

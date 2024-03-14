@@ -6,15 +6,15 @@ import { Button, Form } from 'react-bootstrap';
 import FormContainer from '../../../components/FormContainer';
 import Loader from '../../../components/Loader';
 import { displayErrorMessage } from '../../../components/Error';
-import { CATEGORYLIST, CONTACTADD } from '../../../constants';
+import { CATEGORYLIST } from '../../../constants';
 
 const CategoryAdd = () => {
-  const [categoryName, setName] = useState('');
+  const [name, setName] = useState('');
   const navigate = useNavigate();
   const [addCategory, { isLoading: loadingAdd }] = useCreateCategoryMutation();
 
   const isFormValid = () => {
-    if (!categoryName) {
+    if (!name) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
       return false;
     }
@@ -28,7 +28,7 @@ const CategoryAdd = () => {
       return;
     }
     try {
-      const {} = await addCategory( categoryName as string);
+      const {} = await addCategory(name);
       toast.success('Danh mục đã được thêm.');
       navigate('/admin/categoryList/');
     } catch (err) {
@@ -45,12 +45,12 @@ const CategoryAdd = () => {
         <h1>Thêm Danh mục</h1>
         {loadingAdd && <Loader />}
         <Form onSubmit={submitHandler}>
-          <Form.Group controlId='categoryName'>
+          <Form.Group controlId='name'>
             <Form.Label>Tên</Form.Label>
             <Form.Control
               type='text'
               placeholder='Nhập tên'
-              value={categoryName}
+              value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </Form.Group>

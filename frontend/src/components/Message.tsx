@@ -15,8 +15,6 @@ const Message: React.FC<IMessageProps> = ({ variant = 'info', children }) => {
   );
 };
 
-Message.defaultProps = {
-  variant: 'info',
-};
+
 
 export default Message;

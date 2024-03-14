@@ -12,7 +12,11 @@
     "data:import": "node backend/seeder",
     "data:destroy": "node backend/seeder -d",
     "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend",
-    "generate-toc": "markdown-toc -i readme.md"
+    "generate-toc": "markdown-toc -i readme.md",
+    "lint": "eslint --ext ts,tsx src/",
+    "lint:fix": "eslint --fix --ext ts,tsx src/",
+    "prettier": "prettier --check \"src/**/(**.tsx|*.ts|*.scss|*.css)\"",
+    "prettier:fix": "prettier --writer \"src/**/(**.tsx|*.ts|*.scss|*.css)\""
   },
   "author": "Brad Traversy",
   "license": "MIT",
@@ -36,6 +40,7 @@
     "nodemailer": "^6.9.8",
     "react-datepicker": "^6.1.0",
     "react-router-dom": "^6.21.1",
+    "styled-components": "^6.1.8",
     "typescript": "^5.3.3",
     "web-vitals": "^3.5.2"
   },
@@ -46,8 +51,12 @@
     "@types/styled-components": "^5.1.34",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@typescript-eslint/parser": "^6.19.0",
+    "babel-plugin-styled-components": "^2.1.4",
     "concurrently": "^7.6.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
     "markdown-toc": "^1.2.0",
-    "nodemon": "^2.0.21"
+    "nodemon": "^2.0.21",
+    "prettier": "^3.2.5"
   }
 }

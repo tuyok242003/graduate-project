@@ -80,7 +80,7 @@ console.log(data);
               {data?.map((category:ICategories) => (
                 <tr key={category._id}>
                   <td>{category._id}</td>
-                  <td>{category.categoryName}</td>
+                  <td>{category.name}</td>
 
                   <td>
                     <LinkContainer to={`/admin/category/${category._id}/edit`}>

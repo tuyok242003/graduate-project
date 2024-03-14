@@ -143,9 +143,8 @@ const ProductScreen = () => {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Rating
-                  
                         text={`${product?.numReviews} reviews`}
-                        color='#f8e825' valueRating={0}
+                   valueRating={0}
                   />
                 </ListGroup.Item>
                 {selectedVariant && selectedVariant?.discount > 0 && (
@@ -294,7 +293,7 @@ const ProductScreen = () => {
                     <Rating
                       valueRating={review.rating}
                       text={`(${review.rating} stars)`}
-                                          color = '#f8e825'
+                              
 
                     />
                     <p>{review.createdAt?.toString().substring(0, 10)}</p>

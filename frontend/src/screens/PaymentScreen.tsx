@@ -17,11 +17,8 @@ const PaymentScreen = () => {
       navigate(SHIPPING);        
     }
   }, [navigate, shippingAddress]);
-
   const [paymentMethod, setPaymentMethod] = useState('PayPal');
-
   const dispatch = useDispatch();
-
   const submitHandler = (payment: React.FormEvent<HTMLFormElement>) => {
     payment.preventDefault();
     dispatch(savePaymentMethod(paymentMethod));
@@ -46,7 +43,6 @@ const PaymentScreen = () => {
   checked={paymentMethod === 'PayPal'}
   onChange={(e) => setPaymentMethod(e.target.value)}
 />
-
 <Form.Check
   className='my-2'
   type='radio'
@@ -57,7 +53,6 @@ const PaymentScreen = () => {
   checked={paymentMethod === 'Thanh toán khi nhận hàng'}
   onChange={(e) => setPaymentMethod(e.target.value)}
 />
-
           </Col>
         </Form.Group>
 

@@ -1,13 +1,13 @@
 import { Helmet } from 'react-helmet-async';
 
 const Meta = ({
-  title,
-  description,
-  keywords,
+  title= 'Welcome To ProShop',
+  description= 'We sell the best products for cheap',
+  keywords= 'electronics, buy electronics, cheap electronics',
 }: {
-  title: string;
-  description: string;
-  keywords: string;
+  title?: string;
+  description?: string;
+  keywords?: string;
 }) => {
   return (
     <Helmet>
@@ -18,10 +18,6 @@ const Meta = ({
   );
 };
 
-Meta.defaultProps = {
-  title: 'Welcome To ProShop',
-  description: 'We sell the best products for cheap',
-  keywords: 'electronics, buy electronics, cheap electroincs',
-};
+
 
 export default Meta;

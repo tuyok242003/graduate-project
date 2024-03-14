@@ -5,11 +5,12 @@ interface CustomError {
     data?: {
       message?: string;
     };
-    error?: string;
+    error: string;
+
   }
   
-  export const displayErrorMessage = (err: any) => {
-    const error = err as CustomError;
+  export const displayErrorMessage = (err:any) => {
+    const error = err 
     const errorMessage = error?.data?.message || error?.error;
     toast.error(errorMessage);
   };

@@ -1,15 +1,18 @@
-import mongoose from 'mongoose';
+/* eslint-disable prettier/prettier */
+import mongoose from "mongoose"
 
-const categorySchema = mongoose.Schema({
-    categoryName: {
-        type: String,
-        required: true,
+const categorySchema = mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true
+    }
+  },
+  {
+    timestamps: true
+  }
+)
 
-    },
-}, {
-    timestamps: true,
-});
+const Category = mongoose.model("Category", categorySchema)
 
-const Category = mongoose.model('Category', categorySchema);
-
-export default Category;
+export default Category

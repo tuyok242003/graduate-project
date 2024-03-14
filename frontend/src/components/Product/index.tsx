@@ -16,7 +16,7 @@ const Product: React.FC<IProductProps> = ({ product }) => {
   );
 
   return (
-   
+   <ProductStyled>
      <Card className='my-3 p-3 rounded'>
       <Link to={`/product/${product._id}`}>
         <Card.Img style={{ height: 250 }} src={product.image} alt='Ảnh sản phẩm' variant='top' />
@@ -34,14 +34,14 @@ const Product: React.FC<IProductProps> = ({ product }) => {
         fontSize:15,fontFamily:"bold"}} className='sale-badge'>Sale</div>}
 
         <Card.Text as='div'>
-          <Rating valueRating={product.rating} text={`${product.numReviews} reviews`} color='#f8e825' />{' '}
+          <Rating valueRating={product.rating} text={`${product.numReviews} reviews`}  />{' '}
           <strong style={{ color: 'red' }}>Đã bán:</strong> {totalQuantitySold}
         </Card.Text>
 
         <Card.Text as='div'></Card.Text>
       </Card.Body>
     </Card>
- 
+    </ProductStyled>
   );
 };
 
