@@ -4,10 +4,8 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
-
 import { useLoginMutation } from '../redux/query/usersApiSlice';
 import { setCredentials } from '../redux/slices/authSlice';
-import { toast } from 'react-toastify';
 import { IUser } from '@/interfaces/User';
 import { displayErrorMessage } from '../components/Error';
 import { FORGOTPASSWORD, REGISTER } from '../constants';
@@ -16,7 +14,6 @@ interface ILoginState{
   password:string
 }
 const LoginScreen = () => {
-
   const [state,setState] = useState<ILoginState>({
     email:'',
     password:''
@@ -24,20 +21,16 @@ const LoginScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
-
   const { userInfo } =
     useSelector((state: { auth?: { userInfo: IUser } }) => state.auth) || {};
-
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
   const redirect = sp.get('redirect') || '/';
-
   useEffect(() => {
     if (userInfo) {
       navigate(redirect);
     }
   }, [navigate, redirect, userInfo]);
-
   const submitHandler = async (loginUser: React.FormEvent<HTMLFormElement>) => {
     loginUser.preventDefault();
     try {
@@ -48,7 +41,6 @@ const LoginScreen = () => {
       displayErrorMessage(err);
     }
   };
-
   return (
     <FormContainer>
       <h1>Sign In</h1>
@@ -62,7 +54,6 @@ const LoginScreen = () => {
             onChange={(e) => setState({...state,email:e.target.value})}
           ></Form.Control>
         </Form.Group>
-
         <Form.Group className='my-2' controlId='password'>
           <Form.Label>Password</Form.Label>
           <Form.Control
@@ -72,11 +63,9 @@ const LoginScreen = () => {
             onChange={(e) => setState({...state,password:e.target.value})}
           ></Form.Control>
         </Form.Group>
-
         <Button disabled={isLoading} type='submit' variant='primary'>
           Sign In
         </Button>
-
         {isLoading && <Loader />}
       </Form>
       <Row className='py-3'>

@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { Button, Form } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import FormContainer from '../components/FormContainer';
-import CheckoutSteps from '../components/CheckoutSteps';
-import { saveShippingAddress } from '../redux/slices/cartSlice';
-import { IRootState } from './CartScreen';
 import { toast } from 'react-toastify';
+import CheckoutSteps from '../components/CheckoutSteps';
+import FormContainer from '../components/FormContainer';
 import { VOUCHER } from '../constants';
+import { saveShippingAddress } from '../redux/slices/cartSlice';
 interface IShippingState {
   address:string;
   city:string

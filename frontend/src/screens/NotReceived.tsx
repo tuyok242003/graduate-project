@@ -1,24 +1,22 @@
-import React from 'react';
-import { Table, Button, Row, Col } from 'react-bootstrap';
+import { Button, Col, Row, Table } from 'react-bootstrap';
+import { FaCheck, FaTimes } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
-import { FaTimes, FaCheck } from 'react-icons/fa';
-import Message, { IMessageProps } from '../components/Message';
-import Loader from '../components/Loader';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
 
-import {
-  useGetMyOrdersQuery,
-  useCancelOrderMutation,
-} from '../redux/query/ordersApiSlice';
-import { displayErrorMessage } from '../components/Error';
 import { IOrder } from '@/interfaces/Order';
+import { displayErrorMessage } from '../components/Error';
+import {
+  useCancelOrderMutation,
+  useGetMyOrdersQuery,
+} from '../redux/query/ordersApiSlice';
 
 const NotReceivedScreen = () => {
   const { data: orders, isLoading, error, refetch } = useGetMyOrdersQuery();
   const [cancelOrder, { isLoading: loadingUpdateOrder }] =
     useCancelOrderMutation();
-  const navigate = useNavigate;
+
   const CancelHandler = async (id: string, isDelivered: boolean) => {
     if (isDelivered) {
       toast.error('Không thể huỷ đơn hàng đã được giao');

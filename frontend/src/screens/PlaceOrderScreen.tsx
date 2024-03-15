@@ -23,12 +23,10 @@ const PlaceOrderScreen = () => {
     }
   }, [cart.paymentMethod, cart.shippingAddress.address, navigate]);
   useEffect(() => {
-
   }, [cart.cartItems]);
   const dispatch = useDispatch();
   const placeOrderHandler = async () => {
     try {
-   
       const res = await createOrder({
         orderItems: data,
         shippingAddress: cart.shippingAddress,
@@ -45,7 +43,6 @@ const PlaceOrderScreen = () => {
     }
   };
   const orderItem = localStorage.getItem("selectedItems");
-
   const data = cart.cartItems.filter(item => {
    return orderItem?.includes(item._id); 
   });
@@ -66,8 +63,7 @@ const PlaceOrderScreen = () => {
               </p>
             </ListGroup.Item>
             <ListGroup.Item>
-              <h2>Voucher</h2>
-             
+              <h2>Voucher</h2>            
               {cart.voucherName && (cart.voucherName.name)}
             </ListGroup.Item>
             <ListGroup.Item>
@@ -130,10 +126,7 @@ const PlaceOrderScreen = () => {
       </ListGroup.Item>
     </ListGroup>
   )}
-</ListGroup.Item>
-
-                                                                         
-
+</ListGroup.Item>                                                                  
           </ListGroup>
         </Col>
         <Col md={4}>
@@ -153,23 +146,19 @@ const PlaceOrderScreen = () => {
                   <Col>Shipping</Col>
                   <Col>${cart.shippingPrice}</Col>
                 </Row>
-              </ListGroup.Item>
-            
-                                                       
+              </ListGroup.Item>                                                 
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>
                   <Col>${totalOrder}</Col>
                 </Row>
-              </ListGroup.Item>
-              
+              </ListGroup.Item>             
               <ListGroup.Item>
                 <Button
                   type='button'
                   className='btn-block'
                   disabled={cart.cartItems.length === 0}
-                  onClick={placeOrderHandler}
-                 
+                  onClick={placeOrderHandler}                 
                 >
                   Place Order
                 </Button>

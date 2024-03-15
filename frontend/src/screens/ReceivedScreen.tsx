@@ -1,17 +1,16 @@
-import React from 'react';
-import { Table, Button, Row, Col } from 'react-bootstrap';
+import { Button, Col, Row, Table } from 'react-bootstrap';
+import { FaCheck, FaTimes } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
-import { FaTimes, FaCheck } from 'react-icons/fa';
-import Message, { IMessageProps } from '../components/Message';
-import Loader from '../components/Loader';
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
 
-import {
-  useGetMyOrdersQuery,
-  useConfirmOrderMutation,
-} from '../redux/query/ordersApiSlice';
 import { displayErrorMessage } from '../components/Error';
+import {
+  useConfirmOrderMutation,
+  useGetMyOrdersQuery,
+} from '../redux/query/ordersApiSlice';
 
 const ReceivedScreen = () => {
   const { data: orders, isLoading, error, refetch } = useGetMyOrdersQuery();
@@ -26,12 +25,10 @@ const ReceivedScreen = () => {
       toast.error('Không thể nhận đơn hàng khi chưa vận chuyển');
       return;
     }
-
     if (isConfirmed) {
       toast.error('Đơn hàng đã được nhận trước đó');
       return;
     }
-
     const confirmMessage = 'Bạn đã nhận đơn hàng rồi!!!';
     if (window.confirm(confirmMessage)) {
       try {

@@ -1,26 +1,25 @@
+import { IUser } from '@/interfaces/User';
 import React, { useEffect, useState } from 'react';
-import { Table, Form, Button, Row, Col } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { FaTimes, FaCheck } from 'react-icons/fa';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import Message, { IMessageProps } from '../components/Message';
-import { MdDeleteSweep } from 'react-icons/md';
+import { Button, Col, Form, Row, Table } from 'react-bootstrap';
 import { BiMessageAltDetail } from 'react-icons/bi';
-import { MdCallReceived } from 'react-icons/md';
+import { FaCheck, FaTimes } from 'react-icons/fa';
+import { MdCallReceived, MdDeleteSweep } from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
+import { LinkContainer } from 'react-router-bootstrap';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { displayErrorMessage } from '../components/Error';
 import Loader from '../components/Loader';
-import { useProfileMutation } from '../redux/query/usersApiSlice';
+import Message from '../components/Message';
+import SearchProfile from '../components/SearchProfile';
+import { PROFILE } from '../constants';
 import {
-  useGetMyOrdersQuery,
   useCancelOrderMutation,
   useConfirmOrderMutation,
+  useGetMyOrdersQuery,
 } from '../redux/query/ordersApiSlice';
+import { useProfileMutation } from '../redux/query/usersApiSlice';
 import { setCredentials } from '../redux/slices/authSlice';
-import { IUser } from '@/interfaces/User';
-import SearchProfile from '../components/SearchProfile';
-import { displayErrorMessage } from '../components/Error';
-import { PROFILE } from '../constants';
 import { IRegisterState } from './RegisterScreen';
 const ProfileScreen = () => {
   const [state,setState]= useState<IRegisterState>({
@@ -93,7 +92,7 @@ const ProfileScreen = () => {
   useEffect(() => {
     setState({...state,userName:userInfo?.userName ?? '',email:userInfo?.email ?? ''});
    
-  }, [userInfo?.email, userInfo?.userName]);
+  }, [state, userInfo?.email, userInfo?.userName]);
 
   const dispatch = useDispatch();
   const submitHandler = async (profile: React.FormEvent<HTMLFormElement>) => {
