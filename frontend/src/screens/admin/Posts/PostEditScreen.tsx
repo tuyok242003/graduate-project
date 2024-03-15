@@ -4,15 +4,16 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { displayErrorMessage } from '../../../components/Error';
 import FormContainer from '../../../components/FormContainer';
-import Loader from '../../../components/Loader';
+import Loader from '../../../components/Footer'
 import Message from '../../../components/Message';
-import { POSTLIST } from '../../../constants';
+import { POSTLIST } from '../../../constants/constants';
 import {
   useGetPostDetailsQuery,
   useUpdatePostMutation,
   useUploadPostImageMutation,
 } from '../../../redux/query/postSlice';
 import { IPostState } from './PostAddScreen';
+import { PostStyled } from './styled';
 const PostEditScreen = () => {
   const { id: postId } = useParams();
 
@@ -94,7 +95,8 @@ const PostEditScreen = () => {
   };
 
   return (
-    <>
+   <PostStyled>
+     <>
       <Link to={POSTLIST} className='btn btn-light my-3'>
         Go Back
       </Link>
@@ -146,7 +148,7 @@ const PostEditScreen = () => {
             <Button
               type='submit'
               variant='primary'
-              style={{ marginTop: '1rem' }}
+           
             >
               Update
             </Button>
@@ -154,6 +156,7 @@ const PostEditScreen = () => {
         )}
       </FormContainer>
     </>
+   </PostStyled>
   );
 };
 

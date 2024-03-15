@@ -3,7 +3,7 @@ import { Table, Button, Row, Col, Pagination } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Message, { IMessageProps } from '../../../components/Message';
-import Loader from '../../../components/Loader';
+import Loader from '../../../components/Footer'
 import { toast } from 'react-toastify';
 import {
   useGetPostsQuery,
@@ -12,6 +12,7 @@ import {
 } from '../../../redux/query/postSlice';
 import { useState } from 'react';
 import { displayErrorMessage } from '../../../components/Error';
+import { PostStyled } from './styled';
 
 const PostListScreen = () => {
   const { data: posts, isLoading, error, refetch } = useGetPostsQuery();
@@ -44,7 +45,8 @@ const PostListScreen = () => {
   const indexOfFirstPost = indexOfLastPost - ordersPerPage;
   const currentPosts = posts?.slice(indexOfFirstPost, indexOfLastPost);
   return (
-    <>
+   <PostStyled>
+     <>
       <Row className='align-items-center'>
         <Col>
           <h1>Posts</h1>
@@ -83,9 +85,10 @@ const PostListScreen = () => {
                   <td>
                     {post.image && (
                       <img
+                      className='img-post'
                         src={post.image}
                         alt={post.postName}
-                        style={{ maxWidth: '100px' }}
+                      
                       />
                     )}
                   </td>
@@ -101,7 +104,7 @@ const PostListScreen = () => {
                       className='btn-sm'
                       onClick={() =>deleteHandler(post._id)}
                     >
-                      <FaTrash style={{ color: 'white' }} />
+                      <FaTrash className='fatrash' />
                     </Button>
                   </td>
                 </tr>
@@ -124,6 +127,7 @@ const PostListScreen = () => {
         </>
       )}
     </>
+   </PostStyled>
   );
 };
 

@@ -4,12 +4,13 @@ import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useLogoutMutation } from '../redux/query/usersApiSlice';
-import { logout } from '../redux/slices/authSlice';
-import SearchBox from './SearchBox';
-import { resetCart } from '../redux/slices/cartSlice';
+import { useLogoutMutation } from '../../redux/query/usersApiSlice';
+import { logout } from '../../redux/slices/authSlice';
+import SearchBox from '../SearchBox';
+import { resetCart } from '../../redux/slices/cartSlice';
 import { IUser } from '@/interfaces/User';
-import { CART, CONTACT, LOGIN, PRODUCTLIST, PROFILE } from '../constants';
+import { CART, CONTACT, LOGIN, POST, PRODUCTLIST, PROFILE } from '../../constants/constants';
+import { HeaderHome } from './styled';
 interface ICartItem {
   length:number
 qty:number
@@ -36,18 +37,19 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar bg='primary' variant='dark' expand='lg' collapseOnSelect>
+     <HeaderHome>
+       <Navbar bg='primary' variant='dark' expand='lg' collapseOnSelect>
         <Container>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
-              <LinkContainer to='/' style={{ paddingRight: 60 }}>
+              <LinkContainer className='home' to='/' >
                 <Navbar.Brand>TRANG CHỦ</Navbar.Brand>
               </LinkContainer>
-              <LinkContainer to='/posts' style={{ paddingRight: 60 }}>
+              <LinkContainer className='post' to={POST} >
                 <Navbar.Brand>BÀI VIẾT</Navbar.Brand>
               </LinkContainer>
-              <LinkContainer to={CONTACT} style={{ paddingRight: 60 }}>
+              <LinkContainer className='contact' to={CONTACT} >
                 <Navbar.Brand>LIÊN HỆ</Navbar.Brand>
               </LinkContainer>
               <SearchBox />
@@ -56,7 +58,7 @@ const Header = () => {
                 <Nav.Link>
                   <FaShoppingCart /> Cart
                   {cartItems && cartItems.length > 0 && (
-                    <Badge pill bg='success' style={{ marginLeft: '5px' }}>
+                    <Badge className='badge' pill bg='success' >
                       {cartItems?.reduce((item: number, cart: ICartItem) => item + cart.qty, 0)}
                     </Badge>
                   )}
@@ -91,6 +93,7 @@ const Header = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+     </HeaderHome>
     </header>
   );
 };

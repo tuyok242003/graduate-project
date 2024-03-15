@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import Loader from '../../../components/Loader';
+import Loader from '../../../components/Footer'
 import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
 import {
   useAddVariantMutation,
   useUploadProductImageMutation,
-  useGetProductsQuery
+ 
 } from '../../../redux/query/productsApiSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 import { displayErrorMessage } from '../../../components/Error';
+import { ProductAdminStyled } from './styled';
 interface IVarriantState{
   variantColor:string;
   variantPrice:string;
@@ -102,7 +103,8 @@ const CustomizeVariant = () => {
   };
 
   return (
-    <FormContainer>
+  <ProductAdminStyled>
+      <FormContainer>
       <h1>Add Variant</h1>
       {loadingAddVariant && <Loader />}
       <Form onSubmit={submitHandler}>
@@ -184,11 +186,12 @@ const CustomizeVariant = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Button type='submit' variant='primary' style={{ marginTop: '1rem' }}>
+        <Button type='submit' className='button-product' variant='primary'>
           Add Variant
         </Button>
       </Form>
     </FormContainer>
+  </ProductAdminStyled>
   );
 };
 

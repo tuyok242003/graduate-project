@@ -1,17 +1,17 @@
-import React from 'react';
-import { Table, Button, Row, Col } from 'react-bootstrap';
+import { Button, Col, Row, Table } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { FaTimes, FaCheck } from 'react-icons/fa';
-import Message, { IMessageProps } from '../../../components/Message';
-import Loader from '../../../components/Loader';
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Loader from '../../../components/Footer';
+import Message from '../../../components/Message';
 
-import {
-  useGetOrdersQuery,
-  useCancelOrderMutation,
-} from '../../../redux/query/ordersApiSlice';
 import { displayErrorMessage } from '../../../components/Error';
+import { CANCEL, CONFIRM, RECEIVED } from '../../../constants/constants';
+import {
+  useCancelOrderMutation,
+  useGetOrdersQuery,
+} from '../../../redux/query/ordersApiSlice';
+import { IsOrderStyled } from './styled';
 
 const IsNotReceived = () => {
   const { data: orders, isLoading, error, refetch } = useGetOrdersQuery();
@@ -41,25 +41,26 @@ const IsNotReceived = () => {
   };
   return (
   
-    <Row>
+    <IsOrderStyled>
+      <Row>
       <Col md={9}>
         <h2>Đơn hàng chưa giao</h2>
         <td>
-          <LinkContainer to={`/received`}>
+          <LinkContainer to={RECEIVED}>
             <Button className='btn-sm' variant='secondary'>
               Đơn hàng đã giao
             </Button>
           </LinkContainer>
         </td>
         <td>
-          <LinkContainer to={`/cancel`} style={{ marginLeft: 10 }}>
+          <LinkContainer className='cancel' to={CANCEL} >
             <Button className='btn-sm' variant='secondary'>
               Đơn hàng đã huỷ
             </Button>
           </LinkContainer>
         </td>
         <td>
-          <LinkContainer to={`/confirm`} style={{ marginLeft: 10 }}>
+          <LinkContainer className='confirm' to={CONFIRM} >
             <Button className='btn-sm' variant='secondary'>
               Đơn hàng đã nhận
             </Button>
@@ -134,6 +135,7 @@ const IsNotReceived = () => {
         )}
       </Col>
     </Row>
+    </IsOrderStyled>
   )
 };
 

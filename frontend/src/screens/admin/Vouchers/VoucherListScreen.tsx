@@ -3,7 +3,7 @@ import { Table, Button, Row, Col, Pagination } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Message, { IMessageProps } from '../../../components/Message';
-import Loader from '../../../components/Loader';
+import Loader from '../../../components/Footer'
 import { toast } from 'react-toastify';
 import {
   useGetVouchersQuery,
@@ -13,7 +13,8 @@ import {
 import { useState } from 'react';
 import { IVouchers } from '@/interfaces/Voucher';
 import { displayErrorMessage } from '../../../components/Error';
-import { VOUCHERADD } from '../../../constants';
+import { VOUCHERADD } from '../../../constants/constants';
+import { VoucherAdminStyled } from './styled';
 
 const VoucherListScreen = () => {
   const { data: vouchers, isLoading, error, refetch } = useGetVouchersQuery();
@@ -45,7 +46,7 @@ const VoucherListScreen = () => {
   const indexOfFirstVoucher = indexOfLastVoucher - ordersPerPage;
   const currentVouchers = vouchers?.slice(indexOfFirstVoucher, indexOfLastVoucher);
   return (
-    <>
+   <VoucherAdminStyled> <>
       <Row className='align-items-center'>
         <Col>
           <h1>Vouchers</h1>
@@ -102,7 +103,7 @@ const VoucherListScreen = () => {
                       className='btn-sm'
                       // onClick={() => deleteHandler(voucher._id)}
                     >
-                      <FaTrash style={{ color: 'white' }} />
+                      <FaTrash className='fatrash' />
                     </Button>
                   </td>
                 </tr>
@@ -124,7 +125,7 @@ const VoucherListScreen = () => {
           </Pagination>
         </>
       )}
-    </>
+    </></VoucherAdminStyled>
   );
 };
 

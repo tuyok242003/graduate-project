@@ -1,41 +1,18 @@
-import { Table, Button, Row, Col, Pagination } from 'react-bootstrap';
-import {  FaTrash } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
-import Message, { IMessageProps } from './Message';
-import Loader from './Loader';
-import { toast } from 'react-toastify';
-import { useGetVouchersQuery,useDeleteVoucherMutation } from '../redux/query/voucherSlice';
 import { useState } from 'react';
-import {  IVouchers } from '../interfaces/Voucher';
-import { displayErrorMessage } from './Error';
-import { VOUCHERADD } from '../constants';
+import { Button, Col, Pagination, Row, Table } from 'react-bootstrap';
+import { FaTrash } from 'react-icons/fa';
+import { IVouchers } from '../interfaces/Voucher';
+import { useDeleteVoucherMutation, useGetVouchersQuery } from '../redux/query/voucherSlice';
+import Loader from '../components/Loader'
+import Message from './Message';
 const VoucherList = () => {
-  const { data: vouchers, isLoading, error, refetch } = useGetVouchersQuery();
+  const { data: vouchers, isLoading, error } = useGetVouchersQuery();
   const [deleteProduct, { isLoading: loadingDelete }] =
     useDeleteVoucherMutation();
-  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const vouchersPerPage = 5;
-  const deleteHandler = async (id: string) => {
-    if (window.confirm('Are you sure')) {
-      try {
-        await deleteProduct(id);
-        refetch();
-      } catch (err) {
-        toast.error('Error');
-      }
-    }
-  };
+ 
 
-  
-  const createVoucherHandler = async () => {
-    try {
-      navigate(VOUCHERADD);
-      refetch();
-    } catch (err) {
-      displayErrorMessage(err);
-    }
-  };
   const indexOfLastVoucher = currentPage * vouchersPerPage;
   const indexOfFirstVoucher = indexOfLastVoucher - vouchersPerPage;
   const currentVouchers = vouchers && Array.isArray(vouchers)
@@ -85,7 +62,7 @@ const VoucherList = () => {
                       className='btn-sm'
                       // onClick={() => deleteHandler(voucher._id)}
                     >
-                      <FaTrash style={{ color: 'white' }} />
+                      <FaTrash  />
                     </Button>
                   </td>
                 </tr>

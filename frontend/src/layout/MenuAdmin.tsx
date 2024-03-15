@@ -1,6 +1,7 @@
-import { CATEGORYLIST, CONTACTLIST, ORDERLIST, POSTLIST, PRODUCTLIST, USERLIST, VOUCHERLIST } from '../constants';
+import { CATEGORYLIST, CONTACTLIST, ORDERLIST, POSTLIST, PRODUCTLIST, USERLIST, VOUCHERLIST } from '../constants/constants';
 import React from 'react';
 import { Container, Navbar } from 'react-bootstrap';
+import { LayoutAdminStyled } from './styled';
 
 const MenuAdmin = () => {
   
@@ -28,8 +29,9 @@ const MenuAdmin = () => {
     //     </Dropdown.Menu>
     //   )}
 
-    <Navbar variant='dark' bg='primary' expand='lg'>
-      <Container fluid style={{ paddingRight: 150 }}>
+  <LayoutAdminStyled>
+      <Navbar variant='dark' bg='primary' expand='lg'>
+      <Container fluid className='container' >
         <Navbar.Brand href='/'>Trang chủ</Navbar.Brand>
         <Navbar.Brand href={PRODUCTLIST}>Sản phẩm</Navbar.Brand>
         <Navbar.Brand href={POSTLIST}>Bài viết</Navbar.Brand>
@@ -40,6 +42,7 @@ const MenuAdmin = () => {
         <Navbar.Brand href={USERLIST}>Người dùng</Navbar.Brand>
       </Container>
     </Navbar>
+  </LayoutAdminStyled>
   );
 };
 

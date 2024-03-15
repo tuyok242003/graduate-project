@@ -1,4 +1,4 @@
-import { LOGIN, PAYMENT, PLACEORDER, SHIPPING, VOUCHER } from '../constants';
+import { LOGIN, PAYMENT, PLACEORDER, SHIPPING, VOUCHER } from '../constants/constants';
 import React from 'react';
 import { Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';

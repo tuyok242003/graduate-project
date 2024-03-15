@@ -2,15 +2,15 @@ import { Button, Col, Row, Table } from 'react-bootstrap';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import { toast } from 'react-toastify';
-import Loader from '../components/Loader';
+import Loader from '../components/Loader'
 import Message from '../components/Message';
-
 import { IOrder } from '@/interfaces/Order';
 import { displayErrorMessage } from '../components/Error';
 import {
   useCancelOrderMutation,
   useGetMyOrdersQuery,
 } from '../redux/query/ordersApiSlice';
+import { CANCEL } from '../constants/constants';
 
 const NotReceivedScreen = () => {
   const { data: orders, isLoading, error, refetch } = useGetMyOrdersQuery();
@@ -48,7 +48,7 @@ const NotReceivedScreen = () => {
           </LinkContainer>
         </td>
         <td>
-          <LinkContainer to={`/cancel`} style={{ marginLeft: 10 }}>
+          <LinkContainer to={CANCEL} style={{ marginLeft: 10 }}>
             <Button className='btn-sm' variant='secondary'>
               Đơn hàng đã huỷ
             </Button>

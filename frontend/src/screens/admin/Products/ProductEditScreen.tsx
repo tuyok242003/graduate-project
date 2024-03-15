@@ -4,9 +4,9 @@ import { Button, Form } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import FormContainer from '../../../components/FormContainer';
-import Loader from '../../../components/Loader';
+import Loader from '../../../components/Footer'
 import Message from '../../../components/Message';
-import { PRODUCTLIST } from '../../../constants';
+import { PRODUCTLIST } from '../../../constants/constants';
 import {
   useGetCategoriesQuery
 } from '../../../redux/query/categorySlice';
@@ -16,6 +16,7 @@ import {
   useUploadProductImageMutation,
 } from '../../../redux/query/productsApiSlice';
 import { IProductState } from './ProductAddScreen';
+import { ProductAdminStyled } from './styled';
 
 const ProductEditScreen = () => {
   const { id: productId } = useParams();
@@ -108,7 +109,8 @@ const ProductEditScreen = () => {
   };
 
   return (
-    <>
+   <ProductAdminStyled>
+     <>
     <Link to={PRODUCTLIST} className='btn btn-light my-3'>
         Go Back
       </Link>
@@ -197,7 +199,7 @@ const ProductEditScreen = () => {
             <Button
               type='submit'
               variant='primary'
-              style={{ marginTop: '1rem' }}
+              className='button-product'
             >
               Update
             </Button>
@@ -205,6 +207,7 @@ const ProductEditScreen = () => {
         )}
       </FormContainer>
     </>
+   </ProductAdminStyled>
   );
 };
 

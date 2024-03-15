@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import CheckoutSteps from '../components/CheckoutSteps';
 import FormContainer from '../components/FormContainer';
-import { VOUCHER } from '../constants';
+import { VOUCHER } from '../constants/constants';
 import { saveShippingAddress } from '../redux/slices/cartSlice';
 interface IShippingState {
   address:string;

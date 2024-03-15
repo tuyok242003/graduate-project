@@ -1,5 +1,5 @@
 import { apiSlice } from "../slices/apiSlice"
-import { ORDERS_URL, PAYPAL_URL } from "../../constants"
+import { ORDERS_URL, PAYPAL_URL } from "../../constants/constants"
 import { ICreateOrder, IOrder } from "@/interfaces/Order"
 import { OrderResponseBody } from "@paypal/paypal-js"
 

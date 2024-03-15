@@ -4,13 +4,15 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { displayErrorMessage } from '../../../components/Error';
 import FormContainer from '../../../components/FormContainer';
-import Loader from '../../../components/Loader';
+import Loader from '../../../components/Footer'
 import Message from '../../../components/Message';
-import { CONTACTADD } from '../../../constants';
+import { CONTACTADD } from '../../../constants/constants';
 import {
   useGetCategoryDetailsQuery,
   useUpdateCategoryMutation,
 } from '../../../redux/query/categorySlice';
+
+import { CategoryAdminStyled } from './styled';
 
 const CategoryEditScreen = () => {
   const { id: categoryId } = useParams();
@@ -60,7 +62,8 @@ const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
   }, [category]);
 
   return (
-    <>
+  <CategoryAdminStyled>
+      <>
 <Link to={CONTACTADD} className='btn btn-light my-3'>
         Go Back
       </Link>
@@ -84,9 +87,10 @@ const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
             </Form.Group>
 
             <Button
+            className='button-category'
               type='submit'
               variant='primary'
-              style={{ marginTop: '1rem' }}
+             
             >
               Update
             </Button>
@@ -94,6 +98,7 @@ const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
         )}
       </FormContainer>
     </>
+  </CategoryAdminStyled>
   );
 };
 

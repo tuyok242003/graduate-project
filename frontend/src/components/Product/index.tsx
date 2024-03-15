@@ -19,7 +19,7 @@ const Product: React.FC<IProductProps> = ({ product }) => {
    <ProductStyled>
      <Card className='my-3 p-3 rounded'>
       <Link to={`/product/${product._id}`}>
-        <Card.Img style={{ height: 250 }} src={product.image} alt='Ảnh sản phẩm' variant='top' />
+        <Card.Img className='img-product' src={product.image} alt='Ảnh sản phẩm' variant='top' />
       </Link>
 
       <Card.Body>
@@ -28,14 +28,12 @@ const Product: React.FC<IProductProps> = ({ product }) => {
             <strong className='product-title'>{product.productName}</strong>
         </Link>
         </Card.Title>
-        <strong style={{ fontFamily: 'serif' }}>Giá: {product.price}</strong>
-        {product.variants.some((variant) => variant.discount > 0) && <div style={{position:"absolute",top:0,right:0,backgroundColor:"red",
-        color:"white",padding:5,
-        fontSize:15,fontFamily:"bold"}} className='sale-badge'>Sale</div>}
+        <strong className='price-product' >Giá: {product.price}</strong>
+        {product.variants.some((variant) => variant.discount > 0) && <div  className='sale-badge'>Sale</div>}
 
         <Card.Text as='div'>
           <Rating valueRating={product.rating} text={`${product.numReviews} reviews`}  />{' '}
-          <strong style={{ color: 'red' }}>Đã bán:</strong> {totalQuantitySold}
+          <strong className='count'>Đã bán:</strong> {totalQuantitySold}
         </Card.Text>
 
         <Card.Text as='div'></Card.Text>

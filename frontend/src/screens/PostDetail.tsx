@@ -1,7 +1,8 @@
 import { Link, useParams } from 'react-router-dom';
-import Loader from '../components/Loader';
+import Loader from '../components/Footer'
 import Message from '../components/Message';
 import { useGetPostDetailsQuery } from '../redux/query/postSlice';
+import { POST } from '../constants/constants';
 
 const PostDetail = () => {
   const { postId } = useParams();
@@ -25,7 +26,7 @@ const PostDetail = () => {
           </div>
           <p className='fs-5'>{post?.content}</p>
 
-          <Link to='/posts' className='btn btn-primary'>
+          <Link to={POST} className='btn btn-primary'>
             Quay Lại
           </Link>
         </div>

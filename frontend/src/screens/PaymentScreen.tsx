@@ -6,7 +6,7 @@ import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { savePaymentMethod } from '../redux/slices/cartSlice';
 import {IRootState} from './CartScreen'
-import { PLACEORDER, SHIPPING } from '../constants';
+import { PLACEORDER, SHIPPING } from '../constants/constants';
 const PaymentScreen = () => {
   const navigate = useNavigate();
   const cart = useSelector((state: IRootState) => state.cart);

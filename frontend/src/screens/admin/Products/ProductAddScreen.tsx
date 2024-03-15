@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import Loader from '../../../components/Loader';
+import Loader from '../../../components/Footer'
 import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
 import {
@@ -10,11 +10,11 @@ import {
 } from '../../../redux/query/productsApiSlice';
 import { useGetCategoriesQuery } from '../../../redux/query/categorySlice';
 import { ICategories } from '@/interfaces/Category';                         
-import { PRODUCTLIST } from '../../../constants';
+import { PRODUCTLIST } from '../../../constants/constants';
+import { ProductAdminStyled } from './styled';
 export interface IProductState {
   productName: string;
   price: string;
-  
   brand: string;
   category: string;
   description: string;
@@ -31,9 +31,7 @@ const ProductAddScreen = () => {
   const { data: categories, isLoading: loadingCategories } =    useGetCategoriesQuery();
   const [addProduct, { isLoading: loadingAdd }] = useCreateProductMutation();
   const [uploadProductImage, { isLoading: loadingUpload }] = useUploadProductImageMutation();
-
   const isFormValid = () => {
-   
     if (!state.productName || !state.price || !image || !state.brand || !state.category || !state.description) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
       return false;
@@ -44,12 +42,10 @@ const ProductAddScreen = () => {
     }
     return true;
   };
-  
   const submitHandler = async (product: React.FormEvent<HTMLFormElement>) => {
     product.preventDefault();
     if (!isFormValid()) {
       return;
-      
     }
 
     try {
@@ -90,8 +86,10 @@ const ProductAddScreen = () => {
     }
   };
 
+
   return (
-    <>
+   <ProductAdminStyled>
+     <>
       <Link to={PRODUCTLIST} className='btn btn-light my-3'>
         Go Back
       </Link>
@@ -173,12 +171,13 @@ const ProductAddScreen = () => {
             ></Form.Control>
           </Form.Group>
 
-          <Button type='submit' variant='primary' style={{ marginTop: '1rem' }}>
+          <Button type='submit' variant='primary'  style={{ marginTop: '1rem' }}>
             Add
           </Button>
         </Form>
       </FormContainer>
     </>
+   </ProductAdminStyled>
   );
 };
 

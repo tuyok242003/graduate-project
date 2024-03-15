@@ -1,18 +1,18 @@
-import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button, Row, Col, Pagination } from 'react-bootstrap';
-import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
-import Message, { IMessageProps } from '../../../components/Message';
-import Loader from '../../../components/Loader';
-import { toast } from 'react-toastify';
-import {
-  useGetCategoriesQuery,
-  useDeleteCategoryMutation,
-  useCreateCategoryMutation,
-} from '../../../redux/query/categorySlice';
-import { useState } from 'react';
 import { ICategories } from '@/interfaces/Category';
-import { CATEGORYADD } from '../../../constants';
+import { useState } from 'react';
+import { Button, Col, Pagination, Row, Table } from 'react-bootstrap';
+import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
+import { LinkContainer } from 'react-router-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Loader from '../../../components/Footer'
+import Message from '../../../components/Message';
+import { CATEGORYADD } from '../../../constants/constants';
+import {
+  useCreateCategoryMutation,
+  useDeleteCategoryMutation,
+  useGetCategoriesQuery,
+} from '../../../redux/query/categorySlice';
 
 const CategoryListScreen = () => {
   const { data, isLoading, error, refetch } = useGetCategoriesQuery();

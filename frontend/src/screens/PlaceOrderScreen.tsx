@@ -5,12 +5,12 @@ import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import CheckoutSteps from '../components/CheckoutSteps';
-import Loader from '../components/Loader';
+import Loader from '../components/Loader'
 import { useCreateOrderMutation } from '../redux/query/ordersApiSlice';
 import { clearCartItems } from '../redux/slices/cartSlice';
 import {IRootState} from './CartScreen'
 import {  IOrderItem } from '@/interfaces/Order';
-import { PAYMENT, SHIPPING } from '../constants';
+import { PAYMENT, SHIPPING } from '../constants/constants';
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();
   const cart = useSelector((state:IRootState) => state.cart);

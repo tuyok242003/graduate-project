@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { useSearchProductsByCategoryQuery } from '../redux/query/productsApiSlice';
+import { useSearchProductsByCategoryQuery } from '@/redux/query/productsApiSlice';
 import { ICategories } from '@/interfaces/Category';
 import { IProducts } from '@/interfaces/Products';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import Rating from './Rating';
+import Rating from '../Rating';
+import { ProductList } from './styled';
 
 const ProductListByCategory = ({
   selectedCategory,
@@ -19,23 +20,21 @@ const ProductListByCategory = ({
     category: selectedCategory
    
   });
- 
   useEffect(() => {}, [products, isLoading, error]);
-
   return (
-    <div>
+    <ProductList>
       {isLoading && <p>Loading...</p>}
 
       {products && (
 <ul>
           {products.map((product: IProducts) => (
-            <Card className='my-3 p-3 rounded' style={{height:400,width:300}}>
+            <Card className='my-3 p-3 rounded' >
              <Link to={`/product/${product._id}`}>
-             <Card.Img style={{ height: 250 }} src={product.image} variant='top' />
+             <Card.Img className='img-product'  src={product.image} variant='top' />
            </Link>
            <Card.Body>
             <Link to={`/product/${product._id}`} style={{ textDecoration: 'none' }}>
-            <Card.Title style={{marginTop:10}} as='div' className='product-title'>
+            <Card.Title  as='div' className='product-title'>
               <strong >{product.productName}</strong>
              {/* <strong>    Giá: {product.price}</strong> */}
             </Card.Title>
@@ -54,7 +53,7 @@ const ProductListByCategory = ({
           ))}
 </ul>
       )}
-    </div>
+    </ProductList>
   );
 };
 

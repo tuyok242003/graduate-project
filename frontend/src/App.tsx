@@ -13,8 +13,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import ImageUpload from './components/ImageUpload';
 import './assets/styles/bootstrap.custom.css';
 import './assets/styles/index.css';
-import Footer from './components/Footer';
 import Header from './components/Header';
+import Footer from './components/Footer'
 import PrivateRoute from './components/PrivateRoute';
 import MenuAdmin from './layout/MenuAdmin';
 import CancelScreen from './screens/CancelScreen';
@@ -64,7 +64,7 @@ import VoucherEditScreen from './screens/admin/Vouchers/VoucherEdit';
 import VoucherScreen from './screens/VoucherScreen';
 import VoucherList from './components/Voucher';
 import NotFoundScreen from './screens/NotFoundScreen';
-import { CANCEL, CART, CATEGORYADD, CATEGORYEDIT, CATEGORYLIST, CONFIRM, CONTACT, CONTACTADD, CONTACTLIST, FORGOTPASSWORD, ISCANCELLED, ISCONFIRM, ISNOTRECEIVED, ISRECEIVED, LOGIN, NOTRECEIVED, ORDERDETAIL, ORDERLIST, ORDERSCREEN, PAYMENT, PLACEORDER, POST, POSTADD, POSTDETAIL, POSTEDIT, POSTLIST, PRODUCTADD, PRODUCTLIST, PRODUCTSCREEN, PROFILE, PROFILESCREEN, RECEIVED, REGISTER, SEARCH, SHIPPING, UPLOAD, USEREDIT, USERLIST, VARRIANTADD, VOUCHER, VOUCHERADD, VOUCHEREDIT, VOUCHERLIST } from './constants';
+import { CANCEL, CART, CATEGORYADD, CATEGORYEDIT, CATEGORYLIST, CONFIRM, CONTACT, CONTACTADD, CONTACTLIST, FORGOTPASSWORD, ISCANCELLED, ISCONFIRM, ISNOTRECEIVED, ISRECEIVED, LOGIN, NOTRECEIVED, ORDERDETAIL, ORDERLIST, ORDERSCREEN, PAYMENT, PLACEORDER, POST, POSTADD, POSTDETAIL, POSTEDIT, POSTLIST, PRODUCTADD, PRODUCTLIST, PRODUCTSCREEN, PROFILE, PROFILESCREEN, RECEIVED, REGISTER, SEARCH, SHIPPING, UPLOAD, USEREDIT, USERLIST, VARRIANTADD, VOUCHER, VOUCHERADD, VOUCHEREDIT, VOUCHERLIST } from './constants/constants';
 const router = (
   <Routes>
     <Route index path='/' element={<HomeScreen />} />

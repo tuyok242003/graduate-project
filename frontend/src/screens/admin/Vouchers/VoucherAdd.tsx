@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import Loader from '../../../components/Loader';
+import Loader from '../../../components/Footer'
 import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
 import {
@@ -11,7 +11,8 @@ import {
 import { IVouchers } from '@/interfaces/Voucher';
 import { displayErrorMessage } from '../../../components/Error';
 import { IVoucherState } from './VoucherEdit';
-import { VOUCHERLIST } from '../../../constants';
+import { VOUCHERLIST } from '../../../constants/constants';
+import { VoucherAdminStyled } from './styled';
 const VoucherAddScreen = () => {
   const [state,setState] = useState<IVoucherState>({
     voucherName:'',
@@ -61,7 +62,8 @@ const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
  
 
   return (
-    <>
+  <VoucherAdminStyled>
+      <>
       <Link to={VOUCHERLIST} className='btn btn-light my-3'>
         Go Back
       </Link>
@@ -111,12 +113,13 @@ const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
             ></Form.Control>
           </Form.Group>
          
-          <Button type='submit' variant='primary' style={{ marginTop: '1rem' }}>
+          <Button type='submit' className='button-voucher' variant='primary'>
             Add
           </Button>
         </Form>
       </FormContainer>
     </>
+  </VoucherAdminStyled>
   );
 };
 

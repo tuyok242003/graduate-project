@@ -4,9 +4,9 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { displayErrorMessage } from '../../../components/Error';
 import FormContainer from '../../../components/FormContainer';
-import Loader from '../../../components/Loader';
+import Loader from '../../../components/Footer'
 import Message from '../../../components/Message';
-import { USERLIST } from '../../../constants';
+import { USERLIST } from '../../../constants/constants';
 import {
   useGetUserDetailsQuery,
   useUpdateUserMutation,

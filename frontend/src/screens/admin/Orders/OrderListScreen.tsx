@@ -6,13 +6,14 @@ import { MdDeleteSweep } from 'react-icons/md';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { displayErrorMessage } from '../../../components/Error';
-import Loader from '../../../components/Loader';
+import Loader from '../../../components/Footer'
 import Message from '../../../components/Message';
-import { ISCANCELLED, ISCONFIRM, ISRECEIVED } from '../../../constants';
+import { ISCANCELLED, ISCONFIRM, ISRECEIVED } from '../../../constants/constants';
 import {
   useDeleteOrderMutation,
   useGetOrdersQuery,
 } from '../../../redux/query/ordersApiSlice';
+import { OrderStyled } from './styled';
 
 const OrderListScreen = () => {
   const { data: orders, isLoading, error, refetch } = useGetOrdersQuery();
@@ -40,7 +41,8 @@ const OrderListScreen = () => {
   const navigate = useNavigate();
   console.log(currentOrders);
   return (
-    <>
+   <OrderStyled>
+     <>
       <h1>Orders</h1>
       <Form.Control
         as='select'
@@ -112,10 +114,10 @@ const OrderListScreen = () => {
                         order.paidAt instanceof Date ? (
                           order.paidAt.toISOString().substring(0, 10)
                         ) : (
-                          <FaCheck style={{ color: 'green' }} />
-                        )
-                      ) : (
-                        <FaTimes style={{ color: 'red' }} />
+                          <FaCheck className='facheck'/>
+                      )
+                    ) : (
+                      <FaTimes className='fatimes'/>
                       )}
                     </td>
                     <td>
@@ -123,24 +125,24 @@ const OrderListScreen = () => {
                           order.deliveredAt instanceof Date ? (
                             order.deliveredAt.toISOString().substring(0, 10)
                           ) : (
-                            <FaCheck style={{ color: 'green' }} />
-                          )
-                        ) : (
-                          <FaTimes style={{ color: 'red' }} />
+                            <FaCheck className='facheck'/>
+                      )
+                    ) : (
+                      <FaTimes className='fatimes'/>
                         )}
                       </td>
                       <td>
                         {order.isConfirmed ? (
-                          <FaCheck style={{ color: 'green' }} />
+                          <FaCheck className='facheck' />
                         ) : (
-                          <FaTimes style={{ color: 'red' }} />
+                          <FaTimes className='fatimes' />
                         )}
                       </td>
                       <td>
                         {order.isCancelled ? (
-                          <FaCheck style={{ color: 'green' }} />
+                         <FaCheck className='facheck' />
                         ) : (
-                          <FaTimes style={{ color: 'red' }} />
+                          <FaTimes className='fatimes' />
                         )}
                       </td>
 
@@ -181,6 +183,7 @@ const OrderListScreen = () => {
         </>
       )}
     </>
+   </OrderStyled>
   );
 };
 

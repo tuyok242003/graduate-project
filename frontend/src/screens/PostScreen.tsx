@@ -1,10 +1,9 @@
-import React from 'react';
-import { Row, Col, Button, ListGroup } from 'react-bootstrap';
+import { Button, Col, ListGroup, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { useGetPostsQuery } from '../redux/query/postSlice';
-import Loader from '../components/Loader';
-import Message, { IMessageProps } from '../components/Message';
 import { PostStyled } from '../assets/styles/PostScreen';
+import Loader from '../components/Footer'
+import Message from '../components/Message';
+import { useGetPostsQuery } from '../redux/query/postSlice';
 const PostScreen = () => {
   const navigate = useNavigate();
   const { data: posts, isLoading, error } = useGetPostsQuery();

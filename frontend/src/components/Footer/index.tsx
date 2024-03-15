@@ -1,7 +1,9 @@
 import React from "react";
+import { FooterStyled } from "./styled";
 
-const Footer = (): JSX.Element => (
-  <footer className="page-footer font-small blue pt-4 custom-footer" style={{ backgroundColor: '#AEEEEE' }}>
+const Footer = () => (
+  <FooterStyled>
+    <footer className="page-footer font-small blue pt-4 custom-footer" >
     <div className="container-fluid text-center text-md-left">
       <div className="row">
         <div className="col-md-6 mt-md-0 mt-3">
@@ -29,6 +31,7 @@ const Footer = (): JSX.Element => (
       </div>
     </div>
   </footer>
+  </FooterStyled>
 );
 
 export default Footer;

@@ -1,113 +1,110 @@
-import { PRODUCTS_URL } from '../../constants';
-import { apiSlice } from '../slices/apiSlice';
-import { UPLOAD_URL } from '../../constants';
-import { IAddProduct, IProducts, IVariant } from '@/interfaces/Products';
-import { ICategories } from '@/interfaces/Category';
+import { PRODUCTS_URL } from "../../constants/constants"
+import { apiSlice } from "../slices/apiSlice"
+import { UPLOAD_URL } from "../../constants/constants"
+import { IAddProduct, IProducts, IVariant } from "@/interfaces/Products"
+import { ICategories } from "@/interfaces/Category"
 interface IUpdateProduct {
-  productId?:string
-  productName:string
-  price:string
-image:string
-brand:string
-category:string
-description:string
+  productId?: string
+  productName: string
+  price: string
+  image: string
+  brand: string
+  category: string
+  description: string
 }
 interface IGetProduct {
-  products:IProducts[]
+  products: IProducts[]
 }
 interface IAddVariant {
-  variantData:IVariant
-  productId?:string 
+  variantData: IVariant
+  productId?: string
 }
 interface ICreateReview {
-  productId?:string
-  rating:number 
-  comment:string
+  productId?: string
+  rating: number
+  comment: string
 }
 interface ISreachCategory {
-  category:ICategories | null
+  category: ICategories | null
 }
 interface IUploadProduct {
-  message:string;
-  image:string
+  message: string
+  image: string
 }
 export const productsApiSlice = apiSlice.injectEndpoints({
-  endpoints: (builder) => ({
-    getProducts: builder.query<IGetProduct,void>({
+  endpoints: builder => ({
+    getProducts: builder.query<IGetProduct, void>({
       query: () => ({
-        url: PRODUCTS_URL,
-      
+        url: PRODUCTS_URL
       }),
       keepUnusedDataFor: 5,
-      providesTags: ['Product'],
+      providesTags: ["Product"]
     }),
-    getProductDetails: builder.query<IProducts,string>({
-      query: (productId) => ({
-        url: `${PRODUCTS_URL}/${productId}`,
+    getProductDetails: builder.query<IProducts, string>({
+      query: productId => ({
+        url: `${PRODUCTS_URL}/${productId}`
       }),
-      keepUnusedDataFor: 5,
+      keepUnusedDataFor: 5
     }),
-    createProduct: builder.mutation<void,IAddProduct>({
-      query: (productData) => ({
+    createProduct: builder.mutation<void, IAddProduct>({
+      query: productData => ({
         url: `${PRODUCTS_URL}`,
-        method: 'POST',
-        body: productData,
+        method: "POST",
+        body: productData
       }),
-      invalidatesTags: ['Product'],
+      invalidatesTags: ["Product"]
     }),
-    updateProduct: builder.mutation<IProducts,IUpdateProduct>({
-      query: (data) => ({
+    updateProduct: builder.mutation<IProducts, IUpdateProduct>({
+      query: data => ({
         url: `${PRODUCTS_URL}/${data.productId}`,
-        method: 'PUT',
-        body: data,
+        method: "PUT",
+        body: data
       }),
-      invalidatesTags: ['Product'],
+      invalidatesTags: ["Product"]
     }),
-    uploadProductImage: builder.mutation<IUploadProduct,FormData>({
-      query: (data) => ({
+    uploadProductImage: builder.mutation<IUploadProduct, FormData>({
+      query: data => ({
         url: `${UPLOAD_URL}`,
-        method: 'POST',
-        body: data,
-      }),
+        method: "POST",
+        body: data
+      })
     }),
-    deleteProduct: builder.mutation<IProducts,string>({
-      query: (productId) => ({
+    deleteProduct: builder.mutation<IProducts, string>({
+      query: productId => ({
         url: `${PRODUCTS_URL}/${productId}`,
-        method: 'DELETE',
+        method: "DELETE"
       }),
-      invalidatesTags: ['Product'],
+      invalidatesTags: ["Product"]
     }),
-    createReview: builder.mutation<IProducts,ICreateReview>({
-      query: (data) => ({
+    createReview: builder.mutation<IProducts, ICreateReview>({
+      query: data => ({
         url: `${PRODUCTS_URL}/${data.productId}/reviews`,
-        method: 'POST',
-        body: data,
+        method: "POST",
+        body: data
       }),
-      invalidatesTags: ['Product'],
+      invalidatesTags: ["Product"]
     }),
-    addVariant: builder.mutation<IVariant,IAddVariant>({
-      query: (data) => ({
+    addVariant: builder.mutation<IVariant, IAddVariant>({
+      query: data => ({
         url: `${PRODUCTS_URL}/${data.productId}/addVariants`,
-        method: 'POST',
-        body: data.variantData,
+        method: "POST",
+        body: data.variantData
       }),
-      invalidatesTags: ['Product'],
+      invalidatesTags: ["Product"]
     }),
-    searchProductsByCategory: builder.query<IProducts[],ISreachCategory>({
+    searchProductsByCategory: builder.query<IProducts[], ISreachCategory>({
       query: ({ category }) => {
-        const categoryUrlPart = category ? `category/${category}` : '';
+        const categoryUrlPart = category ? `category/${category}` : ""
 
         return {
-          url: `${PRODUCTS_URL}/${categoryUrlPart}`,
-         
-        };
+          url: `${PRODUCTS_URL}/${categoryUrlPart}`
+        }
       },
-      providesTags: (result, error, { category }) =>
-        result ? [{ type: 'Product', category }] : [],
-      keepUnusedDataFor: 5,
-    }),
-  }),
-});
+      providesTags: (result, error, { category }) => (result ? [{ type: "Product", category }] : []),
+      keepUnusedDataFor: 5
+    })
+  })
+})
 
 export const {
   useGetProductsQuery,
@@ -118,5 +115,5 @@ export const {
   useDeleteProductMutation,
   useCreateReviewMutation,
   useAddVariantMutation,
-  useSearchProductsByCategoryQuery,
-} = productsApiSlice;
+  useSearchProductsByCategoryQuery
+} = productsApiSlice

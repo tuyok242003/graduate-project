@@ -1,9 +1,10 @@
 import React from 'react';
-import { useGetCategoriesQuery } from '../redux/query/categorySlice';
+import { useGetCategoriesQuery } from '../../redux/query/categorySlice';
 import { Button, Table } from 'react-bootstrap';
-import Loader from './Loader';
-import Message from './Message';
+import Loader from '../Footer'
+import Message from '../Message';
 import { ICategories } from '@/interfaces/Category';
+import { CategoryStyled } from './styled';
 interface IOnCategory{
   onCategoryClick:ICategories
 }
@@ -24,13 +25,12 @@ const Category = ({ onCategoryClick }:IOnCategory) => {
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
-        <>
+      <CategoryStyled>
+          <>
           <Table striped bordered hover responsive className='table-sm'>
             <tbody>
               {categories?.map((category:ICategories) => (
                 <Button
-               
-                  style={{ width: 100, marginLeft: 10 }}
                 >
                   {category.name}
                 </Button>
@@ -38,6 +38,7 @@ const Category = ({ onCategoryClick }:IOnCategory) => {
             </tbody>
           </Table>
         </>
+      </CategoryStyled>
       )}
     </>
   );

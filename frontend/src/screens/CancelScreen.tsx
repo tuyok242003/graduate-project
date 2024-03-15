@@ -2,7 +2,7 @@ import { LinkContainer } from "react-router-bootstrap"
 import { Table, Button } from "react-bootstrap"
 import { FaCheck, FaTimes } from "react-icons/fa"
 import Message, { IMessageProps } from "../components/Message"
-import Loader from "../components/Loader"
+import Loader from '../components/Footer'
 import { toast } from "react-toastify"
 
 import { useGetMyOrdersQuery, useDeleteOrderMutation } from "../redux/query/ordersApiSlice"

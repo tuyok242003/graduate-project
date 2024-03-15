@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { useCreateCategoryMutation, useGetCategoriesQuery } from '../../../redux/query/categorySlice';
+import { useCreateCategoryMutation } from '../../../redux/query/categorySlice';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import FormContainer from '../../../components/FormContainer';
-import Loader from '../../../components/Loader';
+import Loader from '../../../components/Footer'
 import { displayErrorMessage } from '../../../components/Error';
-import { CATEGORYLIST } from '../../../constants';
+import { CATEGORYLIST } from '../../../constants/constants';
+import { CategoryAdminStyled } from './styled';
 
 const CategoryAdd = () => {
   const [name, setName] = useState('');
@@ -37,7 +38,8 @@ const CategoryAdd = () => {
   };
 
   return (
-    <>
+   <CategoryAdminStyled>
+     <>
       <Link to={CATEGORYLIST} className='btn btn-light my-3'>
         Quay lại
       </Link>
@@ -55,12 +57,13 @@ const CategoryAdd = () => {
             />
           </Form.Group>
 
-          <Button type='submit' variant='primary' style={{ marginTop: '1rem' }}>
+          <Button className='button-category' type='submit' variant='primary' >
             Thêm
           </Button>
         </Form>
       </FormContainer>
     </>
+   </CategoryAdminStyled>
   );
 };
 

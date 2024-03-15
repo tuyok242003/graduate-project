@@ -6,7 +6,7 @@ import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { saveVoucherMethod } from '../redux/slices/cartSlice';
 import { IRootState } from './CartScreen';
-import { PAYMENT } from '../constants';
+import { PAYMENT } from '../constants/constants';
 const VoucherScreen = () => {
   const cart = useSelector((state: IRootState) => state.cart); 
   const { voucherName } = cart;

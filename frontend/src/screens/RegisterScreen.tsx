@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Loader from '../components/Loader';
+import Loader from "../components/Loader"
 import FormContainer from '../components/FormContainer';
 
 import { useRegisterMutation } from '../redux/query/usersApiSlice';
@@ -10,7 +10,7 @@ import { setCredentials } from '../redux/slices/authSlice';
 import { toast } from 'react-toastify';
 import { IUser } from '@/interfaces/User';
 import { displayErrorMessage } from '../components/Error';
-import { LOGIN } from '../constants';
+import { LOGIN } from '../constants/constants';
 export interface IRegisterState{
   userName:string;
   email:string

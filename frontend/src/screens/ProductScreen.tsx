@@ -14,11 +14,11 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { ProductScreenStyled } from '../assets/styles/ProductScreen';
 import { displayErrorMessage } from '../components/Error';
-import Loader from '../components/Loader';
+import Loader from '../components/Footer'
 import Message from '../components/Message';
 import Meta from '../components/Meta';
 import Rating from '../components/Rating';
-import { CART } from '../constants';
+import { CART } from '../constants/constants';
 import {
   useCreateReviewMutation,
   useGetProductDetailsQuery,

@@ -3,7 +3,7 @@ import { FaCheck, FaTimes } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import Loader from '../components/Loader';
+import Loader from '../components/Loader'
 import Message from '../components/Message';
 
 import { displayErrorMessage } from '../components/Error';
@@ -11,6 +11,7 @@ import {
   useConfirmOrderMutation,
   useGetMyOrdersQuery,
 } from '../redux/query/ordersApiSlice';
+import { CANCEL } from '../constants/constants';
 
 const ReceivedScreen = () => {
   const { data: orders, isLoading, error, refetch } = useGetMyOrdersQuery();
@@ -53,7 +54,7 @@ const ReceivedScreen = () => {
           </LinkContainer>
         </td>
         <td>
-          <LinkContainer to={`/cancel`} style={{ marginLeft: 10 }}>
+          <LinkContainer to={CANCEL} style={{ marginLeft: 10 }}>
             <Button className='btn-sm' variant='secondary'>
               Đơn hàng đã huỷ
             </Button>

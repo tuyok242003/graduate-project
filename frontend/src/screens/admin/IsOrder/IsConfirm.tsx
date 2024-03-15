@@ -1,7 +1,7 @@
 import { Button, Table } from 'react-bootstrap';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
-import Loader from '../../../components/Loader';
+import Loader from '../../../components/Footer'
 import Message from '../../../components/Message';
 
 import { IOrder } from '@/interfaces/Order';
@@ -10,6 +10,7 @@ import {
   useDeleteOrderMutation,
   useGetOrdersQuery,
 } from '../../../redux/query/ordersApiSlice';
+import { IsOrderStyled } from './styled';
 
 const IsConfirm = () => {
   const { data: orders, isLoading, error, refetch } = useGetOrdersQuery();
@@ -28,7 +29,8 @@ const IsConfirm = () => {
   };
 
   return (
-    <>
+  <IsOrderStyled>
+      <>
       <h1>Đơn hàng đã nhận</h1>
       {isLoading ? (
         <Loader />
@@ -72,10 +74,10 @@ const IsConfirm = () => {
                       order.paidAt instanceof Date ? (
                         order.paidAt.toISOString().substring(0, 10)
                       ) : (
-                        <FaCheck style={{ color: 'green' }} />
+                         <FaCheck className='facheck'/>
                       )
                     ) : (
-                      <FaTimes style={{ color: 'red' }} />
+                      <FaTimes className='fatimes'/>
                     )}
                   </td>
 
@@ -101,6 +103,7 @@ const IsConfirm = () => {
         </Table>
       )}
     </>
+  </IsOrderStyled>
   );
 };
 

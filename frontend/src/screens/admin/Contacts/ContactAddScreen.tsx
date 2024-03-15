@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import Loader from '../../../components/Loader';
+import Loader from '../../../components/Footer'
 import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
 import { useAddContactMutation } from '../../../redux/query/contactSlice';
 import { displayErrorMessage } from '../../../components/Error';
-import { CONTACTLIST } from '../../../constants';
+import { CONTACTLIST } from '../../../constants/constants';
+import { ContactAdminStyle } from './styled';
 export interface IContactState {
   contactName:string;
   email:string
@@ -54,7 +55,8 @@ const ContactAddScreen = () => {
     }
   };
   return (
-    <>
+   <ContactAdminStyle>
+     <>
       <Link to={CONTACTLIST} className='btn btn-light my-3'>
         Go Back
       </Link>
@@ -98,12 +100,13 @@ const ContactAddScreen = () => {
               onChange={(e) => setState({...state,content:e.target.value})}
             ></Form.Control>
           </Form.Group>
-          <Button type='submit' variant='primary' style={{marginTop: '1rem'}}>
+          <Button type='submit' variant='primary' className='button-contact'>
             Add
           </Button>
         </Form>
       </FormContainer>
     </>
+   </ContactAdminStyle>
   );
 };
 

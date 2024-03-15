@@ -1,5 +1,5 @@
 import { apiSlice } from "../slices/apiSlice"
-import { USERS_URL } from "../../constants"
+import { USERS_URL } from "../../constants/constants"
 import { IUser } from "@/interfaces/User"
 interface IUpdateUser {
   userId: string | undefined

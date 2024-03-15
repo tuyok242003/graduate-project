@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import Message from '../../../components/Message';
-import Loader from '../../../components/Loader';
+import Loader from '../../../components/Footer'
 import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
 import {
@@ -11,7 +11,8 @@ import {
 
 } from '../../../redux/query/voucherSlice';
 import { displayErrorMessage } from '../../../components/Error';
-import { VOUCHERLIST } from '../../../constants';
+import { VOUCHERLIST } from '../../../constants/constants';
+import { VoucherAdminStyled } from './styled';
 export interface IVoucherState {
   voucherName:string
   discountAmount:string
@@ -80,7 +81,7 @@ const [state,setState] = useState<IVoucherState>({
   }, [ voucher]);
   
   return (
-    <>
+    <VoucherAdminStyled><>
       <Link to={VOUCHERLIST} className='btn btn-light my-3'>
         Go Back
       </Link>
@@ -143,14 +144,14 @@ const [state,setState] = useState<IVoucherState>({
             <Button
               type='submit'
               variant='primary'
-              style={{ marginTop: '1rem' }}
+            className='button-voucher'
             >
               Update
             </Button>
           </Form>
         )}
       </FormContainer>
-    </>
+    </></VoucherAdminStyled>
   );
 };
 

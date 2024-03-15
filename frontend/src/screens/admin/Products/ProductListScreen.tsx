@@ -4,15 +4,16 @@ import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { IoIosAdd } from "react-icons/io";
 import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import Loader from '../../../components/Loader';
+import Loader from '../../../components/Footer'
 import Message from '../../../components/Message';
 import { IProducts } from '@/interfaces/Products';
 import { displayErrorMessage } from '../../../components/Error';
-import { PRODUCTADD } from '../../../constants';
+import { PRODUCTADD } from '../../../constants/constants';
 import {
   useDeleteProductMutation,
   useGetProductsQuery,
 } from '../../../redux/query/productsApiSlice';
+import { ProductAdminStyled } from './styled';
 
 const ProductListScreen = () => {
   const navigate = useNavigate();
@@ -44,7 +45,8 @@ const ProductListScreen = () => {
   };
 
   return (
-    <>
+    <ProductAdminStyled>
+      <>
       <Row className='align-items-center'>
         <Col>
           <h1>Sản phẩm</h1>
@@ -82,7 +84,7 @@ const ProductListScreen = () => {
                   <td>{(product.category || '')?.name}</td>
                   <td>{product.brand}</td>
            
-                  <td style={{ width: 200 }}>
+                  <td className='container'>
                     <LinkContainer to={`/admin/product/${product._id}/edit`}>
                       <Button variant='light' className='btn-sm mx-2'>
                         <FaEdit />
@@ -98,7 +100,7 @@ const ProductListScreen = () => {
                       className='btn-sm'
                       onClick={() => deleteHandler(product._id)}
                     >
-                      <FaTrash style={{ color: 'white' }} />
+                      <FaTrash className='fatrash'  />
                     </Button>
                     <LinkContainer to={`/admin/varriant/${product._id}/add`}>
                       <Button variant='light' className='btn-sm mx-2'>
@@ -115,6 +117,7 @@ const ProductListScreen = () => {
         </>
       )}
     </>
+    </ProductAdminStyled>
   );
 };
 

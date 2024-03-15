@@ -1,16 +1,15 @@
-import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button } from 'react-bootstrap';
-import { FaCheck, FaTimes } from 'react-icons/fa';
-import Message, { IMessageProps } from '../components/Message';
-import Loader from '../components/Loader';
-import { toast } from 'react-toastify';
-
-import {
-  useGetMyOrdersQuery,
-  useDeleteOrderMutation,
-} from '../redux/query/ordersApiSlice';
-import { displayErrorMessage } from '../components/Error';
 import { IOrder } from '@/interfaces/Order';
+import { Button, Table } from 'react-bootstrap';
+import { FaCheck, FaTimes } from 'react-icons/fa';
+import { LinkContainer } from 'react-router-bootstrap';
+import { displayErrorMessage } from '../components/Error';
+import Loader from '../components/Footer'
+import Message from '../components/Message';
+import { CANCEL } from '../constants/constants';
+import {
+  useDeleteOrderMutation,
+  useGetMyOrdersQuery,
+} from '../redux/query/ordersApiSlice';
 
 const ConfirmScreen = () => {
   const { data: orders, isLoading, error, refetch } = useGetMyOrdersQuery();
@@ -46,7 +45,7 @@ const ConfirmScreen = () => {
         </LinkContainer>
       </td>
       <td>
-        <LinkContainer to={`/cancel`} style={{ marginLeft: 10 }}>
+        <LinkContainer to={CANCEL} style={{ marginLeft: 10 }}>
           <Button className='btn-sm' variant='secondary'>
             Đơn hàng đã huỷ
           </Button>

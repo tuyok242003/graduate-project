@@ -15,7 +15,7 @@ import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { displayErrorMessage } from '../components/Error';
-import Loader from '../components/Loader';
+import Loader from '../components/Footer'
 import Message from '../components/Message';
 import {
   useDeliverOrderMutation,

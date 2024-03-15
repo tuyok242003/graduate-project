@@ -9,7 +9,6 @@ const Post = ( post :IPosts ) => {
       <Link to={`/post/${post._id}`}>
         <Card.Img src={post.image} variant='top' alt='Ảnh bài viết' />
       </Link>
-
       <Card.Body>
         <Link to={`/post/${post._id}`}>
           <Card.Title as='div' className='product-title'>

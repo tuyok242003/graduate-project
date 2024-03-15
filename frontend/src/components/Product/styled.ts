@@ -22,7 +22,16 @@ export const ProductStyled = styled.div`
     font-size: 15px;
     font-weight: bold;
   }
+  .img-product {
+    height: 250px;
+  }
+  .price-product {
+    font-family: serif;
+  }
   .product-title {
     font-family: display;
+  }
+  .count {
+    color: red;
   }
 `

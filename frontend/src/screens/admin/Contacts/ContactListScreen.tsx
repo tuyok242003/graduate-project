@@ -1,18 +1,19 @@
- import { Table, Button, Row, Col, Pagination } from 'react-bootstrap';
+ import { IContact } from '@/interfaces/Contact';
+import { useState } from 'react';
+import { Button, Col, Pagination, Row, Table } from 'react-bootstrap';
 import { FaPlus, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import Message, { IMessageProps } from '../../../components/Message';
-import Loader from '../../../components/Loader';
 import { toast } from 'react-toastify';
-import {
-  useGetContactsQuery,
-  useDeleteContactMutation,
-  useAddContactMutation,
-} from '../../../redux/query/contactSlice';
-import { useState } from 'react';
-import { IContact } from '@/interfaces/Contact';
 import { displayErrorMessage } from '../../../components/Error';
-import { CONTACTADD } from '../../../constants';
+import Loader from '../../../components/Footer'
+import Message from '../../../components/Message';
+import { CONTACTADD } from '../../../constants/constants';
+import {
+  useAddContactMutation,
+  useDeleteContactMutation,
+  useGetContactsQuery,
+} from '../../../redux/query/contactSlice';
+import { ContactAdminStyle } from './styled';
 
 const ContactListScreen = () => {
   const { data: contacts, isLoading, error, refetch } = useGetContactsQuery();
@@ -48,7 +49,8 @@ const ContactListScreen = () => {
     ? contacts.slice(indexOfFirstContact, indexOfLastContact)
     : [];
   return (
-    <>
+   <ContactAdminStyle>
+     <>
       <Row className='align-items-center'>
         <Col>
           <h1>Contacts</h1>
@@ -94,7 +96,7 @@ const ContactListScreen = () => {
                       className='btn-sm'
                       onClick={() => contact._id && deleteHandler(contact._id)}
                     >
-                      <FaTrash style={{ color: 'white' }} />
+                      <FaTrash className='fatrash' />
                     </Button>
                   </td>
                 </tr>
@@ -117,6 +119,7 @@ const ContactListScreen = () => {
         </>
       )}
     </>
+   </ContactAdminStyle>
   );
 };
 

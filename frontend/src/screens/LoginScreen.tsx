@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Loader from '../components/Loader';
+import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer';
 import { useLoginMutation } from '../redux/query/usersApiSlice';
 import { setCredentials } from '../redux/slices/authSlice';
 import { IUser } from '@/interfaces/User';
 import { displayErrorMessage } from '../components/Error';
-import { FORGOTPASSWORD, REGISTER } from '../constants';
+import { FORGOTPASSWORD, REGISTER } from '../constants/constants';
 interface ILoginState{
   email:string
   password:string

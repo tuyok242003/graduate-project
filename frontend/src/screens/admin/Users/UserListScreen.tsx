@@ -3,7 +3,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Pagination } from 'react-bootstrap';
 import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
 import Message, { IMessageProps } from '../../../components/Message';
-import Loader from '../../../components/Loader';
+import Loader from '../../../components/Footer'
 import {
   useDeleteUserMutation,
   useGetUsersQuery,
@@ -59,17 +59,18 @@ const UserListScreen = () => {
                   </td>
                   <td>
                     {user.isAdmin ? (
-                      <FaCheck style={{ color: 'green' }} />
+                      <FaCheck className='facheck'  />
                     ) : (
-                      <FaTimes style={{ color: 'red' }} />
+                      <FaTimes className='fatimes' />
                     )}
                   </td>
                   <td>
                     {!user.isAdmin && (
                       <>
                         <LinkContainer
+                        className='container'
                           to={`/admin/user/${user._id}/edit`}
-                          style={{ marginRight: '10px' }}
+                         
                         >
                           <Button variant='light' className='btn-sm'>
                             <FaEdit />
@@ -80,7 +81,7 @@ const UserListScreen = () => {
                           className='btn-sm'
                           onClick={() => deleteHandler(user._id)}
                         >
-                          <FaTrash style={{ color: 'white' }} />
+                          <FaTrash className='fatrash' />
                         </Button>
                       </>
                     )}

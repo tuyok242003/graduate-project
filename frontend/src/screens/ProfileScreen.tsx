@@ -9,10 +9,10 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { displayErrorMessage } from '../components/Error';
-import Loader from '../components/Loader';
+import Loader from '../components/Footer'
 import Message from '../components/Message';
 import SearchProfile from '../components/SearchProfile';
-import { PROFILE } from '../constants';
+import { CANCEL, CONFIRM, NOTRECEIVED, PROFILE, RECEIVED } from '../constants/constants';
 import {
   useCancelOrderMutation,
   useConfirmOrderMutation,
@@ -59,7 +59,9 @@ const ProfileScreen = () => {
       }
     }
   };
-
+const getStatusIcon = (status:any, successColor = 'green', failureColor = 'red') => {
+  return status ? <FaCheck style={{ color: successColor }} /> : <FaTimes style={{ color: failureColor }} />;
+};
   const confirmHandler = async (
     id: string,
     isDelivered: boolean,
@@ -174,10 +176,10 @@ const ProfileScreen = () => {
           onChange={(e) => navigate(`/profile?status=${e.target.value}`)}
         >
           <option value='all'>Tất cả đơn hàng</option>
-          <option value='notReceived'>Đơn hàng chưa giao</option>
-          <option value='received'>Đơn hàng đã giao</option>
-          <option value='cancel'>Đơn hàng đã huỷ</option>
-          <option value='confirm'>Đơn hàng đã nhận</option>
+          <option value={NOTRECEIVED}>Đơn hàng chưa giao</option>
+          <option value={RECEIVED}>Đơn hàng đã giao</option>
+          <option value={CANCEL}>Đơn hàng đã huỷ</option>
+          <option value={CONFIRM}>Đơn hàng đã nhận</option>
         </Form.Control>
 
         {isLoading ? (
@@ -202,13 +204,13 @@ const ProfileScreen = () => {
               <tbody>
                 {orders
                   ?.filter((order) => {
-                    if (statusFromUrl === 'notReceived') {
+                    if (statusFromUrl === NOTRECEIVED) {
                       return !order.isDelivered && !order.isCancelled;
-                    } else if (statusFromUrl === 'received') {
+                    } else if (statusFromUrl === RECEIVED) {
                       return order.isDelivered;
-                    } else if (statusFromUrl === 'cancel') {
+                    } else if (statusFromUrl === CANCEL) {
                       return order.isCancelled;
-                    } else if (statusFromUrl === 'confirm') {
+                    } else if (statusFromUrl === CONFIRM) {
                       return order.isConfirmed;
                     }
                     return true;
@@ -230,31 +232,9 @@ const ProfileScreen = () => {
                           <FaTimes style={{ color: 'red' }} />
                         )}
                       </td>
-                      <td>
-                        {order.isDelivered ? (
-                          order.deliveredAt instanceof Date ? (
-                            order.deliveredAt.toISOString().substring(0, 10)
-                          ) : (
-                            <FaCheck style={{ color: 'green' }} />
-                          )
-                        ) : (
-                          <FaTimes style={{ color: 'red' }} />
-                        )}
-                      </td>
-                      <td>
-                        {order.isConfirmed ? (
-                          <FaCheck style={{ color: 'green' }} />
-                        ) : (
-                          <FaTimes style={{ color: 'red' }} />
-                        )}
-                      </td>
-                      <td>
-                        {order.isCancelled ? (
-                          <FaCheck style={{ color: 'green' }} />
-                        ) : (
-                          <FaTimes style={{ color: 'red' }} />
-                        )}
-                      </td>
+                     <td>{order.isDelivered ? (order.deliveredAt instanceof Date ? order.deliveredAt.toISOString().substring(0, 10) : getStatusIcon(true)) : getStatusIcon(false)}</td>
+<td>{getStatusIcon(order.isConfirmed)}</td>
+<td>{getStatusIcon(order.isCancelled)}</td>
                       <td>
                         <LinkContainer
                           to={`/order/${order._id}`}

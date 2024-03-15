@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
-import { useParams, Link } from 'react-router-dom';
+import { ICategories } from '@/interfaces/Category';
+import { IProducts } from '@/interfaces/Products';
+import { useState } from 'react';
+import { Col, Row } from 'react-bootstrap';
+import { Link, useParams } from 'react-router-dom';
+import Loader from '../components/Footer'
+import Message from '../components/Message';
+import Meta from '../components/Meta';
+import PostCarousel from '../components/PostCarousel.tsx';
+import Product from '../components/Product';
 import {
   useGetProductsQuery,
   useSearchProductsByCategoryQuery,
 } from '../redux/query/productsApiSlice';
-import Product from '../components/Product';
-import Loader from '../components/Loader';
-import Message, { IMessageProps } from '../components/Message';
-import PostCarousel from '../components/ProductCarousel';
-import Meta from '../components/Meta';
-import { ICategories } from '@/interfaces/Category';
-import { IProducts } from '@/interfaces/Products';
 const HomeScreen = () => {
   const { pageNumber, keyword } = useParams();
   const { data, isLoading, error } = useGetProductsQuery();

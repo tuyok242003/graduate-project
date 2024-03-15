@@ -8,6 +8,7 @@ import {
   AiOutlineVideoCamera,
 } from 'react-icons/ai';
 import { Link, Outlet } from 'react-router-dom';
+import { ADMINPRODUCT, DASHBOARD } from '../constants/constants';
 
 const { Header, Sider, Content } = Layout;
 
@@ -15,34 +16,28 @@ const LayoutAdmin = () => {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout className='layout-admin' >
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className='logo' />
         <Menu theme='dark' mode='inline' defaultSelectedKeys={['1']}>
           <Menu.Item key='1' icon={<AiOutlineUser />}>
-            <Link to='/admin/dashboard'>Dashboard</Link>
+            <Link to={DASHBOARD}>Dashboard</Link>
           </Menu.Item>
           <Menu.Item key='2' icon={<AiOutlineVideoCamera />}>
-            <Link to='/admin/product'>Product</Link>
+            <Link to={ADMINPRODUCT}>Product</Link>
           </Menu.Item>
         </Menu>
       </Sider>
       <Layout className='site-layout'>
-        <Header className='site-layout-background' style={{ padding: 0 }}>
+        <Header className='site-layout-background'>
           <Button
             type='text'
             icon={collapsed ? <AiOutlineMenuUnfold /> : <AiOutlineMenu />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{ fontSize: '16px', width: 64, height: 64 }}
+            onClick={() => setCollapsed(!collapsed)}     
           />
         </Header>
         <Content
           className='site-layout-background'
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
-          }}
         >
           <Outlet />
         </Content>

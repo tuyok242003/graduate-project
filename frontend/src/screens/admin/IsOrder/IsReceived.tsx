@@ -1,13 +1,11 @@
-import React from 'react';
-import { Table, Button, Row, Col } from 'react-bootstrap';
+import { Button, Col, Row, Table } from 'react-bootstrap';
+import { FaCheck, FaTimes } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
-import { FaTimes, FaCheck } from 'react-icons/fa';
-import Message, { IMessageProps } from '../../../components/Message';
-import Loader from '../../../components/Loader';
-
-
-import { useGetOrdersQuery } from '../../../redux/query/ordersApiSlice';
+import Loader from '../../../components/Footer';
+import Message from '../../../components/Message';
 import { IOrder } from '@/interfaces/Order';
+import { CANCEL, CONFIRM, NOTRECEIVED } from '../../../constants/constants';
+import { useGetOrdersQuery } from '../../../redux/query/ordersApiSlice';
 
 const IsReceived = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
@@ -17,21 +15,21 @@ const IsReceived = () => {
       <Col md={9}>
         <h2>Đơn hàng đã giao</h2>
         <td>
-          <LinkContainer to={`/notReceived`}>
+          <LinkContainer to={NOTRECEIVED}>
             <Button className='btn-sm' variant='secondary'>
               Đơn hàng chưa giao
             </Button>
           </LinkContainer>
         </td>
         <td>
-          <LinkContainer to={`/cancel`} style={{ marginLeft: 10 }}>
+          <LinkContainer className='cancel' to={CANCEL} >
             <Button className='btn-sm' variant='secondary'>
               Đơn hàng đã huỷ
             </Button>
           </LinkContainer>
         </td>
         <td>
-          <LinkContainer to={`/confirm`} style={{ marginLeft: 10 }}>
+          <LinkContainer className='confirm' to={CONFIRM} >
             <Button className='btn-sm' variant='secondary'>
               Đơn hàng đã nhận
             </Button>
@@ -45,7 +43,7 @@ const IsReceived = () => {
           <Table striped hover responsive className='table-sm'>
             <thead>
               <tr>
-                <th>IDDDD</th>
+                <th>ID</th>
                 <th>DATE</th>
                 <th>TOTAL</th>
                 <th>PAID</th>
@@ -72,10 +70,10 @@ const IsReceived = () => {
                         order.deliveredAt instanceof Date ? (
                           order.deliveredAt.toISOString().substring(0, 10)
                         ) : (
-                          <FaCheck style={{ color: 'green' }} />
-                        )
-                      ) : (
-                        <FaTimes style={{ color: 'red' }} />
+                         <FaCheck className='facheck'/>
+                      )
+                    ) : (
+                      <FaTimes className='fatimes'/>
                       )}
                     </td>
                     <td>
@@ -83,10 +81,10 @@ const IsReceived = () => {
                         order.paidAt instanceof Date ? (
                           order.paidAt.toISOString().substring(0, 10)
                         ) : (
-                          <FaCheck style={{ color: 'green' }} />
-                        )
-                      ) : (
-                        <FaTimes style={{ color: 'red' }} />
+                         <FaCheck className='facheck'/>
+                      )
+                    ) : (
+                      <FaTimes className='fatimes'/>
                       )}
                     </td>
                     <td>
