@@ -23,28 +23,19 @@ import {
   useGetPaypalClientIdQuery,
   usePayOrderMutation,
 } from '../redux/query/ordersApiSlice';
-
 const OrderScreen: React.FC = () => {
   const { id: orderId } = useParams<{ id: string }>();
-
-
-
-  const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId as string);
+  const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId || '');
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
   const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
   const { userInfo } = useSelector((state: { auth?: { userInfo: IUser } }) => state.auth) || {};
   const [paypalState, paypalDispatch] = usePayPalScriptReducer();
   const { isPending } = paypalState;
   const [isOrderPaid, setIsOrderPaid] = useState(false);
-
 const orderItem = localStorage.getItem("selectedItems");
-
-
 const dataOrder = order?.orderItems.filter(item => {
  return orderItem?.includes(item._id); 
 })
-
-
   const {
     data: paypal,
     isLoading: loadingPayPal,
