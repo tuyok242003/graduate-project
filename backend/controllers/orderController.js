@@ -70,7 +70,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
       }
 
       discountedTotalPrice = totalPrice - (voucher.discountAmount / 100) * totalPrice
-      await Voucher.findByIdAndUpdate(voucher._id, { isUsed: true })
+      // await Voucher.findByIdAndUpdate(voucher._id, { isUsed: true })
     }
     const order = new Order({
       orderItems: orderItems.map(item => ({ ...item, name: item.color })),
