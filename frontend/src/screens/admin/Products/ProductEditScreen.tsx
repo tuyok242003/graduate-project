@@ -1,20 +1,20 @@
-import { useState, useEffect } from 'react';
+import { ICategories } from '@/interfaces/Category';
+import { useEffect, useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
-import Message, { IMessageProps } from '../../../components/Message';
-import Loader from '../../../components/Loader';
-import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
+import FormContainer from '../../../components/FormContainer';
+import Loader from '../../../components/Loader';
+import Message from '../../../components/Message';
+import { PRODUCTLIST } from '../../../constants';
+import {
+  useGetCategoriesQuery
+} from '../../../redux/query/categorySlice';
 import {
   useGetProductDetailsQuery,
   useUpdateProductMutation,
   useUploadProductImageMutation,
 } from '../../../redux/query/productsApiSlice';
-import {
-  useGetCategoriesQuery
-} from '../../../redux/query/categorySlice'
-import { ICategories } from '@/interfaces/Category';
-import { PRODUCTLIST } from '../../../constants';
 import { IProductState } from './ProductAddScreen';
 
 const ProductEditScreen = () => {
@@ -47,7 +47,7 @@ const ProductEditScreen = () => {
     isLoading,
     refetch,
     error,
-  } = useGetProductDetailsQuery(productId as string);
+  } = useGetProductDetailsQuery(productId || '');
   const [updateProduct, { isLoading: loadingUpdate }] =
     useUpdateProductMutation();
   const [uploadProductImage, { isLoading: loadingUpload }] =
@@ -86,6 +86,7 @@ const ProductEditScreen = () => {
         description:product.description
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
   const formData = new FormData();
   const uploadFileHandler = async (imageUpload: React.ChangeEvent<HTMLInputElement>) => {

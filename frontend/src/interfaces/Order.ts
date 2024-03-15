@@ -1,7 +1,6 @@
 export interface IOrder {
-  create(arg0: { purchase_units: { amount: { value: number | undefined } }[] }): unknown
   _id: string
-  user: string
+  user: { name: string; _id: string }
   orderItems: IOrderItem[]
   shippingAddress: IShippingAddress
   paymentMethod: string
@@ -24,7 +23,6 @@ export interface IOrder {
   voucher: string
   name: string
   email: string
-  capture(): string
 }
 export interface ICreateOrder {
   orderItems: IOrderItem[]

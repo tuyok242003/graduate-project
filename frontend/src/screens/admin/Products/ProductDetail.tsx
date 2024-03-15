@@ -1,15 +1,13 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import { Row, Col, Image, ListGroup, Card, Form } from 'react-bootstrap';
-import { useGetProductDetailsQuery } from '../../../redux/query/productsApiSlice';
-import Rating from '../../../components/Rating';
+import { Card, Col, Form, Image, ListGroup, Row } from 'react-bootstrap';
+import { Link, useParams } from 'react-router-dom';
 import Loader from '../../../components/Loader';
-import Message, { IMessageProps } from '../../../components/Message';
+import Message from '../../../components/Message';
 import Meta from '../../../components/Meta';
+import Rating from '../../../components/Rating';
+import { useGetProductDetailsQuery } from '../../../redux/query/productsApiSlice';
 
 import { IReview, IVariant } from '@/interfaces/Products';
-import { ICategories } from '@/interfaces/Category';
 import { ProductScreenStyled } from '../../../assets/styles/ProductScreen';
 
 interface IState {
@@ -26,7 +24,7 @@ const ProductDetail = () => {
     data: product,
     isLoading,
     error,
-  } = useGetProductDetailsQuery(productId as string);
+  } = useGetProductDetailsQuery(productId  || '');
   return (
     <ProductScreenStyled>
       <>
@@ -64,7 +62,7 @@ const ProductDetail = () => {
                   <Form.Label> Brand: {product?.brand}</Form.Label>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <Form.Label>Category: {(product?.category as ICategories).name}</Form.Label>
+                  <Form.Label>Category: {product?.category.name}</Form.Label>
                 </ListGroup.Item>
                 <ListGroup.Item >
                   <strong>Price:</strong> $

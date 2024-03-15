@@ -1,16 +1,14 @@
-import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 import { FaCheck, FaTimes } from 'react-icons/fa';
-import Message, { IMessageProps } from '../../../components/Message';
+import { LinkContainer } from 'react-router-bootstrap';
 import Loader from '../../../components/Loader';
-import { toast } from 'react-toastify';
+import Message from '../../../components/Message';
 
-import {
-  useGetOrdersQuery,
-  useDeleteOrderMutation,
-} from '../../../redux/query/ordersApiSlice';
-import { IOrder } from '@/interfaces/Order';
 import { displayErrorMessage } from '../../../components/Error';
+import {
+  useDeleteOrderMutation,
+  useGetOrdersQuery,
+} from '../../../redux/query/ordersApiSlice';
 
 const IsCancelled = () => {
   const { data: orders, isLoading, error, refetch } = useGetOrdersQuery();
@@ -49,7 +47,8 @@ const IsCancelled = () => {
             </tr>
           </thead>
           <tbody>
-            {orders
+          
+            {orders? orders
               ?.filter((order) => order.isCancelled)
               .map((order) => (
                 <tr key={order._id}>
@@ -57,7 +56,7 @@ const IsCancelled = () => {
                   <td>
                     {typeof order.user === 'object' && order.user !== null
                       ? 'name' in order.user
-                        ? (order.user as { name?: string }).name ||
+                        ? (order.user).name ||
                           'Unknown User'
                         : 'Unknown User'
                       : 'Unknown User'}
@@ -97,7 +96,7 @@ const IsCancelled = () => {
                     </Button>
                   </td>
                 </tr>
-              ))}
+              )):null}
           </tbody>
         </Table>
       )}

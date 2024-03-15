@@ -1,4 +1,4 @@
-import { CATEGORYLIST, CONTACTADD, CONTACTLIST, ORDERLIST, POSTLIST, PRODUCTLIST, USERLIST, VOUCHERLIST } from '../constants';
+import { CATEGORYLIST, CONTACTLIST, ORDERLIST, POSTLIST, PRODUCTLIST, USERLIST, VOUCHERLIST } from '../constants';
 import React from 'react';
 import { Container, Navbar } from 'react-bootstrap';
 

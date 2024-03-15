@@ -1,22 +1,18 @@
-import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button, Row, Col } from 'react-bootstrap';
+import { Button, Col, Row, Table } from 'react-bootstrap';
+import { AiFillCaretRight } from 'react-icons/ai';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
-import Message, { IMessageProps } from '../../../components/Message';
-import Loader from '../../../components/Loader';
-import { AiFillCaretRight, AiTwotoneFileAdd } from 'react-icons/ai';
 import { IoIosAdd } from "react-icons/io";
-
-import {
-  useGetProductsQuery,
-  useDeleteProductMutation,
- 
-} from '../../../redux/query/productsApiSlice';
-import { toast } from 'react-toastify';
+import { LinkContainer } from 'react-router-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import Loader from '../../../components/Loader';
+import Message from '../../../components/Message';
 import { IProducts } from '@/interfaces/Products';
-import { ICategories } from '@/interfaces/Category';
 import { displayErrorMessage } from '../../../components/Error';
-import { PRODUCTADD, USERLIST } from '../../../constants';
+import { PRODUCTADD } from '../../../constants';
+import {
+  useDeleteProductMutation,
+  useGetProductsQuery,
+} from '../../../redux/query/productsApiSlice';
 
 const ProductListScreen = () => {
   const navigate = useNavigate();
@@ -83,7 +79,7 @@ const ProductListScreen = () => {
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.productName}</td>
-                  <td>{(product.category as ICategories)?.name}</td>
+                  <td>{(product.category || '')?.name}</td>
                   <td>{product.brand}</td>
            
                   <td style={{ width: 200 }}>

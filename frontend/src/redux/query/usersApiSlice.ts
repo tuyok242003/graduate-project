@@ -1,82 +1,80 @@
-import { apiSlice } from '../slices/apiSlice';
-import { USERS_URL } from '../../constants';
-import { IUser } from '@/interfaces/User';
-import { IProducts } from '@/interfaces/Products';
+import { apiSlice } from "../slices/apiSlice"
+import { USERS_URL } from "../../constants"
+import { IUser } from "@/interfaces/User"
 interface IUpdateUser {
-  userId:string |undefined
-  userName:string;
-  email:string;
- 
-  isAdmin:boolean
+  userId: string | undefined
+  userName: string
+  email: string
+
+  isAdmin: boolean
 }
 export interface ILogin {
- 
-  email:string;
-  password:string
+  email: string
+  password: string
 }
 export interface IRegister {
-  userName:string
-  email:string;
-  password:string
+  userName: string
+  email: string
+  password: string
 }
 export const userApiSlice = apiSlice.injectEndpoints({
-  endpoints: (builder) => ({
-    login: builder.mutation<IUser,ILogin>({
-      query: (data) => ({
+  endpoints: builder => ({
+    login: builder.mutation<IUser, ILogin>({
+      query: data => ({
         url: `${USERS_URL}/auth`,
-        method: 'POST',
-        body: data,
-      }),
+        method: "POST",
+        body: data
+      })
     }),
-    register: builder.mutation<IUpdateUser,IRegister>({
-      query: (data) => ({
+    register: builder.mutation<IUpdateUser, IRegister>({
+      query: data => ({
         url: `${USERS_URL}`,
-        method: 'POST',
-        body: data,
-      }),
+        method: "POST",
+        body: data
+      })
     }),
     logout: builder.mutation<IUser, void>({
       query: () => ({
         url: `${USERS_URL}/logout`,
-        method: 'POST',
-      }),
+        method: "POST"
+      })
     }),
     profile: builder.mutation({
-      query: (data) => ({
+      query: data => ({
         url: `${USERS_URL}/profile`,
-        method: 'PUT',
-        body: data,
-      }),
+        method: "PUT",
+        body: data
+      })
     }),
     getUsers: builder.query<IUser[], void>({
       query: () => ({
-        url: USERS_URL,
+        url: USERS_URL
       }),
-      providesTags: ['User'],
-      keepUnusedDataFor: 5,
+      providesTags: ["User"],
+      keepUnusedDataFor: 5
     }),
-    deleteUser: builder.mutation<IUser,string>({
-      query: (userId) => ({
+    deleteUser: builder.mutation<IUser, string>({
+      query: userId => ({
         url: `${USERS_URL}/${userId}`,
-        method: 'DELETE',
-      }),
+        method: "DELETE"
+      })
     }),
-    getUserDetails: builder.query<IUser,string>({
-      query: (id) => ({
-        url: `${USERS_URL}/${id}`,
+    getUserDetails: builder.query<IUser, string>({
+      query: id => ({
+        url: `${USERS_URL}/${id}`
       }),
-      keepUnusedDataFor: 5,
+      keepUnusedDataFor: 5
     }),
-    updateUser: builder.mutation<void,IUpdateUser>({
-      query: (data) => ({
+    updateUser: builder.mutation<void, IUpdateUser>({
+      query: data => ({
         url: `${USERS_URL}/${data.userId}`,
-        method: 'PUT',
-        body: data,
+        method: "PUT",
+        body: data
       }),
-      invalidatesTags: ['User'],
-    }),
-  }),
-});
+      invalidatesTags: ["User"]
+    })
+  })
+})
 
 export const {
   useLoginMutation,
@@ -86,5 +84,5 @@ export const {
   useGetUsersQuery,
   useDeleteUserMutation,
   useUpdateUserMutation,
-  useGetUserDetailsQuery,
-} = userApiSlice;
+  useGetUserDetailsQuery
+} = userApiSlice

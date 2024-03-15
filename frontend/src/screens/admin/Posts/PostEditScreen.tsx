@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
-import Message, { IMessageProps } from '../../../components/Message';
-import Loader from '../../../components/Loader';
-import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
+import { displayErrorMessage } from '../../../components/Error';
+import FormContainer from '../../../components/FormContainer';
+import Loader from '../../../components/Loader';
+import Message from '../../../components/Message';
+import { POSTLIST } from '../../../constants';
 import {
   useGetPostDetailsQuery,
   useUpdatePostMutation,
   useUploadPostImageMutation,
 } from '../../../redux/query/postSlice';
-import { displayErrorMessage } from '../../../components/Error';
-import { POSTLIST } from '../../../constants';
 import { IPostState } from './PostAddScreen';
 const PostEditScreen = () => {
   const { id: postId } = useParams();
@@ -26,7 +26,7 @@ const PostEditScreen = () => {
     isLoading,
     refetch,
     error,
-  } = useGetPostDetailsQuery(postId as string);
+  } = useGetPostDetailsQuery(postId || '');
 
   const [updatePost, { isLoading: loadingUpdate }] = useUpdatePostMutation();
 
@@ -71,6 +71,7 @@ const PostEditScreen = () => {
       setImg(post.image);
 
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [post]);
   const formData = new FormData();
   const uploadFileHandler = async (image: React.ChangeEvent<HTMLInputElement>) => {

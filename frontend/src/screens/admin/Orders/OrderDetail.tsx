@@ -1,16 +1,16 @@
+import { IOrderItem } from '@/interfaces/Order';
+import { IUser } from '@/interfaces/User';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
+import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import Message, { IMessageProps } from '../../../components/Message';
+import { Link, useParams } from 'react-router-dom';
 import Loader from '../../../components/Loader';
+import Message from '../../../components/Message';
+import { ORDERLIST } from '../../../constants';
 import {
   useDeliverOrderMutation,
   useGetOrderDetailsQuery,
 } from '../../../redux/query/ordersApiSlice';
-import { IUser } from '@/interfaces/User';
-import { IOrderItem } from '@/interfaces/Order';
-import { ORDERLIST } from '../../../constants';
 const OrderDetail = () => {
   const { id: orderId } = useParams();
   const {
@@ -18,7 +18,7 @@ const OrderDetail = () => {
     refetch,
     isLoading,
     error,
-  } = useGetOrderDetailsQuery(orderId as string);
+  } = useGetOrderDetailsQuery(orderId  || '');
   const [deliverOrder, { isLoading: loadingDeliver }] =
     useDeliverOrderMutation();
   const { userInfo } =
@@ -30,7 +30,7 @@ const OrderDetail = () => {
     }
   }, [order]);
   const deliverHandler = async () => {
-    await deliverOrder(orderId as string);
+    await deliverOrder(orderId || '');
     refetch();
   };
   return isLoading ? (

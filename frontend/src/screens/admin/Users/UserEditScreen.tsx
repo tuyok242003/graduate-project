@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
-import Message, { IMessageProps } from '../../../components/Message';
-import Loader from '../../../components/Loader';
-import FormContainer from '../../../components/FormContainer';
+import { Button, Form } from 'react-bootstrap';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useParams } from 'react-router-dom';
+import { displayErrorMessage } from '../../../components/Error';
+import FormContainer from '../../../components/FormContainer';
+import Loader from '../../../components/Loader';
+import Message from '../../../components/Message';
+import { USERLIST } from '../../../constants';
 import {
   useGetUserDetailsQuery,
   useUpdateUserMutation,
 } from '../../../redux/query/usersApiSlice';
-import { displayErrorMessage } from '../../../components/Error';
-import { USERLIST } from '../../../constants';
 interface IUserState {
   userName:string
   email:string;
@@ -31,7 +30,7 @@ const [state,setState] = useState<IUserState>({
     isLoading,
     error,
     refetch,
-  } = useGetUserDetailsQuery(userId as string);
+  } = useGetUserDetailsQuery(userId || '');
 
   const [updateUser, { isLoading: loadingUpdate }] = useUpdateUserMutation();
 
@@ -54,6 +53,7 @@ const [state,setState] = useState<IUserState>({
       setState({...state,userName:user.userName,email:user.email,isAdmin:user.isAdmin});
      
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (

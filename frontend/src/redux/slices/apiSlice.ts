@@ -1,10 +1,8 @@
-import { fetchBaseQuery, createApi,BaseQueryApi, FetchArgs  } from '@reduxjs/toolkit/query/react';
-import { BASE_URL } from '../../constants';
-import { logout } from './authSlice'; 
-
+import { fetchBaseQuery, createApi, BaseQueryApi, FetchArgs } from "@reduxjs/toolkit/query/react"
+import { BASE_URL } from "../../constants"
 const baseQuery = fetchBaseQuery({
-  baseUrl: BASE_URL,
-});
+  baseUrl: BASE_URL
+})
 
 // async function getBaseQueryWithAuth(args: FetchArgs, api: BaseQueryApi, extra: object) {
 //   const result = await baseQuery(args, api, extra);
@@ -18,14 +16,14 @@ const baseQuery = fetchBaseQuery({
 // }
 
 async function getBaseQueryWithAuth(args: FetchArgs, api: BaseQueryApi, extra: object) {
-  const result = await baseQuery(args, api, extra);
+  const result = await baseQuery(args, api, extra)
   // if (result.error && result.error.status === 401) {
   //   api.dispatch(logout());
   // }
-  return result;
+  return result
 }
 export const apiSlice = createApi({
   baseQuery: getBaseQueryWithAuth,
-  tagTypes: ['Product', 'Order', 'User', 'Contact', 'Post', 'Category','Voucher'],
-  endpoints: (builder) => ({}),
-});
+  tagTypes: ["Product", "Order", "User", "Contact", "Post", "Category", "Voucher"],
+  endpoints: builder => ({})
+})

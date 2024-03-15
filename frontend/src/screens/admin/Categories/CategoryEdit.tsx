@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
-import Message, { IMessageProps } from '../../../components/Message';
-import Loader from '../../../components/Loader';
-import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
+import { displayErrorMessage } from '../../../components/Error';
+import FormContainer from '../../../components/FormContainer';
+import Loader from '../../../components/Loader';
+import Message from '../../../components/Message';
+import { CONTACTADD } from '../../../constants';
 import {
   useGetCategoryDetailsQuery,
   useUpdateCategoryMutation,
 } from '../../../redux/query/categorySlice';
-import { displayErrorMessage } from '../../../components/Error';
-import { CONTACTADD } from '../../../constants';
 
 const CategoryEditScreen = () => {
   const { id: categoryId } = useParams();
@@ -22,7 +22,7 @@ const CategoryEditScreen = () => {
     isLoading,
     refetch,
     error,
-  } = useGetCategoryDetailsQuery(categoryId as string);
+  } = useGetCategoryDetailsQuery(categoryId || '');
   const [updateCategory, { isLoading: loadingUpdate }] =
     useUpdateCategoryMutation();
 

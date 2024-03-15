@@ -1,4 +1,18 @@
 {
   "editor.formatOnSave": true,
-  "cSpell.words": ["không"]
+  "cSpell.words": [
+    "antd",
+    "CATEGORYLIST",
+    "CONTACTLIST",
+    "Danh",
+    "dùng",
+    "không",
+    "Liên",
+    "Người",
+    "ORDERLIST",
+    "Sider",
+    "USERLIST",
+    "viết",
+    "VOUCHERLIST"
+  ]
 }

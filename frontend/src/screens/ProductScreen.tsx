@@ -1,30 +1,29 @@
-import { useState,useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { IReview, IVariant } from '@/interfaces/Products';
+import { useEffect, useState } from 'react';
 import {
-  Row,
+  Button,
+  Card,
   Col,
+  Form,
   Image,
   ListGroup,
-  Card,
-  Button,
-  Form,
+  Row,
 } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import {
-  useGetProductDetailsQuery,
-  useCreateReviewMutation,
-} from '../redux/query/productsApiSlice';
-import Rating from '../components/Rating';
-import Loader from '../components/Loader';
-import Message, { IMessageProps } from '../components/Message';
-import Meta from '../components/Meta';
-import { addToCart } from '../redux/slices/cartSlice';
-import { IReview, IVariant } from '@/interfaces/Products';
-import { displayErrorMessage } from '../components/Error';
-import { CART } from '../constants';
 import { ProductScreenStyled } from '../assets/styles/ProductScreen';
+import { displayErrorMessage } from '../components/Error';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
+import Meta from '../components/Meta';
+import Rating from '../components/Rating';
+import { CART } from '../constants';
+import {
+  useCreateReviewMutation,
+  useGetProductDetailsQuery,
+} from '../redux/query/productsApiSlice';
+import { addToCart } from '../redux/slices/cartSlice';
 const ProductScreen = () => {
   const { id: productId } = useParams();
   const dispatch = useDispatch();
@@ -91,7 +90,7 @@ const ProductScreen = () => {
     isLoading,
     refetch,
     error,
-  } = useGetProductDetailsQuery(productId as string);
+  } = useGetProductDetailsQuery(productId || '');
 
   const { userInfo } =
     useSelector((state: { auth?: { userInfo: IReview } }) => state.auth) || {};

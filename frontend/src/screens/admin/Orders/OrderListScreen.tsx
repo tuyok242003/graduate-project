@@ -1,21 +1,18 @@
-import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button, Form } from 'react-bootstrap';
-import { FaCheck, FaTimes } from 'react-icons/fa';
-import Message, { IMessageProps } from '../../../components/Message';
-import Loader from '../../../components/Loader';
-import { toast } from 'react-toastify';
-import { Pagination } from 'react-bootstrap';
-import {
-  useGetOrdersQuery,
-  useDeleteOrderMutation,
- 
-} from '../../../redux/query/ordersApiSlice';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { Button, Form, Pagination, Table } from 'react-bootstrap';
 import { BiMessageAltDetail } from 'react-icons/bi';
+import { FaCheck, FaTimes } from 'react-icons/fa';
 import { MdDeleteSweep } from 'react-icons/md';
+import { LinkContainer } from 'react-router-bootstrap';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { displayErrorMessage } from '../../../components/Error';
+import Loader from '../../../components/Loader';
+import Message from '../../../components/Message';
 import { ISCANCELLED, ISCONFIRM, ISRECEIVED } from '../../../constants';
+import {
+  useDeleteOrderMutation,
+  useGetOrdersQuery,
+} from '../../../redux/query/ordersApiSlice';
 
 const OrderListScreen = () => {
   const { data: orders, isLoading, error, refetch } = useGetOrdersQuery();
@@ -98,7 +95,7 @@ const OrderListScreen = () => {
                     <td>
                       {typeof order.user === 'object' && order.user !== null
                         ? 'name' in order.user
-                          ? (order.user as { name?: string }).name ||
+                          ? order.user.name ||
                             'Unknown User'
                           : 'Unknown User'
                         : 'Unknown User'}

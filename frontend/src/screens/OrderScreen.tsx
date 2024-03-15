@@ -1,37 +1,34 @@
-import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import {
-  Row,
-  Col,
-  ListGroup,
-  Image,
-  Card,
-  Button,
- 
-} from 'react-bootstrap';
-import { PayPalButtons, usePayPalScriptReducer, SCRIPT_LOADING_STATE, PayPalButtonsComponentProps } from '@paypal/react-paypal-js';
-import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import Message, { IMessageProps } from '../components/Message';
-import Loader from '../components/Loader';
-import React from 'react';
+import { IOrderItem } from '@/interfaces/Order';
 import { IUser } from '@/interfaces/User';
+import { CreateOrderActions, CreateOrderData, OnApproveActions, OnApproveData } from '@paypal/paypal-js';
+import { PayPalButtons, SCRIPT_LOADING_STATE, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+import React, { useEffect, useState } from 'react';
+import {
+  Button,
+  Card,
+  Col,
+  Image,
+  ListGroup,
+  Row,
+} from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { displayErrorMessage } from '../components/Error';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
 import {
   useDeliverOrderMutation,
   useGetOrderDetailsQuery,
   useGetPaypalClientIdQuery,
   usePayOrderMutation,
 } from '../redux/query/ordersApiSlice';
-import { IOrder, IOrderItem } from '@/interfaces/Order';
-import { displayErrorMessage } from '../components/Error';
-import { CreateOrderActions, CreateOrderData, OnApproveActions, OnApproveData } from '@paypal/paypal-js';
 
 const OrderScreen: React.FC = () => {
   const { id: orderId } = useParams<{ id: string }>();
-  const [showPaymentSuccessBill, setShowPaymentSuccessBill] = useState(false);
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+
+
+
   const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId as string);
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
   const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
@@ -86,7 +83,7 @@ const dataOrder = order?.orderItems.filter(item => {
         setIsOrderPaid(updatedOrder.data.isPaid);
       }
       
-      setShowPaymentSuccessBill(true);
+    
       toast.success('Đơn hàng đã thanh toán');
     } catch (err) {
       displayErrorMessage(err);
@@ -94,7 +91,8 @@ const dataOrder = order?.orderItems.filter(item => {
   };
 
   const onError = (err: Record<string, unknown>) => {
-    toast.error(err.message as string);
+    if(typeof err.message === "string")
+    toast.error(err.message);
   };
 
   const createOrder = (data: CreateOrderData, actions: CreateOrderActions) => {
@@ -111,7 +109,7 @@ const dataOrder = order?.orderItems.filter(item => {
       });
   };
   const deliverHandler = async () => {
-    await deliverOrder(orderId as string);
+    await deliverOrder(orderId || '');
     refetch();
   };
   return isLoading ? (
@@ -223,7 +221,7 @@ const dataOrder = order?.orderItems.filter(item => {
             createOrder={createOrder}
             onApprove={onApprove}
             onError={onError}
-            onClick={handleShow}
+          
           ></PayPalButtons>
         </div>
       </div>

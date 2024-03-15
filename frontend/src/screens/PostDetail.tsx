@@ -1,12 +1,11 @@
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { useGetPostDetailsQuery } from '../redux/query/postSlice';
+import { Link, useParams } from 'react-router-dom';
 import Loader from '../components/Loader';
-import Message, { IMessageProps } from '../components/Message';
+import Message from '../components/Message';
+import { useGetPostDetailsQuery } from '../redux/query/postSlice';
 
 const PostDetail = () => {
   const { postId } = useParams();
-  const { data: post, isLoading, error } = useGetPostDetailsQuery(postId as string);
+  const { data: post, isLoading, error } = useGetPostDetailsQuery(postId || '');
   return (
     <div className='container mt-4'>
       {isLoading ? (
