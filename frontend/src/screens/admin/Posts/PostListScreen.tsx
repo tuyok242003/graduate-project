@@ -4,14 +4,10 @@ import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { displayErrorMessage } from '../../../components/Error'; 
+import { displayErrorMessage } from '../../../components/Error';
 import Loader from '../../../components/Footer';
 import Message from '../../../components/Message';
-import {
-
-  useDeletePostMutation,
-  useGetPostsQuery,
-} from '../../../redux/query/postSlice';
+import { useDeletePostMutation, useGetPostsQuery } from '../../../redux/query/apiSlice';
 import { PostStyled } from './styled';
 
 const PostListScreen = () => {
@@ -31,7 +27,7 @@ const PostListScreen = () => {
       }
     }
   };
- 
+
   const createPostHandler = async () => {
     try {
       navigate('/admin/post/add');
@@ -44,89 +40,71 @@ const PostListScreen = () => {
   const indexOfFirstPost = indexOfLastPost - ordersPerPage;
   const currentPosts = posts?.slice(indexOfFirstPost, indexOfLastPost);
   return (
-   <PostStyled>
-     <>
-      <Row className='align-items-center'>
-        <Col>
-          <h1>Posts</h1>
-        </Col>
-        <Col className='text-end'>
-          <Button className='my-3' onClick={createPostHandler}>
-            <FaPlus /> Create Post
-          </Button>
-        </Col>
-      </Row>
-   
+    <PostStyled>
+      <>
+        <Row className="align-items-center">
+          <Col>
+            <h1>Posts</h1>
+          </Col>
+          <Col className="text-end">
+            <Button className="my-3" onClick={createPostHandler}>
+              <FaPlus /> Create Post
+            </Button>
+          </Col>
+        </Row>
 
-      {loadingDelete && <Loader />}
+        {loadingDelete && <Loader />}
 
-      {isLoading ? (
-        <Loader />
-      ) : error ? (
-        <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
-      ) : (
-        <>
-          <Table striped bordered hover responsive className='table-sm'>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>IMG</th>
-                <th>CONTENT</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentPosts?.map((post) => (
-                <tr key={post._id}>
-                  <td>{post._id}</td>
-                  <td>{post.postName}</td>
-                  <td>
-                    {post.image && (
-                      <img
-                      className='img-post'
-                        src={post.image}
-                        alt={post.postName}
-                      
-                      />
-                    )}
-                  </td>
-                  <td>{post.content}</td>
-                  <td>
-                    <LinkContainer to={`/admin/post/${post._id}/edit`}>
-                      <Button variant='light' className='btn-sm mx-2'>
-                        <FaEdit />
-                      </Button>
-                    </LinkContainer>
-                    <Button
-                      variant='danger'
-                      className='btn-sm'
-                      onClick={() =>deleteHandler(post._id)}
-                    >
-                      <FaTrash className='fatrash' />
-                    </Button>
-                  </td>
+        {isLoading ? (
+          <Loader />
+        ) : error ? (
+          <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
+        ) : (
+          <>
+            <Table striped bordered hover responsive className="table-sm">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>NAME</th>
+                  <th>IMG</th>
+                  <th>CONTENT</th>
+                  <th></th>
                 </tr>
+              </thead>
+              <tbody>
+                {currentPosts?.map((post) => (
+                  <tr key={post._id}>
+                    <td>{post._id}</td>
+                    <td>{post.postName}</td>
+                    <td>{post.image && <img className="img-post" src={post.image} alt={post.postName} />}</td>
+                    <td>{post.content}</td>
+                    <td>
+                      <LinkContainer to={`/admin/post/${post._id}/edit`}>
+                        <Button variant="light" className="btn-sm mx-2">
+                          <FaEdit />
+                        </Button>
+                      </LinkContainer>
+                      <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(post._id)}>
+                        <FaTrash className="fatrash" />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            <Pagination>
+              {Array.from({
+                length: Math.ceil((posts?.length || 0) / ordersPerPage) || 1,
+              }).map((page, index) => (
+                <Pagination.Item key={index} active={index + 1 === currentPage} onClick={() => setCurrentPage(index + 1)}>
+                  {index + 1}
+                </Pagination.Item>
               ))}
-            </tbody>
-          </Table>
-          <Pagination>
-            {Array.from({
-              length: Math.ceil((posts?.length || 0) / ordersPerPage) || 1,
-            }).map((page, index) => (
-              <Pagination.Item
-                key={index}
-                active={index + 1 === currentPage}
-                onClick={() => setCurrentPage(index + 1)}
-              >
-                {index + 1}
-              </Pagination.Item>
-            ))}
-          </Pagination>
-        </>
-      )}
-    </>
-   </PostStyled>
+            </Pagination>
+          </>
+        )}
+      </>
+    </PostStyled>
   );
 };
 

@@ -3,9 +3,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import Loader from '../../../components/Footer';
 import Message from '../../../components/Message';
 import { CANCEL, CONFIRM, RECEIVED } from '../../../constants/constants';
-import {
-  useGetOrdersQuery
-} from '../../../redux/query/ordersApiSlice';
+import { useGetOrdersQuery } from '../../../redux/query/apiSlice';
 import { IsOrderStyled } from './styled';
 
 const IsNotReceived = () => {
@@ -24,7 +22,7 @@ const IsNotReceived = () => {
           {buttonLinks.map((link, index) => (
             <td key={index}>
               <LinkContainer to={link.to}>
-                <Button className='btn-sm' variant='secondary'>
+                <Button className="btn-sm" variant="secondary">
                   {link.text}
                 </Button>
               </LinkContainer>
@@ -33,9 +31,9 @@ const IsNotReceived = () => {
           {isLoading ? (
             <Loader />
           ) : error ? (
-            <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
+            <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
           ) : (
-            <Table striped hover responsive className='table-sm'>
+            <Table striped hover responsive className="table-sm">
               <thead>{/* Đặt tiêu đề ở đây */}</thead>
               {/* <tbody>
               {orders

@@ -1,23 +1,17 @@
-import { ICategories } from '@/interfaces/Category';
-import { IProducts } from '@/interfaces/Products';
+import { ICategories } from '../../interfaces/OutShop';
+import { IProducts } from '../../interfaces/OutShop';
 import { useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import Loader from '../../components/Footer'
+import Loader from '../../components/Footer';
 import Message from '../../components/Message';
 import Meta from '../../components/Meta';
 import PostCarousel from '../../components/PostCarousel.tsx';
 import Product from '../../components/Product';
-import {
-  useGetProductsQuery,
-  useSearchProductsByCategoryQuery,
-} from '../../redux/query/productsApiSlice';
+import { useGetProductsQuery, useSearchProductsByCategoryQuery } from '../../redux/query/apiSlice';
 const HomeScreen = () => {
- 
   const { data, isLoading, error } = useGetProductsQuery();
-  const [selectedCategory] = useState<ICategories | null>(
-    null
-  );
+  const [selectedCategory] = useState<ICategories | null>(null);
   const reponse = useSearchProductsByCategoryQuery({
     category: selectedCategory,
   });
@@ -27,25 +21,20 @@ const HomeScreen = () => {
 
   return (
     <>
-     
-        <PostCarousel />
-    
-        <Link to='/' className='btn btn-light mb-4'>
-          Go Back
-        </Link>
- 
+      <PostCarousel />
+
+      <Link to="/" className="btn btn-light mb-4">
+        Go Back
+      </Link>
+
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
+        <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
       ) : (
         <>
           <Meta />
-          <h1 hidden>
-            {selectedCategory
-              ? `Products in ${selectedCategory}`
-              : 'Latest Products'}
-          </h1>
+          <h1 hidden>{selectedCategory ? `Products in ${selectedCategory}` : 'Latest Products'}</h1>
           {/* <div>
             <Category onCategoryClick={handleCategoryClick} />
             {selectedCategory && (
@@ -58,13 +47,11 @@ const HomeScreen = () => {
             )}
           </div> */}
           <Row>
-            {
-              data?.products.map((product:IProducts) => (
-                <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                  <Product product={product} />
-                </Col>
-              ))
-            }
+            {data?.products.map((product: IProducts) => (
+              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                <Product product={product} />
+              </Col>
+            ))}
           </Row>
           <Row></Row>
         </>

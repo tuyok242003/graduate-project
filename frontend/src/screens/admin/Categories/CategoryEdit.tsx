@@ -4,13 +4,10 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { displayErrorMessage } from '../../../components/Error';
 import FormContainer from '../../../components/FormContainer';
-import Loader from '../../../components/Footer'
+import Loader from '../../../components/Footer';
 import Message from '../../../components/Message';
 import { CONTACTADD } from '../../../constants/constants';
-import {
-  useGetCategoryDetailsQuery,
-  useUpdateCategoryMutation,
-} from '../../../redux/query/categorySlice';
+import { useGetCategoryDetailsQuery, useUpdateCategoryMutation } from '../../../redux/query/apiSlice';
 
 import { CategoryAdminStyled } from './styled';
 
@@ -19,29 +16,23 @@ const CategoryEditScreen = () => {
 
   const [name, setName] = useState('');
 
-  const {
-    data: category,
-    isLoading,
-    refetch,
-    error,
-  } = useGetCategoryDetailsQuery(categoryId || '');
-  const [updateCategory, { isLoading: loadingUpdate }] =
-    useUpdateCategoryMutation();
+  const { data: category, isLoading, refetch, error } = useGetCategoryDetailsQuery(categoryId || '');
+  const [updateCategory, { isLoading: loadingUpdate }] = useUpdateCategoryMutation();
 
   const navigate = useNavigate();
 
   const isFormValid = () => {
-   
-    if (!name ) {
+    if (!name) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
-      return false}
+      return false;
+    }
     return true;
-  ;}
-const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
-  category.preventDefault()
-  if (!isFormValid()) {
-    return;
-  }
+  };
+  const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
+    category.preventDefault();
+    if (!isFormValid()) {
+      return;
+    }
     try {
       await updateCategory({
         categoryId,
@@ -49,7 +40,7 @@ const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
       }).unwrap();
       toast.success('Category updated');
       refetch();
-    navigate(CONTACTADD);
+      navigate(CONTACTADD);
     } catch (err) {
       displayErrorMessage(err);
     }
@@ -62,43 +53,38 @@ const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
   }, [category]);
 
   return (
-  <CategoryAdminStyled>
+    <CategoryAdminStyled>
       <>
-<Link to={CONTACTADD} className='btn btn-light my-3'>
-        Go Back
-      </Link>
-      <FormContainer>
-        <h1>Edit Category</h1>
-        {loadingUpdate && <Loader />}
-        {isLoading ? (
-          <Loader />
-        ) : error ? (
-          <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
-        ) : (
-          <Form onSubmit={submitHandler}>
-            <Form.Group controlId='name'>
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter name'
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+        <Link to={CONTACTADD} className="btn btn-light my-3">
+          Go Back
+        </Link>
+        <FormContainer>
+          <h1>Edit Category</h1>
+          {loadingUpdate && <Loader />}
+          {isLoading ? (
+            <Loader />
+          ) : error ? (
+            <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
+          ) : (
+            <Form onSubmit={submitHandler}>
+              <Form.Group controlId="name">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
 
-            <Button
-            className='button-category'
-              type='submit'
-              variant='primary'
-             
-            >
-              Update
-            </Button>
-          </Form>
-        )}
-      </FormContainer>
-    </>
-  </CategoryAdminStyled>
+              <Button className="button-category" type="submit" variant="primary">
+                Update
+              </Button>
+            </Form>
+          )}
+        </FormContainer>
+      </>
+    </CategoryAdminStyled>
   );
 };
 

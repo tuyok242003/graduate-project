@@ -6,7 +6,7 @@ interface IFormContainerProps {
 const FormContainer: React.FC<IFormContainerProps> = ({ children }) => {
   return (
     <Container>
-      <Row varoiant className='justify-content-md-center'>
+      <Row variant className="justify-content-md-center">
         <Col xs={12} md={6}>
           {children}
         </Col>

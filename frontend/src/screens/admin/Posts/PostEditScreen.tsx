@@ -2,19 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { displayErrorMessage } from '../../../components/Error'; 
+import { displayErrorMessage } from '../../../components/Error';
 import FormContainer from '../../../components/FormContainer';
 import Loader from '../../../components/Footer';
 import Message from '../../../components/Message';
 import { POSTLIST } from '../../../constants/constants';
-import {
-  useGetPostDetailsQuery,
-  useUpdatePostMutation,
-  useUploadPostImageMutation,
-} from '../../../redux/query/postSlice';
+import { useGetPostDetailsQuery, useUpdatePostMutation, useUploadPostImageMutation } from '../../../redux/query/apiSlice';
 import { IPostState } from './PostAddScreen';
 import { PostStyled } from './styled';
-import { IFormField } from '@/interfaces/FormField';
+import { IFormField } from '../../../interfaces/InShop';
 
 const PostEditScreen = () => {
   const { id: postId } = useParams();
@@ -24,17 +20,11 @@ const PostEditScreen = () => {
     content: '',
   });
   const [image, setImg] = useState('');
-  const {
-    data: post,
-    isLoading,
-    refetch,
-    error,
-  } = useGetPostDetailsQuery(postId || '');
+  const { data: post, isLoading, refetch, error } = useGetPostDetailsQuery(postId || '');
 
   const [updatePost, { isLoading: loadingUpdate }] = useUpdatePostMutation();
 
-  const [uploadPostImg, { isLoading: loadingUpload }] =
-    useUploadPostImageMutation();
+  const [uploadPostImg, { isLoading: loadingUpload }] = useUploadPostImageMutation();
 
   const navigate = useNavigate();
 
@@ -72,7 +62,7 @@ const PostEditScreen = () => {
       setState({ ...state, postName: post.postName, content: post.content });
       setImg(post.image);
     }
-  }, [post,state]);
+  }, [post, state]);
 
   const formData = new FormData();
   const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,21 +83,20 @@ const PostEditScreen = () => {
   };
 
   // Mảng các trường dữ liệu cho biểu mẫu
-  const formFields:IFormField[] = [
+  const formFields: IFormField[] = [
     {
       controlId: 'name',
       label: 'Name',
       type: 'text',
       placeholder: 'Enter name',
       value: state.postName,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setState({ ...state, postName: e.target.value }),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, postName: e.target.value }),
     },
     {
       controlId: 'image',
       label: 'Image',
-      value:image,
-      placeholder:'Enter Image',
+      value: image,
+      placeholder: 'Enter Image',
       type: 'file',
       onChange: uploadFileHandler,
     },
@@ -117,15 +106,14 @@ const PostEditScreen = () => {
       type: 'text',
       placeholder: 'Enter content',
       value: state.content,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setState({ ...state, content: e.target.value }),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, content: e.target.value }),
     },
   ];
 
   return (
     <PostStyled>
       <>
-        <Link to={POSTLIST} className='btn btn-light my-3'>
+        <Link to={POSTLIST} className="btn btn-light my-3">
           Go Back
         </Link>
         <FormContainer>
@@ -134,23 +122,18 @@ const PostEditScreen = () => {
           {isLoading ? (
             <Loader />
           ) : error ? (
-            <Message variant='danger'>Đã xảy ra lỗi. Vui lòng thử lại sau</Message>
+            <Message variant="danger">Đã xảy ra lỗi. Vui lòng thử lại sau</Message>
           ) : (
             <Form onSubmit={submitHandler}>
               {/* Sử dụng map để render các trường dữ liệu */}
               {formFields.map((field) => (
                 <Form.Group key={field.controlId} controlId={field.controlId}>
                   <Form.Label>{field.label}</Form.Label>
-                  <Form.Control
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
+                  <Form.Control type={field.type} placeholder={field.placeholder} value={field.value} onChange={field.onChange} />
                   {field.type === 'file' && loadingUpload && <Loader />}
                 </Form.Group>
               ))}
-              <Button type='submit' variant='primary'>
+              <Button type="submit" variant="primary">
                 Update
               </Button>
             </Form>

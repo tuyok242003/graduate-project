@@ -1,5 +1,5 @@
 import { displayErrorMessage } from '../../../components/Error';
-import { IVouchers } from '@/interfaces/Voucher';
+import { IVouchers } from '../../../interfaces/OutShop';
 import { useState } from 'react';
 import { Button, Col, Pagination, Row, Table } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
@@ -9,10 +9,7 @@ import { toast } from 'react-toastify';
 import Loader from '../../../components/Footer';
 import Message from '../../../components/Message';
 import { VOUCHERADD } from '../../../constants/constants';
-import {
-  useDeleteVoucherMutation,
-  useGetVouchersQuery,
-} from '../../../redux/query/voucherSlice';
+import { useDeleteVoucherMutation, useGetVouchersQuery } from '../../../redux/query/apiSlice';
 import { VoucherAdminStyled } from './styled';
 
 const VoucherListScreen = () => {
@@ -32,7 +29,7 @@ const VoucherListScreen = () => {
       }
     }
   };
- 
+
   const createVoucherHandler = async () => {
     try {
       navigate(VOUCHERADD);
@@ -45,86 +42,78 @@ const VoucherListScreen = () => {
   const indexOfFirstVoucher = indexOfLastVoucher - ordersPerPage;
   const currentVouchers = vouchers?.slice(indexOfFirstVoucher, indexOfLastVoucher);
   return (
-   <VoucherAdminStyled> <>
-      <Row className='align-items-center'>
-        <Col>
-          <h1>Vouchers</h1>
-        </Col>
-        <Col className='text-end'>
-          <Button className='my-3' onClick={createVoucherHandler}>
-            <FaPlus /> Create Voucher
-          </Button>
-        </Col>
-      </Row>
-    
+    <VoucherAdminStyled>
+      {' '}
+      <>
+        <Row className="align-items-center">
+          <Col>
+            <h1>Vouchers</h1>
+          </Col>
+          <Col className="text-end">
+            <Button className="my-3" onClick={createVoucherHandler}>
+              <FaPlus /> Create Voucher
+            </Button>
+          </Col>
+        </Row>
 
-      {loadingDelete && <Loader />}
+        {loadingDelete && <Loader />}
 
-      {isLoading ? (
-        <Loader />
-      ) : error ? (
-        <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
-      ) : (
-        <>
-          <Table striped bordered hover responsive className='table-sm'>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>TÊN</th>
-                <th>GIẢM</th>
-                <th>SỐ LƯỢNG</th>
-              
-                <th>TRUE/FALSE</th>
-             <th>ACTION</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentVouchers?.map((voucher: IVouchers) => (
-                <tr key={voucher._id}>
-                  <td>{voucher._id}</td>
-                  <td>{voucher.voucherName}</td>
-                  <td>
-                  {voucher.discountAmount}
-                  </td>
-                  <td>{voucher.qty}</td>
-                 
-                  <td>{voucher.isUsed.toString()}</td>
-                 
-                  <td>
-                    <LinkContainer to={`/admin/voucher/${voucher._id}`}>
-                      <Button variant='light' className='btn-sm mx-2'>
-                        <FaEdit />
-                      </Button>
-                    </LinkContainer>
-                    <Button
-                      variant='danger'
-                      className='btn-sm'
-                      onClick={() => deleteHandler(voucher._id || '')}
-                    >
-                      <FaTrash className='fatrash' />
-                    </Button>
-                  </td>
+        {isLoading ? (
+          <Loader />
+        ) : error ? (
+          <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
+        ) : (
+          <>
+            <Table striped bordered hover responsive className="table-sm">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>TÊN</th>
+                  <th>GIẢM</th>
+                  <th>SỐ LƯỢNG</th>
+
+                  <th>TRUE/FALSE</th>
+                  <th>ACTION</th>
+                  <th></th>
                 </tr>
+              </thead>
+              <tbody>
+                {currentVouchers?.map((voucher: IVouchers) => (
+                  <tr key={voucher._id}>
+                    <td>{voucher._id}</td>
+                    <td>{voucher.voucherName}</td>
+                    <td>{voucher.discountAmount}</td>
+                    <td>{voucher.qty}</td>
+
+                    <td>{voucher.isUsed.toString()}</td>
+
+                    <td>
+                      <LinkContainer to={`/admin/voucher/${voucher._id}`}>
+                        <Button variant="light" className="btn-sm mx-2">
+                          <FaEdit />
+                        </Button>
+                      </LinkContainer>
+                      <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(voucher._id || '')}>
+                        <FaTrash className="fatrash" />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            <Pagination>
+              {Array.from({
+                length: Math.ceil((vouchers?.length || 0) / ordersPerPage) || 1,
+              }).map((page, index) => (
+                <Pagination.Item key={index} active={index + 1 === currentPage} onClick={() => setCurrentPage(index + 1)}>
+                  {index + 1}
+                </Pagination.Item>
               ))}
-            </tbody>
-          </Table>
-          <Pagination>
-            {Array.from({
-              length: Math.ceil((vouchers?.length || 0) / ordersPerPage) || 1,
-            }).map((page, index) => (
-              <Pagination.Item
-                key={index}
-                active={index + 1 === currentPage}
-                onClick={() => setCurrentPage(index + 1)}
-              >
-                {index + 1}
-              </Pagination.Item>
-            ))}
-          </Pagination>
-        </>
-      )}
-    </></VoucherAdminStyled>
+            </Pagination>
+          </>
+        )}
+      </>
+    </VoucherAdminStyled>
   );
 };
 

@@ -7,16 +7,12 @@ import FormContainer from '../../../components/FormContainer';
 import Loader from '../../../components/Footer';
 import Message from '../../../components/Message';
 import { POSTLIST } from '../../../constants/constants';
-import {
-  useGetPostDetailsQuery,
-  useUpdatePostMutation,
-  useUploadPostImageMutation,
-} from '../../../redux/query/postSlice';
-import { IFormField } from '@/interfaces/FormField';
+import { useGetPostDetailsQuery, useUpdatePostMutation, useUploadPostImageMutation } from '../../../redux/query/apiSlice';
+import { IFormField } from '../../../interfaces/InShop';
 import { PostStyled } from './styled';
-export interface IPostState{
-  postName:string
-  content:string
+export interface IPostState {
+  postName: string;
+  content: string;
 }
 const PostAddScreen = () => {
   const { id: postId } = useParams();
@@ -26,24 +22,18 @@ const PostAddScreen = () => {
     content: '',
   });
   const [image, setImg] = useState('');
-  const {
-    data: post,
-    isLoading,
-    refetch,
-    error,
-  } = useGetPostDetailsQuery(postId || '');
+  const { data: post, isLoading, refetch, error } = useGetPostDetailsQuery(postId || '');
 
   const [updatePost, { isLoading: loadingUpdate }] = useUpdatePostMutation();
   const [uploadPostImg, { isLoading: loadingUpload }] = useUploadPostImageMutation();
   const navigate = useNavigate();
 
   useEffect(() => {
-  if (post && (post.postName !== state.postName || post.content !== state.content)) {
-    setState({ ...state, postName: post.postName, content: post.content });
-    setImg(post.image);
-  }
-}, [post, state]);
-
+    if (post && (post.postName !== state.postName || post.content !== state.content)) {
+      setState({ ...state, postName: post.postName, content: post.content });
+      setImg(post.image);
+    }
+  }, [post, state]);
 
   const isFormValid = () => {
     if (!state.postName || !state.content) {
@@ -94,32 +84,30 @@ const PostAddScreen = () => {
   };
 
   // Mảng mô tả các trường của form
-  const formFields:IFormField[] = [
+  const formFields: IFormField[] = [
     {
       controlId: 'name',
       label: 'Name',
-      type:'text',
+      type: 'text',
       placeholder: 'Enter name',
       value: state.postName,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setState({ ...state, postName: e.target.value }),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, postName: e.target.value }),
     },
     {
       controlId: 'image',
       label: 'Img',
-      value:image,
-      placeholder:'Enter img',
+      value: image,
+      placeholder: 'Enter img',
       type: 'file',
       onChange: uploadFileHandler,
     },
     {
       controlId: 'content',
       label: 'Content',
-      type:'text',
+      type: 'text',
       placeholder: 'Enter description',
       value: state.content,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setState({ ...state, content: e.target.value }),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, content: e.target.value }),
     },
   ];
 

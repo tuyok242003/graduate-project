@@ -18,16 +18,16 @@ const checkoutSteps: CheckoutStep[] = [
 ];
 
 const CheckoutSteps: React.FC<{
-  step1: boolean;
-  step2: boolean;
-  step3: boolean;
-  step4: boolean;
-  step5: boolean;
+  step1?: boolean;
+  step2?: boolean;
+  step3?: boolean;
+  step4?: boolean;
+  step5?: boolean;
 }> = ({ step1, step2, step3, step4, step5 }) => {
-  const steps: boolean[] = [step1, step2, step3, step4, step5];
+  const steps: (boolean | undefined)[] = [step1, step2, step3, step4, step5];
 
   return (
-    <Nav className='justify-content-center mb-4'>
+    <Nav className="justify-content-center mb-4">
       {checkoutSteps.map((step, index) => (
         <Nav.Item key={step.link}>
           {steps[index] ? (

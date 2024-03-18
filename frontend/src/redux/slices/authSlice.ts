@@ -1,13 +1,11 @@
-import { createAction, createSlice } from '@reduxjs/toolkit';
-import { IUser } from '@/interfaces/User';
+import { createSlice } from '@reduxjs/toolkit';
+import { IUser } from '../../interfaces/OutShop';
 
 interface AuthState {
   userInfo: IUser | null;
 }
 const initialState: AuthState = {
-  userInfo: localStorage.getItem('userInfo')
-    ? JSON.parse(localStorage.getItem('userInfo')!)
-    : null,
+  userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')!) : null,
 };
 const authSlice = createSlice({
   name: 'user',

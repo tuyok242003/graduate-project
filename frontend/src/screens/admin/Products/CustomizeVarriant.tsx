@@ -3,11 +3,11 @@ import { Form, Button } from 'react-bootstrap';
 import Loader from '../../../components/Footer';
 import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
-import { useAddVariantMutation, useUploadProductImageMutation } from '../../../redux/query/productsApiSlice';
+import { useAddVariantMutation, useUploadProductImageMutation } from '../../../redux/query/apiSlice';
 import { useNavigate, useParams } from 'react-router-dom';
-import { displayErrorMessage } from '../../../components/Error'; 
+import { displayErrorMessage } from '../../../components/Error';
 import { ProductAdminStyled } from './styled';
-import { IFormField } from '@/interfaces/FormField';
+import { IFormField } from '../../../interfaces/InShop';
 
 interface IVariantState {
   variantColor: string;
@@ -28,7 +28,7 @@ const CustomizeVariant = () => {
     variantQuantitySold: 0,
     variantThumb: '',
     variantTitle: '',
-    variantDiscount: 0
+    variantDiscount: 0,
   });
   const [variantImages, setVariantImages] = useState('');
   const navigate = useNavigate();
@@ -36,7 +36,15 @@ const CustomizeVariant = () => {
   const [uploadVariantImages, { isLoading: loadingUploadVariantImages }] = useUploadProductImageMutation();
 
   const isFormValid = () => {
-    return !!state.variantColor && !!state.variantPrice && !!state.variantQuantitySold && !!variantImages && !!state.variantCountInStock && !!state.variantDiscount && !!state.variantTitle;
+    return (
+      !!state.variantColor &&
+      !!state.variantPrice &&
+      !!state.variantQuantitySold &&
+      !!variantImages &&
+      !!state.variantCountInStock &&
+      !!state.variantDiscount &&
+      !!state.variantTitle
+    );
   };
 
   const submitHandler = async (variant: React.FormEvent<HTMLFormElement>) => {
@@ -46,7 +54,7 @@ const CustomizeVariant = () => {
       return;
     }
     try {
-    await addVariant({
+      await addVariant({
         productId: id,
         variantData: {
           color: state.variantColor,
@@ -58,7 +66,7 @@ const CustomizeVariant = () => {
           quantitySold: state.variantQuantitySold,
           discount: state.variantDiscount,
           id: '',
-          productId: ''
+          productId: '',
         },
       }).unwrap();
 
@@ -87,77 +95,70 @@ const CustomizeVariant = () => {
     }
   };
 
-  const formFields:IFormField[] = [
+  const formFields: IFormField[] = [
     {
       controlId: 'variantColor',
       label: 'Color',
-      type:'text',
+      type: 'text',
       placeholder: 'Enter color',
       value: state.variantColor,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setState({ ...state, variantColor: e.target.value }),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, variantColor: e.target.value }),
     },
     {
       controlId: 'variantPrice',
       label: 'Price',
-         type:'number',
+      type: 'number',
       placeholder: 'Enter price',
       value: state.variantPrice,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setState({ ...state, variantPrice: e.target.value }),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, variantPrice: e.target.value }),
     },
     {
       controlId: 'variantDiscount',
       label: 'Discount',
-         type:'number',
+      type: 'number',
       placeholder: 'Enter discount',
       value: state.variantDiscount.toString(),
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setState({ ...state, variantDiscount: parseInt(e.target.value) }),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, variantDiscount: parseInt(e.target.value) }),
     },
     {
       controlId: 'variantCountInStock',
       label: 'CountInStock',
-         type:'number',
+      type: 'number',
       placeholder: 'Enter countInStock',
       value: state.variantCountInStock.toString(),
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setState({ ...state, variantCountInStock: parseInt(e.target.value) }),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, variantCountInStock: parseInt(e.target.value) }),
     },
     {
       controlId: 'variantThumb',
       label: 'Thumbnail',
-         type:'text',
+      type: 'text',
       placeholder: 'Enter thumbnail url',
       value: state.variantThumb,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setState({ ...state, variantThumb: e.target.value }),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, variantThumb: e.target.value }),
     },
     {
       controlId: 'variantQuantitySold',
       label: 'QuantitySold',
-         type:'number',
+      type: 'number',
       placeholder: 'Enter thumbnail url',
       value: state.variantQuantitySold.toString(),
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setState({ ...state, variantQuantitySold: parseInt(e.target.value) }),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, variantQuantitySold: parseInt(e.target.value) }),
     },
     {
       controlId: 'variantImages',
       label: 'Images',
-       value:'image',
-       placeholder:"Enter image",
+      value: 'image',
+      placeholder: 'Enter image',
       type: 'file',
       onChange: uploadFileHandler,
     },
     {
       controlId: 'variantTitle',
       label: 'Title',
-         type:'text',
+      type: 'text',
       placeholder: 'Enter title',
       value: state.variantTitle,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setState({ ...state, variantTitle: e.target.value }),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, variantTitle: e.target.value }),
     },
   ];
 

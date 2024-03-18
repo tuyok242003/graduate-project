@@ -20,10 +20,9 @@ const ImageUpload = () => {
       });
     }
   };
-
   return (
     <div>
-      <input type='file' name='file' onChange={handleImage} />
+      <input type="file" name="file" onChange={handleImage} />
       <button onClick={handleApi}>Submit</button>
     </div>
   );

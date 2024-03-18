@@ -1,15 +1,12 @@
 import { displayErrorMessage } from '../../../components/Error';
-import { IUser } from '@/interfaces/User';
+import { IUser } from '../../../interfaces/OutShop';
 import { useState } from 'react';
 import { Button, Pagination, Table } from 'react-bootstrap';
 import { FaCheck, FaEdit, FaTimes, FaTrash } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import Loader from '../../../components/Footer';
 import Message from '../../../components/Message';
-import {
-  useDeleteUserMutation,
-  useGetUsersQuery,
-} from '../../../redux/query/usersApiSlice';
+import { useDeleteUserMutation, useGetUsersQuery } from '../../../redux/query/apiSlice';
 
 const UserListScreen = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
@@ -36,10 +33,10 @@ const UserListScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
+        <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
       ) : (
         <>
-          <Table striped bordered hover responsive className='table-sm'>
+          <Table striped bordered hover responsive className="table-sm">
             <thead>
               <tr>
                 <th>ID</th>
@@ -50,38 +47,24 @@ const UserListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {currentUsers?.map((user:IUser) => (
+              {currentUsers?.map((user: IUser) => (
                 <tr key={user._id}>
                   <td>{user._id}</td>
                   <td>{user.userName}</td>
                   <td>
                     <a href={`mailto:${user.email}`}>{user.email}</a>
                   </td>
-                  <td>
-                    {user.isAdmin ? (
-                      <FaCheck className='facheck'  />
-                    ) : (
-                      <FaTimes className='fatimes' />
-                    )}
-                  </td>
+                  <td>{user.isAdmin ? <FaCheck className="facheck" /> : <FaTimes className="fatimes" />}</td>
                   <td>
                     {!user.isAdmin && (
                       <>
-                        <LinkContainer
-                        className='container'
-                          to={`/admin/user/${user._id}/edit`}
-                         
-                        >
-                          <Button variant='light' className='btn-sm'>
+                        <LinkContainer className="container" to={`/admin/user/${user._id}/edit`}>
+                          <Button variant="light" className="btn-sm">
                             <FaEdit />
                           </Button>
                         </LinkContainer>
-                        <Button
-                          variant='danger'
-                          className='btn-sm'
-                          onClick={() => deleteHandler(user._id)}
-                        >
-                          <FaTrash className='fatrash' />
+                        <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(user._id)}>
+                          <FaTrash className="fatrash" />
                         </Button>
                       </>
                     )}
@@ -94,11 +77,7 @@ const UserListScreen = () => {
             {Array.from({
               length: Math.ceil((users?.length || 0) / usersPerPage) || 1,
             }).map((page, index) => (
-              <Pagination.Item
-                key={index}
-                active={index + 1 === currentPage}
-                onClick={() => setCurrentPage(index + 1)}
-              >
+              <Pagination.Item key={index} active={index + 1 === currentPage} onClick={() => setCurrentPage(index + 1)}>
                 {index + 1}
               </Pagination.Item>
             ))}

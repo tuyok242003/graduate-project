@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import Loader from '../../../components/Footer'
+import Loader from '../../../components/Footer';
 import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
-import {
-  useCreateProductMutation,
-  useUploadProductImageMutation,
-} from '../../../redux/query/productsApiSlice';
-import { useGetCategoriesQuery } from '../../../redux/query/categorySlice';
-import { ICategories } from '@/interfaces/Category';                         
+import { useCreateProductMutation, useUploadProductImageMutation, useGetCategoriesQuery } from '../../../redux/query/apiSlice';
+import { ICategories } from '../../../interfaces/OutShop';
 import { PRODUCTLIST } from '../../../constants/constants';
 import { ProductAdminStyled } from './styled';
-
 
 export interface IProductState {
   productName: string;
@@ -21,7 +16,15 @@ export interface IProductState {
   category: string;
   description: string;
 }
-
+interface IFormProduct {
+  controlId: string;
+  label: string;
+  placeholder?: string;
+  type?: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  children?: any;
+}
 const ProductAddScreen = () => {
   const [state, setState] = useState<IProductState>({
     productName: '',
@@ -57,23 +60,21 @@ const ProductAddScreen = () => {
     }
   };
 
-  const formFields = [
+  const formFields: IFormProduct[] = [
     {
       controlId: 'name',
       label: 'Name',
       placeholder: 'Enter name',
-      type:'text',
+      type: 'text',
       value: state.productName,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setState({ ...state, productName: e.target.value }),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, productName: e.target.value }),
     },
     {
       controlId: 'price',
       label: 'Price',
       placeholder: 'Enter price',
       value: state.price,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setState({ ...state, price: e.target.value }),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, price: e.target.value }),
     },
     {
       controlId: 'image',
@@ -86,8 +87,7 @@ const ProductAddScreen = () => {
       label: 'Brand',
       placeholder: 'Enter brand',
       value: state.brand,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setState({ ...state, brand: e.target.value }),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, brand: e.target.value }),
     },
     {
       controlId: 'category',
@@ -96,12 +96,10 @@ const ProductAddScreen = () => {
         <Loader />
       ) : (
         <Form.Control
-          as='select'
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setState({ ...state, category: e.target.value })
-          }
+          as="select"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, category: e.target.value })}
         >
-          <option value=''>Select Category</option>
+          <option value="">Select Category</option>
           {categories?.map((category: ICategories) => (
             <option key={category._id} value={category._id}>
               {category.name}
@@ -115,8 +113,7 @@ const ProductAddScreen = () => {
       label: 'Description',
       placeholder: 'Enter description',
       value: state.description,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setState({ ...state, description: e.target.value }),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, description: e.target.value }),
     },
   ];
 
@@ -125,7 +122,7 @@ const ProductAddScreen = () => {
     if (!productName || !price || !image || !brand || !category || !description) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
       return false;
-    } 
+    }
     if (!category.trim()) {
       toast.error('Vui lòng chọn danh mục sản phẩm.');
       return false;
@@ -148,7 +145,7 @@ const ProductAddScreen = () => {
         category: state.category,
         description: state.description,
       }).unwrap();
-    
+
       toast.success('Product added');
     } catch (error) {
       toast.error('Error');
@@ -158,7 +155,7 @@ const ProductAddScreen = () => {
   return (
     <ProductAdminStyled>
       <>
-        <Link to={PRODUCTLIST} className='btn btn-light my-3'>
+        <Link to={PRODUCTLIST} className="btn btn-light my-3">
           Go Back
         </Link>
         <FormContainer>
@@ -170,25 +167,16 @@ const ProductAddScreen = () => {
                 <Form.Label>{field.label}</Form.Label>
                 {field.type === 'file' ? (
                   <>
-                    <Form.Control
-                      type={field.type}
-                      aria-label='Choose File'
-                      onChange={field.onChange}
-                    />
+                    <Form.Control type={field.type} aria-label="Choose File" onChange={field.onChange} />
                     {loadingUpload && <Loader />}
                   </>
                 ) : (
-                  <Form.Control
-                    type='text'
-                    placeholder={field.placeholder}
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
+                  <Form.Control type="text" placeholder={field.placeholder} value={field.value} onChange={field.onChange} />
                 )}
                 {field.children && field.children}
               </Form.Group>
             ))}
-            <Button type='submit' variant='primary' style={{ marginTop: '1rem' }}>
+            <Button type="submit" variant="primary" style={{ marginTop: '1rem' }}>
               Add
             </Button>
           </Form>

@@ -1,14 +1,14 @@
 import React from 'react';
-import { useGetCategoriesQuery } from '../../redux/query/categorySlice';
+import { useGetCategoriesQuery } from '../../redux/query/apiSlice';
 import { Button, Table } from 'react-bootstrap';
-import Loader from '../Footer'
+import Loader from '../Footer';
 import Message from '../Message';
-import { ICategories } from '@/interfaces/Category';
+import { ICategories } from '../../interfaces/OutShop';
 import { CategoryStyled } from './styled';
-interface IOnCategory{
-  onCategoryClick:ICategories
+interface IOnCategory {
+  onCategoryClick: ICategories;
 }
-const Category = ({ onCategoryClick }:IOnCategory) => {
+const Category = ({ onCategoryClick }: IOnCategory) => {
   const { data: categories, isLoading, error } = useGetCategoriesQuery();
 
   if (isLoading) {
@@ -23,22 +23,15 @@ const Category = ({ onCategoryClick }:IOnCategory) => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <Message variant="danger">{error}</Message>
       ) : (
-      <CategoryStyled>
-          
-          <Table striped bordered hover responsive className='table-sm'>
+        <CategoryStyled>
+          <Table striped bordered hover responsive className="table-sm">
             <tbody>
-              {categories?.map((category:ICategories) => (
-                <Button
-                >
-                  {category.name}
-                </Button>
-              ))}
+              {categories?.map((category: ICategories) => <Button className="button-category">{category.name}</Button>)}
             </tbody>
           </Table>
-        
-      </CategoryStyled>
+        </CategoryStyled>
       )}
     </>
   );

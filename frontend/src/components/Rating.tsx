@@ -1,11 +1,9 @@
 import React from 'react';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
-
 interface IRatingProps {
   valueRating: number;
   text: string;
 }
-
 const Rating: React.FC<IRatingProps> = ({ valueRating, text }) => {
   const renderStars = (value: number) => {
     const stars = [];
@@ -22,13 +20,11 @@ const Rating: React.FC<IRatingProps> = ({ valueRating, text }) => {
     }
     return stars;
   };
-
   return (
-    <div className='rating'>
+    <div className="rating">
       <span>{renderStars(valueRating)}</span>
-      <span className='rating-text'>{text && text}</span>
+      <span className="rating-text">{text && text}</span>
     </div>
   );
 };
-
 export default Rating;

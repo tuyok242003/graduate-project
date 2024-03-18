@@ -1,9 +1,9 @@
 import { Button, Col, ListGroup, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { PostStyled } from '../../assets/styles/PostScreen';
-import Loader from '../../components/Footer'
+import Loader from '../../components/Footer';
 import Message from '../../components/Message';
-import { useGetPostsQuery } from '../../redux/query/postSlice';
+import { useGetPostsQuery } from '../../redux/query/apiSlice';
 const PostScreen = () => {
   const navigate = useNavigate();
   const { data: posts, isLoading, error } = useGetPostsQuery();
@@ -13,55 +13,38 @@ const PostScreen = () => {
   };
   return (
     <PostStyled>
-      <div className='container mt-4'>
-      <h1 className='mb-4'>Latest Posts</h1>
-      {isLoading ? (
-        <Loader />
-      ) : error ? (
-        <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
-      ) : (
-        <Row>
-          <Col md={8}>
-            {posts?.map((post) => (
-              <div key={post._id} className='mb-4 d-flex post-container'>
-                <img  
-                
-                  src={post.image}
-                  alt={post.content}
-                  className='post-image'
-                />
-                <div className='post-content' >
-                  <h5 style={{ marginLeft: 20 }}>{post.postName}</h5>
-                  <Button
-                    variant='primary'
-                    onClick={() => handleReadMore(post._id)}
-                    style={{ marginLeft: 20 }}
-                  >
-                    Read More
-                  </Button>
+      <div className="container mt-4">
+        <h1 className="mb-4">Latest Posts</h1>
+        {isLoading ? (
+          <Loader />
+        ) : error ? (
+          <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
+        ) : (
+          <Row>
+            <Col md={8}>
+              {posts?.map((post) => (
+                <div key={post._id} className="mb-4 d-flex post-container">
+                  <img src={post.image} alt={post.content} className="post-image" />
+                  <div className="post-content">
+                    <h5 style={{ marginLeft: 20 }}>{post.postName}</h5>
+                    <Button variant="primary" onClick={() => handleReadMore(post._id)} style={{ marginLeft: 20 }}>
+                      Read More
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </Col>
-          <Col md={4}>
-            <h3 className='mb-3'>
-              <span
-                className='new-post'
-              >
-                New Posts
-              </span>
-            </h3>
-            <ListGroup>
-              {posts
-                ?.slice(0, 5)
-                .map((post) => (
-                  <ListGroup.Item key={post._id}>{post.postName}</ListGroup.Item>
-                ))}
-            </ListGroup>
-          </Col>
-        </Row>
-      )}
-    </div>
+              ))}
+            </Col>
+            <Col md={4}>
+              <h3 className="mb-3">
+                <span className="new-post">New Posts</span>
+              </h3>
+              <ListGroup>
+                {posts?.slice(0, 5).map((post) => <ListGroup.Item key={post._id}>{post.postName}</ListGroup.Item>)}
+              </ListGroup>
+            </Col>
+          </Row>
+        )}
+      </div>
     </PostStyled>
   );
 };

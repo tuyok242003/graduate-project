@@ -10,7 +10,7 @@ import {
   useGetProductDetailsQuery,
   useUpdateProductMutation,
   useUploadProductImageMutation,
-} from '../../../redux/query/productsApiSlice';
+} from '../../../redux/query/apiSlice';
 import { IProductState } from './ProductAddScreen';
 import { ProductAdminStyled } from './styled';
 
@@ -71,7 +71,7 @@ const ProductEditScreen = () => {
         productName: product.productName,
         price: product.price,
         brand: product.brand,
-     category: product.category.name,
+        category: product.category.name,
         description: product.description,
       });
       setImage(product.image);
@@ -104,8 +104,7 @@ const ProductEditScreen = () => {
       label: 'Name',
       placeholder: 'Enter name',
       value: state.productName,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setState({ ...state, productName: e.target.value }),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, productName: e.target.value }),
     },
     {
       id: 'price',
@@ -113,8 +112,7 @@ const ProductEditScreen = () => {
       label: 'Price',
       placeholder: 'Enter price',
       value: state.price,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setState({ ...state, price: e.target.value }),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, price: e.target.value }),
     },
     {
       id: 'image',
@@ -128,15 +126,13 @@ const ProductEditScreen = () => {
       label: 'Brand',
       placeholder: 'Enter brand',
       value: state.brand,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setState({ ...state, brand: e.target.value }),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, brand: e.target.value }),
     },
     {
       id: 'category',
       type: 'select',
       label: 'Category',
-      onChange: (e: React.ChangeEvent<HTMLSelectElement>) =>
-        setState({ ...state, category: e.target.value }),
+      onChange: (e: React.ChangeEvent<HTMLSelectElement>) => setState({ ...state, category: e.target.value }),
       options: [
         { value: '', label: 'Select Category' },
         // Map categories here
@@ -148,15 +144,14 @@ const ProductEditScreen = () => {
       label: 'Description',
       placeholder: 'Enter description',
       value: state.description,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setState({ ...state, description: e.target.value }),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, description: e.target.value }),
     },
   ];
 
   return (
     <ProductAdminStyled>
       <>
-        <Link to={PRODUCTLIST} className='btn btn-light my-3'>
+        <Link to={PRODUCTLIST} className="btn btn-light my-3">
           Go Back
         </Link>
         <FormContainer>
@@ -165,7 +160,7 @@ const ProductEditScreen = () => {
           {isLoading ? (
             <Loader />
           ) : error ? (
-            <Message variant='danger'>Đã xảy ra lỗi. Vui lòng thử lại sau</Message>
+            <Message variant="danger">Đã xảy ra lỗi. Vui lòng thử lại sau</Message>
           ) : (
             <Form onSubmit={submitHandler}>
               {/* Sử dụng map để render các trường dữ liệu */}
@@ -173,7 +168,7 @@ const ProductEditScreen = () => {
                 <Form.Group key={field.id} controlId={field.id}>
                   <Form.Label>{field.label}</Form.Label>
                   {field.type === 'select' ? (
-                    <Form.Control as='select' onChange={field.onChange}>
+                    <Form.Control as="select" onChange={field.onChange}>
                       {field.options?.map((option, index) => (
                         <option key={index} value={option.value}>
                           {option.label}
@@ -191,7 +186,7 @@ const ProductEditScreen = () => {
                   {field.type === 'file' && loadingUpload && <Loader />}
                 </Form.Group>
               ))}
-              <Button type='submit' variant='primary' style={{ marginTop: '1rem' }}>
+              <Button type="submit" variant="primary" style={{ marginTop: '1rem' }}>
                 Update
               </Button>
             </Form>

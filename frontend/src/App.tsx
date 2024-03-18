@@ -1,12 +1,7 @@
 import React, { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import {
-  Outlet,
-  Route,
-  useLocation,
-  Routes
-} from 'react-router-dom';
+import { Outlet, Route, useLocation, Routes } from 'react-router-dom';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,7 +9,7 @@ import ImageUpload from './components/ImageUpload';
 import './assets/styles/bootstrap.custom.css';
 import './assets/styles/index.css';
 import Header from './components/Header';
-import Footer from './components/Footer'
+import Footer from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
 import MenuAdmin from './layout/MenuAdmin';
 import CancelScreen from './screens/Order/CancelScreen';
@@ -62,24 +57,75 @@ import VoucherListScreen from './screens/admin/Vouchers/VoucherListScreen';
 import VoucherAddScreen from './screens/admin/Vouchers/VoucherAdd';
 import VoucherEditScreen from './screens/admin/Vouchers/VoucherEdit';
 import VoucherScreen from './screens/Voucher/VoucherScreen';
-import VoucherList from './components/Voucher';
+
 import NotFoundScreen from './screens/NotFound/NotFoundScreen';
-import { CANCEL, CART, CATEGORYADD, CATEGORYEDIT, CATEGORYLIST, CONFIRM, CONTACT, CONTACTADD, CONTACTLIST, FORGOTPASSWORD, ISCANCELLED, ISCONFIRM, ISNOTRECEIVED, ISRECEIVED, LOGIN, NOTRECEIVED, ORDERDETAIL, ORDERLIST, ORDERSCREEN, PAYMENT, PLACEORDER, POST, POSTADD, POSTDETAIL, POSTEDIT, POSTLIST, PRODUCTADD, PRODUCTLIST, PRODUCTSCREEN, PROFILE, PROFILESCREEN, RECEIVED, REGISTER, SEARCH, SHIPPING, UPLOAD, USEREDIT, USERLIST, VARRIANTADD, VOUCHER, VOUCHERADD, VOUCHEREDIT, VOUCHERLIST, VOUCHERSCREEN } from './constants/constants';
+import {
+  CANCEL,
+  CART,
+  CATEGORYADD,
+  CATEGORYEDIT,
+  CATEGORYLIST,
+  CONFIRM,
+  CONTACT,
+  CONTACTADD,
+  CONTACTLIST,
+  FORGOTPASSWORD,
+  HOME,
+  HOMESCREEN,
+  ISCANCELLED,
+  ISCONFIRM,
+  ISNOTRECEIVED,
+  ISRECEIVED,
+  LOGIN,
+  NOTFOUND,
+  NOTRECEIVED,
+  ORDERDETAIL,
+  ORDERLIST,
+  ORDERSCREEN,
+  PAYMENT,
+  PLACEORDER,
+  POST,
+  POSTADD,
+  POSTDETAIL,
+  POSTEDIT,
+  POSTLIST,
+  PRODUCTADD,
+  PRODUCTADMINDETAIL,
+  PRODUCTEDITSCREEN,
+  PRODUCTLIST,
+  PRODUCTLISTSCREEN,
+  PRODUCTSCREEN,
+  PROFILE,
+  PROFILESCREEN,
+  RECEIVED,
+  REGISTER,
+  SEARCH,
+  SEARCHHOME,
+  SHIPPING,
+  UPLOAD,
+  USEREDIT,
+  USERLIST,
+  VARRIANTADD,
+  VOUCHER,
+  VOUCHERADD,
+  VOUCHEREDIT,
+  VOUCHERLIST,
+} from './constants/constants';
+
 const router = (
   <Routes>
-    <Route index path='/' element={<HomeScreen />} />
+    <Route index path={HOME} element={<HomeScreen />} />
     <Route path={SEARCH} element={<HomeScreen />} />
-    <Route path='/page/:pageNumber' element={<HomeScreen />} />
-    <Route path='/search/:keyword/page/:pageNumber' element={<HomeScreen />} />
+    <Route path={HOMESCREEN} element={<HomeScreen />} />
+    <Route path={SEARCHHOME} element={<HomeScreen />} />
     <Route path={PRODUCTSCREEN} element={<ProductScreen />} />
     <Route path={CART} element={<CartScreen />} />
-   
+
     <Route path={LOGIN} element={<LoginScreen />} />
     <Route path={REGISTER} element={<RegisterScreen />} />
     <Route path={FORGOTPASSWORD} element={<ForgotPassword />} />
     {/* Registered users */}
-    <Route path='' element={<PrivateRoute />}>
-    <Route path={VOUCHERSCREEN} element={<VoucherList />} />
+    <Route path="" element={<PrivateRoute />}>
       <Route path={SHIPPING} element={<ShippingScreen />} />
       <Route path={VOUCHER} element={<VoucherScreen />} />
       <Route path={PAYMENT} element={<PaymentScreen />} />
@@ -97,15 +143,12 @@ const router = (
       <Route path={NOTRECEIVED} element={<NotReceivedScreen />} />
     </Route>
     {/* Admin users */}
-    <Route path=''>
+    <Route path="">
       <Route path={ORDERLIST} element={<OrderListScreen />} />
       <Route path={ISCANCELLED} element={<IsCancelled />} />
       <Route path={VOUCHEREDIT} element={<VoucherEditScreen />} />
       <Route path={PRODUCTLIST} element={<ProductListScreen />} />
-      <Route
-        path='/admin/productlist/:pageNumber'
-        element={<ProductListScreen />}
-      />
+      <Route path={PRODUCTLISTSCREEN} element={<ProductListScreen />} />
       <Route path={VARRIANTADD} element={<CustomizeVarriant />} />
       <Route path={USERLIST} element={<UserListScreen />} />
       <Route path={PRODUCTADD} element={<ProductAddScreen />} />
@@ -117,25 +160,21 @@ const router = (
       <Route path={ISNOTRECEIVED} element={<IsNotReceived />} />
       <Route path={CONTACTLIST} element={<ContactListScreen />} />
       <Route path={CONTACTADD} element={<ContactAddScreen />} />
-      <Route path={`/admin${PRODUCTSCREEN}`} element={<ProductDetail />} />
+      <Route path={PRODUCTADMINDETAIL} element={<ProductDetail />} />
       <Route path={ORDERDETAIL} element={<OrderDetail />} />
       <Route path={CATEGORYLIST} element={<CategoryListScreen />} />
       <Route path={CATEGORYADD} element={<CategoryAdd />} />
       <Route path={CATEGORYEDIT} element={<CategoryEditScreen />} />
       <Route path={VOUCHERLIST} element={<VoucherListScreen />} />
       <Route path={VOUCHERADD} element={<VoucherAddScreen />} />
-      <Route
-        path={`/admin${PRODUCTSCREEN}/edit`}
-        element={<ProductEditScreen />}
-      />
+      <Route path={PRODUCTEDITSCREEN} element={<ProductEditScreen />} />
       <Route path={USEREDIT} element={<UserEditScreen />} />
     </Route>
-    <Route path='*' element={<NotFoundScreen />} />
+    <Route path={NOTFOUND} element={<NotFoundScreen />} />
   </Routes>
 );
 const paypalOptions = {
-  'client-id':
-    'AU8KNgaaUycpakPgyu__MDmoATKRmt--dr5sjfrLCR5nKdNdasPqN91_aB4lSygUNtY1qnjfz8T_go_r',
+  'client-id': 'AU8KNgaaUycpakPgyu__MDmoATKRmt--dr5sjfrLCR5nKdNdasPqN91_aB4lSygUNtY1qnjfz8T_go_r',
   currency: 'USD',
 };
 const App = () => {
@@ -158,18 +197,18 @@ const App = () => {
 
   return (
     <PayPalScriptProvider options={paypalOptions}>
-    <>
-      <ToastContainer />
-      {showHeader && <Header />}
-      {showAdmin && <MenuAdmin />}
-      <main className='py-3'>
-        <Container>
-          {router}
-          <Outlet />
-        </Container>
-      </main>
-      <Footer />
-    </>
+      <>
+        <ToastContainer />
+        {showHeader && <Header />}
+        {showAdmin && <MenuAdmin />}
+        <main className="py-3">
+          <Container>
+            {router}
+            <Outlet />
+          </Container>
+        </main>
+        <Footer />
+      </>
     </PayPalScriptProvider>
   );
 };

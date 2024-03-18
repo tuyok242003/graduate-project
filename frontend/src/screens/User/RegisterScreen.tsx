@@ -2,30 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Loader from "../../components/Loader"
+import Loader from '../../components/Loader';
 import FormContainer from '../../components/FormContainer';
 
-import { useRegisterMutation } from '../../redux/query/usersApiSlice';
+import { useRegisterMutation } from '../../redux/query/apiSlice';
 import { setCredentials } from '../../redux/slices/authSlice';
 import { toast } from 'react-toastify';
-import { IUser } from '@/interfaces/User';
+import { IUser } from '@/interfaces/OutShop';
 import { displayErrorMessage } from '../../components/Error';
 import { LOGIN } from '../../constants/constants';
-import { IFormField } from '@/interfaces/FormField';
-export interface IRegisterState{
-  userName:string;
-  email:string
-  password:string
-  confirmPassword:string
+import { IFormField } from '../../interfaces/InShop';
+export interface IRegisterState {
+  userName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 }
 const RegisterScreen = () => {
   const [state, setState] = useState<IRegisterState>({
     userName: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
   });
-  
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [register, { isLoading }] = useRegisterMutation();
@@ -45,34 +45,34 @@ const RegisterScreen = () => {
       controlId: 'userName',
       label: 'Name',
       type: 'text',
-      placeholder:'Enter name',
+      placeholder: 'Enter name',
       value: state.userName,
-     onChange:(e:React.ChangeEvent<HTMLInputElement>) => setState({...state,userName:e.target.value})
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, userName: e.target.value }),
     },
     {
       controlId: 'email',
       label: 'Email Address',
       type: 'email',
-      placeholder:'Enter Email',
+      placeholder: 'Enter Email',
       value: state.email,
-     onChange:(e:React.ChangeEvent<HTMLInputElement>) => setState({...state,email:e.target.value})
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, email: e.target.value }),
     },
     {
       controlId: 'password',
       label: 'Password',
       type: 'password',
-      placeholder:'Enter Password',
+      placeholder: 'Enter Password',
       value: state.password,
- onChange:(e:React.ChangeEvent<HTMLInputElement>) => setState({...state,password:e.target.value})
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, password: e.target.value }),
     },
     {
       controlId: 'confirmPassword',
       label: 'Confirm Password',
-      placeholder:'Enter Confirm Password',
+      placeholder: 'Enter Confirm Password',
       type: 'password',
       value: state.confirmPassword,
-    onChange:(e:React.ChangeEvent<HTMLInputElement>) => setState({...state,confirmPassword:e.target.value})
-    }
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, confirmPassword: e.target.value }),
+    },
   ];
 
   const submitHandler = async (registerUser: React.FormEvent<HTMLFormElement>) => {
@@ -96,22 +96,17 @@ const RegisterScreen = () => {
       <h1>Register</h1>
       <Form onSubmit={submitHandler}>
         {formFields.map((field) => (
-          <Form.Group key={field.controlId} className='my-2' controlId={field.controlId}>
+          <Form.Group key={field.controlId} className="my-2" controlId={field.controlId}>
             <Form.Label>{field.label}</Form.Label>
-            <Form.Control
-              type={field.type}
-              placeholder={`Enter ${field.label}`}
-              value={field.value}
-                onChange={field.onChange}
-            />
+            <Form.Control type={field.type} placeholder={`Enter ${field.label}`} value={field.value} onChange={field.onChange} />
           </Form.Group>
         ))}
-        <Button disabled={isLoading} type='submit' variant='primary'>
+        <Button disabled={isLoading} type="submit" variant="primary">
           Register
         </Button>
         {isLoading && <Loader />}
       </Form>
-      <Row className='py-3'>
+      <Row className="py-3">
         <Col>
           Already have an account? <Link to={redirect ? `/login?redirect=${redirect}` : LOGIN}>Login</Link>
         </Col>
