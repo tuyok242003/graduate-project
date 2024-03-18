@@ -1,22 +1,16 @@
 import React, { useState } from 'react';
+import { useAddContactMutation } from '../../redux/query/contactSlice';
 import { Link, useNavigate } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
-import Loader from '../../../components/Footer'
-import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
-import { useAddContactMutation } from '../../../redux/query/contactSlice';
-import { displayErrorMessage } from '../../../components/Error';
-import { CONTACTLIST } from '../../../constants/constants';
-import { ContactAdminStyle } from './styled';
+import FormContainer from '../../components/FormContainer';
+import { Button, Form } from 'react-bootstrap';
+import Loader from '../../components/Footer'
+import { displayErrorMessage } from '../../components/Error';
+import { IContactState } from '../admin/Contacts/ContactAddScreen';
+import { ContactScreenStyled } from './styled';
+import { CONTACT } from '../../constants/constants';
 import { IFormField } from '@/interfaces/FormField';
-export interface IContactState {
-  contactName: string;
-  email: string;
-  phone: string;
-  content: string;
-}
-
-const ContactAddScreen = () => {
+const ContactScreen = () => {
   const [state, setState] = useState<IContactState>({
     contactName: '',
     email: '',
@@ -26,7 +20,7 @@ const ContactAddScreen = () => {
   const [addContact, { isLoading: loadingAdd }] = useAddContactMutation();
   const navigate = useNavigate();
 
-  const formFields: IFormField[]= [
+  const formFields:IFormField[] = [
     { controlId: 'name', label: 'Name', type: 'text', placeholder: 'Enter name', value: state.contactName, onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, contactName: e.target.value }) },
     { controlId: 'email', label: 'Email', type: 'text', placeholder: 'Enter email', value: state.email, onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, email: e.target.value }) },
     { controlId: 'phone', label: 'Phone', type: 'text', placeholder: 'Enter phone', value: state.phone, onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, phone: e.target.value }) },
@@ -66,9 +60,9 @@ const ContactAddScreen = () => {
   };
 
   return (
-    <ContactAdminStyle>
+    <ContactScreenStyled>
       <>
-        <Link to={CONTACTLIST} className='btn btn-light my-3'>
+        <Link to={CONTACT} className='btn btn-light my-3'>
           Go Back
         </Link>
         <FormContainer>
@@ -92,8 +86,7 @@ const ContactAddScreen = () => {
           </Form>
         </FormContainer>
       </>
-    </ContactAdminStyle>
+    </ContactScreenStyled>
   );
 };
-
-export default ContactAddScreen;
+export default ContactScreen;

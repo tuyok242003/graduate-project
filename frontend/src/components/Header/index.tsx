@@ -16,6 +16,13 @@ interface ICartItem {
 qty:number
 reduce:number
 }
+interface INavItem {
+  key: string;
+  title: string;
+  link: string;
+  icon?: JSX.Element;
+}
+
 const Header = () => {
   const { cartItems } = useSelector((state: {cart?:{cartItems:ICartItem[]}}) => state.cart) || {};
   const { userInfo } = useSelector((state:{auth?:{userInfo:IUser}}) => state.auth) || {};
@@ -34,7 +41,11 @@ const Header = () => {
       console.error(err);
     }
   };
-
+const navItems: INavItem[] = [
+  { key: 'home', title: 'TRANG CHỦ', link: '/' },
+  { key: 'post', title: 'BÀI VIẾT', link: POST },
+  { key: 'contact', title: 'LIÊN HỆ', link: CONTACT },
+];
   return (
     <header>
      <HeaderHome>
@@ -42,16 +53,12 @@ const Header = () => {
         <Container>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
-            <Nav className='ms-auto'>
-              <LinkContainer className='home' to='/' >
-                <Navbar.Brand>TRANG CHỦ</Navbar.Brand>
-              </LinkContainer>
-              <LinkContainer className='post' to={POST} >
-                <Navbar.Brand>BÀI VIẾT</Navbar.Brand>
-              </LinkContainer>
-              <LinkContainer className='contact' to={CONTACT} >
-                <Navbar.Brand>LIÊN HỆ</Navbar.Brand>
-              </LinkContainer>
+          <Nav className='ms-auto'>
+                {navItems.map((item) => (
+                  <LinkContainer key={item.key} to={item.link}>
+                    <Nav.Link className='header'>{item.title}</Nav.Link>
+                  </LinkContainer>
+                ))}
               <SearchBox />
               { userInfo && (
               <LinkContainer to={CART}>

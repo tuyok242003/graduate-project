@@ -19,14 +19,15 @@ const LayoutAdmin = () => {
     <Layout className='layout-admin' >
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className='logo' />
-        <Menu theme='dark' mode='inline' defaultSelectedKeys={['1']}>
-          <Menu.Item key='1' icon={<AiOutlineUser />}>
-            <Link to={DASHBOARD}>Dashboard</Link>
-          </Menu.Item>
-          <Menu.Item key='2' icon={<AiOutlineVideoCamera />}>
-            <Link to={ADMINPRODUCT}>Product</Link>
-          </Menu.Item>
-        </Menu>
+       <Menu theme='dark' mode='inline' defaultSelectedKeys={['dashboard']}>
+  <Menu.Item key='dashboard' icon={<AiOutlineUser />}>
+    <Link to={DASHBOARD}>Dashboard</Link>
+  </Menu.Item>
+  <Menu.Item key='products' icon={<AiOutlineVideoCamera />}>
+    <Link to={ADMINPRODUCT}>Product</Link>
+  </Menu.Item>
+</Menu>
+
       </Sider>
       <Layout className='site-layout'>
         <Header className='site-layout-background'>

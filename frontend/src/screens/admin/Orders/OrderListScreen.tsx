@@ -33,6 +33,10 @@ const OrderListScreen = () => {
       }
     }
   };
+  const getStatusIcon = (status?: boolean, successColor = 'green', failureColor = 'red') => {
+  return status ? <FaCheck style={{ color: successColor }} /> : <FaTimes style={{ color: failureColor }} />;
+};
+
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = orders && Array.isArray(orders)
@@ -111,40 +115,13 @@ const OrderListScreen = () => {
                     <td>${order.totalPrice}</td>
                     <td>
                       {order.isPaid ? (
-                        order.paidAt instanceof Date ? (
+                        order.paidAt instanceof Date ? 
                           order.paidAt.toISOString().substring(0, 10)
-                        ) : (
-                          <FaCheck className='facheck'/>
-                      )
-                    ) : (
-                      <FaTimes className='fatimes'/>
-                      )}
+                        : getStatusIcon(true)) : getStatusIcon(false)}
                     </td>
-                    <td>
-                        {order.isDelivered ? (
-                          order.deliveredAt instanceof Date ? (
-                            order.deliveredAt.toISOString().substring(0, 10)
-                          ) : (
-                            <FaCheck className='facheck'/>
-                      )
-                    ) : (
-                      <FaTimes className='fatimes'/>
-                        )}
-                      </td>
-                      <td>
-                        {order.isConfirmed ? (
-                          <FaCheck className='facheck' />
-                        ) : (
-                          <FaTimes className='fatimes' />
-                        )}
-                      </td>
-                      <td>
-                        {order.isCancelled ? (
-                         <FaCheck className='facheck' />
-                        ) : (
-                          <FaTimes className='fatimes' />
-                        )}
-                      </td>
+                   <td>{order.isDelivered ? (order.deliveredAt instanceof Date ? order.deliveredAt.toISOString().substring(0, 10) : getStatusIcon(true)) : getStatusIcon(false)}</td>
+<td>{getStatusIcon(order.isConfirmed)}</td>
+<td>{getStatusIcon(order.isCancelled)}</td>
 
                     <td>
                       <LinkContainer to={`/admin/order/${order._id}`}   

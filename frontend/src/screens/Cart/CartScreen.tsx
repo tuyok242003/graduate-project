@@ -10,10 +10,11 @@ import {
   Card,
 } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
-import Message from '../components/Message';
-import { addToCart, removeFromCart, increaseQty, decreaseQty } from '../redux/slices/cartSlice';
+import Message from '../../components/Message';
+import { removeFromCart, increaseQty, decreaseQty } from '../../redux/slices/cartSlice';
 import {  IOrderItem,IShippingAddress,IVoucherName } from '@/interfaces/Order';
 import React,{useState} from 'react';
+import { CartScreenStyled } from './styled';
 export interface IRootState {
   cart: {
     cartItems: IOrderItem[];
@@ -49,13 +50,6 @@ const handleSelectAll = () => {
       setSelectedItems((prevSelected) => [...prevSelected, id]);
     }
   };
-  const updateCart = (id: string, qty: number) => {
-    dispatch(addToCart({ _id: id , qty})); 
-  };
-
-  const addToCartHandler = (product: IOrderItem , qty: number) => {
-    updateCart(product._id, qty); 
-  };
   const removeFromCartHandler = (id: string) => {
     dispatch(removeFromCart(id));
   };
@@ -74,12 +68,13 @@ const handleSelectAll = () => {
   const decreaseQuantity = (item: IOrderItem) => {
     dispatch(decreaseQty(item._id)); // Dispatch action to decrease quantity
   };
-  console.log(updateCart);
+
   
   return (
-    <Row>
+   <CartScreenStyled>
+     <Row>
       <Col md={8}>
-        <h1 style={{ marginBottom: '20px' }}>Shopping Cart</h1>
+        <h1 className='shopping-cart'>Shopping Cart</h1>
         {cartItems.length === 0 ? (
           <Message>
             Your cart is empty 
@@ -89,7 +84,7 @@ const handleSelectAll = () => {
              <Col md={1}>
                     {/* Add a checkbox for each item */}
                     <Form.Check
-                     style={{marginLeft:18}}
+                    className='select'
                       type="checkbox"
                       checked={selectAll}
                       onChange={handleSelectAll}
@@ -112,18 +107,15 @@ const handleSelectAll = () => {
                   <Col md={3} >
                     Phân loại:
                     <Link
-                      style={{
-                        textDecoration: 'none',
-                        marginLeft: 10,
-                        fontWeight: 'bold',
-                      }}
+                    className='color-cart'
+                     
                       to={`/product/${item.productId}`}
                     >
                       {item.color}
                     </Link>
                   </Col>
 
-                  <Col md={1} style={{ paddingTop: 10 }}>
+                  <Col md={1} className='price-cart' >
                     ${item.price}
                   </Col>
                   <Col md={3}>
@@ -136,7 +128,7 @@ const handleSelectAll = () => {
                     >
                       -
                     </Button>
-                    <span style={{ margin: '10px 10px ', marginTop:20 }}>{item.qty}</span>
+                    <span className='qty-cart'>{item.qty}</span>
                     <Button
                      
                       type='button'
@@ -198,6 +190,7 @@ const handleSelectAll = () => {
         </Card>
       </Col>
     </Row>
+   </CartScreenStyled>
   );
 };
 

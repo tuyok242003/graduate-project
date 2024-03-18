@@ -1,81 +1,43 @@
 import { Button, Col, Row, Table } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import Loader from '../../../components/Footer';
 import Message from '../../../components/Message';
-
-import { displayErrorMessage } from '../../../components/Error';
 import { CANCEL, CONFIRM, RECEIVED } from '../../../constants/constants';
 import {
-  useCancelOrderMutation,
-  useGetOrdersQuery,
+  useGetOrdersQuery
 } from '../../../redux/query/ordersApiSlice';
 import { IsOrderStyled } from './styled';
 
 const IsNotReceived = () => {
-  const { data: orders, isLoading, error, refetch } = useGetOrdersQuery();
-  const [cancelOrder] = useCancelOrderMutation();
-  const navigate = useNavigate();
-  const CancelHandler = async (id: string, isDelivered: boolean) => {
-    if (isDelivered) {
-      toast.error('Không thể huỷ đơn hàng đã được giao');
-      return;
-    }
-    if (!isDelivered) {
-      toast.error('Đơn hàng đã được huỷ trước đó');
-      return;
-    }
+  const { isLoading, error } = useGetOrdersQuery();
+  const buttonLinks = [
+    { to: RECEIVED, text: 'Đơn hàng đã giao' },
+    { to: CANCEL, text: 'Đơn hàng đã huỷ', className: 'cancel' },
+    { to: CONFIRM, text: 'Đơn hàng đã nhận', className: 'confirm' },
+  ];
 
-    const cancelMessage = 'Bạn có muốn huỷ đơn hàng!!!';
-    if (window.confirm(cancelMessage)) {
-      try {
-        await cancelOrder(id);
-        navigate('/');
-        refetch();
-        toast.success('Đơn hàng đã huỷ thành công');
-      } catch (err) {
-        displayErrorMessage(err);
-      }
-    }
-  };
   return (
-  
     <IsOrderStyled>
       <Row>
-      <Col md={9}>
-        <h2>Đơn hàng chưa giao</h2>
-        <td>
-          <LinkContainer to={RECEIVED}>
-            <Button className='btn-sm' variant='secondary'>
-              Đơn hàng đã giao
-            </Button>
-          </LinkContainer>
-        </td>
-        <td>
-          <LinkContainer className='cancel' to={CANCEL} >
-            <Button className='btn-sm' variant='secondary'>
-              Đơn hàng đã huỷ
-            </Button>
-          </LinkContainer>
-        </td>
-        <td>
-          <LinkContainer className='confirm' to={CONFIRM} >
-            <Button className='btn-sm' variant='secondary'>
-              Đơn hàng đã nhận
-            </Button>
-          </LinkContainer>
-        </td>
-        {isLoading ? (
-          <Loader />
-        ) : error ? (
-          <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
-        ) : (
-          <Table striped hover responsive className='table-sm'>
-            <thead>
-            
-            </thead>
-            {/* <tbody>
+        <Col md={9}>
+          <h2>Đơn hàng chưa giao</h2>
+          {buttonLinks.map((link, index) => (
+            <td key={index}>
+              <LinkContainer to={link.to}>
+                <Button className='btn-sm' variant='secondary'>
+                  {link.text}
+                </Button>
+              </LinkContainer>
+            </td>
+          ))}
+          {isLoading ? (
+            <Loader />
+          ) : error ? (
+            <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
+          ) : (
+            <Table striped hover responsive className='table-sm'>
+              <thead>{/* Đặt tiêu đề ở đây */}</thead>
+              {/* <tbody>
               {orders
                 ?.filter((order) => !order.isDelivered)
                 .map((order) => (
@@ -131,12 +93,12 @@ const IsNotReceived = () => {
                   </tr>
                 ))}
             </tbody> */}
-          </Table>
-        )}
-      </Col>
-    </Row>
+            </Table>
+          )}
+        </Col>
+      </Row>
     </IsOrderStyled>
-  )
+  );
 };
 
 export default IsNotReceived;

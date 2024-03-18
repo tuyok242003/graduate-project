@@ -2,19 +2,21 @@ import { Button, Col, Row, Table } from 'react-bootstrap';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import { toast } from 'react-toastify';
-import Loader from '../components/Loader'
-import Message from '../components/Message';
+import Loader from '../../components/Loader'
+import Message from '../../components/Message';
 import { IOrder } from '@/interfaces/Order';
-import { displayErrorMessage } from '../components/Error';
+import { displayErrorMessage } from '../../components/Error';
 import {
   useCancelOrderMutation,
   useGetMyOrdersQuery,
-} from '../redux/query/ordersApiSlice';
-import { CANCEL } from '../constants/constants';
+} from '../../redux/query/ordersApiSlice';
+import { CANCEL, CONFIRM } from '../../constants/constants';
+import { OrderScreenStyled } from './styled';
+import { IButtonLink } from '@/interfaces/ButtonLink';
 
 const NotReceivedScreen = () => {
   const { data: orders, isLoading, error, refetch } = useGetMyOrdersQuery();
-  const [cancelOrder, { isLoading: loadingUpdateOrder }] =
+  const [cancelOrder] =
     useCancelOrderMutation();
 
   const CancelHandler = async (id: string, isDelivered: boolean) => {
@@ -36,31 +38,28 @@ const NotReceivedScreen = () => {
       }
     }
   };
+const getStatusIcon = (status?:boolean, successColor = 'green', failureColor = 'red') => {
+  return status ? <FaCheck style={{ color: successColor }} /> : <FaTimes style={{ color: failureColor }} />;
+};
+const buttonLinks:IButtonLink[] = [
+    { to: CONFIRM, text: 'Đơn hàng đã nhận', className:'confirm' },
+    { to: CANCEL, text: 'Đơn hàng đã huỷ', className: 'cancel' },
+   
+  ];
   return (
-    <Row>
+   <OrderScreenStyled>
+     <Row>
       <Col md={9}>
         <h2>Đơn hàng chưa giao</h2>
-        <td>
-          <LinkContainer to={`/received`}>
-            <Button className='btn-sm' variant='secondary'>
-              Đơn hàng đã giao
-            </Button>
-          </LinkContainer>
-        </td>
-        <td>
-          <LinkContainer to={CANCEL} style={{ marginLeft: 10 }}>
-            <Button className='btn-sm' variant='secondary'>
-              Đơn hàng đã huỷ
-            </Button>
-          </LinkContainer>
-        </td>
-        <td>
-          <LinkContainer to={`/confirm`} style={{ marginLeft: 10 }}>
-            <Button className='btn-sm' variant='secondary'>
-              Đơn hàng đã nhận
-            </Button>
-          </LinkContainer>
-        </td>
+       {buttonLinks.map((link, index) => (
+            <td key={index}>
+              <LinkContainer to={link.to}>
+                <Button className='btn-sm' variant='secondary'>
+                  {link.text}
+                </Button>
+              </LinkContainer>
+            </td>
+          ))}
         {isLoading ? (
           <Loader />
         ) : error ? (
@@ -90,25 +89,13 @@ const NotReceivedScreen = () => {
                         : ''}
                     </td>
                     <td>{order.totalPrice}</td>
-                    <td>
+                           <td>
                       {order.isPaid ? (
-                        <FaCheck style={{ color: 'green' }} />
-                      ) : (
-                        <FaTimes style={{ color: 'red' }} />
-                      )}
+                        order.paidAt instanceof Date ? 
+                          order.paidAt.toISOString().substring(0, 10)
+                        : getStatusIcon(true)) : getStatusIcon(false)}
                     </td>
-                    <td>
-                      {order.isDelivered ? (
-                        order.deliveredAt instanceof Date ? (
-                          order.deliveredAt.toISOString().substring(0, 10)
-                        ) : (
-                          <FaCheck style={{ color: 'green' }} />
-                        )
-                      ) : (
-                        <FaTimes style={{ color: 'red' }} />
-                      )}
-                    </td>
-
+                     <td>{order.isDelivered ? (order.deliveredAt instanceof Date ? order.deliveredAt.toISOString().substring(0, 10) : getStatusIcon(true)) : getStatusIcon(false)}</td>
                     <td>
                       <LinkContainer to={`/order/${order._id}`}>
                         <Button className='btn-sm' variant='light'>
@@ -135,6 +122,7 @@ const NotReceivedScreen = () => {
         )}
       </Col>
     </Row>
+   </OrderScreenStyled>
   );
 };
 

@@ -1,71 +1,44 @@
-import { LOGIN, PAYMENT, PLACEORDER, SHIPPING, VOUCHER } from '../constants/constants';
 import React from 'react';
 import { Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { LOGIN, PAYMENT, PLACEORDER, SHIPPING, VOUCHER } from '../constants/constants';
 
-const CheckoutSteps = ({
-  step1,
-  step2,
-  step3,
-  step4,
-  step5
-}: {
+interface CheckoutStep {
+  link: string;
+  title: string;
+  completed: boolean;
+}
+
+const checkoutSteps: CheckoutStep[] = [
+  { link: LOGIN, title: 'Sign In', completed: false },
+  { link: SHIPPING, title: 'Shipping', completed: false },
+  { link: VOUCHER, title: 'Add Voucher', completed: false },
+  { link: PAYMENT, title: 'Payment', completed: false },
+  { link: PLACEORDER, title: 'Place Order', completed: false },
+];
+
+const CheckoutSteps: React.FC<{
   step1: boolean;
   step2: boolean;
   step3: boolean;
   step4: boolean;
-  step5:boolean
-}) => {
+  step5: boolean;
+}> = ({ step1, step2, step3, step4, step5 }) => {
+  const steps: boolean[] = [step1, step2, step3, step4, step5];
+
   return (
     <Nav className='justify-content-center mb-4'>
-      <Nav.Item>
-        {step1 ? (
-          <LinkContainer to={LOGIN}>
-            <Nav.Link>Sign In</Nav.Link>
-          </LinkContainer>
-        ) : (
-          <Nav.Link disabled>Sign In</Nav.Link>
-        )}
-      </Nav.Item>
-
-      <Nav.Item>
-        {step2 ? (
-          <LinkContainer to={SHIPPING}>
-            <Nav.Link>Shipping</Nav.Link>
-      
-          </LinkContainer>
-        ) : (
-          <Nav.Link disabled>Shipping</Nav.Link>
-        )}
-      </Nav.Item>
-      <Nav.Item>
-        {step3 ? (
-          <LinkContainer to={VOUCHER}>
-            <Nav.Link>Add Voucher</Nav.Link>
-          </LinkContainer>
-        ) : (
-          <Nav.Link disabled>Voucher</Nav.Link>
-        )}
-      </Nav.Item>
-      <Nav.Item>
-        {step4 ? (
-          <LinkContainer to={PAYMENT}>
-            <Nav.Link>Payment</Nav.Link>
-          </LinkContainer>
-        ) : (
-          <Nav.Link disabled>Payment</Nav.Link>
-        )}
-      </Nav.Item>
-
-      <Nav.Item>
-        {step5 ? (
-          <LinkContainer to={PLACEORDER}>
-            <Nav.Link>Place Order</Nav.Link>
-          </LinkContainer>
-        ) : (
-          <Nav.Link disabled>Place Order</Nav.Link>
-        )}
-      </Nav.Item>
+      {checkoutSteps.map((step, index) => (
+        <Nav.Item key={step.link}>
+          {steps[index] ? (
+            <LinkContainer to={step.link}>
+              <Nav.Link>{step.title}</Nav.Link>
+            </LinkContainer>
+          ) : (
+            <Nav.Link disabled>{step.title}</Nav.Link>
+          )}
+        </Nav.Item>
+      ))}
     </Nav>
   );
 };

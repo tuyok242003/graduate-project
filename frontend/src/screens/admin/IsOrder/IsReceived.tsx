@@ -9,32 +9,27 @@ import { useGetOrdersQuery } from '../../../redux/query/ordersApiSlice';
 
 const IsReceived = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
-
+const getStatusIcon = (status?:boolean, successColor = 'green', failureColor = 'red') => {
+  return status ? <FaCheck style={{ color: successColor }} /> : <FaTimes style={{ color: failureColor }} />;
+};
+const buttonLinks = [
+    { to: NOTRECEIVED, text: 'Đơn hàng chưa giao' },
+    { to: CANCEL, text: 'Đơn hàng đã huỷ', className: 'cancel' },
+    { to: CONFIRM, text: 'Đơn hàng đã nhận', className: 'confirm' },
+  ];
   return (
     <Row>
       <Col md={9}>
         <h2>Đơn hàng đã giao</h2>
-        <td>
-          <LinkContainer to={NOTRECEIVED}>
-            <Button className='btn-sm' variant='secondary'>
-              Đơn hàng chưa giao
-            </Button>
-          </LinkContainer>
-        </td>
-        <td>
-          <LinkContainer className='cancel' to={CANCEL} >
-            <Button className='btn-sm' variant='secondary'>
-              Đơn hàng đã huỷ
-            </Button>
-          </LinkContainer>
-        </td>
-        <td>
-          <LinkContainer className='confirm' to={CONFIRM} >
-            <Button className='btn-sm' variant='secondary'>
-              Đơn hàng đã nhận
-            </Button>
-          </LinkContainer>
-        </td>
+         {buttonLinks.map((link, index) => (
+            <td key={index}>
+              <LinkContainer to={link.to}>
+                <Button className='btn-sm' variant='secondary'>
+                  {link.text}
+                </Button>
+              </LinkContainer>
+            </td>
+          ))}
         {isLoading ? (
           <Loader />
         ) : error ? (
@@ -65,28 +60,13 @@ const IsReceived = () => {
                         : ''}
                     </td>
                     <td>{order.totalPrice}</td>
-                    <td>
+                            <td>
                       {order.isPaid ? (
-                        order.deliveredAt instanceof Date ? (
-                          order.deliveredAt.toISOString().substring(0, 10)
-                        ) : (
-                         <FaCheck className='facheck'/>
-                      )
-                    ) : (
-                      <FaTimes className='fatimes'/>
-                      )}
-                    </td>
-                    <td>
-                      {order.isDelivered ? (
-                        order.paidAt instanceof Date ? (
+                        order.paidAt instanceof Date ? 
                           order.paidAt.toISOString().substring(0, 10)
-                        ) : (
-                         <FaCheck className='facheck'/>
-                      )
-                    ) : (
-                      <FaTimes className='fatimes'/>
-                      )}
+                        : getStatusIcon(true)) : getStatusIcon(false)}
                     </td>
+                     <td>{order.isDelivered ? (order.deliveredAt instanceof Date ? order.deliveredAt.toISOString().substring(0, 10) : getStatusIcon(true)) : getStatusIcon(false)}</td>
                     <td>
                       <LinkContainer to={`/order/${order._id}`}>
                         <Button className='btn-sm' variant='light'>

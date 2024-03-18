@@ -32,4 +32,32 @@ export const ProductScreenStyled = styled.div`
     animation: ${pulse} 1s infinite;
     color: red;
   }
+  .image-product {
+    width: 400px;
+    height: 450px;
+  }
+  .variant-item {
+    cursor: pointer;
+  }
+  .qty {
+    margin-left: 70px;
+  }
+  .number-product {
+    padding-right: 10px;
+    margin-bottom: 40px;
+  }
+  .qty-btn {
+    margin-right: 10px;
+  }
+  .qty-btnnn {
+    margin-left: 10px;
+  }
+  .btn-block {
+    border: none;
+  }
+  .btn-blockbuy {
+    margin-left: 15px;
+    background: green;
+    border: none;
+  }
 `

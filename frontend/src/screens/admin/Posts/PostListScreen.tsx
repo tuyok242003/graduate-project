@@ -1,17 +1,17 @@
-import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button, Row, Col, Pagination } from 'react-bootstrap';
-import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
-import Message, { IMessageProps } from '../../../components/Message';
-import Loader from '../../../components/Footer'
-import { toast } from 'react-toastify';
-import {
-  useGetPostsQuery,
-  useDeletePostMutation,
-  useCreatePostMutation,
-} from '../../../redux/query/postSlice';
 import { useState } from 'react';
+import { Button, Col, Pagination, Row, Table } from 'react-bootstrap';
+import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
+import { LinkContainer } from 'react-router-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { displayErrorMessage } from '../../../components/Error';
+import Loader from '../../../components/Footer';
+import Message from '../../../components/Message';
+import {
+  useCreatePostMutation,
+  useDeletePostMutation,
+  useGetPostsQuery,
+} from '../../../redux/query/postSlice';
 import { PostStyled } from './styled';
 
 const PostListScreen = () => {

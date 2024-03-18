@@ -55,7 +55,11 @@ const [state,setState] = useState<IUserState>({
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
-
+const formFields = [
+    { controlId: 'name', label: 'Name', value: state.userName, onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, userName: e.target.value }) },
+    { controlId: 'email', label: 'Email Address', value: state.email, onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, email: e.target.value }) },
+    {controlId:'isAdmin',label:'Is Admin',vlaue:state.isAdmin,onChange:(e: React.ChangeEvent<HTMLInputElement>) => setState({...state,isAdmin:e.target.checked})}
+  ];
   return (
     <>
       <Link to={USERLIST} className='btn btn-light my-3'>
@@ -69,39 +73,24 @@ const [state,setState] = useState<IUserState>({
         ) : error ? (
           <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
         ) : (
-          <Form onSubmit={submitHandler}>
-            <Form.Group className='my-2' controlId='name'>
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type='name'
-                placeholder='Enter name'
-                value={state.userName}
-                onChange={(e) => setState({...state,userName:e.target.value})}
-              ></Form.Control>
-            </Form.Group>
+         <Form onSubmit={submitHandler}>
+            {formFields.map(field => (
+              <Form.Group key={field.controlId} className='my-2' controlId={field.controlId}>
+                <Form.Label>{field.label}</Form.Label>
+             <Form.Control
+  type={field.controlId === 'text' ? 'text' : 'otherType'}
+  placeholder={`Enter ${field.label}`}
+  value={field.value}
+  onChange={field.onChange}
+/>
 
-            <Form.Group className='my-2' controlId='email'>
-              <Form.Label>Email Address</Form.Label>
-              <Form.Control
-                type='email'
-                placeholder='Enter email'
-                value={state.email}
-                onChange={(e) => setState({...state,email:e.target.value})}
-              ></Form.Control>
-            </Form.Group>
-
-            <Form.Group className='my-2' controlId='isadmin'>
-              <Form.Check
-                type='checkbox'
-                label='Is Admin'
-                checked={state.isAdmin}
-                onChange={(e) => setState({...state,isAdmin:e.target.checked})}
-              ></Form.Check>
-            </Form.Group>
+              </Form.Group>
+            ))}
 
             <Button type='submit' variant='primary'>
               Update
             </Button>
+         
           </Form>
         )}
       </FormContainer>

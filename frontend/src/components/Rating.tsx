@@ -1,64 +1,34 @@
-
 import React from 'react';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
+
 interface IRatingProps {
-  valueRating: number
+  valueRating: number;
   text: string;
- 
 }
 
 const Rating: React.FC<IRatingProps> = ({ valueRating, text }) => {
+  const renderStars = (value: number) => {
+    const stars = [];
+    const ceilValue = Math.ceil(value);
+    const floorValue = Math.floor(value);
+    for (let i = 1; i <= 5; i++) {
+      if (i <= floorValue) {
+        stars.push(<FaStar key={i} />);
+      } else if (i === ceilValue && ceilValue !== floorValue) {
+        stars.push(<FaStarHalfAlt key={i} />);
+      } else {
+        stars.push(<FaRegStar key={i} />);
+      }
+    }
+    return stars;
+  };
+
   return (
     <div className='rating'>
-      <span>
-        {valueRating >= 1 ? (
-          <FaStar />
-        ) : valueRating >= 0.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {valueRating >= 2 ? (
-          <FaStar />
-        ) : valueRating >= 1.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {valueRating >= 3 ? (
-          <FaStar />
-        ) : valueRating >= 2.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {valueRating >= 4 ? (
-          <FaStar />
-        ) : valueRating >= 3.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {valueRating >= 5 ? (
-          <FaStar />
-        ) : valueRating >= 4.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
+      <span>{renderStars(valueRating)}</span>
       <span className='rating-text'>{text && text}</span>
     </div>
   );
 };
-
 
 export default Rating;

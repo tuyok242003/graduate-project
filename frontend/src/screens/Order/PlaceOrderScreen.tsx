@@ -3,14 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Message from '../components/Message';
-import CheckoutSteps from '../components/CheckoutSteps';
-import Loader from '../components/Loader'
-import { useCreateOrderMutation } from '../redux/query/ordersApiSlice';
-import { clearCartItems } from '../redux/slices/cartSlice';
-import {IRootState} from './CartScreen'
+import Message from '../../components/Message';
+import CheckoutSteps from '../../components/CheckoutSteps';
+import Loader from '../../components/Loader'
+import { useCreateOrderMutation } from '../../redux/query/ordersApiSlice';
+import { clearCartItems } from '../../redux/slices/cartSlice';
+import {IRootState} from '../Cart/CartScreen'
 import {  IOrderItem } from '@/interfaces/Order';
-import { PAYMENT, SHIPPING } from '../constants/constants';
+import { PAYMENT, SHIPPING } from '../../constants/constants';
+import { OrderScreenStyled } from './styled';
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();
   const cart = useSelector((state:IRootState) => state.cart);
@@ -48,7 +49,8 @@ const PlaceOrderScreen = () => {
   });
   const totalOrder = cart.shippingPrice + data.reduce((totalPrice, item) => totalPrice + (item.qty * (item.variant ? item.variant.price : item.price)), 0);
   return (
-    <>
+   <OrderScreenStyled>
+     <>
       <CheckoutSteps step1 step2 step3 step4 step5/>
       <Row>
         <Col md={8}>
@@ -78,7 +80,7 @@ const PlaceOrderScreen = () => {
     <Col md={2}><strong>Ảnh</strong></Col>
     <Col md={3}><strong>Sản phẩm</strong></Col>
     <Col md={2}><strong>Giá</strong></Col>
-    <Col md={1} style={{width:100}}><strong>Số lượng</strong></Col>
+    <Col md={1} className='qty'><strong>Số lượng</strong></Col>
     <Col md={2}><strong>Tổng tiền</strong></Col>
   </Row>
   {cart.cartItems.length === 0 ? (
@@ -88,11 +90,11 @@ const PlaceOrderScreen = () => {
       {data.map((item: IOrderItem, index: number) => (
         <ListGroup.Item key={index}>
           <Row>
-            <Col style={{marginRight:20}} md={2}>
+            <Col className='img' md={2}>
               <Image  src={item.images} alt={item.color} fluid rounded />
             </Col>
             <Col md={3}>
-              <Link style={{ textDecoration: 'none' }} to={`/product/${item.productId}`}>
+              <Link className='name-order' to={`/product/${item.productId}`}>
                 {item.color}
               </Link>
             </Col>
@@ -111,7 +113,7 @@ const PlaceOrderScreen = () => {
             <Col md={1}>
               <p >{item.qty}</p>
             </Col>
-            <Col md={2} style={{marginLeft:40}}>
+            <Col md={2} className='price-order' >
               <p>${(item.qty * (item.variant ? item.variant.price : item.price)).toFixed(2)}</p>
             </Col>
           </Row>
@@ -169,6 +171,7 @@ const PlaceOrderScreen = () => {
         </Col>
       </Row>
     </>
+   </OrderScreenStyled>
   );
 };
 

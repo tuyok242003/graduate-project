@@ -1,15 +1,14 @@
 import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import FormContainer from '../components/FormContainer';
-import CheckoutSteps from '../components/CheckoutSteps';
-import { saveVoucherMethod } from '../redux/slices/cartSlice';
-import { IRootState } from './CartScreen';
-import { PAYMENT } from '../constants/constants';
+import FormContainer from '../../components/FormContainer';
+import CheckoutSteps from '../../components/CheckoutSteps';
+import { saveVoucherMethod } from '../../redux/slices/cartSlice';
+
+import { PAYMENT } from '../../constants/constants';
 const VoucherScreen = () => {
-  const cart = useSelector((state: IRootState) => state.cart); 
-  const { voucherName } = cart;
+ 
   const navigate = useNavigate();
   const [nameVoucher, setName] = useState('');
 const dispatch = useDispatch();

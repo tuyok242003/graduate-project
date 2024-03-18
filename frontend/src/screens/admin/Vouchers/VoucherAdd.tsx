@@ -54,12 +54,47 @@ const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
       };
       const reponse = await addVoucher(voucherData).unwrap();
       toast.success('Voucher added');
-      navigate(`/admin/voucherList`);
+      navigate(VOUCHERLIST);
     } catch (err) {
       displayErrorMessage(err);
     }
   };
- 
+  const formFields = [
+    {
+      controlId: 'name',
+      label: 'Name',
+      type: 'text',
+      placeholder: 'Enter name',
+      value: state.voucherName,
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+        setState({ ...state, voucherName: e.target.value }),
+    },
+  //  {
+  //     controlId: 'isUsed',
+  //     label: 'isUsed',
+  //      type: 'boolean',
+  //     placeholder: 'Enter isUsed',
+  //     value: state.isUsed},
+        {
+      controlId: 'discountAmount',
+      label: 'discountAmount',
+      type:'number',
+      placeholder: 'Enter discountAmount',
+      value: state.discountAmount,
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+        setState({ ...state, discountAmount: e.target.value }),
+    },
+     {
+      controlId: 'qty',
+      label: 'Qty',
+      type:'number',
+      placeholder: 'Enter qty',
+      value: state.qty,
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+        setState({ ...state, qty: e.target.value }),
+    },
+
+  ];
 
   return (
   <VoucherAdminStyled>
@@ -68,56 +103,25 @@ const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
         Go Back
       </Link>
       <FormContainer>
-        <h1>Add Voucher</h1>
-        {loadingAdd && <Loader />}
-        <Form onSubmit={submitHandler}>
-          <Form.Group controlId='name'>
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type='text'
-              placeholder='Enter name'
-              value={state.voucherName}
-                onChange={(e) => setState({...state,voucherName:e.target.value})}
-                          
-            ></Form.Control>
-          </Form.Group>
-         
-          <Form.Group controlId='isUsed' >
-            <Form.Label>isUsed</Form.Label>
-            <Form.Control
-              type='text'
-              placeholder='Enter description'
-              value={state.isUsed.toString()}
-              onChange={(e) => setState({...state,isUsed:e.target.value === 'true'})}
-            ></Form.Control>
-          </Form.Group>
-
-         
-
-          <Form.Group controlId='discountAmount'>
-            <Form.Label>Giảm (%)</Form.Label>
-            <Form.Control
-              type='text'
-              placeholder='Enter description'
-              value={state.discountAmount}
-              onChange={(e) => setState({...state,discountAmount:e.target.value})}
-            ></Form.Control>
-          </Form.Group>
-          <Form.Group controlId='qty' >
-            <Form.Label>Số lượng</Form.Label>
-            <Form.Control
-              type='text'
-              placeholder='Số lượng'
-              value={state.qty.toString()}
-              onChange={(e) => setState({...state,qty:e.target.value})}
-            ></Form.Control>
-          </Form.Group>
-         
-          <Button type='submit' className='button-voucher' variant='primary'>
-            Add
-          </Button>
-        </Form>
-      </FormContainer>
+          <h1>Add Contact</h1>
+          {loadingAdd && <Loader />}
+          <Form onSubmit={submitHandler}>
+            {formFields.map(field => (
+              <Form.Group controlId={field.controlId} key={field.controlId}>
+                <Form.Label>{field.label}</Form.Label>
+                <Form.Control
+                  type={field.type}
+                  placeholder={field.placeholder}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              </Form.Group>
+            ))}
+            <Button type='submit' variant='primary' className='button-contact'>
+              Add
+            </Button>
+          </Form>
+        </FormContainer>
     </>
   </VoucherAdminStyled>
   );

@@ -17,24 +17,24 @@ import Header from './components/Header';
 import Footer from './components/Footer'
 import PrivateRoute from './components/PrivateRoute';
 import MenuAdmin from './layout/MenuAdmin';
-import CancelScreen from './screens/CancelScreen';
-import CartScreen from './screens/CartScreen';
-import ConfirmScreen from './screens/ConfirmScreen';
-import ContactScreen from './screens/ContactScreen';
-import ForgotPassword from './screens/ForgotPassword';
-import HomeScreen from './screens/HomeScreen';
-import LoginScreen from './screens/LoginScreen';
-import NotReceivedScreen from './screens/NotReceived';
-import OrderScreen from './screens/OrderScreen';
-import PaymentScreen from './screens/PaymentScreen';
-import PlaceOrderScreen from './screens/PlaceOrderScreen';
-import PostDetail from './screens/PostDetail';
-import PostScreen from './screens/PostScreen';
-import ProductScreen from './screens/ProductScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import ReceivedScreen from './screens/ReceivedScreen';
-import RegisterScreen from './screens/RegisterScreen';
-import ShippingScreen from './screens/ShippingScreen';
+import CancelScreen from './screens/Order/CancelScreen';
+import CartScreen from './screens/Cart/CartScreen';
+import ConfirmScreen from './screens/Order/ConfirmScreen';
+import ContactScreen from './screens/Contact/ContactScreen';
+import ForgotPassword from './screens/User/ForgotPassword';
+import HomeScreen from './screens/Home/HomeScreen';
+import LoginScreen from './screens/User/LoginScreen';
+import NotReceivedScreen from './screens/Order/NotReceived';
+import OrderScreen from './screens/Order/OrderScreen';
+import PaymentScreen from './screens/Payment/PaymentScreen';
+import PlaceOrderScreen from './screens/Order/PlaceOrderScreen';
+import PostDetail from './screens/Post/PostDetail';
+import PostScreen from './screens/Post/PostScreen';
+import ProductScreen from './screens/Product/ProductScreen';
+import ProfileScreen from './screens/User/ProfileScreen';
+import ReceivedScreen from './screens/Order/ReceivedScreen';
+import RegisterScreen from './screens/User/RegisterScreen';
+import ShippingScreen from './screens/Shipping/ShippingScreen';
 import CategoryAdd from './screens/admin/Categories/CategoryAdd';
 import CategoryEditScreen from './screens/admin/Categories/CategoryEdit';
 import CategoryListScreen from './screens/admin/Categories/CategoryList';
@@ -61,10 +61,10 @@ import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import VoucherListScreen from './screens/admin/Vouchers/VoucherListScreen';
 import VoucherAddScreen from './screens/admin/Vouchers/VoucherAdd';
 import VoucherEditScreen from './screens/admin/Vouchers/VoucherEdit';
-import VoucherScreen from './screens/VoucherScreen';
+import VoucherScreen from './screens/Voucher/VoucherScreen';
 import VoucherList from './components/Voucher';
-import NotFoundScreen from './screens/NotFoundScreen';
-import { CANCEL, CART, CATEGORYADD, CATEGORYEDIT, CATEGORYLIST, CONFIRM, CONTACT, CONTACTADD, CONTACTLIST, FORGOTPASSWORD, ISCANCELLED, ISCONFIRM, ISNOTRECEIVED, ISRECEIVED, LOGIN, NOTRECEIVED, ORDERDETAIL, ORDERLIST, ORDERSCREEN, PAYMENT, PLACEORDER, POST, POSTADD, POSTDETAIL, POSTEDIT, POSTLIST, PRODUCTADD, PRODUCTLIST, PRODUCTSCREEN, PROFILE, PROFILESCREEN, RECEIVED, REGISTER, SEARCH, SHIPPING, UPLOAD, USEREDIT, USERLIST, VARRIANTADD, VOUCHER, VOUCHERADD, VOUCHEREDIT, VOUCHERLIST } from './constants/constants';
+import NotFoundScreen from './screens/NotFound/NotFoundScreen';
+import { CANCEL, CART, CATEGORYADD, CATEGORYEDIT, CATEGORYLIST, CONFIRM, CONTACT, CONTACTADD, CONTACTLIST, FORGOTPASSWORD, ISCANCELLED, ISCONFIRM, ISNOTRECEIVED, ISRECEIVED, LOGIN, NOTRECEIVED, ORDERDETAIL, ORDERLIST, ORDERSCREEN, PAYMENT, PLACEORDER, POST, POSTADD, POSTDETAIL, POSTEDIT, POSTLIST, PRODUCTADD, PRODUCTLIST, PRODUCTSCREEN, PROFILE, PROFILESCREEN, RECEIVED, REGISTER, SEARCH, SHIPPING, UPLOAD, USEREDIT, USERLIST, VARRIANTADD, VOUCHER, VOUCHERADD, VOUCHEREDIT, VOUCHERLIST, VOUCHERSCREEN } from './constants/constants';
 const router = (
   <Routes>
     <Route index path='/' element={<HomeScreen />} />
@@ -79,7 +79,7 @@ const router = (
     <Route path={FORGOTPASSWORD} element={<ForgotPassword />} />
     {/* Registered users */}
     <Route path='' element={<PrivateRoute />}>
-    <Route path='/voucherList' element={<VoucherList />} />
+    <Route path={VOUCHERSCREEN} element={<VoucherList />} />
       <Route path={SHIPPING} element={<ShippingScreen />} />
       <Route path={VOUCHER} element={<VoucherScreen />} />
       <Route path={PAYMENT} element={<PaymentScreen />} />

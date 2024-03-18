@@ -2,14 +2,16 @@ import { IOrder } from '@/interfaces/Order';
 import { Button, Table } from 'react-bootstrap';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
-import { displayErrorMessage } from '../components/Error';
-import Loader from '../components/Footer'
-import Message from '../components/Message';
-import { CANCEL } from '../constants/constants';
+import { displayErrorMessage } from '../../components/Error';
+import Loader from '../../components/Footer'
+import Message from '../../components/Message';
+import { CANCEL, NOTRECEIVED, RECEIVED } from '../../constants/constants';
 import {
   useDeleteOrderMutation,
   useGetMyOrdersQuery,
-} from '../redux/query/ordersApiSlice';
+} from '../../redux/query/ordersApiSlice';
+import { OrderScreenStyled } from './styled';
+import { IButtonLink } from '@/interfaces/ButtonLink';
 
 const ConfirmScreen = () => {
   const { data: orders, isLoading, error, refetch } = useGetMyOrdersQuery();
@@ -26,31 +28,24 @@ const ConfirmScreen = () => {
       }
     }
   };
-
+const buttonLinks:IButtonLink[] = [
+    { to: RECEIVED, text: 'Đơn hàng đã giao', className:'recevied' },
+    { to: CANCEL, text: 'Đơn hàng đã huỷ', className: 'cancel' },
+    { to: NOTRECEIVED, text: 'Đơn hàng chưa giao', className: 'received' },
+  ];
   return (
-    <>
+   <OrderScreenStyled>
+     <>
       <h1>Đơn hàng đã nhận</h1>
-      <td>
-        <LinkContainer to={`/notReceived`}>
-          <Button className='btn-sm' variant='secondary'>
-            Đơn hàng chưa giao
-          </Button>
-        </LinkContainer>
-      </td>
-      <td>
-        <LinkContainer to={`/received`} style={{ marginLeft: 10 }}>
-          <Button className='btn-sm' variant='secondary'>
-            Đơn hàng đã giao
-          </Button>
-        </LinkContainer>
-      </td>
-      <td>
-        <LinkContainer to={CANCEL} style={{ marginLeft: 10 }}>
-          <Button className='btn-sm' variant='secondary'>
-            Đơn hàng đã huỷ
-          </Button>
-        </LinkContainer>
-      </td>
+       {buttonLinks.map((link, index) => (
+            <td key={index}>
+              <LinkContainer to={link.to}>
+                <Button className='btn-sm' variant='secondary'>
+                  {link.text}
+                </Button>
+              </LinkContainer>
+            </td>
+          ))}
 
       {isLoading ? (
         <Loader />
@@ -85,10 +80,10 @@ const ConfirmScreen = () => {
                       order.paidAt instanceof Date ? (
                         order.paidAt.toISOString().substring(0, 10)
                       ) : (
-                        <FaCheck style={{ color: 'green' }} />
+                        <FaCheck className='facheck' />
                       )
                     ) : (
-                      <FaTimes style={{ color: 'red' }} />
+                      <FaTimes className='fatimes' />
                     )}
                   </td>
                   <td>
@@ -113,6 +108,7 @@ const ConfirmScreen = () => {
         </Table>
       )}
     </>
+   </OrderScreenStyled>
   );
 };
 

@@ -1,4 +1,4 @@
-import { IReview, IVariant } from '@/interfaces/Products';
+import { IReview, IVariant } from '../../interfaces/Products';
 import { useEffect, useState } from 'react';
 import {
   Button,
@@ -12,18 +12,19 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { ProductScreenStyled } from '../assets/styles/ProductScreen';
-import { displayErrorMessage } from '../components/Error';
-import Loader from '../components/Footer'
-import Message from '../components/Message';
-import Meta from '../components/Meta';
-import Rating from '../components/Rating';
-import { CART } from '../constants/constants';
+
+import { displayErrorMessage } from '../../components/Error';
+import Loader from '../../components/Footer'
+import Message from '../../components/Message';
+import Meta from '../../components/Meta';
+import Rating from '../../components/Rating';
+import { CART } from '../../constants/constants';
 import {
   useCreateReviewMutation,
   useGetProductDetailsQuery,
-} from '../redux/query/productsApiSlice';
-import { addToCart } from '../redux/slices/cartSlice';
+} from '../../redux/query/productsApiSlice';
+import { addToCart } from '../../redux/slices/cartSlice';
+import { ProductScreenStyled } from './styled';
 const ProductScreen = () => {
   const { id: productId } = useParams();
   const dispatch = useDispatch();
@@ -130,7 +131,8 @@ const ProductScreen = () => {
           <Row>
             <Col md={6}>
               <Image
-                style={{ width: 400, height: 450 }}
+               className='image-product'
+              
                 src={selectedVariant ? selectedVariant.thumb : product?.image}
                 alt={product?.productName}
                 fluid
@@ -166,7 +168,6 @@ const ProductScreen = () => {
         <ListGroup.Item 
         key={index}
           onClick={() => handleVariantClick(variant)}
-          style={{ cursor: 'pointer' }}
           className={`variant-item ${
             selectedVariant &&
             'id' in variant &&
@@ -211,16 +212,15 @@ const ProductScreen = () => {
                     </Row>
                   </ListGroup.Item>
 
-                  <ListGroup.Item style={{ marginLeft: 70 }}>
-                    <strong style={{ paddingRight: 10, marginBottom: 40 }}>
+                  <ListGroup.Item className='qty' >
+                    <strong className='number-product'>
                       Số lượng:{' '}
                     </strong>
                     {selectedVariant
                       ? selectedVariant.countInStock
                       : product?.countInStock}
                     <Col>
-                      <Button
-                        style={{ marginRight: 10 }}
+                      <Button                     
                         variant='outline-secondary'
                         className='qty-btn'
                         onClick={decreaseQty}
@@ -230,9 +230,9 @@ const ProductScreen = () => {
                       </Button>
                       <span className='qty-value'>{selectedVariantQty}</span>
                       <Button
-                        style={{ marginLeft: 10 }}
+                       
                         variant='outline-secondary'
-                        className='qty-btn'
+                        className='qty-btnnn'
                         onClick={increaseQty}
                        
                       >
@@ -244,7 +244,7 @@ const ProductScreen = () => {
 
                   <ListGroup.Item>
                     <Button
-                      style={{ border: 'none' }}
+                   
                       className='btn-block'
                       type='button'
                       disabled={
@@ -257,12 +257,8 @@ const ProductScreen = () => {
                       Add To Cart
                     </Button>
                     <Button
-                      style={{
-                        marginLeft: 15,
-                        background: 'green',
-                        border: 'none',
-                      }}
-                      className='btn-block'
+                  
+                      className='btn-blockbuy'
                       type='button'
                       disabled={
                         !selectedVariant ||

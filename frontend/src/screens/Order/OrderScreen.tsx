@@ -14,15 +14,16 @@ import {
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { displayErrorMessage } from '../components/Error';
-import Loader from '../components/Footer'
-import Message from '../components/Message';
+import { displayErrorMessage } from '../../components/Error';
+import Loader from '../../components/Footer'
+import Message from '../../components/Message';
 import {
   useDeliverOrderMutation,
   useGetOrderDetailsQuery,
   useGetPaypalClientIdQuery,
   usePayOrderMutation,
-} from '../redux/query/ordersApiSlice';
+} from '../../redux/query/ordersApiSlice';
+import { OrderScreenStyled } from './styled';
 const OrderScreen: React.FC = () => {
   const { id: orderId } = useParams<{ id: string }>();
   const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId || '');
@@ -108,7 +109,8 @@ const dataOrder = order?.orderItems.filter(item => {
   ) : error ? (
     <Message variant='danger'>Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
   ) : (
-    <>
+  <OrderScreenStyled>
+      <>
       <h1>Order {order?._id}</h1>
      
       <Row>
@@ -133,7 +135,7 @@ const dataOrder = order?.orderItems.filter(item => {
     <Col md={2}><strong>Ảnh</strong></Col>
     <Col md={3}><strong>Sản phẩm</strong></Col>
 
-    <Col md={1} style={{width:100}}><strong>Số lượng</strong></Col>
+    <Col md={1} className='qty'><strong>Số lượng</strong></Col>
     <Col md={2}><strong>Giá</strong></Col>
   
   </Row>
@@ -144,7 +146,7 @@ const dataOrder = order?.orderItems.filter(item => {
                   {dataOrder?.map((item: IOrderItem, index: number) => (
                     <ListGroup.Item key={index}>
                       <Row>
-                      <Col style={{marginRight:20}} md={2}>
+                      <Col className='img'  md={2}>
                           <Image
                             src={item.images}
                             alt={item.name}
@@ -154,8 +156,8 @@ const dataOrder = order?.orderItems.filter(item => {
                         </Col>
                         <Col md={3}>
                           <Link
-                            style={{ textDecoration: 'none' }} to={`/product/${item.color}`}
-                          
+                             to={`/product/${item.color}`}
+                          className='name-order'
                           >
                             {item.name}
                           </Link>
@@ -219,8 +221,6 @@ const dataOrder = order?.orderItems.filter(item => {
     )}
   </ListGroup.Item>
 )}
-
-
               {loadingDeliver && <Loader />}
               {userInfo?.isAdmin && order?.isPaid && !order?.isDelivered && (
                 <ListGroup.Item>
@@ -238,6 +238,7 @@ const dataOrder = order?.orderItems.filter(item => {
         </Col>
       </Row>
     </>
+  </OrderScreenStyled>
   );
 };
 

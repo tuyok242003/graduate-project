@@ -8,19 +8,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { displayErrorMessage } from '../components/Error';
-import Loader from '../components/Footer'
-import Message from '../components/Message';
-import SearchProfile from '../components/SearchProfile';
-import { CANCEL, CONFIRM, NOTRECEIVED, PROFILE, RECEIVED } from '../constants/constants';
+import { displayErrorMessage } from '../../components/Error';
+import Loader from '../../components/Footer'
+import Message from '../../components/Message';
+import SearchProfile from '../../components/SearchProfile';
+import { CANCEL, CONFIRM, NOTRECEIVED, PROFILE, RECEIVED } from '../../constants/constants';
 import {
   useCancelOrderMutation,
   useConfirmOrderMutation,
   useGetMyOrdersQuery,
-} from '../redux/query/ordersApiSlice';
-import { useProfileMutation } from '../redux/query/usersApiSlice';
-import { setCredentials } from '../redux/slices/authSlice';
+} from '../../redux/query/ordersApiSlice';
+import { useProfileMutation } from '../../redux/query/usersApiSlice';
+import { setCredentials } from '../../redux/slices/authSlice';
 import { IRegisterState } from './RegisterScreen';
+import { UserScreenStyled } from './styled';
 const ProfileScreen = () => {
   const [state,setState]= useState<IRegisterState>({
     userName:'',
@@ -59,7 +60,7 @@ const ProfileScreen = () => {
       }
     }
   };
-const getStatusIcon = (status:any, successColor = 'green', failureColor = 'red') => {
+const getStatusIcon = (status?:boolean, successColor = 'green', failureColor = 'red') => {
   return status ? <FaCheck style={{ color: successColor }} /> : <FaTimes style={{ color: failureColor }} />;
 };
   const confirmHandler = async (
@@ -115,59 +116,37 @@ const getStatusIcon = (status:any, successColor = 'green', failureColor = 'red')
       }
     }
   };
-
+ const formFields = [
+    { controlId: 'name', label: 'Name', value: state.userName, onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, userName: e.target.value }) },
+    { controlId: 'email', label: 'Email Address', value: state.email, onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, email: e.target.value }) },
+    { controlId: 'password', label: 'Password', value: state.password, onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, password: e.target.value }) },
+    { controlId: 'confirmPassword', label: 'Confirm Password', value: state.confirmPassword, onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, confirmPassword: e.target.value }) }
+  ];
   return (
-    <Row>
+   <UserScreenStyled>
+     <Row>
       <Col md={3}>
-        <h2>User Profile</h2>
-<SearchProfile/>
-        <Form onSubmit={submitHandler}>
-          <Form.Group className='my-2' controlId='name'>
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type='text'
-              placeholder='Enter name'
-              value={state.userName}
-              onChange={(e) => setState({...state,userName:e.target.value})}
-            ></Form.Control>
-          </Form.Group>
+          <h2>User Profile</h2>
+          <SearchProfile />
+          <Form onSubmit={submitHandler}>
+            {formFields.map(field => (
+              <Form.Group key={field.controlId} className='my-2' controlId={field.controlId}>
+                <Form.Label>{field.label}</Form.Label>
+                <Form.Control
+                  type={field.controlId === 'password' || field.controlId === 'confirmPassword' ? 'password' : 'text'}
+                  placeholder={`Enter ${field.label}`}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              </Form.Group>
+            ))}
 
-          <Form.Group className='my-2' controlId='email'>
-            <Form.Label>Email Address</Form.Label>
-            <Form.Control
-              type='email'
-              placeholder='Enter email'
-              value={state.email}
-              onChange={(e) => setState({...state,email:e.target.value})}
-            ></Form.Control>
-          </Form.Group>
-
-          <Form.Group className='my-2' controlId='password'>
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type='password'
-              placeholder='Enter password'
-              value={state.password}
-              onChange={(e) => setState({...state,password:e.target.value})}
-            ></Form.Control>
-          </Form.Group>
-
-          <Form.Group className='my-2' controlId='confirmPassword'>
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type='password'
-              placeholder='Confirm password'
-              value={state.confirmPassword}
-              onChange={(e) => setState({...state,confirmPassword:e.target.value})}
-            ></Form.Control>
-          </Form.Group>
-
-          <Button type='submit' variant='primary'>
-            Update
-          </Button>
-          {loadingUpdateProfile && <Loader />}
-        </Form>
-      </Col>
+            <Button type='submit' variant='primary'>
+              Update
+            </Button>
+            {loadingUpdateProfile && <Loader />}
+          </Form>
+        </Col>
       <Col md={9}>
         <h2>My Orders</h2>
         <Form.Control
@@ -225,20 +204,20 @@ const getStatusIcon = (status:any, successColor = 'green', failureColor = 'red')
                       </td>
 
                       <td>{order.totalPrice}</td>
-                      <td>
-                        {order.isPaid ? (
-                          <FaCheck style={{ color: 'green' }} />
-                        ) : (
-                          <FaTimes style={{ color: 'red' }} />
-                        )}
-                      </td>
+                    <td>
+                      {order.isPaid ? (
+                        order.paidAt instanceof Date ? 
+                          order.paidAt.toISOString().substring(0, 10)
+                        : getStatusIcon(true)) : getStatusIcon(false)}
+                    </td>
                      <td>{order.isDelivered ? (order.deliveredAt instanceof Date ? order.deliveredAt.toISOString().substring(0, 10) : getStatusIcon(true)) : getStatusIcon(false)}</td>
 <td>{getStatusIcon(order.isConfirmed)}</td>
 <td>{getStatusIcon(order.isCancelled)}</td>
                       <td>
                         <LinkContainer
+                        className='container'
                           to={`/order/${order._id}`}
-                          style={{ marginTop: 10 }}
+                        
                         >
                           <Button className='btn-sm' variant='light'>
                             <BiMessageAltDetail />
@@ -247,7 +226,8 @@ const getStatusIcon = (status:any, successColor = 'green', failureColor = 'red')
                       </td>
                       <td>
                         <Button
-                          style={{ marginTop: 10 }}
+                        
+                        
                           onClick={() =>
                             CancelHandler(order._id, order.isDelivered)
                           }
@@ -260,7 +240,7 @@ const getStatusIcon = (status:any, successColor = 'green', failureColor = 'red')
                       </td>
                       <td>
                         <Button
-                          style={{ marginTop: 10 }}
+                         
                           onClick={() =>
                             confirmHandler(
                               order._id,
@@ -285,6 +265,7 @@ const getStatusIcon = (status:any, successColor = 'green', failureColor = 'red')
         )}
       </Col>
     </Row>
+   </UserScreenStyled>
   );
 };
 

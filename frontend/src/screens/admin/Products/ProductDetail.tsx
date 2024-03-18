@@ -8,7 +8,8 @@ import Rating from '../../../components/Rating';
 import { useGetProductDetailsQuery } from '../../../redux/query/productsApiSlice';
 
 import { IReview, IVariant } from '@/interfaces/Products';
-import { ProductScreenStyled } from '../../../assets/styles/ProductScreen';
+import { ProductScreenStyled } from '../../../screens/Product/styled';
+
 
 interface IState {
   selectedVariant:IVariant | null,

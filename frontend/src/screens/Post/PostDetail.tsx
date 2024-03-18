@@ -1,14 +1,16 @@
 import { Link, useParams } from 'react-router-dom';
-import Loader from '../components/Footer'
-import Message from '../components/Message';
-import { useGetPostDetailsQuery } from '../redux/query/postSlice';
-import { POST } from '../constants/constants';
+import Loader from '../../components/Footer'
+import Message from '../../components/Message';
+import { useGetPostDetailsQuery } from '../../redux/query/postSlice';
+import { POST } from '../../constants/constants';
+import { PostScreenStyled } from './styled';
 
 const PostDetail = () => {
   const { postId } = useParams();
   const { data: post, isLoading, error } = useGetPostDetailsQuery(postId || '');
   return (
-    <div className='container mt-4'>
+    <PostScreenStyled>
+      <div className='container mt-4'>
       {isLoading ? (
         <Loader />
       ) : error ? (
@@ -21,7 +23,7 @@ const PostDetail = () => {
               src={post?.image}
               alt={post?.content}
               className='img-fluid rounded post-image'
-              style={{ width: 500 }}
+             
             />
           </div>
           <p className='fs-5'>{post?.content}</p>
@@ -32,6 +34,7 @@ const PostDetail = () => {
         </div>
       )}
     </div>
+    </PostScreenStyled>
   );
 };
 
