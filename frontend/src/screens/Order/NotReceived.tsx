@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import Loader from '../../components/Loader'
 import Message from '../../components/Message';
 import { IOrder } from '@/interfaces/Order';
-import { displayErrorMessage } from '../../components/Error';
+import { displayErrorMessage } from '../../components/Error'; 
 import {
   useCancelOrderMutation,
   useGetMyOrdersQuery,

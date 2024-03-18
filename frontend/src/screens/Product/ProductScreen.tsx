@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { displayErrorMessage } from '../../components/Error';
+import { displayErrorMessage } from '../../components/Error'; 
 import Loader from '../../components/Footer'
 import Message from '../../components/Message';
 import Meta from '../../components/Meta';

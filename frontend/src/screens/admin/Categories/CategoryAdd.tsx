@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import FormContainer from '../../../components/FormContainer';
 import Loader from '../../../components/Footer'
-import { displayErrorMessage } from '../../../components/Error';
+import { displayErrorMessage } from '../../../components/Error'; 
 import { CATEGORYLIST } from '../../../constants/constants';
 import { CategoryAdminStyled } from './styled';
 
@@ -29,7 +29,7 @@ const CategoryAdd = () => {
       return;
     }
     try {
-      const {} = await addCategory(name);
+      await addCategory(name);
       toast.success('Danh mục đã được thêm.');
       navigate('/admin/categoryList/');
     } catch (err) {

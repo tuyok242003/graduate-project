@@ -3,7 +3,7 @@ import { Form, Button, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../../components/FormContainer';
-import CheckoutSteps from '../../components/CheckoutSteps';
+import CheckoutSteps from '../../components/CheckoutStep';
 import { savePaymentMethod } from '../../redux/slices/cartSlice';
 import {IRootState} from '../Cart/CartScreen'
 import { PLACEORDER, SHIPPING } from '../../constants/constants';

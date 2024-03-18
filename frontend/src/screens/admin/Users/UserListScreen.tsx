@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import { displayErrorMessage } from '../../../components/Error';
+import { IUser } from '@/interfaces/User';
+import { useState } from 'react';
+import { Button, Pagination, Table } from 'react-bootstrap';
+import { FaCheck, FaEdit, FaTimes, FaTrash } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button, Pagination } from 'react-bootstrap';
-import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
-import Message, { IMessageProps } from '../../../components/Message';
-import Loader from '../../../components/Footer'
+import Loader from '../../../components/Footer';
+import Message from '../../../components/Message';
 import {
   useDeleteUserMutation,
   useGetUsersQuery,
 } from '../../../redux/query/usersApiSlice';
-import { displayErrorMessage } from '../../../components/Error';
-import { IUser } from '@/interfaces/User';
 
 const UserListScreen = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();

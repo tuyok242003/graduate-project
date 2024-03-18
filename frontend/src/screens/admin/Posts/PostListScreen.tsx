@@ -4,11 +4,11 @@ import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { displayErrorMessage } from '../../../components/Error';
+import { displayErrorMessage } from '../../../components/Error'; 
 import Loader from '../../../components/Footer';
 import Message from '../../../components/Message';
 import {
-  useCreatePostMutation,
+
   useDeletePostMutation,
   useGetPostsQuery,
 } from '../../../redux/query/postSlice';
@@ -31,8 +31,7 @@ const PostListScreen = () => {
       }
     }
   };
-  const [createPosst, { isLoading: loadingCreate, error: createError }] =
-    useCreatePostMutation();
+ 
   const createPostHandler = async () => {
     try {
       navigate('/admin/post/add');
@@ -57,7 +56,7 @@ const PostListScreen = () => {
           </Button>
         </Col>
       </Row>
-      {loadingCreate && <Loader />}
+   
 
       {loadingDelete && <Loader />}
 

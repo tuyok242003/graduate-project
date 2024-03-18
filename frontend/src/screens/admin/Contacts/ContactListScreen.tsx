@@ -9,7 +9,6 @@ import Loader from '../../../components/Footer'
 import Message from '../../../components/Message';
 import { CONTACTADD } from '../../../constants/constants';
 import {
-  useAddContactMutation,
   useDeleteContactMutation,
   useGetContactsQuery,
 } from '../../../redux/query/contactSlice';
@@ -32,9 +31,6 @@ const ContactListScreen = () => {
       }
     }
   };
-
-  const [createContacts, { isLoading: loadingCreate, error: createError }] =
-    useAddContactMutation();
   const createContactHandler = async () => {
     try {
       navigate(CONTACTADD);
@@ -61,7 +57,7 @@ const ContactListScreen = () => {
           </Button>
         </Col>
       </Row>
-      {loadingCreate && <Loader />}
+    
 
       {loadingDelete && <Loader />}
 

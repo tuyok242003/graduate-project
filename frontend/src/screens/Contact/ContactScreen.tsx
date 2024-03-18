@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import FormContainer from '../../components/FormContainer';
 import { Button, Form } from 'react-bootstrap';
 import Loader from '../../components/Footer'
-import { displayErrorMessage } from '../../components/Error';
+import { displayErrorMessage } from '../../components/Error'; 
 import { IContactState } from '../admin/Contacts/ContactAddScreen';
 import { ContactScreenStyled } from './styled';
 import { CONTACT } from '../../constants/constants';

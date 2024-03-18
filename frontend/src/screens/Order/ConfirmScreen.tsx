@@ -2,7 +2,7 @@ import { IOrder } from '@/interfaces/Order';
 import { Button, Table } from 'react-bootstrap';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
-import { displayErrorMessage } from '../../components/Error';
+import { displayErrorMessage } from '../../components/Error'; 
 import Loader from '../../components/Footer'
 import Message from '../../components/Message';
 import { CANCEL, NOTRECEIVED, RECEIVED } from '../../constants/constants';

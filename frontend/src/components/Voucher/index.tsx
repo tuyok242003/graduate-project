@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Button, Col, Pagination, Row, Table } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
-import { IVouchers } from '../interfaces/Voucher';
-import { useDeleteVoucherMutation, useGetVouchersQuery } from '../redux/query/voucherSlice';
-import Loader from '../components/Loader'
-import Message from './Message';
+import { IVouchers } from '../../interfaces/Voucher';
+import { useDeleteVoucherMutation, useGetVouchersQuery } from '../../redux/query/voucherSlice';
+import Loader from '../Loader'
+import Message from '../Message';
 const VoucherList = () => {
   const { data: vouchers, isLoading, error } = useGetVouchersQuery();
-  const [deleteProduct, { isLoading: loadingDelete }] =
+  const [, { isLoading: loadingDelete }] =
     useDeleteVoucherMutation();
   const [currentPage, setCurrentPage] = useState(1);
   const vouchersPerPage = 5;

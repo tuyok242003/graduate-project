@@ -5,7 +5,7 @@ import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
 import { useAddVariantMutation, useUploadProductImageMutation } from '../../../redux/query/productsApiSlice';
 import { useNavigate, useParams } from 'react-router-dom';
-import { displayErrorMessage } from '../../../components/Error';
+import { displayErrorMessage } from '../../../components/Error'; 
 import { ProductAdminStyled } from './styled';
 import { IFormField } from '@/interfaces/FormField';
 
@@ -46,7 +46,7 @@ const CustomizeVariant = () => {
       return;
     }
     try {
-      const response = await addVariant({
+    await addVariant({
         productId: id,
         variantData: {
           color: state.variantColor,

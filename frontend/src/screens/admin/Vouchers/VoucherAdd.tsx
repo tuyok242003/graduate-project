@@ -9,7 +9,7 @@ import {
   useGetVouchersQuery
 } from '../../../redux/query/voucherSlice';
 import { IVouchers } from '@/interfaces/Voucher';
-import { displayErrorMessage } from '../../../components/Error';
+import { displayErrorMessage } from '../../../components/Error'
 import { IVoucherState } from './VoucherEdit';
 import { VOUCHERLIST } from '../../../constants/constants';
 import { VoucherAdminStyled } from './styled';
@@ -20,7 +20,7 @@ const VoucherAddScreen = () => {
     qty:'',
     isUsed:false,
   })
-  const { data: allVouchers, isLoading: loadingVouchers } = useGetVouchersQuery();
+  const { data: allVouchers } = useGetVouchersQuery();
   const [addVoucher, { isLoading: loadingAdd }] = useCreateVoucherMutation();
  
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
         qty:state.qty,
        
       };
-      const reponse = await addVoucher(voucherData).unwrap();
+     await addVoucher(voucherData).unwrap();
       toast.success('Voucher added');
       navigate(VOUCHERLIST);
     } catch (err) {

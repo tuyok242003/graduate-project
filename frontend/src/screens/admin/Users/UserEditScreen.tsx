@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { displayErrorMessage } from '../../../components/Error';
+import { displayErrorMessage } from '../../../components/Error'; 
 import FormContainer from '../../../components/FormContainer';
 import Loader from '../../../components/Footer'
 import Message from '../../../components/Message';

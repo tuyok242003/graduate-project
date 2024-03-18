@@ -33,7 +33,8 @@ console.log(data);
       }
     }
   };
-  const [createCategory, { isLoading: loadingCreate, error: createError }] =
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [, { isLoading: loadingCreate, error: createError }] =
     useCreateCategoryMutation();
   const createCategoryHandler = async () => {
     try {
@@ -43,8 +44,6 @@ console.log(data);
       toast.error('Error');
     }
   };
-  const indexOfLastCategory = currentPage * categoriesPerPage;
-  const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
 
   return (
     <>

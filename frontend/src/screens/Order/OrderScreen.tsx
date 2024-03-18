@@ -14,7 +14,7 @@ import {
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { displayErrorMessage } from '../../components/Error';
+import { displayErrorMessage } from '../../components/Error'; 
 import Loader from '../../components/Footer'
 import Message from '../../components/Message';
 import {
@@ -32,7 +32,7 @@ const OrderScreen: React.FC = () => {
   const { userInfo } = useSelector((state: { auth?: { userInfo: IUser } }) => state.auth) || {};
   const [paypalState, paypalDispatch] = usePayPalScriptReducer();
   const { isPending } = paypalState;
-  const [isOrderPaid, setIsOrderPaid] = useState(false);
+  const [, setIsOrderPaid] = useState(false);
 const orderItem = localStorage.getItem("selectedItems");
 const dataOrder = order?.orderItems.filter(item => {
  return orderItem?.includes(item._id); 

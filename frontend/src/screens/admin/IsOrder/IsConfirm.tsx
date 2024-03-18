@@ -5,7 +5,7 @@ import Loader from '../../../components/Footer'
 import Message from '../../../components/Message';
 
 import { IOrder } from '@/interfaces/Order';
-import { displayErrorMessage } from '../../../components/Error';
+import { displayErrorMessage } from '../../../components/Error'; 
 import {
   useDeleteOrderMutation,
   useGetOrdersQuery,

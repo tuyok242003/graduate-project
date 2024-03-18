@@ -1,7 +1,7 @@
 import React from 'react';
 import { Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { LOGIN, PAYMENT, PLACEORDER, SHIPPING, VOUCHER } from '../constants/constants';
+import { LOGIN, PAYMENT, PLACEORDER, SHIPPING, VOUCHER } from '../../constants/constants';
 
 interface CheckoutStep {
   link: string;

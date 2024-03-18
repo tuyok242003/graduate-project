@@ -1,19 +1,18 @@
-import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button, Row, Col, Pagination } from 'react-bootstrap';
-import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
-import Message, { IMessageProps } from '../../../components/Message';
-import Loader from '../../../components/Footer'
-import { toast } from 'react-toastify';
-import {
-  useGetVouchersQuery,
-  useDeleteVoucherMutation,
-
-} from '../../../redux/query/voucherSlice';
-import { useState } from 'react';
-import { IVouchers } from '@/interfaces/Voucher';
 import { displayErrorMessage } from '../../../components/Error';
+import { IVouchers } from '@/interfaces/Voucher';
+import { useState } from 'react';
+import { Button, Col, Pagination, Row, Table } from 'react-bootstrap';
+import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
+import { LinkContainer } from 'react-router-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Loader from '../../../components/Footer';
+import Message from '../../../components/Message';
 import { VOUCHERADD } from '../../../constants/constants';
+import {
+  useDeleteVoucherMutation,
+  useGetVouchersQuery,
+} from '../../../redux/query/voucherSlice';
 import { VoucherAdminStyled } from './styled';
 
 const VoucherListScreen = () => {
@@ -101,7 +100,7 @@ const VoucherListScreen = () => {
                     <Button
                       variant='danger'
                       className='btn-sm'
-                      // onClick={() => deleteHandler(voucher._id)}
+                      onClick={() => deleteHandler(voucher._id || '')}
                     >
                       <FaTrash className='fatrash' />
                     </Button>

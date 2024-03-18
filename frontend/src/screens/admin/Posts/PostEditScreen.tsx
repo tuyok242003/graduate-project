@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { displayErrorMessage } from '../../../components/Error';
+import { displayErrorMessage } from '../../../components/Error'; 
 import FormContainer from '../../../components/FormContainer';
 import Loader from '../../../components/Footer';
 import Message from '../../../components/Message';
@@ -72,7 +72,7 @@ const PostEditScreen = () => {
       setState({ ...state, postName: post.postName, content: post.content });
       setImg(post.image);
     }
-  }, [post]);
+  }, [post,state]);
 
   const formData = new FormData();
   const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {

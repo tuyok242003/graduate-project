@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import Loader from '../../../components/Footer'
 import Message from '../../../components/Message';
 import { IProducts } from '@/interfaces/Products';
-import { displayErrorMessage } from '../../../components/Error';
+import { displayErrorMessage } from '../../../components/Error'; 
 import { PRODUCTADD } from '../../../constants/constants';
 import {
   useDeleteProductMutation,
@@ -19,7 +19,6 @@ const ProductListScreen = () => {
   const navigate = useNavigate();
 
   const { data, isLoading, error, refetch } = useGetProductsQuery();
-
   const [deleteProduct, { isLoading: loadingDelete }] =
     useDeleteProductMutation();
 

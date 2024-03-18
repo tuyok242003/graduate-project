@@ -4,7 +4,7 @@ import { LinkContainer } from "react-router-bootstrap"
 import Loader from '../../components/Footer'
 import Message from "../../components/Message"
 
-import { displayErrorMessage } from "../../components/Error"
+import { displayErrorMessage } from "../../components/Error" 
 import { CONFIRM, NOTRECEIVED, RECEIVED } from "../../constants/constants"
 import { useDeleteOrderMutation, useGetMyOrdersQuery } from "../../redux/query/ordersApiSlice"
 import { OrderScreenStyled } from "./styled"

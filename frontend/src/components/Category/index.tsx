@@ -26,7 +26,7 @@ const Category = ({ onCategoryClick }:IOnCategory) => {
         <Message variant='danger'>{error}</Message>
       ) : (
       <CategoryStyled>
-          <>
+          
           <Table striped bordered hover responsive className='table-sm'>
             <tbody>
               {categories?.map((category:ICategories) => (
@@ -37,7 +37,7 @@ const Category = ({ onCategoryClick }:IOnCategory) => {
               ))}
             </tbody>
           </Table>
-        </>
+        
       </CategoryStyled>
       )}
     </>

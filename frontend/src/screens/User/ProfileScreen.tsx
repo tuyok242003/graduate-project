@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import { displayErrorMessage } from '../../components/Error';
 import Loader from '../../components/Footer'
 import Message from '../../components/Message';
-import SearchProfile from '../../components/SearchProfile';
+import SearchProfile from '../../components/Search/SearchProfile';
 import { CANCEL, CONFIRM, NOTRECEIVED, PROFILE, RECEIVED } from '../../constants/constants';
 import {
   useCancelOrderMutation,

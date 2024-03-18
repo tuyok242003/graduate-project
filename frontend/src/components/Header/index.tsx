@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../../redux/query/usersApiSlice';
 import { logout } from '../../redux/slices/authSlice';
-import SearchBox from '../SearchBox';
+import SearchBox from '../Search/SearchBox';
 import { resetCart } from '../../redux/slices/cartSlice';
 import { IUser } from '@/interfaces/User';
 import { CART, CONTACT, LOGIN, POST, PRODUCTLIST, PROFILE } from '../../constants/constants';
