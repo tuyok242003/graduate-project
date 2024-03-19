@@ -9,7 +9,6 @@ import { FORGOTPASSWORD, REGISTER } from '../../constants/constants';
 import { useLoginMutation } from '../../redux/query/apiSlice';
 import { selectUserInfo, setCredentials } from '../../redux/slices/authSlice';
 import { IFormField } from '@/interfaces/InShop';
-import { UserStyled } from '../admin/Users/styled';
 import { UserScreenStyled } from './styled';
 interface ILoginState {
   email: string;

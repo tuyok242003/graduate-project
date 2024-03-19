@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import asyncHandler from '../middleware/asyncHandler.js';
 import Post from '../models/postModel.js';
 // import { ContactSchema } from "../schemas/Contact.js";
@@ -92,11 +93,4 @@ const getTopPosts = asyncHandler(async (req, res) => {
 
   res.json(posts);
 });
-export {
-  getPosts,
-  getPostById,
-  createPost,
-  deletePost,
-  getTopPosts,
-  updatePost,
-};
+export { getPosts, getPostById, createPost, deletePost, getTopPosts, updatePost };

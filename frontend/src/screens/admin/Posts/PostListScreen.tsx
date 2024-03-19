@@ -9,7 +9,7 @@ import Loader from '../../../components/Footer';
 import Message from '../../../components/Message';
 import { useDeletePostMutation, useGetPostsQuery } from '../../../redux/query/apiSlice';
 import { PostStyled } from './styled';
-
+import { currentData } from '../../../components/CurrentData';
 const PostListScreen = () => {
   const { data: posts, isLoading, error, refetch } = useGetPostsQuery();
   const [deleteProduct, { isLoading: loadingDelete }] = useDeletePostMutation();
@@ -36,9 +36,7 @@ const PostListScreen = () => {
       displayErrorMessage(err);
     }
   };
-  const indexOfLastPost = currentPage * ordersPerPage;
-  const indexOfFirstPost = indexOfLastPost - ordersPerPage;
-  const currentPosts = posts?.slice(indexOfFirstPost, indexOfLastPost);
+
   return (
     <PostStyled>
       <>
@@ -52,10 +50,7 @@ const PostListScreen = () => {
             </Button>
           </Col>
         </Row>
-
-        {loadingDelete && <Loader />}
-
-        {isLoading ? (
+        {isLoading || loadingDelete ? (
           <Loader />
         ) : error ? (
           <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
@@ -72,7 +67,7 @@ const PostListScreen = () => {
                 </tr>
               </thead>
               <tbody>
-                {currentPosts?.map((post) => (
+                {currentData(currentPage, ordersPerPage, posts)?.map((post) => (
                   <tr key={post._id}>
                     <td>{post._id}</td>
                     <td>{post.postName}</td>

@@ -1,5 +1,5 @@
 import { IContact } from '../../../interfaces/OutShop';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Button, Col, Pagination, Row, Table } from 'react-bootstrap';
 import { FaPlus, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
@@ -35,9 +35,12 @@ const ContactListScreen = () => {
       displayErrorMessage(err);
     }
   };
-  const indexOfLastContact = currentPage * contactsPerPage;
-  const indexOfFirstContact = indexOfLastContact - contactsPerPage;
-  const currentContacts = contacts && Array.isArray(contacts) ? contacts.slice(indexOfFirstContact, indexOfLastContact) : [];
+  //
+  const currentContacts = useMemo(() => {
+    const indexOfLastContact = currentPage * contactsPerPage;
+    const indexOfFirstContact = indexOfLastContact - contactsPerPage;
+    return contacts && Array.isArray(contacts) ? contacts.slice(indexOfFirstContact, indexOfLastContact) : [];
+  }, [contacts, currentPage]);
   return (
     <ContactAdminStyle>
       <>
@@ -51,10 +54,7 @@ const ContactListScreen = () => {
             </Button>
           </Col>
         </Row>
-
-        {loadingDelete && <Loader />}
-
-        {isLoading ? (
+        {isLoading || loadingDelete ? (
           <Loader />
         ) : error ? (
           <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>

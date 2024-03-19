@@ -49,22 +49,27 @@ const UserEditScreen = () => {
     {
       controlId: 'name',
       label: 'Name',
+      type: 'text',
       value: state.userName,
       onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, userName: e.target.value }),
     },
     {
       controlId: 'email',
       label: 'Email Address',
+      type: 'text',
       value: state.email,
       onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, email: e.target.value }),
     },
     {
       controlId: 'isAdmin',
       label: 'Is Admin',
-      vlaue: state.isAdmin,
+      type: 'option',
+      value: state.isAdmin,
       onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, isAdmin: e.target.checked }),
     },
   ];
+  console.log(state);
+
   return (
     <>
       <Link to={USERLIST} className="btn btn-light my-3">
@@ -82,12 +87,25 @@ const UserEditScreen = () => {
             {formFields.map((field) => (
               <Form.Group key={field.controlId} className="my-2" controlId={field.controlId}>
                 <Form.Label>{field.label}</Form.Label>
-                <Form.Control
-                  type={field.controlId === 'text' ? 'text' : 'otherType'}
-                  placeholder={`Enter ${field.label}`}
-                  value={field.value}
-                  onChange={field.onChange}
-                />
+                {field.type === 'text' ? (
+                  <Form.Control
+                    type={field.type || 'otherType'}
+                    placeholder={`Enter ${field.label}`}
+                    value={field.value.toString()}
+                    onChange={field.onChange}
+                  />
+                ) : null}
+                {field.type === 'option' ? (
+                  <Form.Select
+                    defaultValue={field.value ? 'true' : 'false'}
+                    onChange={(e) => {
+                      setState({ ...state, isAdmin: e.target.value === 'true' });
+                    }}
+                  >
+                    <option value="true">TRUE</option>
+                    <option value="false">FALSE</option>
+                  </Form.Select>
+                ) : null}
               </Form.Group>
             ))}
 

@@ -88,11 +88,11 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ['Category'],
     }),
-    createCategory: builder.mutation<ICategories, string>({
-      query: (categoryData) => ({
+    createCategory: builder.mutation<{ message: string; category?: ICategories }, { name: string }>({
+      query: (input) => ({
         url: `${CATEGORIES_URL}`,
         method: 'POST',
-        body: categoryData,
+        body: input,
       }),
       invalidatesTags: ['Category'],
     }),
@@ -439,15 +439,11 @@ export const {
   useDeleteUserMutation,
   useUpdateUserMutation,
   useGetUserDetailsQuery,
-} = apiSlice;
-export const {
   useGetVouchersQuery,
   useGetVoucherDetailsQuery,
   useDeleteVoucherMutation,
   useCreateVoucherMutation,
   useUpdateVoucherMutation,
-} = apiSlice;
-export const {
   useGetProductsQuery,
   useGetProductDetailsQuery,
   useCreateProductMutation,
@@ -457,8 +453,6 @@ export const {
   useCreateReviewMutation,
   useAddVariantMutation,
   useSearchProductsByCategoryQuery,
-} = apiSlice;
-export const {
   useGetPostsQuery,
   useGetPostDetailsQuery,
   useDeletePostMutation,
@@ -466,8 +460,6 @@ export const {
   useCreatePostMutation,
   useUploadPostImageMutation,
   useUpdatePostMutation,
-} = apiSlice;
-export const {
   useCreateOrderMutation,
   useGetOrderDetailsQuery,
   usePayOrderMutation,
@@ -478,15 +470,11 @@ export const {
   useCancelOrderMutation,
   useDeleteOrderMutation,
   useConfirmOrderMutation,
-} = apiSlice;
-export const {
   useGetContactsQuery,
   useGetContactDetailsQuery,
   useAddContactMutation,
   useDeleteContactMutation,
   useUpdateContactMutation,
-} = apiSlice;
-export const {
   useGetCategoriesQuery,
   useGetCategoryDetailsQuery,
   useDeleteCategoryMutation,

@@ -28,7 +28,7 @@ const ContactAddScreen = () => {
 
   const formFields: IFormField[] = [
     {
-      controlId: 'name',
+      controlId: 'contactName',
       label: 'Name',
       type: 'text',
       placeholder: 'Enter name',

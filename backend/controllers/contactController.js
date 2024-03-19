@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import asyncHandler from '../middleware/asyncHandler.js';
 import Contact from '../models/contactModel.js';
 // import { ContactSchema } from "../schemas/Contact.js";
@@ -89,10 +90,4 @@ const deleteContact = asyncHandler(async (req, res) => {
     });
   }
 });
-export {
-  getContacts,
-  getContactById,
-  createContact,
-  deleteContact,
-  updateContact,
-};
+export { getContacts, getContactById, createContact, deleteContact, updateContact };

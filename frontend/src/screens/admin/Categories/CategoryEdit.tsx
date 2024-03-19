@@ -8,19 +8,13 @@ import Loader from '../../../components/Footer';
 import Message from '../../../components/Message';
 import { CONTACTADD } from '../../../constants/constants';
 import { useGetCategoryDetailsQuery, useUpdateCategoryMutation } from '../../../redux/query/apiSlice';
-
 import { CategoryAdminStyled } from './styled';
-
 const CategoryEditScreen = () => {
   const { id: categoryId } = useParams();
-
   const [name, setName] = useState('');
-
   const { data: category, isLoading, refetch, error } = useGetCategoryDetailsQuery(categoryId || '');
   const [updateCategory, { isLoading: loadingUpdate }] = useUpdateCategoryMutation();
-
   const navigate = useNavigate();
-
   const isFormValid = () => {
     if (!name) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
@@ -45,13 +39,11 @@ const CategoryEditScreen = () => {
       displayErrorMessage(err);
     }
   };
-
   useEffect(() => {
     if (category) {
       setName(category.name);
     }
   }, [category]);
-
   return (
     <CategoryAdminStyled>
       <>
@@ -60,8 +52,8 @@ const CategoryEditScreen = () => {
         </Link>
         <FormContainer>
           <h1>Edit Category</h1>
-          {loadingUpdate && <Loader />}
-          {isLoading ? (
+
+          {isLoading || loadingUpdate ? (
             <Loader />
           ) : error ? (
             <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>

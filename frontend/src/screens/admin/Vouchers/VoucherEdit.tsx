@@ -107,8 +107,8 @@ const VoucherEditScreen = () => {
         </Link>
         <FormContainer>
           <h1>Edit Voucher</h1>
-          {loadingUpdate && <Loader />}
-          {isLoading ? (
+
+          {isLoading || loadingUpdate ? (
             <Loader />
           ) : error ? (
             <Message variant="danger">Đã xảy ra lỗi. Vui lòng thử lại sau</Message>

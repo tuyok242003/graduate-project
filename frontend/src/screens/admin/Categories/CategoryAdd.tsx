@@ -29,7 +29,7 @@ const CategoryAdd = () => {
       return;
     }
     try {
-      await addCategory(name);
+      await addCategory({ name });
       toast.success('Danh mục đã được thêm.');
       navigate('/admin/categoryList/');
     } catch (err) {

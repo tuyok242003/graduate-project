@@ -6,12 +6,9 @@ import Message from '../../../components/Message';
 import { displayErrorMessage } from '../../../components/Error';
 import { useDeleteOrderMutation, useGetOrdersQuery } from '../../../redux/query/apiSlice';
 import { IsOrderStyled } from './styled';
-
 const IsCancelled = () => {
   const { data: orders, isLoading, error, refetch } = useGetOrdersQuery();
-  console.log(orders);
   const [deleteOrder] = useDeleteOrderMutation();
-
   const deleteHandler = async (id: string) => {
     if (window.confirm('Bạn có muốn xoá đơn hàng không')) {
       try {
@@ -22,7 +19,6 @@ const IsCancelled = () => {
       }
     }
   };
-
   return (
     <IsOrderStyled>
       <>

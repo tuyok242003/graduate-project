@@ -9,11 +9,9 @@ import Loader from '../../../components/Footer';
 import Message from '../../../components/Message';
 import { CATEGORYADD } from '../../../constants/constants';
 import { useCreateCategoryMutation, useDeleteCategoryMutation, useGetCategoriesQuery } from '../../../redux/query/apiSlice';
-
 const CategoryListScreen = () => {
   const { data, isLoading, error, refetch } = useGetCategoriesQuery();
   console.log(data);
-
   const [deleteProduct, { isLoading: loadingDelete }] = useDeleteCategoryMutation();
   const [currentPage, setCurrentPage] = useState(1);
   const categoriesPerPage = 5;
@@ -38,7 +36,6 @@ const CategoryListScreen = () => {
       toast.error('Error');
     }
   };
-
   return (
     <>
       <Row className="align-items-center">
@@ -51,11 +48,8 @@ const CategoryListScreen = () => {
           </Button>
         </Col>
       </Row>
-      {loadingCreate && <Loader />}
 
-      {loadingDelete && <Loader />}
-
-      {isLoading ? (
+      {isLoading || loadingCreate || loadingDelete ? (
         <Loader />
       ) : error ? (
         <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
@@ -82,7 +76,7 @@ const CategoryListScreen = () => {
                       </Button>
                     </LinkContainer>
                     <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(category._id)}>
-                      <FaTrash style={{ color: 'white' }} />
+                      <FaTrash className="fatrash" />
                     </Button>
                   </td>
                 </tr>

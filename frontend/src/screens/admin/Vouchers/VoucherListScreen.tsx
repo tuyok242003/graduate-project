@@ -11,7 +11,7 @@ import Message from '../../../components/Message';
 import { VOUCHERADD } from '../../../constants/constants';
 import { useDeleteVoucherMutation, useGetVouchersQuery } from '../../../redux/query/apiSlice';
 import { VoucherAdminStyled } from './styled';
-
+import { currentData } from '../../../components/CurrentData';
 const VoucherListScreen = () => {
   const { data: vouchers, isLoading, error, refetch } = useGetVouchersQuery();
   const [deleteVoucher, { isLoading: loadingDelete }] = useDeleteVoucherMutation();
@@ -38,9 +38,7 @@ const VoucherListScreen = () => {
       displayErrorMessage(err);
     }
   };
-  const indexOfLastVoucher = currentPage * ordersPerPage;
-  const indexOfFirstVoucher = indexOfLastVoucher - ordersPerPage;
-  const currentVouchers = vouchers?.slice(indexOfFirstVoucher, indexOfLastVoucher);
+
   return (
     <VoucherAdminStyled>
       {' '}
@@ -55,10 +53,7 @@ const VoucherListScreen = () => {
             </Button>
           </Col>
         </Row>
-
-        {loadingDelete && <Loader />}
-
-        {isLoading ? (
+        {isLoading || loadingDelete ? (
           <Loader />
         ) : error ? (
           <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
@@ -78,7 +73,7 @@ const VoucherListScreen = () => {
                 </tr>
               </thead>
               <tbody>
-                {currentVouchers?.map((voucher: IVouchers) => (
+                {currentData(currentPage, ordersPerPage, vouchers)?.map((voucher: IVouchers) => (
                   <tr key={voucher._id}>
                     <td>{voucher._id}</td>
                     <td>{voucher.voucherName}</td>

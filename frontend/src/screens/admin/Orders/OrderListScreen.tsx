@@ -11,7 +11,7 @@ import Message from '../../../components/Message';
 import { ISCANCELLED, ISCONFIRM, ISRECEIVED } from '../../../constants/constants';
 import { useDeleteOrderMutation, useGetOrdersQuery } from '../../../redux/query/apiSlice';
 import { OrderStyled } from './styled';
-
+import { currentData } from '../../../components/CurrentData';
 const OrderListScreen = () => {
   const { data: orders, isLoading, error, refetch } = useGetOrdersQuery();
   const [deleteOrder, { isLoading: loadingDelete }] = useDeleteOrderMutation();
@@ -30,15 +30,12 @@ const OrderListScreen = () => {
       }
     }
   };
-  const getStatusIcon = (status?: boolean, successColor = 'green', failureColor = 'red') => {
-    return status ? <FaCheck style={{ color: successColor }} /> : <FaTimes style={{ color: failureColor }} />;
+  const getStatusIcon = (status?: boolean) => {
+    return status ? <FaCheck className="facheck" /> : <FaTimes className="fatimes" />;
   };
 
-  const indexOfLastOrder = currentPage * ordersPerPage;
-  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-  const currentOrders = orders && Array.isArray(orders) ? orders.slice(indexOfFirstOrder, indexOfLastOrder) : [];
   const navigate = useNavigate();
-  console.log(currentOrders);
+
   return (
     <OrderStyled>
       <>
@@ -55,9 +52,7 @@ const OrderListScreen = () => {
           <option value={ISCANCELLED}>Đơn hàng đã huỷ</option>
           <option value={ISCONFIRM}>Đơn hàng đã nhận</option>
         </Form.Control>
-        {loadingDelete && <Loader />}
-
-        {isLoading ? (
+        {isLoading || loadingDelete ? (
           <Loader />
         ) : error ? (
           <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
@@ -77,7 +72,7 @@ const OrderListScreen = () => {
                 </tr>
               </thead>
               <tbody>
-                {currentOrders
+                {currentData(currentPage, ordersPerPage, orders)
                   ?.filter((order) => {
                     if (statusFromUrl === ISRECEIVED) {
                       return !order.isDelivered && !order.isCancelled;

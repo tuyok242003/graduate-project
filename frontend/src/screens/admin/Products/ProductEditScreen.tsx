@@ -7,12 +7,14 @@ import Loader from '../../../components/Footer';
 import Message from '../../../components/Message';
 import { PRODUCTLIST } from '../../../constants/constants';
 import {
+  useGetCategoriesQuery,
   useGetProductDetailsQuery,
   useUpdateProductMutation,
   useUploadProductImageMutation,
 } from '../../../redux/query/apiSlice';
 import { IProductState } from './ProductAddScreen';
 import { ProductAdminStyled } from './styled';
+import { ICategories } from '@/interfaces/OutShop';
 
 const ProductEditScreen = () => {
   const { id: productId } = useParams();
@@ -24,6 +26,7 @@ const ProductEditScreen = () => {
     description: '',
   });
   const [image, setImage] = useState('');
+  const { data: categories, isLoading: loadingCategories } = useGetCategoriesQuery();
   const { data: product, isLoading, refetch, error } = useGetProductDetailsQuery(productId || '');
   const [updateProduct, { isLoading: loadingUpdate }] = useUpdateProductMutation();
   const [uploadProductImage, { isLoading: loadingUpload }] = useUploadProductImageMutation();
@@ -67,7 +70,6 @@ const ProductEditScreen = () => {
   useEffect(() => {
     if (product) {
       setState({
-        ...state,
         productName: product.productName,
         price: product.price,
         brand: product.brand,
@@ -76,7 +78,7 @@ const ProductEditScreen = () => {
       });
       setImage(product.image);
     }
-  }, [product, state]);
+  }, [product]);
 
   const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileInput = e.target;
@@ -132,11 +134,24 @@ const ProductEditScreen = () => {
       id: 'category',
       type: 'select',
       label: 'Category',
-      onChange: (e: React.ChangeEvent<HTMLSelectElement>) => setState({ ...state, category: e.target.value }),
-      options: [
-        { value: '', label: 'Select Category' },
-        // Map categories here
-      ],
+      value: state.category,
+      children: loadingCategories ? (
+        <Loader />
+      ) : (
+        <Form.Control
+          as="select"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setState({ ...state, category: e.target.value });
+          }}
+        >
+          <option value="">Select Category</option>
+          {categories?.map((category: ICategories) => (
+            <option key={category._id} value={category._id}>
+              {category.name}
+            </option>
+          ))}
+        </Form.Control>
+      ),
     },
     {
       id: 'description',
@@ -156,8 +171,7 @@ const ProductEditScreen = () => {
         </Link>
         <FormContainer>
           <h1>Edit Product</h1>
-          {loadingUpdate && <Loader />}
-          {isLoading ? (
+          {isLoading || loadingUpdate ? (
             <Loader />
           ) : error ? (
             <Message variant="danger">Đã xảy ra lỗi. Vui lòng thử lại sau</Message>
@@ -167,23 +181,15 @@ const ProductEditScreen = () => {
               {formFields.map((field) => (
                 <Form.Group key={field.id} controlId={field.id}>
                   <Form.Label>{field.label}</Form.Label>
-                  {field.type === 'select' ? (
-                    <Form.Control as="select" onChange={field.onChange}>
-                      {field.options?.map((option, index) => (
-                        <option key={index} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </Form.Control>
+                  {field.type === 'file' ? (
+                    <>
+                      <Form.Control type={field.type} aria-label="Choose File" onChange={field.onChange} />
+                      {loadingUpload && <Loader />}
+                    </>
                   ) : (
-                    <Form.Control
-                      type={field.type}
-                      placeholder={field.placeholder}
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
+                    <Form.Control type="text" placeholder={field.placeholder} value={field.value} onChange={field.onChange} />
                   )}
-                  {field.type === 'file' && loadingUpload && <Loader />}
+                  {field.children}
                 </Form.Group>
               ))}
               <Button type="submit" variant="primary" className="button-product">

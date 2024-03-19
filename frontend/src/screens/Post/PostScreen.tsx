@@ -26,8 +26,8 @@ const PostScreen = () => {
                 <div key={post._id} className="mb-4 d-flex post-container">
                   <img src={post.image} alt={post.content} className="post-image" />
                   <div className="post-content">
-                    <h5 style={{ marginLeft: 20 }}>{post.postName}</h5>
-                    <Button variant="primary" onClick={() => handleReadMore(post._id)} style={{ marginLeft: 20 }}>
+                    <h5 className="post-name">{post.postName}</h5>
+                    <Button className="btn-post" variant="primary" onClick={() => handleReadMore(post._id)}>
                       Read More
                     </Button>
                   </div>

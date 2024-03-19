@@ -4,14 +4,13 @@ import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { IoIosAdd } from 'react-icons/io';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { displayErrorMessage } from '../../../components/Error';
 import Loader from '../../../components/Footer';
 import Message from '../../../components/Message';
-import { IProducts } from '../../../interfaces/OutShop';
-import { displayErrorMessage } from '../../../components/Error';
 import { PRODUCTADD } from '../../../constants/constants';
+import { IProducts } from '../../../interfaces/OutShop';
 import { useDeleteProductMutation, useGetProductsQuery } from '../../../redux/query/apiSlice';
 import { ProductAdminStyled } from './styled';
-import { IButtonLink } from '@/interfaces/InShop';
 
 const ProductListScreen = () => {
   const navigate = useNavigate();
@@ -50,8 +49,7 @@ const ProductListScreen = () => {
             </Button>
           </Col>
         </Row>
-        {loadingDelete && <Loader />}
-        {isLoading ? (
+        {isLoading || loadingDelete ? (
           <Loader />
         ) : error ? (
           <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>

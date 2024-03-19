@@ -36,7 +36,8 @@ const PostAddScreen = () => {
   }, [post, state]);
 
   const isFormValid = () => {
-    if (!state.postName || !state.content) {
+    const { postName, content } = state;
+    if (!postName || !content) {
       toast.error('Vui lòng điền đầy đủ thông tin bài viết');
       return false;
     }
@@ -76,9 +77,11 @@ const PostAddScreen = () => {
           const { message, image: uploadedImg } = response.data;
           toast.success(message);
           setImg(uploadedImg);
+        } else {
+          toast.error('Error');
         }
       } catch (err) {
-        displayErrorMessage(err);
+        toast.error('Error');
       }
     }
   };
@@ -119,28 +122,27 @@ const PostAddScreen = () => {
         </Link>
         <FormContainer>
           <h1>Add Post</h1>
-          {loadingUpdate && <Loader />}
-          {isLoading ? (
+          {isLoading || loadingUpdate ? (
             <Loader />
           ) : error ? (
             <Message variant="danger">Đã xảy ra lỗi. Vui lòng thử lại sau</Message>
           ) : (
             <Form onSubmit={submitHandler}>
-              {/* Sử dụng map để render các trường của form */}
               {formFields.map((field) => (
                 <Form.Group key={field.controlId} controlId={field.controlId}>
                   <Form.Label>{field.label}</Form.Label>
-                  <Form.Control
-                    type={field.type || 'text'}
-                    placeholder={field.placeholder}
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
-                  {loadingUpload && field.controlId === 'image' && <Loader />}
+                  {field.type === 'file' ? (
+                    <>
+                      <Form.Control type={field.type} aria-label="Choose File" onChange={field.onChange} />
+                      {loadingUpload && <Loader />}
+                    </>
+                  ) : (
+                    <Form.Control type="text" placeholder={field.placeholder} value={field.value} onChange={field.onChange} />
+                  )}
                 </Form.Group>
               ))}
               <Button type="submit" variant="primary">
-                Update
+                Add
               </Button>
             </Form>
           )}
