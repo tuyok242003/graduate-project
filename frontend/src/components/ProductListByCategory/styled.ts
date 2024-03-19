@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components';
 export const ProductList = styled.div`
   .rounded {
     height: 400px;
@@ -10,4 +10,7 @@ export const ProductList = styled.div`
   .product-title {
     margin-top: 10px;
   }
-`
+  .link-product {
+    text-decoration: none;
+  }
+`;

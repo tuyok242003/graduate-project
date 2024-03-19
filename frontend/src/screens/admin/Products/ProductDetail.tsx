@@ -64,7 +64,6 @@ const ProductDetail = () => {
                       <ListGroup.Item
                         key={index}
                         onClick={() => handleVariantClick(variant)}
-                        style={{ cursor: 'pointer' }}
                         className={`variant-item ${state?.activeVariantId === variant.id ? 'active-variant' : ''}`}
                       >
                         <span className="color-name">{variant.color}</span>

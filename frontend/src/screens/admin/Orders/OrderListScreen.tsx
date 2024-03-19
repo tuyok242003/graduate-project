@@ -41,6 +41,7 @@ const OrderListScreen = () => {
         <h1>Orders</h1>
         <Form.Control
           as="select"
+          className="form-order"
           value={statusFromUrl}
           onChange={(e) => navigate(`?status=${e.target.value}`)}
           style={{ marginBottom: 20 }}

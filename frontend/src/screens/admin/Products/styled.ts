@@ -12,4 +12,10 @@ export const ProductAdminStyled = styled.div`
   .input-add {
     width: 400px;
   }
+  .btn-product {
+    margin-top: 1rem;
+  }
+  .variant-item {
+    cursor: pointer;
+  }
 `;

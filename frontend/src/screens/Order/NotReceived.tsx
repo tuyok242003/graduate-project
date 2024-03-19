@@ -31,8 +31,8 @@ const NotReceivedScreen = () => {
       }
     }
   };
-  const getStatusIcon = (status?: boolean, successColor = 'green', failureColor = 'red') => {
-    return status ? <FaCheck style={{ color: successColor }} /> : <FaTimes style={{ color: failureColor }} />;
+  const getStatusIcon = (status?: boolean) => {
+    return status ? <FaCheck className="facheck" /> : <FaTimes className="fatimes" />;
   };
   const buttonLinks: IButtonLink[] = [
     { to: CONFIRM, text: 'Đơn hàng đã nhận', className: 'confirm' },

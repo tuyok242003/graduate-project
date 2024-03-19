@@ -177,7 +177,7 @@ const ProductAddScreen = () => {
               {field.children && field.children}
             </Form.Group>
           ))}
-          <Button type="submit" variant="primary" style={{ marginTop: '1rem' }}>
+          <Button type="submit" className="btn-product" variant="primary">
             Add
           </Button>
         </Form>

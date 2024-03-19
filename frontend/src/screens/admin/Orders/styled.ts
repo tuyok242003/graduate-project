@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components';
 export const OrderStyled = styled.div`
   .facheck {
     color: green;
@@ -6,4 +6,7 @@ export const OrderStyled = styled.div`
   .fatimes {
     color: red;
   }
-`
+  .form-order {
+    margin-bottom: 20px;
+  }
+`;

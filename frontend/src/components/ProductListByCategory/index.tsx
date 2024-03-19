@@ -28,7 +28,7 @@ const ProductListByCategory = ({ selectedCategory }: { selectedCategory: ICatego
                   <Card.Img className="img-product" src={product.image} variant="top" />
                 </Link>
                 <Card.Body>
-                  <Link to={`/product/${product._id}`} style={{ textDecoration: 'none' }}>
+                  <Link className="link-product" to={`/product/${product._id}`}>
                     <Card.Title as="div" className="product-title">
                       <strong>{product.productName}</strong>
                       {/* <strong>    Giá: {product.price}</strong> */}
