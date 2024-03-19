@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components';
 export const ProductAdminStyled = styled.div`
   .button-product {
     margin-top: 1rem;
@@ -9,4 +9,7 @@ export const ProductAdminStyled = styled.div`
   .container {
     width: 200px;
   }
-`
+  .input-add {
+    width: 400px;
+  }
+`;

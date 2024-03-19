@@ -1,4 +1,4 @@
-import { IUser, IOrderItem } from '../../../interfaces/OutShop';
+import { IOrderItem } from '../../../interfaces/OutShop';
 import { useEffect, useState } from 'react';
 import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
@@ -7,11 +7,12 @@ import Loader from '../../../components/Footer';
 import Message from '../../../components/Message';
 import { ORDERLIST } from '../../../constants/constants';
 import { useDeliverOrderMutation, useGetOrderDetailsQuery } from '../../../redux/query/apiSlice';
+import { selectUserInfo } from '../../../redux/slices/authSlice';
 const OrderDetail = () => {
   const { id: orderId } = useParams();
   const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId || '');
   const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
-  const { userInfo } = useSelector((state: { auth?: { userInfo: IUser } }) => state.auth) || {};
+  const userInfo = useSelector(selectUserInfo);
   const [isOrderPaid, setIsOrderPaid] = useState(false);
   useEffect(() => {
     if (order && order.isPaid !== undefined) {

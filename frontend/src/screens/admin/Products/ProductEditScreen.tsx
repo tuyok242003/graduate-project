@@ -162,7 +162,7 @@ const ProductEditScreen = () => {
           ) : error ? (
             <Message variant="danger">Đã xảy ra lỗi. Vui lòng thử lại sau</Message>
           ) : (
-            <Form onSubmit={submitHandler}>
+            <Form className="input-add" onSubmit={submitHandler}>
               {/* Sử dụng map để render các trường dữ liệu */}
               {formFields.map((field) => (
                 <Form.Group key={field.id} controlId={field.id}>
@@ -186,7 +186,7 @@ const ProductEditScreen = () => {
                   {field.type === 'file' && loadingUpload && <Loader />}
                 </Form.Group>
               ))}
-              <Button type="submit" variant="primary" style={{ marginTop: '1rem' }}>
+              <Button type="submit" variant="primary" className="button-product">
                 Update
               </Button>
             </Form>

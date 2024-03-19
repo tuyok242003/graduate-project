@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createSelector } from '@reduxjs/toolkit';
 import { IUser } from '../../interfaces/OutShop';
 
 interface AuthState {
@@ -21,7 +21,9 @@ const authSlice = createSlice({
     },
   },
 });
+const selectAuth = (state: { auth?: AuthState }) => state.auth;
 
+export const selectUserInfo = createSelector(selectAuth, (auth) => auth?.userInfo);
 export const { setCredentials, logout } = authSlice.actions;
 
 export default authSlice.reducer;

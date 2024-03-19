@@ -14,6 +14,7 @@ import { CART } from '../../constants/constants';
 import { useCreateReviewMutation, useGetProductDetailsQuery } from '../../redux/query/apiSlice';
 import { addToCart } from '../../redux/slices/cartSlice';
 import { ProductScreenStyled } from './styled';
+import { selectUserInfo } from '../../redux/slices/authSlice';
 const ProductScreen = () => {
   const { id: productId } = useParams();
   const dispatch = useDispatch();
@@ -64,7 +65,7 @@ const ProductScreen = () => {
   };
   const { data: product, isLoading, refetch, error } = useGetProductDetailsQuery(productId || '');
 
-  const { userInfo } = useSelector((state: { auth?: { userInfo: IReview } }) => state.auth) || {};
+  const userInfo = useSelector(selectUserInfo);
 
   const [createReview, { isLoading: loadingProductReview }] = useCreateReviewMutation();
 

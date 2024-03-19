@@ -9,11 +9,11 @@ import { useGetOrdersQuery } from '../../../redux/query/apiSlice';
 
 const IsReceived = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
-  const getStatusIcon = (status?: boolean, successColor = 'green', failureColor = 'red') => {
-    return status ? <FaCheck style={{ color: successColor }} /> : <FaTimes style={{ color: failureColor }} />;
+  const getStatusIcon = (status?: boolean) => {
+    return status ? <FaCheck className="facheck" /> : <FaTimes className="fatimes" />;
   };
   const buttonLinks = [
-    { to: NOTRECEIVED, text: 'Đơn hàng chưa giao' },
+    { to: NOTRECEIVED, text: 'Đơn hàng chưa giao', className: 'notreceived' },
     { to: CANCEL, text: 'Đơn hàng đã huỷ', className: 'cancel' },
     { to: CONFIRM, text: 'Đơn hàng đã nhận', className: 'confirm' },
   ];
@@ -42,7 +42,7 @@ const IsReceived = () => {
                 <th>DATE</th>
                 <th>TOTAL</th>
                 <th>PAID</th>
-                <th>DELIVERED</th>
+                <th>DELIVEREDĐ</th>
 
                 <th></th>
               </tr>

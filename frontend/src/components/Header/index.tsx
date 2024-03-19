@@ -1,17 +1,15 @@
-import React from 'react';
-import { Navbar, Nav, Container, NavDropdown, Badge } from 'react-bootstrap';
+import { Badge, Container, Nav, NavDropdown, Navbar } from 'react-bootstrap';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useLogoutMutation } from '../../redux/query/apiSlice';
-import { logout } from '../../redux/slices/authSlice';
-import SearchBox from '../Search/SearchBox';
-import { resetCart } from '../../redux/slices/cartSlice';
-import { IUser } from '../../interfaces/OutShop';
 import { CART, CONTACT, LOGIN, POST, PRODUCTLIST, PROFILE } from '../../constants/constants';
+import { useLogoutMutation } from '../../redux/query/apiSlice';
+import { logout, selectUserInfo } from '../../redux/slices/authSlice';
+import { resetCart, selectCartItems } from '../../redux/slices/cartSlice';
+import SearchBox from '../Search/SearchBox';
 import { HeaderHome } from './styled';
-interface ICartItem {
+export interface ICartItem {
   length: number;
   qty: number;
   reduce: number;
@@ -24,8 +22,8 @@ interface INavItem {
 }
 
 const Header = () => {
-  const { cartItems } = useSelector((state: { cart?: { cartItems: ICartItem[] } }) => state.cart) || {};
-  const { userInfo } = useSelector((state: { auth?: { userInfo: IUser } }) => state.auth) || {};
+  const cartItems = useSelector(selectCartItems);
+  const userInfo = useSelector(selectUserInfo);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logoutApiCall] = useLogoutMutation();

@@ -1,4 +1,3 @@
-import { IUser } from '../../interfaces/OutShop';
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Row, Table } from 'react-bootstrap';
 import { BiMessageAltDetail } from 'react-icons/bi';
@@ -13,9 +12,13 @@ import Loader from '../../components/Footer';
 import Message from '../../components/Message';
 import SearchProfile from '../../components/Search/SearchProfile';
 import { CANCEL, CONFIRM, HOME, NOTRECEIVED, PROFILE, RECEIVED } from '../../constants/constants';
-import { useCancelOrderMutation, useConfirmOrderMutation, useGetMyOrdersQuery } from '../../redux/query/apiSlice';
-import { useProfileMutation } from '../../redux/query/apiSlice';
-import { setCredentials } from '../../redux/slices/authSlice';
+import {
+  useCancelOrderMutation,
+  useConfirmOrderMutation,
+  useGetMyOrdersQuery,
+  useProfileMutation,
+} from '../../redux/query/apiSlice';
+import { selectUserInfo, setCredentials } from '../../redux/slices/authSlice';
 import { IRegisterState } from './RegisterScreen';
 import { UserScreenStyled } from './styled';
 const ProfileScreen = () => {
@@ -25,7 +28,7 @@ const ProfileScreen = () => {
     password: '',
     confirmPassword: '',
   });
-  const { userInfo } = useSelector((state: { auth?: { userInfo: IUser } }) => state.auth) || {};
+  const userInfo = useSelector(selectUserInfo);
   const navigate = useNavigate();
   const { data: orders, isLoading, error, refetch } = useGetMyOrdersQuery();
   const [confirmlOrder] = useConfirmOrderMutation();

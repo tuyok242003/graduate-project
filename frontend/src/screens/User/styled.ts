@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components';
 export const UserScreenStyled = styled.div`
   .email {
     margin-left: 300px;
@@ -23,6 +23,7 @@ export const UserScreenStyled = styled.div`
     margin-top: 10px;
   }
   .btn-sm {
-    margin-top: 10px;
+    margin-top: 30px;
+    height: 40px;
   }
-`
+`;

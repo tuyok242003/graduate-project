@@ -1,5 +1,3 @@
-import { IOrderItem } from '../../interfaces/OutShop';
-import { IUser } from '../../interfaces/OutShop';
 import { CreateOrderActions, CreateOrderData, OnApproveActions, OnApproveData } from '@paypal/paypal-js';
 import { PayPalButtons, SCRIPT_LOADING_STATE, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import React, { useEffect, useState } from 'react';
@@ -10,19 +8,21 @@ import { toast } from 'react-toastify';
 import { displayErrorMessage } from '../../components/Error';
 import Loader from '../../components/Footer';
 import Message from '../../components/Message';
+import { IOrderItem } from '../../interfaces/OutShop';
 import {
   useDeliverOrderMutation,
   useGetOrderDetailsQuery,
   useGetPaypalClientIdQuery,
   usePayOrderMutation,
 } from '../../redux/query/apiSlice';
+import { selectUserInfo } from '../../redux/slices/authSlice';
 import { OrderScreenStyled } from './styled';
 const OrderScreen: React.FC = () => {
   const { id: orderId } = useParams<{ id: string }>();
   const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId || '');
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
   const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
-  const { userInfo } = useSelector((state: { auth?: { userInfo: IUser } }) => state.auth) || {};
+  const userInfo = useSelector(selectUserInfo);
   const [paypalState, paypalDispatch] = usePayPalScriptReducer();
   const { isPending } = paypalState;
   const [, setIsOrderPaid] = useState(false);

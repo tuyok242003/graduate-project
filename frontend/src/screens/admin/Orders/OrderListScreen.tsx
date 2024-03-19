@@ -92,13 +92,7 @@ const OrderListScreen = () => {
                   })
                   .map((order) => (
                     <tr key={order._id}>
-                      <td>
-                        {typeof order.user === 'object' && order.user !== null
-                          ? 'name' in order.user
-                            ? order.user.name || 'Unknown User'
-                            : 'Unknown User'
-                          : 'Unknown User'}
-                      </td>
+                      <td>{order.user.name}</td>
                       <td>{order.createdAt ? new Date(order.createdAt).toLocaleDateString() : ''}</td>
 
                       <td>${order.totalPrice}</td>

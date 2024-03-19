@@ -4,11 +4,9 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../components/Loader';
 import FormContainer from '../../components/FormContainer';
-
 import { useRegisterMutation } from '../../redux/query/apiSlice';
-import { setCredentials } from '../../redux/slices/authSlice';
+import { selectUserInfo, setCredentials } from '../../redux/slices/authSlice';
 import { toast } from 'react-toastify';
-import { IUser } from '@/interfaces/OutShop';
 import { displayErrorMessage } from '../../components/Error';
 import { LOGIN } from '../../constants/constants';
 import { IFormField } from '../../interfaces/InShop';
@@ -29,7 +27,7 @@ const RegisterScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [register, { isLoading }] = useRegisterMutation();
-  const { userInfo } = useSelector((state: { auth?: { userInfo: IUser } }) => state.auth) || {};
+  const userInfo = useSelector(selectUserInfo);
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
   const redirect = sp.get('redirect') || '/';

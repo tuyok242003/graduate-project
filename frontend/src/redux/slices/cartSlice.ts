@@ -1,30 +1,26 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { updateCart } from '../../utils/cartUtils';
+import { ICartItem } from '@/components/Header';
+import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 import { IOrder } from '../../interfaces/OutShop';
+import { updateCart } from '../../utils/cartUtils';
 interface ISelect {
   selected: IOrder;
 }
 const cartFromLocalStorage = localStorage.getItem('cart') || '';
-
 const initialState = cartFromLocalStorage
   ? JSON.parse(cartFromLocalStorage)
   : { cartItems: [], shippingAddress: {}, paymentMethod: 'PayPal', voucherName: {} };
-
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
     addToCart: (state, action) => {
       const { user, rating, numReviews, reviews, ...item } = action.payload;
-
       const existItem = state.cartItems.find((cart: IOrder) => cart._id === item._id);
-
       if (existItem) {
         state.cartItems = state.cartItems.map((cart: IOrder) => (cart._id === existItem._id ? item : cart));
       } else {
         state.cartItems = [...state.cartItems, item];
       }
-
       return updateCart(state, item);
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
@@ -56,11 +52,11 @@ const cartSlice = createSlice({
       const item = state.cartItems.find((item: IOrder) => item._id === itemId);
       if (item) {
         if (item.qty < item.countInStock) {
-          // Kiểm tra xem số lượng có nhỏ hơn số lượng trong kho không
           item.qty++; // Tăng số lượng sản phẩm
         }
       }
     },
+
     decreaseQty: (state, action: PayloadAction<string>) => {
       const itemId = action.payload;
       const item = state.cartItems.find((item: IOrder) => item._id === itemId);
@@ -74,7 +70,9 @@ const cartSlice = createSlice({
     resetCart: (state) => (state = initialState),
   },
 });
+const selectCart = (state: { cart: { cartItems: ICartItem[] } }) => state.cart;
 
+export const selectCartItems = createSelector(selectCart, (cart) => cart.cartItems);
 export const {
   addToCart,
   removeFromCart,

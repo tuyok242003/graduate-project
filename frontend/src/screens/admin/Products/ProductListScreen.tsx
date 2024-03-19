@@ -11,6 +11,7 @@ import { displayErrorMessage } from '../../../components/Error';
 import { PRODUCTADD } from '../../../constants/constants';
 import { useDeleteProductMutation, useGetProductsQuery } from '../../../redux/query/apiSlice';
 import { ProductAdminStyled } from './styled';
+import { IButtonLink } from '@/interfaces/InShop';
 
 const ProductListScreen = () => {
   const navigate = useNavigate();
@@ -28,7 +29,6 @@ const ProductListScreen = () => {
       }
     }
   };
-
   const createProductHandler = async () => {
     try {
       navigate(PRODUCTADD);
@@ -37,7 +37,6 @@ const ProductListScreen = () => {
       displayErrorMessage(err);
     }
   };
-
   return (
     <ProductAdminStyled>
       <>

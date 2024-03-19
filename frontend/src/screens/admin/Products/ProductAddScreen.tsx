@@ -154,34 +154,32 @@ const ProductAddScreen = () => {
 
   return (
     <ProductAdminStyled>
-      <>
-        <Link to={PRODUCTLIST} className="btn btn-light my-3">
-          Go Back
-        </Link>
-        <FormContainer>
-          <h1>Add Product</h1>
-          {loadingAdd && <Loader />}
-          <Form onSubmit={submitHandler}>
-            {formFields.map((field) => (
-              <Form.Group key={field.controlId} controlId={field.controlId}>
-                <Form.Label>{field.label}</Form.Label>
-                {field.type === 'file' ? (
-                  <>
-                    <Form.Control type={field.type} aria-label="Choose File" onChange={field.onChange} />
-                    {loadingUpload && <Loader />}
-                  </>
-                ) : (
-                  <Form.Control type="text" placeholder={field.placeholder} value={field.value} onChange={field.onChange} />
-                )}
-                {field.children && field.children}
-              </Form.Group>
-            ))}
-            <Button type="submit" variant="primary" style={{ marginTop: '1rem' }}>
-              Add
-            </Button>
-          </Form>
-        </FormContainer>
-      </>
+      <Link to={PRODUCTLIST} className="btn btn-light my-3">
+        Go Back
+      </Link>
+      <FormContainer>
+        <h1>Add Product</h1>
+        {loadingAdd && <Loader />}
+        <Form className="input-add" onSubmit={submitHandler}>
+          {formFields.map((field) => (
+            <Form.Group key={field.controlId} controlId={field.controlId}>
+              <Form.Label>{field.label}</Form.Label>
+              {field.type === 'file' ? (
+                <>
+                  <Form.Control type={field.type} aria-label="Choose File" onChange={field.onChange} />
+                  {loadingUpload && <Loader />}
+                </>
+              ) : (
+                <Form.Control type="text" placeholder={field.placeholder} value={field.value} onChange={field.onChange} />
+              )}
+              {field.children && field.children}
+            </Form.Group>
+          ))}
+          <Button type="submit" variant="primary" style={{ marginTop: '1rem' }}>
+            Add
+          </Button>
+        </Form>
+      </FormContainer>
     </ProductAdminStyled>
   );
 };
