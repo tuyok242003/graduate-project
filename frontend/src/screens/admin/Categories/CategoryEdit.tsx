@@ -12,7 +12,7 @@ import { CategoryAdminStyled } from './styled';
 const CategoryEditScreen = () => {
   const { id: categoryId } = useParams();
   const [name, setName] = useState('');
-  const { data: category, isLoading, refetch, error } = useGetCategoryDetailsQuery(categoryId || '');
+  const { data: category, isLoading, error } = useGetCategoryDetailsQuery(categoryId || '');
   const [updateCategory, { isLoading: loadingUpdate }] = useUpdateCategoryMutation();
   const navigate = useNavigate();
   const isFormValid = () => {
@@ -33,7 +33,6 @@ const CategoryEditScreen = () => {
         name,
       }).unwrap();
       toast.success('Category updated');
-      refetch();
       navigate(CONTACTADD);
     } catch (err) {
       displayErrorMessage(err);

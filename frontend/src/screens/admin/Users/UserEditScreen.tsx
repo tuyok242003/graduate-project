@@ -21,7 +21,7 @@ const UserEditScreen = () => {
     email: '',
     isAdmin: false,
   });
-  const { data: user, isLoading, error, refetch } = useGetUserDetailsQuery(userId || '');
+  const { data: user, isLoading, error } = useGetUserDetailsQuery(userId || '');
 
   const [updateUser, { isLoading: loadingUpdate }] = useUpdateUserMutation();
 
@@ -32,7 +32,6 @@ const UserEditScreen = () => {
     try {
       await updateUser({ userId, userName: state.userName, email: state.email, isAdmin: state.isAdmin });
       toast.success('user updated successfully');
-      refetch();
       navigate(USERLIST);
     } catch (err) {
       displayErrorMessage(err);

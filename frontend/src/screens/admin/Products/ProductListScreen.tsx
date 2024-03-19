@@ -15,14 +15,13 @@ import { ProductAdminStyled } from './styled';
 const ProductListScreen = () => {
   const navigate = useNavigate();
 
-  const { data, isLoading, error, refetch } = useGetProductsQuery();
+  const { data, isLoading, error } = useGetProductsQuery();
   const [deleteProduct, { isLoading: loadingDelete }] = useDeleteProductMutation();
 
   const deleteHandler = async (id: string) => {
     if (window.confirm('Are you sure')) {
       try {
         await deleteProduct(id);
-        refetch();
       } catch (err) {
         displayErrorMessage(err);
       }
@@ -31,7 +30,6 @@ const ProductListScreen = () => {
   const createProductHandler = async () => {
     try {
       navigate(PRODUCTADD);
-      refetch();
     } catch (err) {
       displayErrorMessage(err);
     }

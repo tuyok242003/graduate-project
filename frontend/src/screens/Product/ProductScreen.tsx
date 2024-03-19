@@ -63,7 +63,7 @@ const ProductScreen = () => {
       setSelectedVariantQty(selectedVariantQty + 1);
     }
   };
-  const { data: product, isLoading, refetch, error } = useGetProductDetailsQuery(productId || '');
+  const { data: product, isLoading, error } = useGetProductDetailsQuery(productId || '');
 
   const userInfo = useSelector(selectUserInfo);
 
@@ -78,7 +78,7 @@ const ProductScreen = () => {
         rating,
         comment,
       }).unwrap();
-      refetch();
+
       toast.success('Review created successfully');
     } catch (err) {
       displayErrorMessage(err);

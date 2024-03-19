@@ -12,7 +12,7 @@ import { useDeleteContactMutation, useGetContactsQuery } from '../../../redux/qu
 import { ContactAdminStyle } from './styled';
 
 const ContactListScreen = () => {
-  const { data: contacts, isLoading, error, refetch } = useGetContactsQuery();
+  const { data: contacts, isLoading, error } = useGetContactsQuery();
   const [deleteProduct, { isLoading: loadingDelete }] = useDeleteContactMutation();
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,7 +21,6 @@ const ContactListScreen = () => {
     if (window.confirm('Are you sure')) {
       try {
         await deleteProduct(id);
-        refetch();
       } catch (err) {
         toast.error('Error');
       }
@@ -30,7 +29,6 @@ const ContactListScreen = () => {
   const createContactHandler = async () => {
     try {
       navigate(CONTACTADD);
-      refetch();
     } catch (err) {
       displayErrorMessage(err);
     }

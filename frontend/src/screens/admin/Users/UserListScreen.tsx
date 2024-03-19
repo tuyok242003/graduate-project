@@ -9,7 +9,7 @@ import Message from '../../../components/Message';
 import { useDeleteUserMutation, useGetUsersQuery } from '../../../redux/query/apiSlice';
 
 const UserListScreen = () => {
-  const { data: users, refetch, isLoading, error } = useGetUsersQuery();
+  const { data: users, isLoading, error } = useGetUsersQuery();
 
   const [deleteUser] = useDeleteUserMutation();
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,7 +18,6 @@ const UserListScreen = () => {
     if (window.confirm('Are you sure')) {
       try {
         await deleteUser(id);
-        refetch();
       } catch (err) {
         displayErrorMessage(err);
       }

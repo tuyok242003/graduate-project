@@ -13,7 +13,7 @@ import { useDeleteVoucherMutation, useGetVouchersQuery } from '../../../redux/qu
 import { VoucherAdminStyled } from './styled';
 import { currentData } from '../../../components/CurrentData';
 const VoucherListScreen = () => {
-  const { data: vouchers, isLoading, error, refetch } = useGetVouchersQuery();
+  const { data: vouchers, isLoading, error } = useGetVouchersQuery();
   const [deleteVoucher, { isLoading: loadingDelete }] = useDeleteVoucherMutation();
   const navigate = useNavigate();
 
@@ -23,7 +23,6 @@ const VoucherListScreen = () => {
     if (window.confirm('Are you sure')) {
       try {
         await deleteVoucher(id);
-        refetch();
       } catch (err) {
         toast.error('Error');
       }
@@ -33,7 +32,6 @@ const VoucherListScreen = () => {
   const createVoucherHandler = async () => {
     try {
       navigate(VOUCHERADD);
-      refetch();
     } catch (err) {
       displayErrorMessage(err);
     }

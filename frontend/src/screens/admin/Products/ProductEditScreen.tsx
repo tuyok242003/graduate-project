@@ -27,7 +27,7 @@ const ProductEditScreen = () => {
   });
   const [image, setImage] = useState('');
   const { data: categories, isLoading: loadingCategories } = useGetCategoriesQuery();
-  const { data: product, isLoading, refetch, error } = useGetProductDetailsQuery(productId || '');
+  const { data: product, isLoading, error } = useGetProductDetailsQuery(productId || '');
   const [updateProduct, { isLoading: loadingUpdate }] = useUpdateProductMutation();
   const [uploadProductImage, { isLoading: loadingUpload }] = useUploadProductImageMutation();
   const navigate = useNavigate();
@@ -60,7 +60,6 @@ const ProductEditScreen = () => {
         description: state.description,
       }).unwrap();
       toast.success('Product updated');
-      refetch();
       navigate(PRODUCTLIST);
     } catch (err) {
       toast.error('Error');

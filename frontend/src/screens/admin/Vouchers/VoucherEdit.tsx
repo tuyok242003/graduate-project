@@ -27,7 +27,7 @@ const VoucherEditScreen = () => {
     isUsed: false,
   });
 
-  const { data: voucher, isLoading, refetch, error } = useGetVoucherDetailsQuery(voucherId || '');
+  const { data: voucher, isLoading, error } = useGetVoucherDetailsQuery(voucherId || '');
   const [updateVoucher, { isLoading: loadingUpdate }] = useUpdateVoucherMutation();
   const navigate = useNavigate();
 
@@ -53,7 +53,7 @@ const VoucherEditScreen = () => {
         qty: state.qty,
       }).unwrap();
       toast.success('Voucher updated');
-      refetch();
+
       navigate(VOUCHERLIST);
     } catch (err) {
       displayErrorMessage(err);

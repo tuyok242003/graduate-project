@@ -10,7 +10,7 @@ import Message from '../../../components/Message';
 import { CATEGORYADD } from '../../../constants/constants';
 import { useCreateCategoryMutation, useDeleteCategoryMutation, useGetCategoriesQuery } from '../../../redux/query/apiSlice';
 const CategoryListScreen = () => {
-  const { data, isLoading, error, refetch } = useGetCategoriesQuery();
+  const { data, isLoading, error } = useGetCategoriesQuery();
   console.log(data);
   const [deleteProduct, { isLoading: loadingDelete }] = useDeleteCategoryMutation();
   const [currentPage, setCurrentPage] = useState(1);
@@ -20,7 +20,6 @@ const CategoryListScreen = () => {
     if (window.confirm('Are you sure')) {
       try {
         await deleteProduct(id);
-        refetch();
       } catch (err) {
         toast.error('Error');
       }
@@ -31,7 +30,6 @@ const CategoryListScreen = () => {
   const createCategoryHandler = async () => {
     try {
       navigate(CATEGORYADD);
-      refetch();
     } catch (err) {
       toast.error('Error');
     }

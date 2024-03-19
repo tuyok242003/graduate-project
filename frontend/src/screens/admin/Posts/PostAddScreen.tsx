@@ -7,7 +7,12 @@ import FormContainer from '../../../components/FormContainer';
 import Loader from '../../../components/Footer';
 import Message from '../../../components/Message';
 import { POSTLIST } from '../../../constants/constants';
-import { useGetPostDetailsQuery, useUpdatePostMutation, useUploadPostImageMutation } from '../../../redux/query/apiSlice';
+import {
+  useCreatePostMutation,
+  useGetPostDetailsQuery,
+  useUpdatePostMutation,
+  useUploadPostImageMutation,
+} from '../../../redux/query/apiSlice';
 import { IFormField } from '../../../interfaces/InShop';
 import { PostStyled } from './styled';
 export interface IPostState {
@@ -22,19 +27,9 @@ const PostAddScreen = () => {
     content: '',
   });
   const [image, setImg] = useState('');
-  const { data: post, isLoading, refetch, error } = useGetPostDetailsQuery(postId || '');
-
-  const [updatePost, { isLoading: loadingUpdate }] = useUpdatePostMutation();
+  const [addPost, { isLoading: loadingAdd }] = useCreatePostMutation();
   const [uploadPostImg, { isLoading: loadingUpload }] = useUploadPostImageMutation();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (post && (post.postName !== state.postName || post.content !== state.content)) {
-      setState({ ...state, postName: post.postName, content: post.content });
-      setImg(post.image);
-    }
-  }, [post, state]);
-
   const isFormValid = () => {
     const { postName, content } = state;
     if (!postName || !content) {
@@ -50,14 +45,12 @@ const PostAddScreen = () => {
       return;
     }
     try {
-      await updatePost({
-        postId,
+      await addPost({
         postName: state.postName,
         image,
         content: state.content,
       }).unwrap();
       toast.success('Post updated');
-      refetch();
       navigate(POSTLIST);
     } catch (err) {
       displayErrorMessage(err);
@@ -122,30 +115,25 @@ const PostAddScreen = () => {
         </Link>
         <FormContainer>
           <h1>Add Post</h1>
-          {isLoading || loadingUpdate ? (
-            <Loader />
-          ) : error ? (
-            <Message variant="danger">Đã xảy ra lỗi. Vui lòng thử lại sau</Message>
-          ) : (
-            <Form onSubmit={submitHandler}>
-              {formFields.map((field) => (
-                <Form.Group key={field.controlId} controlId={field.controlId}>
-                  <Form.Label>{field.label}</Form.Label>
-                  {field.type === 'file' ? (
-                    <>
-                      <Form.Control type={field.type} aria-label="Choose File" onChange={field.onChange} />
-                      {loadingUpload && <Loader />}
-                    </>
-                  ) : (
-                    <Form.Control type="text" placeholder={field.placeholder} value={field.value} onChange={field.onChange} />
-                  )}
-                </Form.Group>
-              ))}
-              <Button type="submit" variant="primary">
-                Add
-              </Button>
-            </Form>
-          )}
+          {loadingAdd && <Loader />}
+          <Form className="input-add" onSubmit={submitHandler}>
+            {formFields.map((field) => (
+              <Form.Group key={field.controlId} controlId={field.controlId}>
+                <Form.Label>{field.label}</Form.Label>
+                {field.type === 'file' ? (
+                  <>
+                    <Form.Control type={field.type} aria-label="Choose File" onChange={field.onChange} />
+                    {loadingUpload && <Loader />}
+                  </>
+                ) : (
+                  <Form.Control type="text" placeholder={field.placeholder} value={field.value} onChange={field.onChange} />
+                )}
+              </Form.Group>
+            ))}
+            <Button type="submit" variant="primary">
+              Add
+            </Button>
+          </Form>
         </FormContainer>
       </>
     </PostStyled>

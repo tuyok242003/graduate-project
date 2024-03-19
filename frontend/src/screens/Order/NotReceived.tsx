@@ -12,7 +12,7 @@ import { OrderScreenStyled } from './styled';
 import { IButtonLink } from '../../interfaces/InShop';
 
 const NotReceivedScreen = () => {
-  const { data: orders, isLoading, error, refetch } = useGetMyOrdersQuery();
+  const { data: orders, isLoading, error } = useGetMyOrdersQuery();
   const [cancelOrder] = useCancelOrderMutation();
 
   const CancelHandler = async (id: string, isDelivered: boolean) => {
@@ -25,9 +25,6 @@ const NotReceivedScreen = () => {
     if (window.confirm(cancelMessage)) {
       try {
         await cancelOrder(id);
-
-        refetch();
-
         toast.success('Đơn hàng đã huỷ thành công');
       } catch (err) {
         displayErrorMessage(err);

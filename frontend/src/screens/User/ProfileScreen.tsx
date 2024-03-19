@@ -30,7 +30,7 @@ const ProfileScreen = () => {
   });
   const userInfo = useSelector(selectUserInfo);
   const navigate = useNavigate();
-  const { data: orders, isLoading, error, refetch } = useGetMyOrdersQuery();
+  const { data: orders, isLoading, error } = useGetMyOrdersQuery();
   const [confirmlOrder] = useConfirmOrderMutation();
   const [cancelOrder] = useCancelOrderMutation();
   const [updateProfile, { isLoading: loadingUpdateProfile }] = useProfileMutation();
@@ -47,8 +47,6 @@ const ProfileScreen = () => {
     if (window.confirm(cancelMessage)) {
       try {
         await cancelOrder(id);
-
-        refetch();
         navigate(PROFILE);
         toast.success('Đơn hàng đã huỷ thành công');
       } catch (err) {
@@ -74,8 +72,6 @@ const ProfileScreen = () => {
     if (window.confirm(confirmMessage)) {
       try {
         await confirmlOrder(id);
-
-        refetch();
         navigate(HOME);
         toast.success('Đơn hàng đã được nhận thành công');
       } catch (err) {

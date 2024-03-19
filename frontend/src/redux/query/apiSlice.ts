@@ -73,6 +73,7 @@ export const apiSlice = createApi({
         url: CATEGORIES_URL,
       }),
       keepUnusedDataFor: 5,
+      providesTags: ['Category'],
     }),
     getCategoryDetails: builder.query<ICategories, string>({
       query: (categoryId) => ({
@@ -109,6 +110,7 @@ export const apiSlice = createApi({
       query: () => ({
         url: CONTACTS_URL,
       }),
+      providesTags: ['Contact'],
       keepUnusedDataFor: 5,
     }),
     getContactDetails: builder.query<IContact, string>({
@@ -154,6 +156,7 @@ export const apiSlice = createApi({
       query: (id) => ({
         url: `${ORDERS_URL}/${id}`,
       }),
+      providesTags: ['Order'],
       keepUnusedDataFor: 5,
     }),
     payOrder: builder.mutation<void, IPayOrder>({
@@ -173,12 +176,14 @@ export const apiSlice = createApi({
       query: () => ({
         url: `${ORDERS_URL}/mine`,
       }),
+      providesTags: ['Order'],
       keepUnusedDataFor: 5,
     }),
     getOrders: builder.query<IOrder[], void>({
       query: () => ({
         url: ORDERS_URL,
       }),
+      providesTags: ['Order'],
       keepUnusedDataFor: 5,
     }),
     deliverOrder: builder.mutation<IOrder, string>({
@@ -224,12 +229,14 @@ export const apiSlice = createApi({
       query: () => ({
         url: POSTS_URL,
       }),
+      providesTags: ['Post'],
       keepUnusedDataFor: 5,
     }),
     getPostDetails: builder.query<IPosts, string>({
       query: (postId) => ({
         url: `${POSTS_URL}/${postId}`,
       }),
+      providesTags: ['Post'],
       keepUnusedDataFor: 5,
     }),
 
@@ -278,6 +285,7 @@ export const apiSlice = createApi({
       query: (productId) => ({
         url: `${PRODUCTS_URL}/${productId}`,
       }),
+      providesTags: ['Product'],
       keepUnusedDataFor: 5,
     }),
     createProduct: builder.mutation<void, IAddProduct>({
@@ -381,6 +389,7 @@ export const apiSlice = createApi({
       query: (id) => ({
         url: `${USERS_URL}/${id}`,
       }),
+      providesTags: ['User'],
       keepUnusedDataFor: 5,
     }),
     updateUser: builder.mutation<void, IUpdateUser>({
@@ -395,12 +404,14 @@ export const apiSlice = createApi({
       query: () => ({
         url: VOUCHERS_URL,
       }),
+      providesTags: ['Voucher'],
       keepUnusedDataFor: 5,
     }),
     getVoucherDetails: builder.query<IVouchers, string>({
       query: (voucherId) => ({
         url: `${VOUCHERS_URL}/${voucherId}`,
       }),
+      providesTags: ['Voucher'],
       keepUnusedDataFor: 5,
     }),
 

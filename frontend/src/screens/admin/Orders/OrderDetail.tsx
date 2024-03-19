@@ -10,7 +10,7 @@ import { useDeliverOrderMutation, useGetOrderDetailsQuery } from '../../../redux
 import { selectUserInfo } from '../../../redux/slices/authSlice';
 const OrderDetail = () => {
   const { id: orderId } = useParams();
-  const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId || '');
+  const { data: order, isLoading, error } = useGetOrderDetailsQuery(orderId || '');
   const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
   const userInfo = useSelector(selectUserInfo);
   const [isOrderPaid, setIsOrderPaid] = useState(false);
@@ -21,7 +21,6 @@ const OrderDetail = () => {
   }, [order]);
   const deliverHandler = async () => {
     await deliverOrder(orderId || '');
-    refetch();
   };
   return isLoading ? (
     <Loader />

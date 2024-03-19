@@ -20,7 +20,7 @@ const PostEditScreen = () => {
     content: '',
   });
   const [image, setImg] = useState('');
-  const { data: post, isLoading, refetch, error } = useGetPostDetailsQuery(postId || '');
+  const { data: post, isLoading, error } = useGetPostDetailsQuery(postId || '');
 
   const [updatePost, { isLoading: loadingUpdate }] = useUpdatePostMutation();
 
@@ -50,7 +50,6 @@ const PostEditScreen = () => {
         content: state.content,
       }).unwrap();
       toast.success('Post updated');
-      refetch();
       navigate(POSTLIST);
     } catch (err) {
       displayErrorMessage(err);
@@ -59,10 +58,10 @@ const PostEditScreen = () => {
 
   useEffect(() => {
     if (post) {
-      setState({ ...state, postName: post.postName, content: post.content });
+      setState({ postName: post.postName, content: post.content });
       setImg(post.image);
     }
-  }, [post, state]);
+  }, [post]);
 
   const formData = new FormData();
   const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,8 +128,14 @@ const PostEditScreen = () => {
               {formFields.map((field) => (
                 <Form.Group key={field.controlId} controlId={field.controlId}>
                   <Form.Label>{field.label}</Form.Label>
-                  <Form.Control type={field.type} placeholder={field.placeholder} value={field.value} onChange={field.onChange} />
-                  {field.type === 'file' && loadingUpload && <Loader />}
+                  {field.type === 'file' ? (
+                    <>
+                      <Form.Control type={field.type} aria-label="Choose File" onChange={field.onChange} />
+                      {loadingUpload && <Loader />}
+                    </>
+                  ) : (
+                    <Form.Control type="text" placeholder={field.placeholder} value={field.value} onChange={field.onChange} />
+                  )}
                 </Form.Group>
               ))}
               <Button type="submit" variant="primary">

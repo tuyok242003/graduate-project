@@ -35,7 +35,7 @@ const ProductAddScreen = () => {
   });
 
   const [image, setImage] = useState('');
-  const { data: categories, isLoading: loadingCategories, refetch } = useGetCategoriesQuery();
+  const { data: categories, isLoading: loadingCategories } = useGetCategoriesQuery();
   const [addProduct, { isLoading: loadingAdd }] = useCreateProductMutation();
   const [uploadProductImage, { isLoading: loadingUpload }] = useUploadProductImageMutation();
 
@@ -148,7 +148,6 @@ const ProductAddScreen = () => {
         category: state.category,
         description: state.description,
       }).unwrap();
-      refetch();
       toast.success('Product added');
     } catch (error) {
       toast.error('Error');

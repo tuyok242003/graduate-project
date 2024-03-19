@@ -11,7 +11,7 @@ import { OrderScreenStyled } from './styled';
 import { IButtonLink } from '../../interfaces/InShop';
 
 const CancelScreen = () => {
-  const { data: orders, isLoading, error, refetch } = useGetMyOrdersQuery();
+  const { data: orders, isLoading, error } = useGetMyOrdersQuery();
   console.log(orders);
   const [deleteOrder] = useDeleteOrderMutation();
 
@@ -19,7 +19,6 @@ const CancelScreen = () => {
     if (window.confirm('Bạn có muốn xoá đơn hàng không')) {
       try {
         await deleteOrder(id);
-        refetch();
       } catch (err) {
         displayErrorMessage(err);
       }

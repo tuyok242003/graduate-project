@@ -13,7 +13,7 @@ import { useDeleteOrderMutation, useGetOrdersQuery } from '../../../redux/query/
 import { OrderStyled } from './styled';
 import { currentData } from '../../../components/CurrentData';
 const OrderListScreen = () => {
-  const { data: orders, isLoading, error, refetch } = useGetOrdersQuery();
+  const { data: orders, isLoading, error } = useGetOrdersQuery();
   const [deleteOrder, { isLoading: loadingDelete }] = useDeleteOrderMutation();
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,7 +24,6 @@ const OrderListScreen = () => {
     if (window.confirm('Bạn có muốn xoá đơn hàng không')) {
       try {
         await deleteOrder(id);
-        refetch();
       } catch (err) {
         displayErrorMessage(err);
       }

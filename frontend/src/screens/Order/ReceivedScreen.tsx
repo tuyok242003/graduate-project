@@ -12,7 +12,7 @@ import { OrderScreenStyled } from './styled';
 import { IButtonLink } from '../../interfaces/InShop';
 
 const ReceivedScreen = () => {
-  const { data: orders, isLoading, error, refetch } = useGetMyOrdersQuery();
+  const { data: orders, isLoading, error } = useGetMyOrdersQuery();
   const [confirmlOrder] = useConfirmOrderMutation();
   const navigate = useNavigate();
   const confirmHandler = async (id: string, isDelivered: boolean, isConfirmed: boolean) => {
@@ -29,7 +29,6 @@ const ReceivedScreen = () => {
       try {
         await confirmlOrder(id);
         navigate(HOME);
-        refetch();
         toast.success('Đơn hàng đã được nhận thành công');
       } catch (err) {
         displayErrorMessage(err);

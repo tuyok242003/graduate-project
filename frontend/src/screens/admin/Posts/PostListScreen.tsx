@@ -11,7 +11,7 @@ import { useDeletePostMutation, useGetPostsQuery } from '../../../redux/query/ap
 import { PostStyled } from './styled';
 import { currentData } from '../../../components/CurrentData';
 const PostListScreen = () => {
-  const { data: posts, isLoading, error, refetch } = useGetPostsQuery();
+  const { data: posts, isLoading, error } = useGetPostsQuery();
   const [deleteProduct, { isLoading: loadingDelete }] = useDeletePostMutation();
   const navigate = useNavigate();
 
@@ -21,7 +21,6 @@ const PostListScreen = () => {
     if (window.confirm('Are you sure')) {
       try {
         await deleteProduct(_id);
-        refetch();
       } catch (err) {
         toast.error('Error');
       }
@@ -31,7 +30,6 @@ const PostListScreen = () => {
   const createPostHandler = async () => {
     try {
       navigate('/admin/post/add');
-      refetch();
     } catch (err) {
       displayErrorMessage(err);
     }
