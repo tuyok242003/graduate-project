@@ -4,9 +4,9 @@ import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import FormContainer from '../../../components/FormContainer';
-import Loader from '../../../components/Footer';
+import Loader from '../../../components/Loader';
 import { displayErrorMessage } from '../../../components/Error';
-import { CATEGORYLIST } from '../../../constants/constants';
+import { CATEGORYLIST, CATEGORYLISTADMIN } from '../../../constants/constants';
 import { CategoryAdminStyled } from './styled';
 
 const CategoryAdd = () => {
@@ -31,7 +31,7 @@ const CategoryAdd = () => {
     try {
       await addCategory({ name });
       toast.success('Danh mục đã được thêm.');
-      navigate('/admin/categoryList/');
+      navigate(CATEGORYLISTADMIN);
     } catch (err) {
       displayErrorMessage(err);
     }

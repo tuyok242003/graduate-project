@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Card, Col, Form, Image, ListGroup, Row } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
-import Loader from '../../../components/Footer';
+import Loader from '../../../components/Loader';
 import Message from '../../../components/Message';
 import Meta from '../../../components/Meta';
 import Rating from '../../../components/Rating';

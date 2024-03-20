@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import Loader from '../../../components/Footer';
+import Loader from '../../../components/Loader';
 import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
 import { useAddVariantMutation, useUploadProductImageMutation } from '../../../redux/query/apiSlice';

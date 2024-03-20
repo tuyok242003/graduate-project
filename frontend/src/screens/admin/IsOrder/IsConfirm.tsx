@@ -1,7 +1,7 @@
 import { Button, Table } from 'react-bootstrap';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
-import Loader from '../../../components/Footer';
+import Loader from '../../../components/Loader';
 import Message from '../../../components/Message';
 import { IOrder } from '../../../interfaces/OutShop';
 import { displayErrorMessage } from '../../../components/Error';

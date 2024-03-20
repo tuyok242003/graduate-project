@@ -5,7 +5,7 @@ import { FaPlus, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { displayErrorMessage } from '../../../components/Error';
-import Loader from '../../../components/Footer';
+import Loader from '../../../components/Loader';
 import Message from '../../../components/Message';
 import { CONTACTADD } from '../../../constants/constants';
 import { useDeleteContactMutation, useGetContactsQuery } from '../../../redux/query/apiSlice';

@@ -7,7 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ImageUpload from './components/ImageUpload';
 import './assets/styles/bootstrap.custom.css';
-import './assets/styles/index.css';
+
 import Header from './components/Header';
 import Footer from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';

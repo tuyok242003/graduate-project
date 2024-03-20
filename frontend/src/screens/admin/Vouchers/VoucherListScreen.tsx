@@ -6,12 +6,12 @@ import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import Loader from '../../../components/Footer';
+import Loader from '../../../components/Loader';
 import Message from '../../../components/Message';
 import { VOUCHERADD } from '../../../constants/constants';
 import { useDeleteVoucherMutation, useGetVouchersQuery } from '../../../redux/query/apiSlice';
 import { VoucherAdminStyled } from './styled';
-import { currentData } from '../../../components/CurrentData';
+import { currentData } from '../../../hepler';
 const VoucherListScreen = () => {
   const { data: vouchers, isLoading, error } = useGetVouchersQuery();
   const [deleteVoucher, { isLoading: loadingDelete }] = useDeleteVoucherMutation();

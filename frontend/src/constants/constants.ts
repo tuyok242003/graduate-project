@@ -63,4 +63,5 @@ export const SEARCHHOME = '/search/:keyword/page/:pageNumber';
 export const PRODUCTLISTSCREEN = '/admin/productlist/:pageNumber';
 export const PRODUCTADMINDETAIL = '/admin/product/:id';
 export const PRODUCTEDITSCREEN = '/admin/product/:id/edit';
+export const CATEGORYLISTADMIN = '/admin/categoryList/';
 export const NOTFOUND = '*';

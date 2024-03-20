@@ -16,9 +16,11 @@ import {
   IAddProduct,
   ICategories,
   IContact,
+  ICreateCategory,
   ICreateOrder,
   IDeleteVoucher,
   IOrder,
+  IOutCategory,
   IPosts,
   IProducts,
   IUser,
@@ -89,7 +91,7 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ['Category'],
     }),
-    createCategory: builder.mutation<{ message: string; category?: ICategories }, { name: string }>({
+    createCategory: builder.mutation<ICreateCategory, IOutCategory>({
       query: (input) => ({
         url: `${CATEGORIES_URL}`,
         method: 'POST',

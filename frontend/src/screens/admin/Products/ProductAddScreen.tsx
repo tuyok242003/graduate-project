@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import Loader from '../../../components/Footer';
+import Loader from '../../../components/Loader';
 import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
 import { useCreateProductMutation, useUploadProductImageMutation, useGetCategoriesQuery } from '../../../redux/query/apiSlice';

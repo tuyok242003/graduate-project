@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import FormContainer from '../../components/FormContainer';
 import { Button, Form } from 'react-bootstrap';
-import Loader from '../../components/Footer';
+import Loader from '../../components/Loader';
 import { displayErrorMessage } from '../../components/Error';
 import { IContactState } from '../admin/Contacts/ContactAddScreen';
 import { ContactScreenStyled } from './styled';

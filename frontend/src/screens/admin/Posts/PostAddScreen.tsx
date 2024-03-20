@@ -1,19 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { displayErrorMessage } from '../../../components/Error';
 import FormContainer from '../../../components/FormContainer';
-import Loader from '../../../components/Footer';
-import Message from '../../../components/Message';
+import Loader from '../../../components/Loader';
 import { POSTLIST } from '../../../constants/constants';
-import {
-  useCreatePostMutation,
-  useGetPostDetailsQuery,
-  useUpdatePostMutation,
-  useUploadPostImageMutation,
-} from '../../../redux/query/apiSlice';
 import { IFormField } from '../../../interfaces/InShop';
+import { useCreatePostMutation, useUploadPostImageMutation } from '../../../redux/query/apiSlice';
 import { PostStyled } from './styled';
 export interface IPostState {
   postName: string;

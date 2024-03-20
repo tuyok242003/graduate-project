@@ -6,12 +6,12 @@ import { MdDeleteSweep } from 'react-icons/md';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { displayErrorMessage } from '../../../components/Error';
-import Loader from '../../../components/Footer';
+import Loader from '../../../components/Loader';
 import Message from '../../../components/Message';
 import { ISCANCELLED, ISCONFIRM, ISRECEIVED } from '../../../constants/constants';
 import { useDeleteOrderMutation, useGetOrdersQuery } from '../../../redux/query/apiSlice';
 import { OrderStyled } from './styled';
-import { currentData } from '../../../components/CurrentData';
+import { currentData } from '../../../hepler';
 const OrderListScreen = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
   const [deleteOrder, { isLoading: loadingDelete }] = useDeleteOrderMutation();

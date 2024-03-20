@@ -1,6 +1,6 @@
 import { Button, Col, Row, Table } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import Loader from '../../../components/Footer';
+import Loader from '../../../components/Loader';
 import Message from '../../../components/Message';
 import { CANCEL, CONFIRM, RECEIVED } from '../../../constants/constants';
 import { useGetOrdersQuery } from '../../../redux/query/apiSlice';

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import Loader from '../../../components/Footer';
+import Loader from '../../../components/Loader';
 import Message from '../../../components/Message';
 import { ORDERLIST } from '../../../constants/constants';
 import { useDeliverOrderMutation, useGetOrderDetailsQuery } from '../../../redux/query/apiSlice';

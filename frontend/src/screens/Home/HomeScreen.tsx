@@ -3,7 +3,7 @@ import { IProducts } from '../../interfaces/OutShop';
 import { useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import Loader from '../../components/Footer';
+import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import Meta from '../../components/Meta';
 import PostCarousel from '../../components/PostCarousel.tsx';

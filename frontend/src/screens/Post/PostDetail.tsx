@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
-import Loader from '../../components/Footer';
+import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import { useGetPostDetailsQuery } from '../../redux/query/apiSlice';
 import { POST } from '../../constants/constants';

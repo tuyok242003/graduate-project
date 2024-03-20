@@ -5,7 +5,7 @@ import { IoIosAdd } from 'react-icons/io';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { displayErrorMessage } from '../../../components/Error';
-import Loader from '../../../components/Footer';
+import Loader from '../../../components/Loader';
 import Message from '../../../components/Message';
 import { PRODUCTADD } from '../../../constants/constants';
 import { IProducts } from '../../../interfaces/OutShop';

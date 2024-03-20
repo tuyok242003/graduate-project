@@ -10,8 +10,14 @@ export interface IContact {
   email: string;
   phone: string;
   content: string;
-
   length?: number;
+}
+export interface IOutCategory {
+  name: string;
+}
+export interface ICreateCategory {
+  message: string;
+  category?: ICategories;
 }
 export interface IOrder {
   _id: string;

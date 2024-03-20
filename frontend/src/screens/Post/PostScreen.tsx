@@ -1,7 +1,7 @@
 import { Button, Col, ListGroup, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { PostStyled } from '../../assets/styles/PostScreen';
-import Loader from '../../components/Footer';
+import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import { useGetPostsQuery } from '../../redux/query/apiSlice';
 const PostScreen = () => {

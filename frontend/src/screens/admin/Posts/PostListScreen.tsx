@@ -5,11 +5,11 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { displayErrorMessage } from '../../../components/Error';
-import Loader from '../../../components/Footer';
+import Loader from '../../../components/Loader';
 import Message from '../../../components/Message';
 import { useDeletePostMutation, useGetPostsQuery } from '../../../redux/query/apiSlice';
 import { PostStyled } from './styled';
-import { currentData } from '../../../components/CurrentData';
+import { currentData } from '../../../hepler';
 const PostListScreen = () => {
   const { data: posts, isLoading, error } = useGetPostsQuery();
   const [deleteProduct, { isLoading: loadingDelete }] = useDeletePostMutation();

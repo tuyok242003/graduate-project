@@ -8,7 +8,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { displayErrorMessage } from '../../components/Error';
-import Loader from '../../components/Footer';
+import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import SearchProfile from '../../components/Search/SearchProfile';
 import { CANCEL, CONFIRM, HOME, NOTRECEIVED, PROFILE, RECEIVED } from '../../constants/constants';

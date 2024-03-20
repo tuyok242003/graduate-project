@@ -4,13 +4,11 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 import App from './App';
 import './assets/styles/bootstrap.custom.css';
-import './assets/styles/index.css';
+
 import reportWebVitals from './reportWebVitals';
 import store from './redux/store';
 import { BrowserRouter } from 'react-router-dom';
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
     <HelmetProvider>
@@ -20,7 +18,7 @@ root.render(
         </BrowserRouter>
       </Provider>
     </HelmetProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 reportWebVitals();

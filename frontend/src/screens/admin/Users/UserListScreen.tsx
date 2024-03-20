@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { Button, Pagination, Table } from 'react-bootstrap';
 import { FaCheck, FaEdit, FaTimes, FaTrash } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
-import Loader from '../../../components/Footer';
+import Loader from '../../../components/Loader';
 import Message from '../../../components/Message';
 import { useDeleteUserMutation, useGetUsersQuery } from '../../../redux/query/apiSlice';
-import { currentData } from '../../../components/CurrentData';
+import { currentData } from '../../../hepler';
 const UserListScreen = () => {
   const { data: users, isLoading, error } = useGetUsersQuery();
 

@@ -3,7 +3,7 @@ import { Button, Table } from 'react-bootstrap';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import { displayErrorMessage } from '../../components/Error';
-import Loader from '../../components/Footer';
+import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import { CANCEL, NOTRECEIVED, RECEIVED } from '../../constants/constants';
 import { useDeleteOrderMutation, useGetMyOrdersQuery } from '../../redux/query/apiSlice';
