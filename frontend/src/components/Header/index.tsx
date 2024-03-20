@@ -3,7 +3,7 @@ import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { CART, CONTACT, LOGIN, POST, PRODUCTLIST, PROFILE } from '../../constants/constants';
+import { CART, CONTACT, HOME, LOGIN, POST, PRODUCTLIST, PROFILE } from '../../constants/constants';
 import { useLogoutMutation } from '../../redux/query/apiSlice';
 import { logout, selectUserInfo } from '../../redux/slices/authSlice';
 import { resetCart, selectCartItems } from '../../redux/slices/cartSlice';
@@ -40,7 +40,7 @@ const Header = () => {
     }
   };
   const navItems: INavItem[] = [
-    { key: 'home', title: 'TRANG CHỦ', link: '/' },
+    { key: 'home', title: 'TRANG CHỦ', link: HOME },
     { key: 'post', title: 'BÀI VIẾT', link: POST },
     { key: 'contact', title: 'LIÊN HỆ', link: CONTACT },
   ];

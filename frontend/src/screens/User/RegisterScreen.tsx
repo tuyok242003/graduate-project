@@ -8,7 +8,7 @@ import { useRegisterMutation } from '../../redux/query/apiSlice';
 import { selectUserInfo, setCredentials } from '../../redux/slices/authSlice';
 import { toast } from 'react-toastify';
 import { displayErrorMessage } from '../../components/Error';
-import { LOGIN } from '../../constants/constants';
+import { HOME, LOGIN } from '../../constants/constants';
 import { IFormField } from '../../interfaces/InShop';
 export interface IRegisterState {
   userName: string;
@@ -30,7 +30,7 @@ const RegisterScreen = () => {
   const userInfo = useSelector(selectUserInfo);
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
-  const redirect = sp.get('redirect') || '/';
+  const redirect = sp.get('redirect') || HOME;
 
   useEffect(() => {
     if (userInfo) {

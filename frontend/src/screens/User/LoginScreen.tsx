@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { displayErrorMessage } from '../../components/Error';
 import FormContainer from '../../components/FormContainer';
 import Loader from '../../components/Loader';
-import { FORGOTPASSWORD, REGISTER } from '../../constants/constants';
+import { FORGOTPASSWORD, HOME, REGISTER } from '../../constants/constants';
 import { useLoginMutation } from '../../redux/query/apiSlice';
 import { selectUserInfo, setCredentials } from '../../redux/slices/authSlice';
 import { IFormField } from '@/interfaces/InShop';
@@ -25,7 +25,7 @@ const LoginScreen = () => {
   const userInfo = useSelector(selectUserInfo);
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
-  const redirect = sp.get('redirect') || '/';
+  const redirect = sp.get('redirect') || HOME;
   useEffect(() => {
     if (userInfo) {
       navigate(redirect);

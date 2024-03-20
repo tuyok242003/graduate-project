@@ -51,12 +51,14 @@ const PostEditScreen = () => {
       displayErrorMessage(err);
     }
   };
+
   useEffect(() => {
     if (post) {
       setState({ postName: post.postName, content: post.content });
       setImg(post.image);
     }
   }, [post]);
+  console.log(post);
   const formData = new FormData();
   const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileInput = e.target;
