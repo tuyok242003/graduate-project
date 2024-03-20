@@ -266,7 +266,7 @@ export const apiSlice = createApi({
         body: data,
       }),
     }),
-    updatePost: builder.mutation<void, IUpdatePost>({
+    updatePost: builder.mutation<IPosts, IUpdatePost>({
       query: (data) => ({
         url: `${POSTS_URL}/${data.postId}`,
         method: 'PUT',

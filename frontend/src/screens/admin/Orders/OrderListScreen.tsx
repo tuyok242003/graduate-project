@@ -44,7 +44,6 @@ const OrderListScreen = () => {
           className="form-order"
           value={statusFromUrl}
           onChange={(e) => navigate(`?status=${e.target.value}`)}
-          style={{ marginBottom: 20 }}
         >
           <option value="all">Tất cả đơn hàng</option>
           <option value={ISRECEIVED}>Đơn hàng chưa giao</option>

@@ -21,13 +21,9 @@ const PostEditScreen = () => {
   });
   const [image, setImg] = useState('');
   const { data: post, isLoading, error } = useGetPostDetailsQuery(postId || '');
-
   const [updatePost, { isLoading: loadingUpdate }] = useUpdatePostMutation();
-
   const [uploadPostImg, { isLoading: loadingUpload }] = useUploadPostImageMutation();
-
   const navigate = useNavigate();
-
   const isFormValid = () => {
     if (!state.postName || !image || !state.content) {
       toast.error('Vui lòng điền đầy đủ thông tin bài viết');
@@ -55,14 +51,12 @@ const PostEditScreen = () => {
       displayErrorMessage(err);
     }
   };
-
   useEffect(() => {
     if (post) {
       setState({ postName: post.postName, content: post.content });
       setImg(post.image);
     }
   }, [post]);
-
   const formData = new FormData();
   const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileInput = e.target;

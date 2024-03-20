@@ -102,8 +102,8 @@ export interface IReview {
 }
 
 export interface IVariant {
-  id: string;
-  productId: string;
+  id?: string;
+  productId?: string;
   color: string;
   price: string;
   thumb: string;

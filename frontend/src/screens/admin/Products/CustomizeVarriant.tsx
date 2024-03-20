@@ -65,8 +65,6 @@ const CustomizeVariant = () => {
           countInStock: state.variantCountInStock,
           quantitySold: state.variantQuantitySold,
           discount: state.variantDiscount,
-          id: '',
-          productId: '',
         },
       }).unwrap();
 
@@ -174,7 +172,7 @@ const CustomizeVariant = () => {
               <Form.Control
                 type={field.type || 'text'}
                 placeholder={field.placeholder}
-                value={field.value}
+                // value={field.value}
                 onChange={field.onChange}
               />
               {loadingUploadVariantImages && field.controlId === 'variantImages' && <Loader />}

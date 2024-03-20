@@ -11,13 +11,10 @@ import { PRODUCTADD } from '../../../constants/constants';
 import { IProducts } from '../../../interfaces/OutShop';
 import { useDeleteProductMutation, useGetProductsQuery } from '../../../redux/query/apiSlice';
 import { ProductAdminStyled } from './styled';
-
 const ProductListScreen = () => {
   const navigate = useNavigate();
-
   const { data, isLoading, error } = useGetProductsQuery();
   const [deleteProduct, { isLoading: loadingDelete }] = useDeleteProductMutation();
-
   const deleteHandler = async (id: string) => {
     if (window.confirm('Are you sure')) {
       try {

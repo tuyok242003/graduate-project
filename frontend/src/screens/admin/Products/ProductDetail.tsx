@@ -12,7 +12,7 @@ import { ProductScreenStyled } from '../../../screens/Product/styled';
 
 interface IState {
   selectedVariant: IVariant | null;
-  activeVariantId: string | null;
+  activeVariantId?: string;
 }
 const ProductDetail = () => {
   const { id: productId } = useParams();
@@ -37,7 +37,7 @@ const ProductDetail = () => {
             <Row>
               <Col md={6}>
                 <Image
-                  src={state?.selectedVariant ? state.selectedVariant.thumb : product?.image}
+                  src={state?.selectedVariant ? state.selectedVariant.images : product?.image}
                   alt={product?.productName}
                   fluid
                 />
@@ -85,7 +85,10 @@ const ProductDetail = () => {
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <Row>
-                        <Col>Status:</Col>
+                        <Col>Status: </Col>
+                        <Col>
+                          {state?.selectedVariant && state?.selectedVariant.countInStock > 0 ? 'Vẫn còn hàng' : 'Đã hết hàng'}
+                        </Col>
                       </Row>
                     </ListGroup.Item>
                   </ListGroup>
