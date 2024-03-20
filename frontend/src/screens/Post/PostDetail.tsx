@@ -22,7 +22,6 @@ const PostDetail = () => {
               <img src={post?.image} alt={post?.content} className="img-fluid rounded post-image" />
             </div>
             <p className="fs-5">{post?.content}</p>
-
             <Link to={POST} className="btn btn-primary">
               Quay Lại
             </Link>

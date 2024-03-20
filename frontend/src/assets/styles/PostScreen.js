@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components"
+import styled, { keyframes } from 'styled-components';
 
 // Define keyframes
 const blink = keyframes`
@@ -11,7 +11,7 @@ const blink = keyframes`
   100% {
     opacity: 1;
   }
-`
+`;
 export const PostStyled = styled.div`
   .new-post {
     color: red;
@@ -28,8 +28,14 @@ export const PostStyled = styled.div`
     height: 100px;
   }
   .post-wrapper {
-    display: "grid";
+    display: 'grid';
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20;
   }
-`
+  .btn-post {
+    margin-left: 20px;
+  }
+  .post-name {
+    margin-left: 20px;
+  }
+`;
