@@ -90,7 +90,7 @@ const UserEditScreen = () => {
                   <Form.Control
                     type={field.type || 'otherType'}
                     placeholder={`Enter ${field.label}`}
-                    value={field.value.toString()}
+                    value={field.value?.toString()}
                     onChange={field.onChange}
                   />
                 ) : null}

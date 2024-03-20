@@ -95,7 +95,7 @@ const VoucherAddScreen = () => {
           Go Back
         </Link>
         <FormContainer>
-          <h1>Add Contact</h1>
+          <h1>Add Vouchers</h1>
           {loadingAdd && <Loader />}
           <Form onSubmit={submitHandler}>
             {formFields.map((field) => (

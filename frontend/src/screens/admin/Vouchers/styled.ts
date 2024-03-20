@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components';
 export const VoucherAdminStyled = styled.div`
   .button-voucher {
     margin-top: 1rem;
@@ -6,4 +6,7 @@ export const VoucherAdminStyled = styled.div`
   .fatrash {
     color: white;
   }
-`
+  .button-contact {
+    margin-top: 10px;
+  }
+`;

@@ -7,7 +7,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import Loader from '../../../components/Footer';
 import Message from '../../../components/Message';
 import { useDeleteUserMutation, useGetUsersQuery } from '../../../redux/query/apiSlice';
-
+import { currentData } from '../../../components/CurrentData';
 const UserListScreen = () => {
   const { data: users, isLoading, error } = useGetUsersQuery();
 
@@ -23,9 +23,7 @@ const UserListScreen = () => {
       }
     }
   };
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = users?.slice(indexOfFirstUser, indexOfLastUser);
+
   return (
     <>
       <h1>Users</h1>
@@ -46,7 +44,7 @@ const UserListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {currentUsers?.map((user: IUser) => (
+              {currentData(currentPage, usersPerPage, users)?.map((user: IUser) => (
                 <tr key={user._id}>
                   <td>{user._id}</td>
                   <td>{user.userName}</td>

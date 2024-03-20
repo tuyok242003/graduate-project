@@ -6,7 +6,7 @@ import { displayErrorMessage } from '../../../components/Error';
 import FormContainer from '../../../components/FormContainer';
 import Loader from '../../../components/Footer';
 import Message from '../../../components/Message';
-import { CONTACTADD } from '../../../constants/constants';
+import { CATEGORYLIST, CONTACTADD } from '../../../constants/constants';
 import { useGetCategoryDetailsQuery, useUpdateCategoryMutation } from '../../../redux/query/apiSlice';
 import { CategoryAdminStyled } from './styled';
 const CategoryEditScreen = () => {
@@ -33,7 +33,7 @@ const CategoryEditScreen = () => {
         name,
       }).unwrap();
       toast.success('Category updated');
-      navigate(CONTACTADD);
+      navigate(CATEGORYLIST);
     } catch (err) {
       displayErrorMessage(err);
     }
