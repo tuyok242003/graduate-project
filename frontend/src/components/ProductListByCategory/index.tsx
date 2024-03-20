@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSearchProductsByCategoryQuery } from '../../redux/query/apiSlice';
 import { ICategories, IProducts } from '../../interfaces/OutShop';
 import { Card } from 'react-bootstrap';
@@ -7,14 +7,9 @@ import Rating from '../Rating';
 import { ProductList } from './styled';
 
 const ProductListByCategory = ({ selectedCategory }: { selectedCategory: ICategories }) => {
-  const {
-    data: products,
-    isLoading,
-    error,
-  } = useSearchProductsByCategoryQuery({
+  const { data: products, isLoading } = useSearchProductsByCategoryQuery({
     category: selectedCategory,
   });
-  useEffect(() => {}, [products, isLoading, error]);
   return (
     <ProductList>
       {isLoading ? (
