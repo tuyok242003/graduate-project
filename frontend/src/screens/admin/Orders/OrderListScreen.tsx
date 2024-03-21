@@ -75,7 +75,7 @@ const OrderListScreen = () => {
                   ?.filter((order) => {
                     if (statusFromUrl === ISRECEIVED) {
                       return !order.isDelivered && !order.isCancelled;
-                    } else if (statusFromUrl === '/admin/isReceived') {
+                    } else if (statusFromUrl === ISRECEIVED) {
                       return order.isDelivered;
                     } else if (statusFromUrl === ISCANCELLED) {
                       return order.isCancelled;

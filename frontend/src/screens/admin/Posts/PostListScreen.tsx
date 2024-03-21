@@ -10,6 +10,7 @@ import Message from '../../../components/Message';
 import { useDeletePostMutation, useGetPostsQuery } from '../../../redux/query/apiSlice';
 import { PostStyled } from './styled';
 import { currentData } from '../../../hepler';
+import { POSTADD } from '../../../constants/constants';
 const PostListScreen = () => {
   const { data: posts, isLoading, error } = useGetPostsQuery();
   const [deleteProduct, { isLoading: loadingDelete }] = useDeletePostMutation();
@@ -29,7 +30,7 @@ const PostListScreen = () => {
 
   const createPostHandler = async () => {
     try {
-      navigate('/admin/post/add');
+      navigate(POSTADD);
     } catch (err) {
       displayErrorMessage(err);
     }

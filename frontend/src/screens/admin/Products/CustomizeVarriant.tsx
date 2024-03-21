@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { displayErrorMessage } from '../../../components/Error';
 import { ProductAdminStyled } from './styled';
 import { IFormField } from '../../../interfaces/InShop';
+import { PRODUCTLIST } from '../../../constants/constants';
 
 interface IVariantState {
   variantColor: string;
@@ -69,7 +70,7 @@ const CustomizeVariant = () => {
       }).unwrap();
 
       toast.success('Variant added');
-      navigate(`/admin/productlist`);
+      navigate(PRODUCTLIST);
     } catch (err) {
       displayErrorMessage(err);
     }
