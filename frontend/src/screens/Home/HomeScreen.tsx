@@ -9,6 +9,7 @@ import Meta from '../../components/Meta';
 import PostCarousel from '../../components/PostCarousel.tsx';
 import Product from '../../components/Product';
 import { useGetProductsQuery, useSearchProductsByCategoryQuery } from '../../redux/query/apiSlice';
+import { HOME } from '../../../constants/constants';
 const HomeScreen = () => {
   const { data, isLoading, error } = useGetProductsQuery();
   const [selectedCategory] = useState<ICategories | null>(null);
@@ -23,7 +24,7 @@ const HomeScreen = () => {
     <>
       <PostCarousel />
 
-      <Link to="/" className="btn btn-light mb-4">
+      <Link to={HOME} className="btn btn-light mb-4">
         Go Back
       </Link>
 

@@ -9,6 +9,7 @@ import { useGetProductDetailsQuery } from '../../../redux/query/apiSlice';
 
 import { IReview, IVariant } from '../../../interfaces/OutShop';
 import { ProductScreenStyled } from '../../../screens/Product/styled';
+import { HOME } from '../../../constants/constants';
 
 interface IState {
   selectedVariant: IVariant | null;
@@ -24,7 +25,7 @@ const ProductDetail = () => {
   return (
     <ProductScreenStyled>
       <>
-        <Link className="btn btn-light my-3" to="/">
+        <Link className="btn btn-light my-3" to={HOME}>
           Go Back
         </Link>
         {isLoading ? (

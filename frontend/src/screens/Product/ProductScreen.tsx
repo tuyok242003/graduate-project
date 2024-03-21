@@ -10,7 +10,7 @@ import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import Meta from '../../components/Meta';
 import Rating from '../../components/Rating';
-import { CART } from '../../constants/constants';
+import { CART, HOME } from '../../constants/constants';
 import { useCreateReviewMutation, useGetProductDetailsQuery } from '../../redux/query/apiSlice';
 import { addToCart } from '../../redux/slices/cartSlice';
 import { ProductScreenStyled } from './styled';
@@ -88,7 +88,7 @@ const ProductScreen = () => {
   return (
     <ProductScreenStyled>
       <>
-        <Link className="btn btn-light my-3" to="/">
+        <Link className="btn btn-light my-3" to={HOME}>
           Go Back
         </Link>
         {isLoading ? (
