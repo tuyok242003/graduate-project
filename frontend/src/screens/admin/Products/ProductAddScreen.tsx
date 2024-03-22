@@ -5,17 +5,10 @@ import Loader from '../../../components/Loader';
 import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
 import { useCreateProductMutation, useUploadProductImageMutation, useGetCategoriesQuery } from '../../../redux/query/apiSlice';
-import { ICategories } from '../../../interfaces/OutShop';
+import { ICategories, IProductState } from '../../../interfaces/OutShop';
 import { PRODUCTLIST } from '../../../constants/constants';
 import { ProductAdminStyled } from './styled';
 
-export interface IProductState {
-  productName: string;
-  price: string;
-  brand: string;
-  category: string;
-  description: string;
-}
 interface IFormProduct {
   controlId: string;
   label: string;

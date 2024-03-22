@@ -58,7 +58,6 @@ const PostEditScreen = () => {
       setImg(post.image);
     }
   }, [post]);
-  console.log(post);
   const formData = new FormData();
   const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileInput = e.target;

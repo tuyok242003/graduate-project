@@ -19,7 +19,7 @@ import {
   useProfileMutation,
 } from '../../redux/query/apiSlice';
 import { selectUserInfo, setCredentials } from '../../redux/slices/authSlice';
-import { IRegisterState } from './RegisterScreen';
+import { IRegisterState } from '../../interfaces/OutShop';
 import { UserScreenStyled } from './styled';
 const ProfileScreen = () => {
   const [state, setState] = useState<IRegisterState>({

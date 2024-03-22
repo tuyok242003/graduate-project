@@ -12,7 +12,7 @@ import {
   useUpdateProductMutation,
   useUploadProductImageMutation,
 } from '../../../redux/query/apiSlice';
-import { IProductState } from './ProductAddScreen';
+import { IProductState } from '../../../interfaces/OutShop';
 import { ProductAdminStyled } from './styled';
 import { ICategories } from '@/interfaces/OutShop';
 

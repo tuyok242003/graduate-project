@@ -8,7 +8,7 @@ import CheckoutSteps from '../../components/CheckoutStep';
 import Loader from '../../components/Loader';
 import { useCreateOrderMutation } from '../../redux/query/apiSlice';
 import { clearCartItems } from '../../redux/slices/cartSlice';
-import { IRootState } from '../Cart/CartScreen';
+import { IRootState } from '../../interfaces/OutShop';
 import { IOrderItem } from '../../interfaces/OutShop';
 import { PAYMENT, SHIPPING } from '../../constants/constants';
 import { OrderScreenStyled } from './styled';

@@ -10,12 +10,8 @@ import { toast } from 'react-toastify';
 import { displayErrorMessage } from '../../components/Error';
 import { HOME, LOGIN } from '../../constants/constants';
 import { IFormField } from '../../interfaces/InShop';
-export interface IRegisterState {
-  userName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+import { IRegisterState } from '../../interfaces/OutShop';
+
 const RegisterScreen = () => {
   const [state, setState] = useState<IRegisterState>({
     userName: '',

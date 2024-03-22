@@ -9,7 +9,7 @@ import Meta from '../../components/Meta';
 import PostCarousel from '../../components/PostCarousel.tsx';
 import Product from '../../components/Product';
 import { useGetProductsQuery, useSearchProductsByCategoryQuery } from '../../redux/query/apiSlice';
-import { HOME } from '../../../constants/constants';
+import { HOME } from '../../constants/constants';
 const HomeScreen = () => {
   const { data, isLoading, error } = useGetProductsQuery();
   const [selectedCategory] = useState<ICategories | null>(null);

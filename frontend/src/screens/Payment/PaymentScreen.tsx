@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../../components/FormContainer';
 import CheckoutSteps from '../../components/CheckoutStep';
 import { savePaymentMethod } from '../../redux/slices/cartSlice';
-import {IRootState} from '../Cart/CartScreen'
+import { IRootState } from '../../interfaces/OutShop';
 import { PLACEORDER, SHIPPING } from '../../constants/constants';
 const PaymentScreen = () => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const PaymentScreen = () => {
 
   useEffect(() => {
     if (!shippingAddress.address) {
-      navigate(SHIPPING);        
+      navigate(SHIPPING);
     }
   }, [navigate, shippingAddress]);
   const [paymentMethod, setPaymentMethod] = useState('PayPal');
@@ -27,36 +27,36 @@ const PaymentScreen = () => {
 
   return (
     <FormContainer>
-      <CheckoutSteps step1 step2 step3  />
+      <CheckoutSteps step1 step2 step3 />
       <h1>Payment Method</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group>
-          <Form.Label as='legend'>Select Method</Form.Label>
+          <Form.Label as="legend">Select Method</Form.Label>
           <Col>
-          <Form.Check
-  className='my-2'
-  type='radio'
-  label='PayPal or Credit Card'
-  id='PayPal'
-  name='paymentMethod'
-  value='PayPal'
-  checked={paymentMethod === 'PayPal'}
-  onChange={(e) => setPaymentMethod(e.target.value)}
-/>
-<Form.Check
-  className='my-2'
-  type='radio'
-  label='Thanh toán khi nhận hàng'
-  id='Receive'
-  name='paymentMethod'
-  value='Thanh toán khi nhận hàng'
-  checked={paymentMethod === 'Thanh toán khi nhận hàng'}
-  onChange={(e) => setPaymentMethod(e.target.value)}
-/>
+            <Form.Check
+              className="my-2"
+              type="radio"
+              label="PayPal or Credit Card"
+              id="PayPal"
+              name="paymentMethod"
+              value="PayPal"
+              checked={paymentMethod === 'PayPal'}
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            />
+            <Form.Check
+              className="my-2"
+              type="radio"
+              label="Thanh toán khi nhận hàng"
+              id="Receive"
+              name="paymentMethod"
+              value="Thanh toán khi nhận hàng"
+              checked={paymentMethod === 'Thanh toán khi nhận hàng'}
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            />
           </Col>
         </Form.Group>
 
-        <Button type='submit' variant='primary'>
+        <Button type="submit" variant="primary">
           Continue
         </Button>
       </Form>

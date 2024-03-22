@@ -4,6 +4,31 @@ export interface ICategories {
   products: IProducts[];
   length: number;
 }
+export interface IRootState {
+  cart: {
+    cartItems: IOrderItem[];
+    shippingAddress: IShippingAddress;
+    paymentMethod: string;
+    itemsPrice: number;
+    shippingPrice: number;
+    totalPrice: number;
+    voucherName: IVoucherName;
+    isUsed: IVoucherName;
+  };
+}
+export interface IRegisterState {
+  userName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+export interface IProductState {
+  productName: string;
+  price: string;
+  brand: string;
+  category: string;
+  description: string;
+}
 export interface IContact {
   _id?: string;
   contactName: string;

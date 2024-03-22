@@ -1,24 +1,13 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap';
-import { FaTrash } from 'react-icons/fa';
-import Message from '../../components/Message';
-import { removeFromCart, increaseQty, decreaseQty } from '../../redux/slices/cartSlice';
-import { IOrderItem, IShippingAddress, IVoucherName } from '../../interfaces/OutShop';
 import React, { useState } from 'react';
+import { Button, Card, Col, Form, Image, ListGroup, Row } from 'react-bootstrap';
+import { FaTrash } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import Message from '../../components/Message';
+import { IOrderItem, IRootState } from '../../interfaces/OutShop';
+import { decreaseQty, increaseQty, removeFromCart } from '../../redux/slices/cartSlice';
 import { CartScreenStyled } from './styled';
-export interface IRootState {
-  cart: {
-    cartItems: IOrderItem[];
-    shippingAddress: IShippingAddress;
-    paymentMethod: string;
-    itemsPrice: number;
-    shippingPrice: number;
-    totalPrice: number;
-    voucherName: IVoucherName;
-    isUsed: IVoucherName;
-  };
-}
+
 const CartScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
