@@ -9,11 +9,8 @@ import { logout, selectUserInfo } from '../../redux/slices/authSlice';
 import { resetCart, selectCartItems } from '../../redux/slices/cartSlice';
 import SearchBox from '../Search/SearchBox';
 import { HeaderHome } from './styled';
-export interface ICartItem {
-  length: number;
-  qty: number;
-  reduce: number;
-}
+import { ICartItem } from '../../interfaces/OutShop';
+
 interface INavItem {
   key: string;
   title: string;

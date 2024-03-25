@@ -4,6 +4,7 @@ export interface ICategories {
   products: IProducts[];
   length: number;
 }
+
 export interface IRootState {
   cart: {
     cartItems: IOrderItem[];
@@ -15,6 +16,17 @@ export interface IRootState {
     voucherName: IVoucherName;
     isUsed: IVoucherName;
   };
+}
+export interface ICartItem {
+  length: number;
+  qty: number;
+  reduce: number;
+}
+export interface IVoucherState {
+  voucherName: string;
+  discountAmount: string;
+  qty: string;
+  isUsed: boolean;
 }
 export interface IRegisterState {
   userName: string;

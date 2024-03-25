@@ -10,13 +10,7 @@ import { displayErrorMessage } from '../../../components/Error';
 import { VOUCHERLIST } from '../../../constants/constants';
 import { VoucherAdminStyled } from './styled';
 import { IFormField } from '../../../interfaces/InShop';
-
-export interface IVoucherState {
-  voucherName: string;
-  discountAmount: string;
-  qty: string;
-  isUsed: boolean;
-}
+import { IVoucherState } from '../../../interfaces/OutShop';
 
 const VoucherEditScreen = () => {
   const { id: voucherId } = useParams();

@@ -11,7 +11,7 @@ import { displayErrorMessage } from '../../components/Error';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import SearchProfile from '../../components/Search/SearchProfile';
-import { CANCEL, CONFIRM, HOME, NOTRECEIVED, PROFILE, RECEIVED } from '../../constants/constants';
+import { All, CANCEL, CONFIRM, HOME, NOTRECEIVED, PROFILE, RECEIVED } from '../../constants/constants';
 import {
   useCancelOrderMutation,
   useConfirmOrderMutation,
@@ -157,7 +157,7 @@ const ProfileScreen = () => {
         <Col md={9}>
           <h2>My Orders</h2>
           <Form.Control as="select" value={statusFromUrl} onChange={(e) => navigate(`/profile?status=${e.target.value}`)}>
-            <option value="all">Tất cả đơn hàng</option>
+            <option value={All}>Tất cả đơn hàng</option>
             <option value={NOTRECEIVED}>Đơn hàng chưa giao</option>
             <option value={RECEIVED}>Đơn hàng đã giao</option>
             <option value={CANCEL}>Đơn hàng đã huỷ</option>

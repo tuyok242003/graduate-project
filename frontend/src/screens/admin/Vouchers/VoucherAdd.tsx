@@ -5,9 +5,8 @@ import Loader from '../../../components/Loader';
 import FormContainer from '../../../components/FormContainer';
 import { toast } from 'react-toastify';
 import { useCreateVoucherMutation, useGetVouchersQuery } from '../../../redux/query/apiSlice';
-import { IVouchers } from '../../../interfaces/OutShop';
+import { IVoucherState, IVouchers } from '../../../interfaces/OutShop';
 import { displayErrorMessage } from '../../../components/Error';
-import { IVoucherState } from './VoucherEdit';
 import { VOUCHERLIST } from '../../../constants/constants';
 import { VoucherAdminStyled } from './styled';
 const VoucherAddScreen = () => {

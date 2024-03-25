@@ -67,8 +67,6 @@ const UserEditScreen = () => {
       onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, isAdmin: e.target.checked }),
     },
   ];
-  console.log(state);
-
   return (
     <>
       <Link to={USERLIST} className="btn btn-light my-3">

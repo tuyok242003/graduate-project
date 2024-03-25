@@ -1,6 +1,5 @@
-import { ICartItem } from '@/components/Header';
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
-import { IOrder } from '../../interfaces/OutShop';
+import { ICartItem, IOrder } from '../../interfaces/OutShop';
 import { updateCart } from '../../utils/cartUtils';
 interface ISelect {
   selected: IOrder;

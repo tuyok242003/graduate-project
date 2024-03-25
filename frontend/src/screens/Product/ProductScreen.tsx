@@ -40,7 +40,7 @@ const ProductScreen = () => {
     window.scrollTo(0, 0);
   }, []);
   const buyNowHandler = () => {
-    if (selectedVariant && typeof selectedVariant === 'object' && selectedVariant !== null) {
+    if (selectedVariant && typeof selectedVariant === 'object') {
       dispatch(addToCart({ ...selectedVariant, qty: selectedVariantQty }));
       toast.success('Product added to cart successfully');
       navigate(CART);

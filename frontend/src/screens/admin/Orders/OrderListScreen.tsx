@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { displayErrorMessage } from '../../../components/Error';
 import Loader from '../../../components/Loader';
 import Message from '../../../components/Message';
-import { ISCANCELLED, ISCONFIRM, ISRECEIVED } from '../../../constants/constants';
+import { All, ISCANCELLED, ISCONFIRM, ISRECEIVED } from '../../../constants/constants';
 import { useDeleteOrderMutation, useGetOrdersQuery } from '../../../redux/query/apiSlice';
 import { OrderStyled } from './styled';
 import { currentData } from '../../../hepler';
@@ -45,7 +45,7 @@ const OrderListScreen = () => {
           value={statusFromUrl}
           onChange={(e) => navigate(`?status=${e.target.value}`)}
         >
-          <option value="all">Tất cả đơn hàng</option>
+          <option value={All}>Tất cả đơn hàng</option>
           <option value={ISRECEIVED}>Đơn hàng chưa giao</option>
           <option value={ISRECEIVED}>Đơn hàng đã giao</option>
           <option value={ISCANCELLED}>Đơn hàng đã huỷ</option>
