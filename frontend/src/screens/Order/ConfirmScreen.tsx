@@ -9,12 +9,10 @@ import { CANCEL, NOTRECEIVED, RECEIVED } from '../../constants/constants';
 import { useDeleteOrderMutation, useGetMyOrdersQuery } from '../../redux/query/apiSlice';
 import { OrderScreenStyled } from './styled';
 import { IButtonLink } from '../../interfaces/InShop';
-
 const ConfirmScreen = () => {
   const { data: orders, isLoading, error } = useGetMyOrdersQuery();
   console.log(orders);
   const [deleteOrder] = useDeleteOrderMutation();
-
   const deleteHandler = async (id: string) => {
     if (window.confirm('Bạn có muốn xoá đơn hàng không')) {
       try {

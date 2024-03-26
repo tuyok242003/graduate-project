@@ -3,18 +3,15 @@ import { FaCheck, FaTimes } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
-
 import { displayErrorMessage } from '../../components/Error';
 import { CONFIRM, NOTRECEIVED, RECEIVED } from '../../constants/constants';
 import { useDeleteOrderMutation, useGetMyOrdersQuery } from '../../redux/query/apiSlice';
 import { OrderScreenStyled } from './styled';
 import { IButtonLink } from '../../interfaces/InShop';
-
 const CancelScreen = () => {
   const { data: orders, isLoading, error } = useGetMyOrdersQuery();
   console.log(orders);
   const [deleteOrder] = useDeleteOrderMutation();
-
   const deleteHandler = async (id: string) => {
     if (window.confirm('Bạn có muốn xoá đơn hàng không')) {
       try {

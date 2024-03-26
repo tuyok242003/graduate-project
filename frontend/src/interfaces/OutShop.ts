@@ -127,13 +127,6 @@ export interface IPosts {
   image: string;
   content: string;
 }
-export interface IPosts {
-  _id: string;
-  postName: string;
-  image: string;
-  content: string;
-}
-
 export interface IReview {
   _id: string;
   name: string;

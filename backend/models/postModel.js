@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import mongoose from 'mongoose';
 const postSchema = mongoose.Schema(
   {
@@ -16,7 +17,7 @@ const postSchema = mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 const Post = mongoose.model('Post', postSchema);
 export default Post;

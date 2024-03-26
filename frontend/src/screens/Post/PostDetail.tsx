@@ -8,6 +8,8 @@ import { PostScreenStyled } from './styled';
 const PostDetail = () => {
   const { postId } = useParams();
   const { data: post, isLoading, error } = useGetPostDetailsQuery(postId || '');
+  console.log(post);
+
   return (
     <PostScreenStyled>
       <div className="container mt-4">

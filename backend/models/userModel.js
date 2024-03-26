@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
@@ -26,7 +27,7 @@ const userSchema = mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // Match user entered password to hashed password in database
