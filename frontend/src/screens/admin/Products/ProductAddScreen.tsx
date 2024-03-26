@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import Loader from '../../../components/Loader';
 import FormContainer from '../../../components/FormContainer';
@@ -52,7 +52,7 @@ const ProductAddScreen = () => {
       }
     }
   };
-
+  const navigate = useNavigate();
   const formFields: IFormProduct[] = [
     {
       controlId: 'name',
@@ -142,6 +142,7 @@ const ProductAddScreen = () => {
         description: state.description,
       }).unwrap();
       toast.success('Product added');
+      navigate(PRODUCTLIST);
     } catch (error) {
       toast.error('Error');
     }

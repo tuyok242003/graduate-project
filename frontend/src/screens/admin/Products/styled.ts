@@ -7,7 +7,7 @@ export const ProductAdminStyled = styled.div`
     color: white;
   }
   .container {
-    width: 200px;
+    width: 1000px;
   }
   .input-add {
     width: 400px;
@@ -17,5 +17,8 @@ export const ProductAdminStyled = styled.div`
   }
   .variant-item {
     cursor: pointer;
+  }
+  .list-product {
+    width: 200px;
   }
 `;

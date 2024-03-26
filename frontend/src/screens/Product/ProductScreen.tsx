@@ -102,7 +102,7 @@ const ProductScreen = () => {
               <Col md={6}>
                 <Image
                   className="image-product"
-                  src={selectedVariant ? selectedVariant.thumb : product?.image}
+                  src={selectedVariant ? selectedVariant.images : product?.image}
                   alt={product?.productName}
                   fluid
                 />

@@ -139,7 +139,7 @@ const CustomizeVariant = () => {
       controlId: 'variantQuantitySold',
       label: 'QuantitySold',
       type: 'number',
-      placeholder: 'Enter thumbnail url',
+      placeholder: 'Enter QuantitySold',
       value: state.variantQuantitySold.toString(),
       onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, variantQuantitySold: parseInt(e.target.value) }),
     },
@@ -166,11 +166,12 @@ const CustomizeVariant = () => {
       <FormContainer>
         <h1>Add Variant</h1>
         {loadingAddVariant && <Loader />}
-        <Form onSubmit={submitHandler}>
+        <Form className="form" onSubmit={submitHandler}>
           {formFields.map((field) => (
             <Form.Group key={field.controlId} controlId={field.controlId}>
               <Form.Label>{field.label}</Form.Label>
               <Form.Control
+                className="input-add"
                 type={field.type || 'text'}
                 placeholder={field.placeholder}
                 // value={field.value}
