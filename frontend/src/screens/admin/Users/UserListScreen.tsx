@@ -8,6 +8,7 @@ import Loader from '../../../components/Loader';
 import Message from '../../../components/Message';
 import { useDeleteUserMutation, useGetUsersQuery } from '../../../redux/query/apiSlice';
 import { currentData } from '../../../hepler';
+import { UserStyled } from './styled';
 const UserListScreen = () => {
   const { data: users, isLoading, error } = useGetUsersQuery();
 
@@ -25,63 +26,67 @@ const UserListScreen = () => {
   };
 
   return (
-    <>
-      <h1>Users</h1>
-      {isLoading ? (
-        <Loader />
-      ) : error ? (
-        <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
-      ) : (
-        <>
-          <Table striped bordered hover responsive className="table-sm">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>EMAIL</th>
-                <th>ADMIN</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentData(currentPage, usersPerPage, users)?.map((user: IUser) => (
-                <tr key={user._id}>
-                  <td>{user._id}</td>
-                  <td>{user.userName}</td>
-                  <td>
-                    <a href={`mailto:${user.email}`}>{user.email}</a>
-                  </td>
-                  <td>{user.isAdmin ? <FaCheck className="facheck" /> : <FaTimes className="fatimes" />}</td>
-                  <td>
-                    {!user.isAdmin && (
-                      <>
-                        <LinkContainer className="container" to={`/admin/user/${user._id}/edit`}>
-                          <Button variant="light" className="btn-sm">
-                            <FaEdit />
-                          </Button>
-                        </LinkContainer>
-                        <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(user._id)}>
-                          <FaTrash className="fatrash" />
-                        </Button>
-                      </>
-                    )}
-                  </td>
+    <UserStyled>
+      <>
+        <h1>Users</h1>
+        {isLoading ? (
+          <Loader />
+        ) : error ? (
+          <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
+        ) : (
+          <>
+            <Table striped bordered hover responsive className="table-sm">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>NAME</th>
+                  <th>EMAIL</th>
+                  <th>ADMIN</th>
+                  <th></th>
                 </tr>
+              </thead>
+              <tbody>
+                {currentData(currentPage, usersPerPage, users)?.map((user: IUser) => (
+                  <tr key={user._id}>
+                    <td>{user._id}</td>
+                    <td>{user.userName}</td>
+                    <td>
+                      <a href={`mailto:${user.email}`}>{user.email}</a>
+                    </td>
+                    <td className="isAdmin">
+                      {user.isAdmin ? <FaCheck className="facheck" /> : <FaTimes className="fatimes" />}
+                    </td>
+                    <td>
+                      {!user.isAdmin && (
+                        <>
+                          <LinkContainer className="container" to={`/admin/user/${user._id}/edit`}>
+                            <Button variant="light" className="btn-fa">
+                              <FaEdit />
+                            </Button>
+                          </LinkContainer>
+                          <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(user._id)}>
+                            <FaTrash className="fatrash" />
+                          </Button>
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            <Pagination>
+              {Array.from({
+                length: Math.ceil((users?.length || 0) / usersPerPage) || 1,
+              }).map((page, index) => (
+                <Pagination.Item key={index} active={index + 1 === currentPage} onClick={() => setCurrentPage(index + 1)}>
+                  {index + 1}
+                </Pagination.Item>
               ))}
-            </tbody>
-          </Table>
-          <Pagination>
-            {Array.from({
-              length: Math.ceil((users?.length || 0) / usersPerPage) || 1,
-            }).map((page, index) => (
-              <Pagination.Item key={index} active={index + 1 === currentPage} onClick={() => setCurrentPage(index + 1)}>
-                {index + 1}
-              </Pagination.Item>
-            ))}
-          </Pagination>
-        </>
-      )}
-    </>
+            </Pagination>
+          </>
+        )}
+      </>
+    </UserStyled>
   );
 };
 

@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components';
 export const UserStyled = styled.div`
   .facheck {
     color: green;
@@ -6,10 +6,10 @@ export const UserStyled = styled.div`
   .fatimes {
     color: red;
   }
-  .container {
-    margin-right: 10px;
-  }
   .fatrash {
     color: white;
   }
-`
+  .isAdmin {
+    padding-left: 50px;
+  }
+`;
