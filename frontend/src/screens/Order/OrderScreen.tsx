@@ -79,7 +79,7 @@ const OrderScreen: React.FC = () => {
       .create({
         purchase_units: [
           {
-            amount: { value: order?.totalPrice },
+            amount: { value: order && typeof order.totalPrice === 'number' ? order.totalPrice.toString() : '' },
           },
         ],
       })

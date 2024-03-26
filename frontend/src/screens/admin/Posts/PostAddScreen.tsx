@@ -14,7 +14,7 @@ export interface IPostState {
   content: string;
 }
 const PostAddScreen = () => {
-  const { id: postId } = useParams();
+  useParams();
 
   const [state, setState] = useState<IPostState>({
     postName: '',
