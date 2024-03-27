@@ -100,36 +100,31 @@ const PostEditScreen = () => {
         <FormContainer>
           <h1>Edit Post</h1>
 
-          {isLoading || loadingUpdate ? (
-            <Loader />
-          ) : error ? (
-            <Message variant="danger">Đã xảy ra lỗi. Vui lòng thử lại sau</Message>
-          ) : (
-            <Form onSubmit={submitHandler}>
-              {/* Sử dụng map để render các trường dữ liệu */}
-              {formFields.map((field) => (
-                <Form.Group key={field.controlId} controlId={field.controlId}>
-                  <Form.Label>{field.label}</Form.Label>
-                  {field.type === 'file' ? (
-                    <>
-                      <Form.Control type={field.type} aria-label="Choose File" onChange={field.onChange} />
-                      {loadingUpload && <Loader />}
-                    </>
-                  ) : (
-                    <Form.Control
-                      type="text"
-                      placeholder={field.placeholder}
-                      value={field.value}
-                      onChange={handleChange(field.controlId)}
-                    />
-                  )}
-                </Form.Group>
-              ))}
-              <Button type="submit" variant="primary">
-                Update
-              </Button>
-            </Form>
-          )}
+          <Loader loading={isLoading || loadingUpdate} error={!!error} />
+          <Form onSubmit={submitHandler}>
+            {/* Sử dụng map để render các trường dữ liệu */}
+            {formFields.map((field) => (
+              <Form.Group key={field.controlId} controlId={field.controlId}>
+                <Form.Label>{field.label}</Form.Label>
+                {field.type === 'file' ? (
+                  <>
+                    <Form.Control type={field.type} aria-label="Choose File" onChange={field.onChange} />
+                    {loadingUpload && <Loader />}
+                  </>
+                ) : (
+                  <Form.Control
+                    type="text"
+                    placeholder={field.placeholder}
+                    value={field.value}
+                    onChange={handleChange(field.controlId)}
+                  />
+                )}
+              </Form.Group>
+            ))}
+            <Button type="submit" variant="primary">
+              Update
+            </Button>
+          </Form>
         </FormContainer>
       </>
     </PostStyled>
