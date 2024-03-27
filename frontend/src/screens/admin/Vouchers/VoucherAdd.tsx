@@ -20,7 +20,7 @@ const VoucherAddScreen = () => {
   const [addVoucher, { isLoading: loadingAdd }] = useCreateVoucherMutation();
 
   const navigate = useNavigate();
-  const isFormValid = () => {
+  const ValidateForm = () => {
     if (!state.voucherName || !state.discountAmount || !state.qty) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
       return false;
@@ -37,7 +37,7 @@ const VoucherAddScreen = () => {
   };
   const submitHandler = async (voucher: React.FormEvent<HTMLFormElement>) => {
     voucher.preventDefault();
-    if (!isFormValid()) {
+    if (!ValidateForm()) {
       return;
     }
     try {

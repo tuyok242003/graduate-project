@@ -55,7 +55,7 @@ const ContactScreen = () => {
     },
   ];
 
-  const isFormValid = () => {
+  const ValidateForm = () => {
     if (!state.contactName || !state.phone || !state.email || !state.content) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
       return false;
@@ -69,7 +69,7 @@ const ContactScreen = () => {
 
   const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
     category.preventDefault();
-    if (!isFormValid()) {
+    if (!ValidateForm()) {
       return;
     }
     try {

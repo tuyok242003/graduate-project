@@ -25,7 +25,7 @@ const VoucherEditScreen = () => {
   const [updateVoucher, { isLoading: loadingUpdate }] = useUpdateVoucherMutation();
   const navigate = useNavigate();
 
-  const isFormValid = () => {
+  const ValidateForm = () => {
     if (!state.voucherName || !state.discountAmount) {
       toast.error('Vui lòng điền đầy đủ thông tin Voucher');
       return false;
@@ -35,7 +35,7 @@ const VoucherEditScreen = () => {
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!isFormValid()) {
+    if (!ValidateForm()) {
       return;
     }
     try {

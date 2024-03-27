@@ -11,7 +11,6 @@ import { useGetPostDetailsQuery, useUpdatePostMutation, useUploadPostImageMutati
 import { IPostState } from './PostAddScreen';
 import { PostStyled } from './styled';
 import { IFormField } from '../../../interfaces/InShop';
-
 const PostEditScreen = () => {
   const { id: postId } = useParams();
 
@@ -24,20 +23,8 @@ const PostEditScreen = () => {
   const [updatePost, { isLoading: loadingUpdate }] = useUpdatePostMutation();
   const [uploadPostImg, { isLoading: loadingUpload }] = useUploadPostImageMutation();
   const navigate = useNavigate();
-  const isFormValid = () => {
-    if (!state.postName || !image || !state.content) {
-      toast.error('Vui lòng điền đầy đủ thông tin bài viết');
-      return false;
-    }
-
-    return true;
-  };
-
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!isFormValid()) {
-      return;
-    }
     try {
       await updatePost({
         postId,

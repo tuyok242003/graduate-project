@@ -59,7 +59,7 @@ const ShippingScreen = () => {
       onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, country: e.target.value }),
     },
   ];
-  const isFormValid = () => {
+  const ValidateForm = () => {
     if (!state.address || !state.city || !state.postalCode || !state.country) {
       toast.error('Please fill in all address information.');
       return false;
@@ -78,7 +78,7 @@ const ShippingScreen = () => {
 
   const submitHandler = (shipping: React.FormEvent<HTMLFormElement>) => {
     shipping.preventDefault();
-    if (!isFormValid()) {
+    if (!ValidateForm()) {
       return;
     }
     dispatch(

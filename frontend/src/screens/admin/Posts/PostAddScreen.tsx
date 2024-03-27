@@ -24,7 +24,7 @@ const PostAddScreen = () => {
   const [addPost, { isLoading: loadingAdd }] = useCreatePostMutation();
   const [uploadPostImg, { isLoading: loadingUpload }] = useUploadPostImageMutation();
   const navigate = useNavigate();
-  const isFormValid = () => {
+  const ValidateForm = () => {
     const { postName, content } = state;
     if (!postName || !content) {
       toast.error('Vui lòng điền đầy đủ thông tin bài viết');
@@ -35,7 +35,7 @@ const PostAddScreen = () => {
 
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!isFormValid()) {
+    if (!ValidateForm()) {
       return;
     }
     try {

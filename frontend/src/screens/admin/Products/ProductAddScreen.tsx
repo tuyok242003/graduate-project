@@ -113,7 +113,7 @@ const ProductAddScreen = () => {
     },
   ];
 
-  const isFormValid = () => {
+  const ValidateForm = () => {
     const { productName, price, brand, category, description } = state;
     if (!productName || !price || !image || !brand || !category || !description) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
@@ -128,7 +128,7 @@ const ProductAddScreen = () => {
 
   const submitHandler = async (product: React.FormEvent<HTMLFormElement>) => {
     product.preventDefault();
-    if (!isFormValid()) {
+    if (!ValidateForm()) {
       return;
     }
 

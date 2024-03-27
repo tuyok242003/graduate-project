@@ -9,22 +9,17 @@ import Message from '../../../components/Message';
 import { CATEGORYLIST, CONTACTADD } from '../../../constants/constants';
 import { useGetCategoryDetailsQuery, useUpdateCategoryMutation } from '../../../redux/query/apiSlice';
 import { CategoryAdminStyled } from './styled';
+import { ValidateForm } from '../../../hepler';
 const CategoryEditScreen = () => {
   const { id: categoryId } = useParams();
   const [name, setName] = useState('');
   const { data: category, isLoading, error } = useGetCategoryDetailsQuery(categoryId || '');
   const [updateCategory, { isLoading: loadingUpdate }] = useUpdateCategoryMutation();
   const navigate = useNavigate();
-  const isFormValid = () => {
-    if (!name) {
-      toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
-      return false;
-    }
-    return true;
-  };
+
   const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
     category.preventDefault();
-    if (!isFormValid()) {
+    if (!ValidateForm(name)) {
       return;
     }
     try {

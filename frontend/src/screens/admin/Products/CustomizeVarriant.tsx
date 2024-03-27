@@ -36,7 +36,7 @@ const CustomizeVariant = () => {
   const [addVariant, { isLoading: loadingAddVariant }] = useAddVariantMutation();
   const [uploadVariantImages, { isLoading: loadingUploadVariantImages }] = useUploadProductImageMutation();
 
-  const isFormValid = () => {
+  const ValidateForm = () => {
     return (
       !!state.variantColor &&
       !!state.variantPrice &&
@@ -50,7 +50,7 @@ const CustomizeVariant = () => {
 
   const submitHandler = async (variant: React.FormEvent<HTMLFormElement>) => {
     variant.preventDefault();
-    if (!isFormValid()) {
+    if (!ValidateForm()) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
       return;
     }

@@ -8,24 +8,15 @@ import Loader from '../../../components/Loader';
 import { displayErrorMessage } from '../../../components/Error';
 import { CATEGORYLIST, CATEGORYLISTADMIN } from '../../../constants/constants';
 import { CategoryAdminStyled } from './styled';
-
+import { ValidateForm } from '../../../hepler';
 const CategoryAdd = () => {
   const [name, setName] = useState('');
   const navigate = useNavigate();
   const [addCategory, { isLoading: loadingAdd }] = useCreateCategoryMutation();
 
-  const isFormValid = () => {
-    if (!name) {
-      toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
-      return false;
-    }
-
-    return true;
-  };
-
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!isFormValid()) {
+    if (!ValidateForm(name)) {
       return;
     }
     try {

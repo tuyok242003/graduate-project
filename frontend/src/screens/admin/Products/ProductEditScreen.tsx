@@ -32,7 +32,7 @@ const ProductEditScreen = () => {
   const [uploadProductImage, { isLoading: loadingUpload }] = useUploadProductImageMutation();
   const navigate = useNavigate();
 
-  const isFormValid = () => {
+  const ValidateForm = () => {
     if (!state.productName || !state.price || !image || !state.brand || !state.category || !state.description) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
       return false;
@@ -46,7 +46,7 @@ const ProductEditScreen = () => {
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!isFormValid()) {
+    if (!ValidateForm()) {
       return;
     }
     try {

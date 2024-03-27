@@ -53,7 +53,6 @@ const ConfirmScreen = () => {
                 <th>DATE</th>
                 <th>TOTAL</th>
                 <th>PAID</th>
-
                 <th></th>
               </tr>
             </thead>

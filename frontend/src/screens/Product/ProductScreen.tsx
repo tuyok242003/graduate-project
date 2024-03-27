@@ -127,7 +127,7 @@ const ProductScreen = () => {
                   </ListGroup.Item>
                   <Row>
                     {product?.variants.map((variant: IVariant, index: number) => (
-                      <Col md={4} key={index}>
+                      <Col md={3} key={index}>
                         <ListGroup variant="flush">
                           <ListGroup.Item
                             key={index}
