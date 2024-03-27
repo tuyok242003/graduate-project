@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 const ImageUpload = () => {
   const [image, setImage] = useState<File | null>(null);

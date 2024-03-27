@@ -13,6 +13,12 @@ export interface IPayOrder {
   orderId: string | undefined;
   details?: OrderResponseBody;
 }
+export interface ISaveShipping {
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+}
 export interface IUpdatePost {
   postId: string | undefined;
   image: string;

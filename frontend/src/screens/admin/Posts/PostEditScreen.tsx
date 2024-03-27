@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { displayErrorMessage } from '../../../components/Error';
 import FormContainer from '../../../components/FormContainer';
 import Loader from '../../../components/Loader';
-import Message from '../../../components/Message';
 import { POSTLIST } from '../../../constants/constants';
 import { useGetPostDetailsQuery, useUpdatePostMutation, useUploadPostImageMutation } from '../../../redux/query/apiSlice';
 import { IPostState } from './PostAddScreen';

@@ -1,6 +1,7 @@
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 import { ICartItem, IOrder } from '../../interfaces/OutShop';
 import { updateCart } from '../../utils/cartUtils';
+import { ISaveShipping } from '@/interfaces/InShop';
 interface ISelect {
   selected: IOrder;
 }
@@ -26,10 +27,7 @@ const cartSlice = createSlice({
       state.cartItems = state.cartItems.filter((cart: IOrder) => cart._id !== action.payload);
       return updateCart(state);
     },
-    saveShippingAddress: (
-      state,
-      action: PayloadAction<{ address: string; city: string; postalCode: string; country: string }>,
-    ) => {
+    saveShippingAddress: (state, action: PayloadAction<ISaveShipping>) => {
       state.shippingAddress = action.payload;
       localStorage.setItem('cart', JSON.stringify(state));
     },
