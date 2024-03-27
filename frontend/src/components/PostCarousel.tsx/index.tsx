@@ -1,16 +1,15 @@
 import { Carousel, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useGetPostsQuery } from '../../redux/query/apiSlice';
-import Message from '../Message';
 import { PostCarouselStyled } from './styled';
+import Loader from '../Loader';
 
 const PostCarousel = () => {
   const { data: posts, isLoading, error } = useGetPostsQuery();
 
-  return isLoading ? null : error ? (
-    <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
-  ) : (
+  return (
     <PostCarouselStyled>
+      <Loader loading={isLoading} error={!!error} />
       <Carousel pause="hover" className="bg-primary mb-4">
         {posts &&
           Array.isArray(posts) &&

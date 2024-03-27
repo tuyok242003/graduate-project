@@ -61,7 +61,6 @@ const VoucherAddScreen = () => {
       type: 'text',
       placeholder: 'Enter name',
       value: state.voucherName,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, voucherName: e.target.value }),
     },
     //  {
     //     controlId: 'isUsed',
@@ -75,7 +74,6 @@ const VoucherAddScreen = () => {
       type: 'number',
       placeholder: 'Enter discountAmount',
       value: state.discountAmount,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, discountAmount: e.target.value }),
     },
     {
       controlId: 'qty',
@@ -83,10 +81,11 @@ const VoucherAddScreen = () => {
       type: 'number',
       placeholder: 'Enter qty',
       value: state.qty,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, qty: e.target.value }),
     },
   ];
-
+  const handleChange = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({ ...state, [key]: e.target.value });
+  };
   return (
     <VoucherAdminStyled>
       <>
@@ -100,7 +99,12 @@ const VoucherAddScreen = () => {
             {formFields.map((field) => (
               <Form.Group controlId={field.controlId} key={field.controlId}>
                 <Form.Label>{field.label}</Form.Label>
-                <Form.Control type={field.type} placeholder={field.placeholder} value={field.value} onChange={field.onChange} />
+                <Form.Control
+                  type={field.type}
+                  placeholder={field.placeholder}
+                  value={field.value}
+                  onChange={handleChange(field.controlId)}
+                />
               </Form.Group>
             ))}
             <Button type="submit" variant="primary" className="button-contact">

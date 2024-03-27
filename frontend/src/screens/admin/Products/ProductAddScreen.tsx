@@ -60,15 +60,12 @@ const ProductAddScreen = () => {
       placeholder: 'Enter name',
       type: 'text',
       value: state.productName,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, productName: e.target.value }),
     },
     {
       controlId: 'price',
       label: 'Price',
       placeholder: 'Enter price',
       value: state.price,
-
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, price: e.target.value }),
     },
     {
       controlId: 'image',
@@ -83,7 +80,6 @@ const ProductAddScreen = () => {
       label: 'Brand',
       placeholder: 'Enter brand',
       value: state.brand,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, brand: e.target.value }),
     },
     {
       controlId: 'category',
@@ -109,10 +105,11 @@ const ProductAddScreen = () => {
       label: 'Description',
       placeholder: 'Enter description',
       value: state.description,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, description: e.target.value }),
     },
   ];
-
+  const handleChange = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({ ...state, [key]: e.target.value });
+  };
   const ValidateForm = () => {
     const { productName, price, brand, category, description } = state;
     if (!productName || !price || !image || !brand || !category || !description) {
@@ -166,7 +163,12 @@ const ProductAddScreen = () => {
                   {loadingUpload && <Loader />}
                 </>
               ) : (
-                <Form.Control type="text" placeholder={field.placeholder} value={field.value} onChange={field.onChange} />
+                <Form.Control
+                  type="text"
+                  placeholder={field.placeholder}
+                  value={field.value}
+                  onChange={handleChange(field.controlId)}
+                />
               )}
               {field.children && field.children}
             </Form.Group>

@@ -91,183 +91,178 @@ const ProductScreen = () => {
         <Link className="btn btn-light my-3" to={HOME}>
           Go Back
         </Link>
-        {isLoading ? (
-          <Loader />
-        ) : error ? (
-          <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
-        ) : (
-          <>
-            <Meta title={product?.productName} description={product?.description} />
-            <Row>
-              <Col md={6}>
-                <Image
-                  className="image-product"
-                  src={selectedVariant ? selectedVariant.images : product?.image}
-                  alt={product?.productName}
-                  fluid
-                />
-              </Col>
-              <Col md={3}>
-                <ListGroup variant="flush">
-                  <ListGroup.Item>
-                    <h3>{product?.productName}</h3>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Rating text={`${product?.numReviews} reviews`} valueRating={0} />
-                  </ListGroup.Item>
-                  {selectedVariant && selectedVariant?.discount > 0 && (
-                    <ListGroup.Item className="sale-highlight">
-                      <strong>Sale: </strong>
-                      {selectedVariant?.discount}%
-                    </ListGroup.Item>
-                  )}
-                  <ListGroup.Item>
-                    <strong>Đã bán: </strong>
-                    {selectedVariant ? selectedVariant.quantitySold : product?.quantitySold}
-                  </ListGroup.Item>
-                  <Row>
-                    {product?.variants.map((variant: IVariant, index: number) => (
-                      <Col md={3} key={index}>
-                        <ListGroup variant="flush">
-                          <ListGroup.Item
-                            key={index}
-                            onClick={() => handleVariantClick(variant)}
-                            className={`variant-item ${
-                              selectedVariant && 'id' in variant && selectedVariant.id === variant.id ? 'active-variant' : ''
-                            }`}
-                          >
-                            {variant.color}
-                          </ListGroup.Item>
-                        </ListGroup>
-                      </Col>
-                    ))}
-                  </Row>
-                </ListGroup>
-              </Col>
-              <Col md={3}>
-                <Card>
-                  <ListGroup variant="flush">
-                    <ListGroup.Item>
-                      <Row>
-                        <Col>Price:</Col>
-                        <Col>
-                          <strong>${selectedVariant ? selectedVariant.price : product?.price}</strong>
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <Row>
-                        <Col>Status:</Col>
-                        <Col>{selectedVariant && selectedVariant.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}</Col>
-                      </Row>
-                    </ListGroup.Item>
-
-                    <ListGroup.Item className="qty">
-                      <strong className="number-product">Số lượng: </strong>
-                      {selectedVariant ? selectedVariant.countInStock : product?.countInStock}
-                      <Col>
-                        <Button
-                          variant="outline-secondary"
-                          className="qty-btn"
-                          onClick={decreaseQty}
-                          disabled={selectedVariantQty <= 1}
-                        >
-                          -
-                        </Button>
-                        <span className="qty-value">{selectedVariantQty}</span>
-                        <Button variant="outline-secondary" className="qty-btnnn" onClick={increaseQty}>
-                          +
-                        </Button>
-                      </Col>
-                    </ListGroup.Item>
-                    {/* Qty Select */}
-
-                    <ListGroup.Item>
-                      <Button
-                        className="btn-block"
-                        type="button"
-                        disabled={!selectedVariant || selectedVariant.countInStock === 0}
-                        onClick={addToCartHandler}
-                      >
-                        Add To Cart
-                      </Button>
-                      <Button
-                        className="btn-blockbuy"
-                        type="button"
-                        disabled={!selectedVariant || product?.countInStock === 0 || selectedVariant.countInStock === 0}
-                        onClick={buyNowHandler}
-                      >
-                        Buy Now
-                      </Button>
-                    </ListGroup.Item>
-                  </ListGroup>
-                </Card>
-              </Col>
-            </Row>
+        <Loader loading={isLoading} error={!!error} />
+        <>
+          <Meta title={product?.productName} description={product?.description} />
+          <Row>
             <Col md={6}>
-              <h4>Mô tả:</h4>
-              <p>{product?.description}</p>
+              <Image
+                className="image-product"
+                src={selectedVariant ? selectedVariant.images : product?.image}
+                alt={product?.productName}
+                fluid
+              />
             </Col>
-
-            <Row className="review">
-              <Col md={6}>
-                <h2>Reviews</h2>
-                {product?.reviews.length === 0 && <Message>No Reviews</Message>}
-                <ListGroup variant="flush">
-                  {product?.reviews.map((review: IReview) => (
-                    <ListGroup.Item key={review._id}>
-                      <strong>{review.name}</strong>
-                      <Rating valueRating={review.rating} text={`(${review.rating} stars)`} />
-                      <p>{review.createdAt?.toString().substring(0, 10)}</p>
-                      <p>{review.comment}</p>
-                    </ListGroup.Item>
+            <Col md={3}>
+              <ListGroup variant="flush">
+                <ListGroup.Item>
+                  <h3>{product?.productName}</h3>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Rating text={`${product?.numReviews} reviews`} valueRating={0} />
+                </ListGroup.Item>
+                {selectedVariant && selectedVariant?.discount > 0 && (
+                  <ListGroup.Item className="sale-highlight">
+                    <strong>Sale: </strong>
+                    {selectedVariant?.discount}%
+                  </ListGroup.Item>
+                )}
+                <ListGroup.Item>
+                  <strong>Đã bán: </strong>
+                  {selectedVariant ? selectedVariant.quantitySold : product?.quantitySold}
+                </ListGroup.Item>
+                <Row>
+                  {product?.variants.map((variant: IVariant, index: number) => (
+                    <Col md={3} key={index}>
+                      <ListGroup variant="flush">
+                        <ListGroup.Item
+                          key={index}
+                          onClick={() => handleVariantClick(variant)}
+                          className={`variant-item ${
+                            selectedVariant && 'id' in variant && selectedVariant.id === variant.id ? 'active-variant' : ''
+                          }`}
+                        >
+                          {variant.color}
+                        </ListGroup.Item>
+                      </ListGroup>
+                    </Col>
                   ))}
+                </Row>
+              </ListGroup>
+            </Col>
+            <Col md={3}>
+              <Card>
+                <ListGroup variant="flush">
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Price:</Col>
+                      <Col>
+                        <strong>${selectedVariant ? selectedVariant.price : product?.price}</strong>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Status:</Col>
+                      <Col>{selectedVariant && selectedVariant.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}</Col>
+                    </Row>
+                  </ListGroup.Item>
+
+                  <ListGroup.Item className="qty">
+                    <strong className="number-product">Số lượng: </strong>
+                    {selectedVariant ? selectedVariant.countInStock : product?.countInStock}
+                    <Col>
+                      <Button
+                        variant="outline-secondary"
+                        className="qty-btn"
+                        onClick={decreaseQty}
+                        disabled={selectedVariantQty <= 1}
+                      >
+                        -
+                      </Button>
+                      <span className="qty-value">{selectedVariantQty}</span>
+                      <Button variant="outline-secondary" className="qty-btnnn" onClick={increaseQty}>
+                        +
+                      </Button>
+                    </Col>
+                  </ListGroup.Item>
+                  {/* Qty Select */}
 
                   <ListGroup.Item>
-                    <h2>Write a Customer Review</h2>
-
-                    {loadingProductReview && <Loader />}
-
-                    {userInfo ? (
-                      <Form onSubmit={submitHandler}>
-                        <Form.Group className="my-2" controlId="rating">
-                          <Form.Label>Rating</Form.Label>
-                          <Form.Control
-                            as="select"
-                            required
-                            value={rating.toString()}
-                            onChange={(e) => setRating(parseInt(e.target.value, 10))}
-                          >
-                            <option value="">Select...</option>
-                            <option value="1">1 - Poor</option>
-                            <option value="2">2 - Fair</option>
-                            <option value="3">3 - Good</option>
-                            <option value="4">4 - Very Good</option>
-                            <option value="5">5 - Excellent</option>
-                          </Form.Control>
-                        </Form.Group>
-                        <Form.Group className="my-2" controlId="comment">
-                          <Form.Label>Comment</Form.Label>
-                          <Form.Control
-                            as="textarea"
-                            required
-                            value={comment}
-                            onChange={(e) => setComment(e.target.value)}
-                          ></Form.Control>
-                        </Form.Group>
-                        <Button disabled={loadingProductReview} type="submit" variant="primary">
-                          Submit
-                        </Button>
-                      </Form>
-                    ) : (
-                      <Message>Vui lòng đăng nhập</Message>
-                    )}
+                    <Button
+                      className="btn-block"
+                      type="button"
+                      disabled={!selectedVariant || selectedVariant.countInStock === 0}
+                      onClick={addToCartHandler}
+                    >
+                      Add To Cart
+                    </Button>
+                    <Button
+                      className="btn-blockbuy"
+                      type="button"
+                      disabled={!selectedVariant || product?.countInStock === 0 || selectedVariant.countInStock === 0}
+                      onClick={buyNowHandler}
+                    >
+                      Buy Now
+                    </Button>
                   </ListGroup.Item>
                 </ListGroup>
-              </Col>
-            </Row>
-          </>
-        )}
+              </Card>
+            </Col>
+          </Row>
+          <Col md={6}>
+            <h4>Mô tả:</h4>
+            <p>{product?.description}</p>
+          </Col>
+
+          <Row className="review">
+            <Col md={6}>
+              <h2>Reviews</h2>
+              {product?.reviews.length === 0 && <Message>No Reviews</Message>}
+              <ListGroup variant="flush">
+                {product?.reviews.map((review: IReview) => (
+                  <ListGroup.Item key={review._id}>
+                    <strong>{review.name}</strong>
+                    <Rating valueRating={review.rating} text={`(${review.rating} stars)`} />
+                    <p>{review.createdAt?.toString().substring(0, 10)}</p>
+                    <p>{review.comment}</p>
+                  </ListGroup.Item>
+                ))}
+
+                <ListGroup.Item>
+                  <h2>Write a Customer Review</h2>
+
+                  <Loader loading={isLoading} />
+
+                  {userInfo ? (
+                    <Form onSubmit={submitHandler}>
+                      <Form.Group className="my-2" controlId="rating">
+                        <Form.Label>Rating</Form.Label>
+                        <Form.Control
+                          as="select"
+                          required
+                          value={rating.toString()}
+                          onChange={(e) => setRating(parseInt(e.target.value, 10))}
+                        >
+                          <option value="">Select...</option>
+                          <option value="1">1 - Poor</option>
+                          <option value="2">2 - Fair</option>
+                          <option value="3">3 - Good</option>
+                          <option value="4">4 - Very Good</option>
+                          <option value="5">5 - Excellent</option>
+                        </Form.Control>
+                      </Form.Group>
+                      <Form.Group className="my-2" controlId="comment">
+                        <Form.Label>Comment</Form.Label>
+                        <Form.Control
+                          as="textarea"
+                          required
+                          value={comment}
+                          onChange={(e) => setComment(e.target.value)}
+                        ></Form.Control>
+                      </Form.Group>
+                      <Button disabled={loadingProductReview} type="submit" variant="primary">
+                        Submit
+                      </Button>
+                    </Form>
+                  ) : (
+                    <Message>Vui lòng đăng nhập</Message>
+                  )}
+                </ListGroup.Item>
+              </ListGroup>
+            </Col>
+          </Row>
+        </>
       </>
     </ProductScreenStyled>
   );

@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { displayErrorMessage } from '../../../components/Error';
 import FormContainer from '../../../components/FormContainer';
 import Loader from '../../../components/Loader';
-import Message from '../../../components/Message';
 import { USERLIST } from '../../../constants/constants';
 import { useGetUserDetailsQuery, useUpdateUserMutation } from '../../../redux/query/apiSlice';
 interface IUserState {
@@ -50,23 +49,23 @@ const UserEditScreen = () => {
       label: 'Name',
       type: 'text',
       value: state.userName,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, userName: e.target.value }),
     },
     {
       controlId: 'email',
       label: 'Email Address',
       type: 'text',
       value: state.email,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, email: e.target.value }),
     },
     {
       controlId: 'isAdmin',
       label: 'Is Admin',
       type: 'option',
       value: state.isAdmin,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, isAdmin: e.target.checked }),
     },
   ];
+  const handleChange = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({ ...state, [key]: e.target.value || e.target.checked });
+  };
   return (
     <>
       <Link to={USERLIST} className="btn btn-light my-3">
@@ -75,42 +74,37 @@ const UserEditScreen = () => {
       <FormContainer>
         <h1>Edit User</h1>
         {loadingUpdate && <Loader />}
-        {isLoading ? (
-          <Loader />
-        ) : error ? (
-          <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
-        ) : (
-          <Form onSubmit={submitHandler}>
-            {formFields.map((field) => (
-              <Form.Group key={field.controlId} className="my-2" controlId={field.controlId}>
-                <Form.Label>{field.label}</Form.Label>
-                {field.type === 'text' ? (
-                  <Form.Control
-                    type={field.type || 'otherType'}
-                    placeholder={`Enter ${field.label}`}
-                    value={field.value?.toString()}
-                    onChange={field.onChange}
-                  />
-                ) : null}
-                {field.type === 'option' ? (
-                  <Form.Select
-                    defaultValue={field.value ? 'true' : 'false'}
-                    onChange={(e) => {
-                      setState({ ...state, isAdmin: e.target.value === 'true' });
-                    }}
-                  >
-                    <option value="true">TRUE</option>
-                    <option value="false">FALSE</option>
-                  </Form.Select>
-                ) : null}
-              </Form.Group>
-            ))}
+        <Loader loading={isLoading} error={!!error} />
+        <Form onSubmit={submitHandler}>
+          {formFields.map((field) => (
+            <Form.Group key={field.controlId} className="my-2" controlId={field.controlId}>
+              <Form.Label>{field.label}</Form.Label>
+              {field.type === 'text' ? (
+                <Form.Control
+                  type={field.type || 'otherType'}
+                  placeholder={`Enter ${field.label}`}
+                  value={field.value?.toString()}
+                  onChange={handleChange(field.controlId)}
+                />
+              ) : null}
+              {field.type === 'option' ? (
+                <Form.Select
+                  defaultValue={field.value ? 'true' : 'false'}
+                  onChange={(e) => {
+                    setState({ ...state, isAdmin: e.target.value === 'true' });
+                  }}
+                >
+                  <option value="true">TRUE</option>
+                  <option value="false">FALSE</option>
+                </Form.Select>
+              ) : null}
+            </Form.Group>
+          ))}
 
-            <Button type="submit" variant="primary">
-              Update
-            </Button>
-          </Form>
-        )}
+          <Button type="submit" variant="primary">
+            Update
+          </Button>
+        </Form>
       </FormContainer>
     </>
   );

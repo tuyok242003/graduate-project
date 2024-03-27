@@ -48,7 +48,6 @@ const LoginScreen = () => {
       type: 'email',
       placeholder: 'Enter email',
       value: state.email,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, email: e.target.value }),
     },
     {
       controlId: 'password',
@@ -56,9 +55,11 @@ const LoginScreen = () => {
       type: 'password',
       placeholder: 'Enter password',
       value: state.password,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, password: e.target.value }),
     },
   ];
+  const handleChange = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({ ...state, [key]: e.target.value });
+  };
   return (
     <UserScreenStyled>
       <FormContainer>
@@ -67,13 +68,18 @@ const LoginScreen = () => {
           {FormFiled.map((field) => (
             <Form.Group controlId={field.controlId} key={field.controlId}>
               <Form.Label>{field.label}</Form.Label>
-              <Form.Control type={field.type} placeholder={field.placeholder} value={field.value} onChange={field.onChange} />
+              <Form.Control
+                type={field.type}
+                placeholder={field.placeholder}
+                value={field.value}
+                onChange={handleChange(field.controlId)}
+              />
             </Form.Group>
           ))}
           <Button className="btn-sm" disabled={isLoading} type="submit" variant="primary">
             Sign In
           </Button>
-          {isLoading && <Loader />}
+          <Loader loading={isLoading} />
         </Form>
         <Row className="py-3">
           <Link to={redirect ? `/forgotPassword?redirect=${redirect}` : FORGOTPASSWORD}>ForgotPassword</Link>

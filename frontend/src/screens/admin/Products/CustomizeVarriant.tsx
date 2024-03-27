@@ -101,7 +101,6 @@ const CustomizeVariant = () => {
       type: 'text',
       placeholder: 'Enter color',
       value: state.variantColor,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, variantColor: e.target.value }),
     },
     {
       controlId: 'variantPrice',
@@ -109,7 +108,6 @@ const CustomizeVariant = () => {
       type: 'number',
       placeholder: 'Enter price',
       value: state.variantPrice,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, variantPrice: e.target.value }),
     },
     {
       controlId: 'variantDiscount',
@@ -117,7 +115,6 @@ const CustomizeVariant = () => {
       type: 'number',
       placeholder: 'Enter discount',
       value: state.variantDiscount.toString(),
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, variantDiscount: parseInt(e.target.value) }),
     },
     {
       controlId: 'variantCountInStock',
@@ -125,7 +122,6 @@ const CustomizeVariant = () => {
       type: 'number',
       placeholder: 'Enter countInStock',
       value: state.variantCountInStock.toString(),
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, variantCountInStock: parseInt(e.target.value) }),
     },
     {
       controlId: 'variantThumb',
@@ -133,7 +129,6 @@ const CustomizeVariant = () => {
       type: 'text',
       placeholder: 'Enter thumbnail url',
       value: state.variantThumb,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, variantThumb: e.target.value }),
     },
     {
       controlId: 'variantQuantitySold',
@@ -141,7 +136,6 @@ const CustomizeVariant = () => {
       type: 'number',
       placeholder: 'Enter QuantitySold',
       value: state.variantQuantitySold.toString(),
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, variantQuantitySold: parseInt(e.target.value) }),
     },
     {
       controlId: 'variantImages',
@@ -157,10 +151,11 @@ const CustomizeVariant = () => {
       type: 'text',
       placeholder: 'Enter title',
       value: state.variantTitle,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, variantTitle: e.target.value }),
     },
   ];
-
+  const handleChange = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({ ...state, [key]: e.target.value });
+  };
   return (
     <ProductAdminStyled>
       <FormContainer>
@@ -175,7 +170,7 @@ const CustomizeVariant = () => {
                 type={field.type || 'text'}
                 placeholder={field.placeholder}
                 // value={field.value}
-                onChange={field.onChange}
+                onChange={handleChange(field.controlId) || field.onChange}
               />
               {loadingUploadVariantImages && field.controlId === 'variantImages' && <Loader />}
             </Form.Group>

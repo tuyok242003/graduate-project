@@ -21,7 +21,7 @@ const OrderScreen: React.FC = () => {
   const { id: orderId } = useParams<{ id: string }>();
   const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId || '');
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
-  const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
+  const [deliverOrder] = useDeliverOrderMutation();
   const userInfo = useSelector(selectUserInfo);
   const [paypalState, paypalDispatch] = usePayPalScriptReducer();
   const { isPending } = paypalState;
@@ -193,7 +193,7 @@ const OrderScreen: React.FC = () => {
                 </ListGroup.Item>
                 {!order?.isPaid && order?.paymentMethod === 'PayPal' && (
                   <ListGroup.Item>
-                    {loadingPay && <Loader />}
+                    {loadingPay && <Loader loading={isLoading} error={!!error} />}
                     {isPending ? (
                       <Loader />
                     ) : (
@@ -205,7 +205,7 @@ const OrderScreen: React.FC = () => {
                     )}
                   </ListGroup.Item>
                 )}
-                {loadingDeliver && <Loader />}
+                <Loader loading={isLoading} />
                 {userInfo?.isAdmin && order?.isPaid && !order?.isDelivered && (
                   <ListGroup.Item>
                     <Button type="button" className="btn btn-block" onClick={deliverHandler}>

@@ -71,7 +71,6 @@ const PostEditScreen = () => {
       type: 'text',
       placeholder: 'Enter name',
       value: state.postName,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, postName: e.target.value }),
     },
     {
       controlId: 'image',
@@ -87,10 +86,11 @@ const PostEditScreen = () => {
       type: 'text',
       placeholder: 'Enter content',
       value: state.content,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, content: e.target.value }),
     },
   ];
-
+  const handleChange = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({ ...state, [key]: e.target.value });
+  };
   return (
     <PostStyled>
       <>
@@ -116,7 +116,12 @@ const PostEditScreen = () => {
                       {loadingUpload && <Loader />}
                     </>
                   ) : (
-                    <Form.Control type="text" placeholder={field.placeholder} value={field.value} onChange={field.onChange} />
+                    <Form.Control
+                      type="text"
+                      placeholder={field.placeholder}
+                      value={field.value}
+                      onChange={handleChange(field.controlId)}
+                    />
                   )}
                 </Form.Group>
               ))}

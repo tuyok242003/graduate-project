@@ -32,7 +32,6 @@ const ShippingScreen = () => {
       value: state.address,
       type: 'text',
       placeholder: 'Enter address',
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, address: e.target.value }),
     },
     {
       controlId: 'city',
@@ -40,7 +39,6 @@ const ShippingScreen = () => {
       value: state.city,
       type: 'text',
       placeholder: 'Enter city',
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, city: e.target.value }),
     },
     {
       controlId: 'postalCode',
@@ -48,7 +46,6 @@ const ShippingScreen = () => {
       value: state.postalCode,
       type: 'text',
       placeholder: 'Enter postal code',
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, postalCode: e.target.value }),
     },
     {
       controlId: 'country',
@@ -56,7 +53,6 @@ const ShippingScreen = () => {
       value: state.country,
       type: 'text',
       placeholder: 'Enter country',
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, country: e.target.value }),
     },
   ];
   const ValidateForm = () => {
@@ -86,7 +82,9 @@ const ShippingScreen = () => {
     );
     navigate(VOUCHER);
   };
-
+  const handleChange = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({ ...state, [key]: e.target.value });
+  };
   return (
     <FormContainer>
       <CheckoutSteps step1 step2 />
@@ -100,7 +98,7 @@ const ShippingScreen = () => {
               type={field.type}
               placeholder={field.placeholder}
               value={field.value}
-              onChange={field.onChange}
+              onChange={handleChange(field.controlId)}
             ></Form.Control>
           </Form.Group>
         ))}

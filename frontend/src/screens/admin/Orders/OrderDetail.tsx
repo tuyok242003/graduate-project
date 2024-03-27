@@ -22,17 +22,14 @@ const OrderDetail = () => {
   const deliverHandler = async () => {
     await deliverOrder(orderId || '');
   };
-  return isLoading ? (
-    <Loader />
-  ) : error ? (
-    <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
-  ) : (
+  return (
     <>
       <Link to={ORDERLIST} className="btn btn-light mb-4">
         Go Back
       </Link>
       <h1>Order {order?._id}</h1>
       <Row>
+        <Loader loading={isLoading} error={!!error} />
         <Col md={8}>
           <ListGroup variant="flush">
             <ListGroup.Item>

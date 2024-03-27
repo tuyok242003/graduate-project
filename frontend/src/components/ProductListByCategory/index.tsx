@@ -18,7 +18,7 @@ const ProductListByCategory = ({ selectedCategory }: { selectedCategory: ICatego
         products && (
           <ul>
             {products.map((product: IProducts) => (
-              <Card className="my-3 p-3 rounded">
+              <Card key={product._id} className="my-3 p-3 rounded">
                 <Link to={`/product/${product._id}`}>
                   <Card.Img className="img-product" src={product.image} variant="top" />
                 </Link>

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Loader from '../../components/Loader';
 import FormContainer from '../../components/FormContainer';
 import { useRegisterMutation } from '../../redux/query/apiSlice';
 import { selectUserInfo, setCredentials } from '../../redux/slices/authSlice';
@@ -41,7 +40,6 @@ const RegisterScreen = () => {
       type: 'text',
       placeholder: 'Enter name',
       value: state.userName,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, userName: e.target.value }),
     },
     {
       controlId: 'email',
@@ -49,7 +47,6 @@ const RegisterScreen = () => {
       type: 'email',
       placeholder: 'Enter Email',
       value: state.email,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, email: e.target.value }),
     },
     {
       controlId: 'password',
@@ -57,7 +54,6 @@ const RegisterScreen = () => {
       type: 'password',
       placeholder: 'Enter Password',
       value: state.password,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, password: e.target.value }),
     },
     {
       controlId: 'confirmPassword',
@@ -65,7 +61,6 @@ const RegisterScreen = () => {
       placeholder: 'Enter Confirm Password',
       type: 'password',
       value: state.confirmPassword,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, confirmPassword: e.target.value }),
     },
   ];
 
@@ -84,7 +79,9 @@ const RegisterScreen = () => {
       }
     }
   };
-
+  const handleChange = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({ ...state, [key]: e.target.value });
+  };
   return (
     <FormContainer>
       <h1>Register</h1>
@@ -92,13 +89,17 @@ const RegisterScreen = () => {
         {formFields.map((field) => (
           <Form.Group key={field.controlId} className="my-2" controlId={field.controlId}>
             <Form.Label>{field.label}</Form.Label>
-            <Form.Control type={field.type} placeholder={`Enter ${field.label}`} value={field.value} onChange={field.onChange} />
+            <Form.Control
+              type={field.type}
+              placeholder={`Enter ${field.label}`}
+              value={field.value}
+              onChange={handleChange(field.controlId)}
+            />
           </Form.Group>
         ))}
         <Button disabled={isLoading} type="submit" variant="primary">
           Register
         </Button>
-        {isLoading && <Loader />}
       </Form>
       <Row className="py-3">
         <Col>

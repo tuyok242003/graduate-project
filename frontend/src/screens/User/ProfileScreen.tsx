@@ -9,7 +9,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { displayErrorMessage } from '../../components/Error';
 import Loader from '../../components/Loader';
-import Message from '../../components/Message';
 import SearchProfile from '../../components/Search/SearchProfile';
 import { All, CANCEL, CONFIRM, HOME, NOTRECEIVED, PROFILE, RECEIVED } from '../../constants/constants';
 import {
@@ -33,7 +32,7 @@ const ProfileScreen = () => {
   const { data: orders, isLoading, error } = useGetMyOrdersQuery();
   const [confirmlOrder] = useConfirmOrderMutation();
   const [cancelOrder] = useCancelOrderMutation();
-  const [updateProfile, { isLoading: loadingUpdateProfile }] = useProfileMutation();
+  const [updateProfile] = useProfileMutation();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const statusFromUrl = queryParams.get('status') || 'all';
@@ -108,27 +107,26 @@ const ProfileScreen = () => {
       controlId: 'name',
       label: 'Name',
       value: state.userName,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, userName: e.target.value }),
     },
     {
       controlId: 'email',
       label: 'Email Address',
       value: state.email,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, email: e.target.value }),
     },
     {
       controlId: 'password',
       label: 'Password',
       value: state.password,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, password: e.target.value }),
     },
     {
       controlId: 'confirmPassword',
       label: 'Confirm Password',
       value: state.confirmPassword,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, confirmPassword: e.target.value }),
     },
   ];
+  const handleChange = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({ ...state, [key]: e.target.value });
+  };
   return (
     <UserScreenStyled>
       <Row>
@@ -143,7 +141,7 @@ const ProfileScreen = () => {
                   type={field.controlId === 'password' || field.controlId === 'confirmPassword' ? 'password' : 'text'}
                   placeholder={`Enter ${field.label}`}
                   value={field.value}
-                  onChange={field.onChange}
+                  onChange={handleChange(field.controlId)}
                 />
               </Form.Group>
             ))}
@@ -151,7 +149,7 @@ const ProfileScreen = () => {
             <Button type="submit" variant="primary">
               Update
             </Button>
-            {loadingUpdateProfile && <Loader />}
+            <Loader loading={isLoading} />
           </Form>
         </Col>
         <Col md={9}>
@@ -164,100 +162,95 @@ const ProfileScreen = () => {
             <option value={CONFIRM}>Đơn hàng đã nhận</option>
           </Form.Control>
 
-          {isLoading ? (
-            <Loader />
-          ) : error ? (
-            <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
-          ) : (
-            <>
-              <Table striped hover responsive className="table-sm">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Ngày</th>
-                    <th>Tổng tiền</th>
-                    <th>Trả tiền</th>
-                    <th>Giao hàng</th>
-                    <th>Nhận hàng</th>
-                    <th>Huỷ hàng</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orders
-                    ?.filter((order) => {
-                      if (statusFromUrl === NOTRECEIVED) {
-                        return !order.isDelivered && !order.isCancelled;
-                      } else if (statusFromUrl === RECEIVED) {
-                        return order.isDelivered;
-                      } else if (statusFromUrl === CANCEL) {
-                        return order.isCancelled;
-                      } else if (statusFromUrl === CONFIRM) {
-                        return order.isConfirmed;
-                      }
-                      return true;
-                    })
-                    .map((order) => (
-                      <tr key={order._id}>
-                        <td>{order._id}</td>
-                        <td>{order.createdAt ? new Date(order.createdAt).toLocaleDateString() : ''}</td>
+          <Loader loading={isLoading} error={!!error} />
+          <>
+            <Table striped hover responsive className="table-sm">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Ngày</th>
+                  <th>Tổng tiền</th>
+                  <th>Trả tiền</th>
+                  <th>Giao hàng</th>
+                  <th>Nhận hàng</th>
+                  <th>Huỷ hàng</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {orders
+                  ?.filter((order) => {
+                    if (statusFromUrl === NOTRECEIVED) {
+                      return !order.isDelivered && !order.isCancelled;
+                    } else if (statusFromUrl === RECEIVED) {
+                      return order.isDelivered;
+                    } else if (statusFromUrl === CANCEL) {
+                      return order.isCancelled;
+                    } else if (statusFromUrl === CONFIRM) {
+                      return order.isConfirmed;
+                    }
+                    return true;
+                  })
+                  .map((order) => (
+                    <tr key={order._id}>
+                      <td>{order._id}</td>
+                      <td>{order.createdAt ? new Date(order.createdAt).toLocaleDateString() : ''}</td>
 
-                        <td>{order.totalPrice}</td>
-                        <td>
-                          {order.isPaid
-                            ? order.paidAt instanceof Date
-                              ? order.paidAt.toISOString().substring(0, 10)
-                              : getStatusIcon(true)
-                            : getStatusIcon(false)}
-                        </td>
-                        <td>
-                          {order.isDelivered
-                            ? order.deliveredAt instanceof Date
-                              ? order.deliveredAt.toISOString().substring(0, 10)
-                              : getStatusIcon(true)
-                            : getStatusIcon(false)}
-                        </td>
-                        <td>{getStatusIcon(order.isConfirmed)}</td>
-                        <td>{getStatusIcon(order.isCancelled)}</td>
-                        <td>
-                          <LinkContainer className="container" to={`/order/${order._id}`}>
-                            <Button className="btn-sm" variant="light">
-                              <BiMessageAltDetail />
-                            </Button>
-                          </LinkContainer>
-                        </td>
-                        <td>
-                          <Button
-                            onClick={() => CancelHandler(order._id, order.isDelivered)}
-                            className="btn-sm"
-                            variant="light"
-                            disabled={order.isCancelled || order.isDelivered}
-                          >
-                            <MdDeleteSweep />
+                      <td>{order.totalPrice}</td>
+                      <td>
+                        {order.isPaid
+                          ? order.paidAt instanceof Date
+                            ? order.paidAt.toISOString().substring(0, 10)
+                            : getStatusIcon(true)
+                          : getStatusIcon(false)}
+                      </td>
+                      <td>
+                        {order.isDelivered
+                          ? order.deliveredAt instanceof Date
+                            ? order.deliveredAt.toISOString().substring(0, 10)
+                            : getStatusIcon(true)
+                          : getStatusIcon(false)}
+                      </td>
+                      <td>{getStatusIcon(order.isConfirmed)}</td>
+                      <td>{getStatusIcon(order.isCancelled)}</td>
+                      <td>
+                        <LinkContainer className="container" to={`/order/${order._id}`}>
+                          <Button className="btn-sm" variant="light">
+                            <BiMessageAltDetail />
                           </Button>
-                        </td>
-                        <td>
-                          <Button
-                            onClick={() =>
-                              confirmHandler(
-                                order._id,
-                                order.isDelivered,
-                                order.isConfirmed !== undefined ? order.isConfirmed : false,
-                              )
-                            }
-                            className="btn-sm"
-                            variant="light"
-                            disabled={order.isConfirmed}
-                          >
-                            <MdCallReceived />
-                          </Button>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </Table>
-            </>
-          )}
+                        </LinkContainer>
+                      </td>
+                      <td>
+                        <Button
+                          onClick={() => CancelHandler(order._id, order.isDelivered)}
+                          className="btn-sm"
+                          variant="light"
+                          disabled={order.isCancelled || order.isDelivered}
+                        >
+                          <MdDeleteSweep />
+                        </Button>
+                      </td>
+                      <td>
+                        <Button
+                          onClick={() =>
+                            confirmHandler(
+                              order._id,
+                              order.isDelivered,
+                              order.isConfirmed !== undefined ? order.isConfirmed : false,
+                            )
+                          }
+                          className="btn-sm"
+                          variant="light"
+                          disabled={order.isConfirmed}
+                        >
+                          <MdCallReceived />
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </Table>
+          </>
         </Col>
       </Row>
     </UserScreenStyled>

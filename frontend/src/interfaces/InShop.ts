@@ -85,7 +85,7 @@ export interface IFormField {
   type: string;
   value: string;
   placeholder: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 export interface IButtonLink {
   to: string;

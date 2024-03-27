@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { displayErrorMessage } from '../../../components/Error';
 import FormContainer from '../../../components/FormContainer';
 import Loader from '../../../components/Loader';
-import Message from '../../../components/Message';
+
 import { CATEGORYLIST, CONTACTADD } from '../../../constants/constants';
 import { useGetCategoryDetailsQuery, useUpdateCategoryMutation } from '../../../redux/query/apiSlice';
 import { CategoryAdminStyled } from './styled';
@@ -14,7 +14,7 @@ const CategoryEditScreen = () => {
   const { id: categoryId } = useParams();
   const [name, setName] = useState('');
   const { data: category, isLoading, error } = useGetCategoryDetailsQuery(categoryId || '');
-  const [updateCategory, { isLoading: loadingUpdate }] = useUpdateCategoryMutation();
+  const [updateCategory] = useUpdateCategoryMutation();
   const navigate = useNavigate();
 
   const submitHandler = async (category: React.FormEvent<HTMLFormElement>) => {
@@ -47,27 +47,23 @@ const CategoryEditScreen = () => {
         <FormContainer>
           <h1>Edit Category</h1>
 
-          {isLoading || loadingUpdate ? (
-            <Loader />
-          ) : error ? (
-            <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
-          ) : (
-            <Form onSubmit={submitHandler}>
-              <Form.Group controlId="name">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
+          <Loader loading={isLoading} error={!!error} />
 
-              <Button className="button-category" type="submit" variant="primary">
-                Update
-              </Button>
-            </Form>
-          )}
+          <Form onSubmit={submitHandler}>
+            <Form.Group controlId="name">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Button className="button-category" type="submit" variant="primary">
+              Update
+            </Button>
+          </Form>
         </FormContainer>
       </>
     </CategoryAdminStyled>

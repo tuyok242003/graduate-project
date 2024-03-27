@@ -33,7 +33,6 @@ const ContactAddScreen = () => {
       type: 'text',
       placeholder: 'Enter name',
       value: state.contactName,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, contactName: e.target.value }),
     },
     {
       controlId: 'email',
@@ -41,7 +40,6 @@ const ContactAddScreen = () => {
       type: 'text',
       placeholder: 'Enter email',
       value: state.email,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, email: e.target.value }),
     },
     {
       controlId: 'phone',
@@ -49,7 +47,6 @@ const ContactAddScreen = () => {
       type: 'text',
       placeholder: 'Enter phone',
       value: state.phone,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, phone: e.target.value }),
     },
     {
       controlId: 'content',
@@ -57,10 +54,11 @@ const ContactAddScreen = () => {
       type: 'text',
       placeholder: 'Enter description',
       value: state.content,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, content: e.target.value }),
     },
   ];
-
+  const handleChange = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({ ...state, [key]: e.target.value });
+  };
   const ValidateForm = () => {
     if (!state.contactName || !state.phone || !state.email || !state.content) {
       toast.error('Vui lòng điền đầy đủ thông tin sản phẩm.');
@@ -106,7 +104,12 @@ const ContactAddScreen = () => {
             {formFields.map((field) => (
               <Form.Group controlId={field.controlId} key={field.controlId}>
                 <Form.Label>{field.label}</Form.Label>
-                <Form.Control type={field.type} placeholder={field.placeholder} value={field.value} onChange={field.onChange} />
+                <Form.Control
+                  type={field.type}
+                  placeholder={field.placeholder}
+                  value={field.value}
+                  onChange={handleChange(field.controlId)}
+                />
               </Form.Group>
             ))}
             <Button type="submit" variant="primary" className="button-contact">

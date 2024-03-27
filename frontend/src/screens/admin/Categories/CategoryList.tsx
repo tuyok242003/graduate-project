@@ -6,14 +6,13 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loader from '../../../components/Loader';
-import Message from '../../../components/Message';
 import { CATEGORYADD } from '../../../constants/constants';
 import { useCreateCategoryMutation, useDeleteCategoryMutation, useGetCategoriesQuery } from '../../../redux/query/apiSlice';
 import { CategoryAdminStyled } from './styled';
 const CategoryListScreen = () => {
   const { data, isLoading, error } = useGetCategoriesQuery();
   console.log(data);
-  const [deleteProduct, { isLoading: loadingDelete }] = useDeleteCategoryMutation();
+  const [deleteProduct] = useDeleteCategoryMutation();
   const [currentPage, setCurrentPage] = useState(1);
   const categoriesPerPage = 5;
   const navigate = useNavigate();
@@ -49,51 +48,47 @@ const CategoryListScreen = () => {
           </Col>
         </Row>
 
-        {isLoading || loadingCreate || loadingDelete ? (
-          <Loader />
-        ) : error ? (
-          <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
-        ) : (
-          <>
-            <Table striped bordered hover responsive className="table-sm">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>NAME</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {data?.map((category: ICategories) => (
-                  <tr key={category._id}>
-                    <td>{category._id}</td>
-                    <td>{category.name}</td>
+        <Loader loading={isLoading} error={!!error} />
 
-                    <td>
-                      <LinkContainer to={`/admin/category/${category._id}/edit`}>
-                        <Button variant="light" className="btn-sm mx-2">
-                          <FaEdit />
-                        </Button>
-                      </LinkContainer>
-                      <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(category._id)}>
-                        <FaTrash className="fatrash" />
+        <>
+          <Table striped bordered hover responsive className="table-sm">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {data?.map((category: ICategories) => (
+                <tr key={category._id}>
+                  <td>{category._id}</td>
+                  <td>{category.name}</td>
+
+                  <td>
+                    <LinkContainer to={`/admin/category/${category._id}/edit`}>
+                      <Button variant="light" className="btn-sm mx-2">
+                        <FaEdit />
                       </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-            <Pagination>
-              {Array.from({
-                length: Math.ceil((data?.length || 0) / categoriesPerPage) || 1,
-              }).map((page, index) => (
-                <Pagination.Item key={index} active={index + 1 === currentPage} onClick={() => setCurrentPage(index + 1)}>
-                  {index + 1}
-                </Pagination.Item>
+                    </LinkContainer>
+                    <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(category._id)}>
+                      <FaTrash className="fatrash" />
+                    </Button>
+                  </td>
+                </tr>
               ))}
-            </Pagination>
-          </>
-        )}
+            </tbody>
+          </Table>
+          <Pagination>
+            {Array.from({
+              length: Math.ceil((data?.length || 0) / categoriesPerPage) || 1,
+            }).map((page, index) => (
+              <Pagination.Item key={index} active={index + 1 === currentPage} onClick={() => setCurrentPage(index + 1)}>
+                {index + 1}
+              </Pagination.Item>
+            ))}
+          </Pagination>
+        </>
       </>
     </CategoryAdminStyled>
   );

@@ -105,7 +105,6 @@ const ProductEditScreen = () => {
       label: 'Name',
       placeholder: 'Enter name',
       value: state.productName,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, productName: e.target.value }),
     },
     {
       id: 'price',
@@ -113,7 +112,6 @@ const ProductEditScreen = () => {
       label: 'Price',
       placeholder: 'Enter price',
       value: state.price,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, price: e.target.value }),
     },
     {
       id: 'image',
@@ -127,7 +125,6 @@ const ProductEditScreen = () => {
       label: 'Brand',
       placeholder: 'Enter brand',
       value: state.brand,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, brand: e.target.value }),
     },
     {
       id: 'category',
@@ -158,10 +155,11 @@ const ProductEditScreen = () => {
       label: 'Description',
       placeholder: 'Enter description',
       value: state.description,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, description: e.target.value }),
     },
   ];
-
+  const handleChange = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({ ...state, [key]: e.target.value });
+  };
   return (
     <ProductAdminStyled>
       <>
@@ -186,7 +184,12 @@ const ProductEditScreen = () => {
                       {loadingUpload && <Loader />}
                     </>
                   ) : (
-                    <Form.Control type="text" placeholder={field.placeholder} value={field.value} onChange={field.onChange} />
+                    <Form.Control
+                      type="text"
+                      placeholder={field.placeholder}
+                      value={field.value}
+                      onChange={handleChange(field.id)}
+                    />
                   )}
                   {field.children}
                 </Form.Group>

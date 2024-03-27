@@ -73,7 +73,6 @@ const VoucherEditScreen = () => {
       type: 'text',
       placeholder: 'Enter Name',
       value: state.voucherName,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, voucherName: e.target.value }),
     },
     {
       controlId: 'qty',
@@ -81,7 +80,6 @@ const VoucherEditScreen = () => {
       type: 'number',
       placeholder: 'Enter Qty',
       value: state.qty,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, qty: e.target.value }),
     },
     {
       controlId: 'discountAmount',
@@ -89,10 +87,11 @@ const VoucherEditScreen = () => {
       placeholder: 'Enter discountAmount',
       type: 'text',
       value: state.discountAmount,
-      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setState({ ...state, discountAmount: e.target.value }),
     },
   ];
-
+  const handleChange = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({ ...state, [key]: e.target.value });
+  };
   return (
     <VoucherAdminStyled>
       <>
@@ -115,7 +114,7 @@ const VoucherEditScreen = () => {
                     type={field.type}
                     placeholder={`Enter ${field.label.toLowerCase()}`}
                     value={field.value}
-                    onChange={field.onChange}
+                    onChange={handleChange(field.controlId)}
                   />
                 </Form.Group>
               ))}

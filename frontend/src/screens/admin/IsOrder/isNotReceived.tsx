@@ -1,7 +1,6 @@
 import { Button, Col, Row, Table } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import Loader from '../../../components/Loader';
-import Message from '../../../components/Message';
 import { CANCEL, CONFIRM, RECEIVED } from '../../../constants/constants';
 import { useGetOrdersQuery } from '../../../redux/query/apiSlice';
 import { IsOrderStyled } from './styled';
@@ -28,14 +27,10 @@ const IsNotReceived = () => {
               </LinkContainer>
             </td>
           ))}
-          {isLoading ? (
-            <Loader />
-          ) : error ? (
-            <Message variant="danger">Đã xảy ra lỗi.Vui lòng thử lại sau</Message>
-          ) : (
-            <Table striped hover responsive className="table-sm">
-              <thead>{/* Đặt tiêu đề ở đây */}</thead>
-              {/* <tbody>
+          <Loader loading={isLoading} error={!!error} />
+          <Table striped hover responsive className="table-sm">
+            <thead>{/* Đặt tiêu đề ở đây */}</thead>
+            {/* <tbody>
               {orders
                 ?.filter((order) => !order.isDelivered)
                 .map((order) => (
@@ -91,8 +86,7 @@ const IsNotReceived = () => {
                   </tr>
                 ))}
             </tbody> */}
-            </Table>
-          )}
+          </Table>
         </Col>
       </Row>
     </IsOrderStyled>
