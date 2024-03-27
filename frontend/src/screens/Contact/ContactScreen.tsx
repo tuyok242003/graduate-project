@@ -6,10 +6,10 @@ import FormContainer from '../../components/FormContainer';
 import { Button, Form } from 'react-bootstrap';
 import Loader from '../../components/Loader';
 import { displayErrorMessage } from '../../components/Error';
-import { IContactState } from '../admin/Contacts/ContactAddScreen';
 import { ContactScreenStyled } from './styled';
 import { CONTACT } from '../../constants/constants';
 import { IFormField } from '../../interfaces/InShop';
+import { IContactState } from '../../interfaces/OutShop';
 const ContactScreen = () => {
   const [state, setState] = useState<IContactState>({
     contactName: '',

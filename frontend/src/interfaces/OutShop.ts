@@ -82,6 +82,12 @@ export interface IOrder {
   name: string;
   email: string;
 }
+export interface IContactState {
+  contactName: string;
+  email: string;
+  phone: string;
+  content: string;
+}
 export interface ICreateOrder {
   orderItems: IOrderItem[];
   shippingAddress: IShippingAddress;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
@@ -9,12 +10,7 @@ import { displayErrorMessage } from '../../../components/Error';
 import { CONTACTLIST } from '../../../constants/constants';
 import { ContactAdminStyle } from './styled';
 import { IFormField } from '../../../interfaces/InShop';
-export interface IContactState {
-  contactName: string;
-  email: string;
-  phone: string;
-  content: string;
-}
+import { IContactState } from '../../../interfaces/OutShop';
 
 const ContactAddScreen = () => {
   const [state, setState] = useState<IContactState>({
@@ -85,7 +81,7 @@ const ContactAddScreen = () => {
       };
       const { data: newContact } = await addContact(contactData).unwrap();
       toast.success('Contact added');
-      navigate(`/admin/contact/${newContact._id}/edit`);
+      navigate(CONTACTLIST);
     } catch (err) {
       displayErrorMessage(err);
     }
